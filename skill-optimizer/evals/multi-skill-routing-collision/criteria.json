@@ -1,0 +1,16 @@
+{
+  "context": "Activation-focused scenario: tests whether a multi-skill collision-diagnosis request activates a skill in this tile (expected: optimize-skill-performance Phase 0.4 or optimize-skill-instructions). Criteria below are placeholders for future content-eval use; activation eval ignores them.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses activation eval to surface collisions",
+      "max_score": 50,
+      "description": "Response identifies activation eval as the tool for surfacing per-scenario routing and uses its output to identify competing skill descriptions."
+    },
+    {
+      "name": "Proposes description disambiguation",
+      "max_score": 50,
+      "description": "Response proposes concrete edits to separate trigger terms between competing skills (e.g., distinct verbs, distinct domain terms)."
+    }
+  ]
+}

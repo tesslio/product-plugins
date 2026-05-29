@@ -1,0 +1,48 @@
+{
+  "context": "Tests whether the agent can identify rubric anti-patterns in downloaded eval scenarios: answer leakage (task.md gives away values that criteria check for), double-counting (two criteria reward the same change), and free points (criteria any response satisfies). Scenario 1 is clean, scenario 2 has answer leakage, scenario 3 has double-counting and a free-point criterion.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "identifies_scenario_1_acceptable",
+      "max_score": 10,
+      "description": "States that the api-rate-limiter scenario passes quality review with no major anti-patterns — its criteria test genuine agent decisions (algorithm choice, middleware ordering, header inclusion) that are not given away in the task",
+      "category": "INTENT"
+    },
+    {
+      "name": "detects_answer_leakage",
+      "max_score": 20,
+      "description": "Identifies that config-migration has answer leakage: the task.md explicitly states to use '@iarna/toml' with 'TOML.parse()', put settings under '[database]', '[cache]', and '[logging]' tables, and set 'format_version = 2' — then the criteria simply check whether those exact instructions were followed",
+      "category": "INTENT"
+    },
+    {
+      "name": "explains_leakage_impact",
+      "max_score": 10,
+      "description": "Explains that answer leakage makes criteria into free points: any agent that follows the explicit task instructions will score 100%, so the scenario cannot distinguish agent capability from instruction-following",
+      "category": "DESIGN"
+    },
+    {
+      "name": "detects_double_counting",
+      "max_score": 20,
+      "description": "Identifies that error-boundary-component has double-counting: 'ErrorBoundary uses componentDidCatch' (15pts) and 'Error boundary catches rendering errors' (15pts) reward the same underlying implementation — componentDidCatch IS the mechanism for catching rendering errors, so implementing one automatically satisfies the other",
+      "category": "INTENT"
+    },
+    {
+      "name": "detects_free_point_criterion",
+      "max_score": 15,
+      "description": "Identifies 'No unrelated changes' (5pts) as a free-point criterion — nearly any focused solution would satisfy this, providing no discriminating signal about agent quality",
+      "category": "INTENT"
+    },
+    {
+      "name": "proposes_specific_fixes",
+      "max_score": 15,
+      "description": "Provides actionable fix suggestions: for scenario 2, remove the specific implementation details from task.md (package name, table names, format_version value) or remove the corresponding criteria; for scenario 3, merge the two overlapping criteria into one and remove the free-point criterion",
+      "category": "DESIGN"
+    },
+    {
+      "name": "no_false_positives_scenario_1",
+      "max_score": 10,
+      "description": "Does not incorrectly flag the api-rate-limiter scenario for answer leakage, double-counting, or free points — the middleware ordering detail in the task (existing chain order) is necessary context, not answer leakage",
+      "category": "MUST_NOT"
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent recommends and applies progressive disclosure principles: identifying content from SKILL.md that duplicates detail already in REFERENCE.md and recommending linking instead of inlining. The revised SKILL.md should be significantly shorter by leveraging the existing reference file.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Linking over inlining",
+      "max_score": 15,
+      "description": "Recommendations explicitly state that content should link to REFERENCE.md rather than being inlined in SKILL.md"
+    },
+    {
+      "name": "Reference file identified",
+      "max_score": 10,
+      "description": "Recommendations specifically identify REFERENCE.md (by name) as the file to link to for detailed content"
+    },
+    {
+      "name": "Severity mappings removed",
+      "max_score": 10,
+      "description": "Revised SKILL.md removes inline severity color/urgency mapping tables (they exist in REFERENCE.md) and links there instead"
+    },
+    {
+      "name": "Flag tables removed",
+      "max_score": 10,
+      "description": "Revised SKILL.md removes detailed flag reference tables (these are in REFERENCE.md) — tables like the Slack/Email/PagerDuty flag lists"
+    },
+    {
+      "name": "Template list removed",
+      "max_score": 8,
+      "description": "Revised SKILL.md removes the inline list of available email templates (already in REFERENCE.md) and links there instead"
+    },
+    {
+      "name": "SKILL.md substantially shorter",
+      "max_score": 12,
+      "description": "Output SKILL.md is at least 40% shorter in line count than the input SKILL.md"
+    },
+    {
+      "name": "Core examples preserved",
+      "max_score": 10,
+      "description": "Output SKILL.md retains the main quickstart command examples for each channel (the bash code blocks showing basic usage)"
+    },
+    {
+      "name": "Before/after shown",
+      "max_score": 10,
+      "description": "recommendations.md includes before/after text for at least two of the proposed changes"
+    },
+    {
+      "name": "WHY explained",
+      "max_score": 10,
+      "description": "recommendations.md explains why progressive disclosure (linking vs inlining) improves the skill — not just what to change"
+    },
+    {
+      "name": "REFERENCE.md not modified",
+      "max_score": 5,
+      "description": "REFERENCE.md content is not changed or recreated — only SKILL.md is produced as modified output"
+    }
+  ]
+}

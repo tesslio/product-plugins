@@ -1,0 +1,46 @@
+{
+  "context": "Tests whether the agent correctly identifies redundant criteria using the 80% baseline threshold, presents multiple options for each, preserves criteria that the tile is genuinely helping with, and correctly redistributes weights in criteria.json when criteria are removed.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "All redundant criteria identified",
+      "max_score": 20,
+      "description": "All three high-baseline criteria are flagged as redundant: 'JSON response format' (14/15 baseline = 93%), 'HTTP headers included' (15/15 = 100%), and '4xx error handling' (9/10 = 90%)"
+    },
+    {
+      "name": "Options presented per criterion",
+      "max_score": 15,
+      "description": "For each redundant criterion, at least two options are presented — must include some combination of: remove from criteria.json, make the eval task harder, or keep as sanity check"
+    },
+    {
+      "name": "Useful criteria preserved",
+      "max_score": 15,
+      "description": "Neither 'Custom Retry-After header' (baseline 3/30 = 10%) nor 'Idempotency key rotation' (baseline 5/30 = 17%) is flagged for removal or marked as redundant"
+    },
+    {
+      "name": "Weight redistribution correct",
+      "max_score": 20,
+      "description": "If any criteria are removed from criteria.json, the max_score values of remaining criteria are updated so that they sum to exactly 100"
+    },
+    {
+      "name": "80% threshold applied",
+      "max_score": 8,
+      "description": "The criteria flagged as redundant all have baseline scores >= 80% of their max_score; criteria with baseline below 80% are not flagged as redundant"
+    },
+    {
+      "name": "Non-redundant scores unchanged",
+      "max_score": 10,
+      "description": "The max_score values for 'Custom Retry-After header' and 'Idempotency key rotation' are not reduced in the updated criteria.json"
+    },
+    {
+      "name": "Below-threshold excluded",
+      "max_score": 7,
+      "description": "The analysis does NOT flag 'Custom Retry-After header' or 'Idempotency key rotation' as redundant despite the agent possibly believing those criteria are over-weighted"
+    },
+    {
+      "name": "Removal option named explicitly",
+      "max_score": 5,
+      "description": "For at least one redundant criterion, the option to remove it from criteria.json is explicitly presented (not just implied)"
+    }
+  ]
+}

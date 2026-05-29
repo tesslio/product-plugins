@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent applies minimal, targeted fixes to the tile — adding explicit retry timing rather than vague guidance, matching the rubric's exact language, and leaving every unrelated working section untouched without restructuring or bloating.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Explicit retry intervals",
+      "max_score": 20,
+      "description": "The updated SKILL.md specifies concrete delay values for retries (e.g. '1s, 2s, 4s' or specific millisecond values) rather than vague phrases like 'increasing delays' or 'wait between retries'"
+    },
+    {
+      "name": "Rubric language used",
+      "max_score": 12,
+      "description": "The added retry content uses 'exponential backoff' (the exact term from eval_criteria.json) rather than paraphrases like 'progressive delay' or 'back-off strategy'"
+    },
+    {
+      "name": "HMAC section unchanged",
+      "max_score": 9,
+      "description": "The HMAC-SHA256 signature validation instruction in the Setup section is preserved verbatim or functionally identical"
+    },
+    {
+      "name": "TLS section unchanged",
+      "max_score": 7,
+      "description": "The TLS 1.2 configuration line in the Setup section is not modified or removed"
+    },
+    {
+      "name": "Observability section unchanged",
+      "max_score": 8,
+      "description": "The Observability section (structured log entry with event type, source IP, duration, outcome) is not modified"
+    },
+    {
+      "name": "Processing section unchanged",
+      "max_score": 7,
+      "description": "The four numbered steps in the Processing section are still present in the same order in the updated tile"
+    },
+    {
+      "name": "Retry section only changed",
+      "max_score": 12,
+      "description": "Only the Reliability section (or equivalent retry-specific section) was substantively modified; Setup and Processing sections are structurally intact"
+    },
+    {
+      "name": "Concise addition",
+      "max_score": 10,
+      "description": "The Reliability section (or equivalent) does not exceed 100 words in the updated tile"
+    },
+    {
+      "name": "Max retry count preserved",
+      "max_score": 8,
+      "description": "The 3-attempt maximum retry limit is still present in the updated tile (not removed or changed to a different number)"
+    },
+    {
+      "name": "Fast acknowledgement preserved",
+      "max_score": 7,
+      "description": "The instruction to acknowledge receipt with a 200 response quickly (before heavy processing) is still present"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "context": "Tests whether the agent understands progressive disclosure as routing clarity rather than just splitting files. The SKILL.md contains 10 file references: 4 with clear routing signals (AUTHENTICATION.md, RETRIES.md, RATE_LIMITING.md, WEBHOOKS.md, ERROR_HANDLING.md) and 5 with ambiguous signals (CONFIGURATION.md, GUIDE.md, EXAMPLES.md, ADVANCED.md, REFERENCE.md). The agent should identify which references allow confident routing decisions vs force speculative opening.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Identifies good references",
+      "max_score": 15,
+      "description": "Correctly identifies at least 3 of the good references (AUTHENTICATION.md with OAuth2/token details, RETRIES.md with 5xx/timeout context, RATE_LIMITING.md with token bucket/429 details, ERROR_HANDLING.md with 4xx/5xx debugging, WEBHOOKS.md with signature verification)"
+    },
+    {
+      "name": "Explains why good",
+      "max_score": 10,
+      "description": "Explains that good references have clear WHEN signals - the link text tells the agent exactly when the content is relevant (e.g., 'when requests fail with 5xx', 'for OAuth2 flows and token refresh')"
+    },
+    {
+      "name": "Identifies poor references",
+      "max_score": 15,
+      "description": "Correctly identifies at least 3 of the poor references (CONFIGURATION.md 'for more information', GUIDE.md 'for additional details', EXAMPLES.md 'for examples', ADVANCED.md 'for advanced features', REFERENCE.md 'for the complete API reference')"
+    },
+    {
+      "name": "Explains why poor",
+      "max_score": 10,
+      "description": "Explains that poor references force speculative opening - the agent can't tell WHEN the content is relevant without reading it ('more information' about what? 'additional details' on which topic?)"
+    },
+    {
+      "name": "Token efficiency framing",
+      "max_score": 10,
+      "description": "Frames the problem in terms of token efficiency or wasted context - mentions that ambiguous links cause agents to open files 'just in case' or 'defensively', defeating the purpose of splitting content"
+    },
+    {
+      "name": "Routing gate test",
+      "max_score": 10,
+      "description": "Applies the 'can agent decide WITHOUT opening' test - explicitly asks or checks whether each link allows routing decisions based on link text alone"
+    },
+    {
+      "name": "Improves CONFIGURATION.md",
+      "max_score": 5,
+      "description": "Provides revised link text for CONFIGURATION.md that specifies what configuration details are covered (e.g., 'for timeout settings, retry limits, and connection pool sizing')"
+    },
+    {
+      "name": "Improves GUIDE.md",
+      "max_score": 5,
+      "description": "Provides revised link text for GUIDE.md that specifies what guidance is covered or identifies it as redundant/should be inlined"
+    },
+    {
+      "name": "Improves EXAMPLES.md",
+      "max_score": 5,
+      "description": "Provides revised link text for EXAMPLES.md that specifies what kinds of examples (e.g., 'for complete integration examples with Django, Flask, and FastAPI')"
+    },
+    {
+      "name": "Improves ADVANCED.md or REFERENCE.md",
+      "max_score": 5,
+      "description": "Provides revised link text for ADVANCED.md or REFERENCE.md with specific content signals, or suggests inlining if scope is too broad"
+    },
+    {
+      "name": "Questions blind split recommendation",
+      "max_score": 10,
+      "description": "Notes that the rubric rewards progressive disclosure but questions whether splitting helps if routing is unclear - suggests that inlining might be better in some cases when link text can't provide clear signals"
+    }
+  ]
+}

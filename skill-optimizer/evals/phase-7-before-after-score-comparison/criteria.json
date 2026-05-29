@@ -1,0 +1,61 @@
+{
+  "context": "Tests whether the agent produces a Phase 7 score comparison in the required format — overall before/after with percentage delta, per-dimension breakdown, and explanation of which dimensions improved and why. Covers the specific score comparison output format prescribed by the skill.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Overall before/after format",
+      "max_score": 12,
+      "description": "Report includes the overall score in 'Before: X% | After: Y% (+Z%)' format (or equivalent showing both scores and the delta together in one line or heading)"
+    },
+    {
+      "name": "Percentage delta shown",
+      "max_score": 10,
+      "description": "Report shows the numeric improvement delta (+31% in this case) alongside or near the before/after scores"
+    },
+    {
+      "name": "Per-dimension breakdown",
+      "max_score": 10,
+      "description": "Report includes a per-dimension section covering all four dimensions from the review (Completeness, Actionability, Conciseness, Robustness)"
+    },
+    {
+      "name": "Arrow notation or equivalent",
+      "max_score": 8,
+      "description": "Per-dimension entries show both old and new scores with a directional indicator (e.g. '1/3 → 3/3' or 'was 33%, now 100%')"
+    },
+    {
+      "name": "Dimension change labelled",
+      "max_score": 10,
+      "description": "Each dimension entry mentions what change caused the score to improve (e.g. 'added Use when clause', 'added executable code examples')"
+    },
+    {
+      "name": "Dimensions impact explained",
+      "max_score": 10,
+      "description": "Report explains which dimensions improved and why those changes matter — not just numbers"
+    },
+    {
+      "name": "Correct overall scores",
+      "max_score": 8,
+      "description": "Report accurately states Before: 58%, After: 89%, delta: +31%"
+    },
+    {
+      "name": "Completeness improvement noted",
+      "max_score": 8,
+      "description": "Report notes Completeness improved from 1/3 (33%) to 3/3 (100%) and attributes it to the Use when clause"
+    },
+    {
+      "name": "Actionability improvement noted",
+      "max_score": 8,
+      "description": "Report notes Actionability improved from 2/3 (66%) to 3/3 (100%) and attributes it to real executable examples"
+    },
+    {
+      "name": "Conciseness unchanged noted",
+      "max_score": 8,
+      "description": "Report notes that Conciseness stayed at 2/3 (66%) and did not change between before and after"
+    },
+    {
+      "name": "Robustness improvement noted",
+      "max_score": 8,
+      "description": "Report notes Robustness improved from 2/3 (66%) to 3/3 (100%)"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "context": "Activation-focused scenario: tests whether a post-edit routing verification request activates a skill in this tile (expected: setup-skill-performance Phase 4a or optimize-skill-instructions). Criteria below are placeholders for future content-eval use; activation eval ignores them.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Points to activation eval as the fast check",
+      "max_score": 50,
+      "description": "Response identifies activation eval (--solver=activation) as the fast way to verify routing after description edits, rather than rerunning the slower scored eval."
+    },
+    {
+      "name": "Suggests before/after comparison",
+      "max_score": 50,
+      "description": "Response suggests comparing routing results before and after the edit (or compares against a prior activation run) to isolate what changed."
+    }
+  ]
+}

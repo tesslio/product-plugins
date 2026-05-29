@@ -1,0 +1,41 @@
+{
+  "context": "Tests whether the agent correctly identifies a regression as caused by ambiguous or contradictory content in the tile (rather than missing content), and proposes a removal or clarification fix rather than adding more emphasis on the failing behavior.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Contradicting clause identified",
+      "max_score": 22,
+      "description": "The analysis identifies the 'documentation-only or clearly trivial... you may skip the test run' sentence (or equivalent 'at your discretion' exception) as the specific cause of the regression"
+    },
+    {
+      "name": "Contradiction mechanism explained",
+      "max_score": 18,
+      "description": "The analysis explains that this clause contradicts 'Always run the full test suite' and gives agents a justification to skip tests — not just that 'it's confusing'"
+    },
+    {
+      "name": "Remove/clarify approach taken",
+      "max_score": 22,
+      "description": "The proposed fix removes or substantially rewrites the exception clause — NOT just adding another 'always run tests' statement elsewhere to compensate"
+    },
+    {
+      "name": "Specific text targeted",
+      "max_score": 18,
+      "description": "The fix targets the specific problematic sentence(s), not a broad rewrite of the entire Pre-Review Checklist section"
+    },
+    {
+      "name": "No compensating additions",
+      "max_score": 10,
+      "description": "The updated SKILL.md does NOT add a new reinforcing instruction (e.g., 'Note: never skip tests even for trivial changes') alongside or instead of removing the contradictory clause"
+    },
+    {
+      "name": "Other sections preserved",
+      "max_score": 7,
+      "description": "The Submitting for Review and Responding to Feedback sections are not modified in the updated SKILL.md"
+    },
+    {
+      "name": "Pre-review list intact",
+      "max_score": 3,
+      "description": "The numbered list structure of the Pre-Review Checklist is maintained in the updated file — the fix does not replace the entire checklist with prose"
+    }
+  ]
+}

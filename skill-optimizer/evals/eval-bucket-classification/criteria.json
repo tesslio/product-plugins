@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent correctly classifies eval criteria into four distinct performance buckets using the 80% threshold rules, and whether the analysis includes the right diagnosis, priority signals, and action recommendations for each bucket type.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Bucket A: idempotency key",
+      "max_score": 8,
+      "description": "The 'Stripe idempotency key' criterion (13/15 = 87% with-context, significantly above 2/15 baseline) is classified as working well / no action needed"
+    },
+    {
+      "name": "Bucket B: webhook signature",
+      "max_score": 8,
+      "description": "The 'Webhook signature validation' criterion (5/10 = 50% with-context, low baseline 1/10) is classified as a tile gap that needs a fix"
+    },
+    {
+      "name": "Bucket C: HTTP status codes",
+      "max_score": 8,
+      "description": "The 'HTTP status code handling' criterion (9/10 baseline already high, >= 80% without tile) is classified as redundant / agents already know this"
+    },
+    {
+      "name": "Bucket B: currency precision",
+      "max_score": 8,
+      "description": "The 'Currency precision' criterion (7/15 = 47% with-context, low baseline 3/15) is classified as a tile gap"
+    },
+    {
+      "name": "Bucket D: API version pinning",
+      "max_score": 15,
+      "description": "The 'API version pinning' criterion (with-context 4/10 is LOWER than baseline 6/10) is classified as a regression"
+    },
+    {
+      "name": "Bucket D highest priority",
+      "max_score": 10,
+      "description": "The regression criterion (API version pinning) is explicitly marked as highest priority or most urgent to fix"
+    },
+    {
+      "name": "Bucket B diagnosis present",
+      "max_score": 15,
+      "description": "Both Bucket B criteria include a diagnosis (what the tile is likely missing) and a reference to which tile file should be updated"
+    },
+    {
+      "name": "Bucket C action suggested",
+      "max_score": 10,
+      "description": "The Bucket C criterion (HTTP status codes) is flagged for potential removal from criteria.json or for making the eval task harder"
+    },
+    {
+      "name": "Bucket A no-action",
+      "max_score": 8,
+      "description": "The Bucket A criterion (idempotency key) is noted as leave alone / no action needed / tile's strength"
+    },
+    {
+      "name": "80% threshold applied",
+      "max_score": 10,
+      "description": "Classifications are consistent with the 80% of max threshold (e.g., 87% passes Bucket A; 50%, 47% fall into Bucket B; 90% baseline triggers Bucket C)"
+    }
+  ]
+}

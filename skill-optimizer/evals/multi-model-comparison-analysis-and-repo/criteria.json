@@ -1,0 +1,61 @@
+{
+  "context": "Tests whether the agent correctly analyzes multi-model eval results to produce a structured comparison report, including all required tables with correct formatting, symbol thresholds, pattern classification (Universal Failure, Capability Gradient, Regression — only patterns present in the data are tested), baseline interpretation, and publishing recommendations.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Overall summary table",
+      "max_score": 10,
+      "description": "Report contains an overall summary table with columns for Model, Without Skill score, With Skill score, and Delta for each of the three models"
+    },
+    {
+      "name": "Per-scenario breakdown",
+      "max_score": 8,
+      "description": "Report contains a per-scenario breakdown showing scores for each model (haiku, sonnet, opus) for each scenario individually"
+    },
+    {
+      "name": "Per-criterion table",
+      "max_score": 8,
+      "description": "Report contains a per-criterion breakdown table showing scores per model for each individual criterion"
+    },
+    {
+      "name": "Correct symbol thresholds",
+      "max_score": 10,
+      "description": "Symbol legend or usage applies: ✅ for >= 80%, 🟡 for >= 50% and < 80%, 🔴 for < 50% — and symbols are consistently applied to criterion scores in the per-criterion table"
+    },
+    {
+      "name": "Baseline interpretation",
+      "max_score": 8,
+      "description": "Report explicitly interprets what the baseline (without-skill) scores reveal — at minimum distinguishes between high-baseline and low-baseline scenarios, or notes variable baselines across models"
+    },
+    {
+      "name": "Universal Failure identified",
+      "max_score": 10,
+      "description": "Report identifies at least one criterion where ALL models score poorly (< 50%) and labels it or describes it as a Universal Failure (tile gap)"
+    },
+    {
+      "name": "Capability Gradient identified",
+      "max_score": 10,
+      "description": "Report identifies at least one criterion where haiku scores poorly but sonnet and/or opus score well, and labels it or describes it as a Capability Gradient"
+    },
+    {
+      "name": "Regression identified",
+      "max_score": 10,
+      "description": "Report identifies at least one scenario where the without-skill score exceeds the with-skill score for a model and labels it or describes it as a Regression"
+    },
+    {
+      "name": "Fix before publish recommendation",
+      "max_score": 8,
+      "description": "Report recommends fixing issues before publishing (does NOT recommend publishing) given the regressions present in the data"
+    },
+    {
+      "name": "eval-improve mentioned",
+      "max_score": 8,
+      "description": "Report mentions eval-improve (whether as 'eval-improve skill', 'eval-improve tool', or 'tessl-labs/eval-improve') as the suggested next step for addressing the regressions"
+    },
+    {
+      "name": "Re-run offer",
+      "max_score": 10,
+      "description": "Report offers or suggests re-running the comparison after fixes are applied to verify improvement"
+    }
+  ]
+}

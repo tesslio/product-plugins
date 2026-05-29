@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent only modifies SKILL.md and not REFERENCE.md when improving a skill bundle, and correctly applies the improvements flagged in the review. The core constraint being tested is that only SKILL.md gets changed — other bundle files are read for context but not modified.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "REFERENCE.md not recreated",
+      "max_score": 15,
+      "description": "The output does NOT include a modified or recreated REFERENCE.md file — REFERENCE.md content is not rewritten as output"
+    },
+    {
+      "name": "No REFERENCE.md changes proposed",
+      "max_score": 10,
+      "description": "change_log.md does NOT propose or describe any changes to REFERENCE.md — it is acknowledged as read-only"
+    },
+    {
+      "name": "SKILL.md produced",
+      "max_score": 8,
+      "description": "An improved SKILL.md file is produced as output"
+    },
+    {
+      "name": "Use when clause added",
+      "max_score": 12,
+      "description": "The output SKILL.md description block includes a 'Use when...' trigger clause"
+    },
+    {
+      "name": "Inline duplication removed",
+      "max_score": 12,
+      "description": "Output SKILL.md removes content that duplicated REFERENCE.md (e.g. resize mode lists, format lists, quality notes that are already in REFERENCE.md)"
+    },
+    {
+      "name": "REFERENCE.md linked",
+      "max_score": 10,
+      "description": "Output SKILL.md links to REFERENCE.md for the detailed content that was removed (not just deletes it)"
+    },
+    {
+      "name": "Core examples retained",
+      "max_score": 8,
+      "description": "Output SKILL.md retains the main executable bash command examples (resize, convert, batch examples)"
+    },
+    {
+      "name": "SKILL.md shorter",
+      "max_score": 8,
+      "description": "Output SKILL.md is shorter than the input SKILL.md (removes duplication)"
+    },
+    {
+      "name": "Change log documents SKILL.md changes",
+      "max_score": 8,
+      "description": "change_log.md describes the changes made to SKILL.md with specific references to what was added/removed"
+    },
+    {
+      "name": "Change log explains why",
+      "max_score": 9,
+      "description": "change_log.md explains why each change improves the skill quality — not just lists what changed"
+    }
+  ]
+}

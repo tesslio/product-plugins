@@ -1,0 +1,16 @@
+{
+  "context": "Activation-focused scenario: tests whether a pre-publish reachability question activates a skill in this tile (expected: setup-skill-performance Phase 4a or optimize-skill-instructions). Criteria below are placeholders for future content-eval use; activation eval ignores them.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Recommends activation eval first",
+      "max_score": 50,
+      "description": "Response recommends running an activation eval (--solver=activation) before the slower content eval, explaining it's the fast routing-only check."
+    },
+    {
+      "name": "Defines pass/fail criteria",
+      "max_score": 50,
+      "description": "Response describes what counts as a passing routing check versus what indicates fixes are needed before publishing."
+    }
+  ]
+}

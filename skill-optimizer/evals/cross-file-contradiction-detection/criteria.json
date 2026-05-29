@@ -1,0 +1,36 @@
+{
+  "context": "Tests whether the agent scans all tile files for contradictions and reports every conflict found — including those unrelated to the retry issue that triggered the audit — attributing each contradiction to the specific files involved with direct quotes.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Retry count contradiction found",
+      "max_score": 20,
+      "description": "Report identifies the conflict between SKILL.md ('retry up to 5 times') and rules/retry-policy.md ('maximum retries: 3 attempts')"
+    },
+    {
+      "name": "Auth failure contradiction found",
+      "max_score": 20,
+      "description": "Report identifies the conflict between SKILL.md ('abort the pipeline run immediately' on auth failure) and docs/error-handling.md ('skip the affected batch and log the error — do not abort the full pipeline run')"
+    },
+    {
+      "name": "All three files referenced",
+      "max_score": 15,
+      "description": "The report references content from all three provided files: SKILL.md, rules/retry-policy.md, and docs/error-handling.md"
+    },
+    {
+      "name": "File attribution per contradiction",
+      "max_score": 15,
+      "description": "Each contradiction explicitly names the specific files that conflict (e.g., 'SKILL.md vs rules/retry-policy.md'), not just a general mention"
+    },
+    {
+      "name": "Auth contradiction despite scope",
+      "max_score": 20,
+      "description": "The authentication failure contradiction is included in the report even though the task mentions retry logic as the trigger — demonstrates scanning all tile content, not just retry-related sections"
+    },
+    {
+      "name": "Verbatim quotes included",
+      "max_score": 10,
+      "description": "Each contradiction includes direct quotes or verbatim excerpts from the conflicting statements, not just a paraphrase"
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent correctly analyzes activation eval results: produces a skill coverage summary identifying skills that never fired, applies zero-activation analysis by cross-referencing scored eval data to distinguish routing gaps from out-of-scope tasks, and auto-suggests minimal description rewrites for confirmed routing gaps.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Routing table present",
+      "max_score": 8,
+      "description": "Report includes a table or list showing which skill fired for each of the six scenarios (three with activations, three with no activation)"
+    },
+    {
+      "name": "Skill coverage summary correct",
+      "max_score": 10,
+      "description": "Report includes a skill coverage summary showing all three skills (markdown-formatter, citation-generator, link-checker) each fired in at least one scenario — the report does NOT claim any skill never fired, since each appears in the activated skills data at least once"
+    },
+    {
+      "name": "rewrite-intro out-of-scope determination",
+      "max_score": 12,
+      "description": "The zero-activation analysis for 'rewrite-intro-paragraph' concludes it is out of scope (not a routing gap), supported by the high baseline score of 88% showing the agent handles this task well without the skill"
+    },
+    {
+      "name": "generate-bibliography routing gap determination",
+      "max_score": 12,
+      "description": "The zero-activation analysis for 'generate-bibliography' concludes it IS a routing gap — the agent struggles (31% baseline) and the skill isn't firing despite the task being within the tile's domain (bibliography/citations)"
+    },
+    {
+      "name": "fix-heading-hierarchy routing gap determination",
+      "max_score": 12,
+      "description": "The zero-activation analysis for 'fix-heading-hierarchy' concludes it IS a routing gap — the agent benefits from the skill (22% baseline → 67% with context, +45 delta) but the skill is not being activated"
+    },
+    {
+      "name": "citation-generator description rewrite",
+      "max_score": 12,
+      "description": "A proposed description rewrite for citation-generator is present that adds terminology covering bibliography or IEEE format (or reference lists) — expanding beyond APA, MLA, Chicago to cover the missed 'generate-bibliography' scenario"
+    },
+    {
+      "name": "markdown-formatter description rewrite",
+      "max_score": 12,
+      "description": "A proposed description rewrite for markdown-formatter is present that adds coverage for heading hierarchy correction, heading levels, or heading nesting — expanding beyond table alignment and code blocks"
+    },
+    {
+      "name": "Minimal rewrite principle",
+      "max_score": 8,
+      "description": "The proposed description rewrites add the missing trigger phrasing without completely replacing the existing description — the core original description language is preserved"
+    },
+    {
+      "name": "Rewrites presented together",
+      "max_score": 8,
+      "description": "All proposed description changes are presented together in a summary section (not scattered throughout the document), making it easy to review and approve them as a batch"
+    },
+    {
+      "name": "Scored eval data cited",
+      "max_score": 6,
+      "description": "The zero-activation analysis references specific numbers from the scored eval data (baseline scores and/or deltas) to support the routing gap vs out-of-scope determination"
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "context": "Tests whether the agent uses the correct download strategy when adding scenarios to a tile that already has existing scenarios. The correct strategy is --strategy merge (not --strategy replace and not omitting the flag). The script should also verify the downloaded structure.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses --strategy merge",
+      "max_score": 25,
+      "description": "Script includes --strategy merge in the tessl scenario download command"
+    },
+    {
+      "name": "Does NOT use --strategy replace",
+      "max_score": 20,
+      "description": "Script does NOT use --strategy replace anywhere in the download command"
+    },
+    {
+      "name": "Correct base command",
+      "max_score": 10,
+      "description": "Script uses tessl scenario download as the base command for downloading scenarios (not tessl download scenarios or other variants)"
+    },
+    {
+      "name": "Output directory specified",
+      "max_score": 12,
+      "description": "Script includes -o ./shopify-connector/evals/ (or equivalent path to the tile's evals directory) as the output destination"
+    },
+    {
+      "name": "Verification step present",
+      "max_score": 15,
+      "description": "Script includes a command to list files in the evals directory after download — e.g., ls ./shopify-connector/evals/*/task.md or equivalent — to verify the download succeeded"
+    },
+    {
+      "name": "Run ID or --last used",
+      "max_score": 10,
+      "description": "Script references the run using --last or specifies the run ID scen-gen-7742 in the download command"
+    },
+    {
+      "name": "Existing scenarios preserved",
+      "max_score": 8,
+      "description": "Script or accompanying comments explicitly note that existing scenarios will be preserved (not overwritten), either via the --strategy merge flag explanation or a comment in the script"
+    }
+  ]
+}

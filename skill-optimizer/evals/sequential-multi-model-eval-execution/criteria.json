@@ -1,0 +1,61 @@
+{
+  "context": "Tests whether the agent correctly scripts or orchestrates a multi-model eval execution run, including using the correct command format, running models sequentially, capturing and tracking run IDs, providing monitoring URLs, polling for completion, and handling failures.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Correct base command",
+      "max_score": 8,
+      "description": "Uses tessl eval run as the base command (not tessl run eval, tessl eval start, or other variants)"
+    },
+    {
+      "name": "--agent flag format",
+      "max_score": 10,
+      "description": "Uses --agent=claude:<model> format (e.g., --agent=claude:claude-haiku-4-5), not --model or other flag names"
+    },
+    {
+      "name": "All three default models",
+      "max_score": 10,
+      "description": "Includes all three model identifiers: claude-haiku-4-5, claude-sonnet-4-6, and claude-opus-4-6"
+    },
+    {
+      "name": "Sequential execution",
+      "max_score": 15,
+      "description": "Models are run sequentially — there is no parallel execution (no & operator, no background jobs, no parallel/xargs constructs) between the three model runs"
+    },
+    {
+      "name": "Run ID capture",
+      "max_score": 10,
+      "description": "The script captures or stores the run ID returned from each tessl eval run invocation"
+    },
+    {
+      "name": "Model-to-ID mapping",
+      "max_score": 8,
+      "description": "Run IDs are stored mapped to their corresponding model names (e.g., as variables named by model, or in an associative structure)"
+    },
+    {
+      "name": "Monitoring URL output",
+      "max_score": 8,
+      "description": "The script outputs or constructs a monitoring URL using the pattern https://tessl.io/eval-runs/<id>"
+    },
+    {
+      "name": "Polls with tessl eval view",
+      "max_score": 10,
+      "description": "Uses tessl eval view <id> to check run status (not tessl status, tessl check, or other commands)"
+    },
+    {
+      "name": "Retry on failure",
+      "max_score": 8,
+      "description": "Handles run failure by calling tessl eval retry <id> (not by re-running tessl eval run from scratch)"
+    },
+    {
+      "name": "Waits for all to complete",
+      "max_score": 7,
+      "description": "Script waits until all three model runs reach Completed status before exiting or proceeding to any next step"
+    },
+    {
+      "name": "No --workspace flag",
+      "max_score": 6,
+      "description": "The eval run commands do NOT include a --workspace flag"
+    }
+  ]
+}

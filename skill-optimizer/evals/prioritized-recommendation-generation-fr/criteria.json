@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent correctly processes skill review output into prioritized, well-formatted recommendations following the skill-optimizer workflow. Covers priority ordering (Critical first), the required per-recommendation format, and the summary presentation format.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Critical issues first",
+      "max_score": 12,
+      "description": "Recommendations are ordered with Critical issues (ERRORs) presented before High, Medium, and Low priority items"
+    },
+    {
+      "name": "High before Medium/Low",
+      "max_score": 8,
+      "description": "High priority items (missing 'Use when...', low actionability) appear before Medium and Low items in the document"
+    },
+    {
+      "name": "Summary with priorities",
+      "max_score": 10,
+      "description": "Document includes a summary section that groups all recommendations by priority level (Critical/High/Medium/Low) before individual details"
+    },
+    {
+      "name": "Expected improvement in summary",
+      "max_score": 8,
+      "description": "Summary section includes expected overall score improvement (e.g. percentage gain estimate)"
+    },
+    {
+      "name": "Dimension score included",
+      "max_score": 10,
+      "description": "Each recommendation states the current score for the affected dimension (e.g. 'Completeness: 1/3')"
+    },
+    {
+      "name": "Before/after examples",
+      "max_score": 12,
+      "description": "Each recommendation includes a concrete before and after example showing the proposed text change"
+    },
+    {
+      "name": "Impact stated per recommendation",
+      "max_score": 8,
+      "description": "Each recommendation includes the expected score impact (e.g. '+15% overall')"
+    },
+    {
+      "name": "Educational WHY included",
+      "max_score": 12,
+      "description": "Each recommendation explains WHY the change improves the skill — not just what to change, but why it helps the dimension"
+    },
+    {
+      "name": "All four issues addressed",
+      "max_score": 10,
+      "description": "Recommendations cover all key issues from the review: missing Use-when clause, broken file reference, abstract instructions, and known-concepts bloat"
+    },
+    {
+      "name": "Approval framing",
+      "max_score": 10,
+      "description": "Document is framed as proposed changes for review/approval — not already applied changes"
+    }
+  ]
+}

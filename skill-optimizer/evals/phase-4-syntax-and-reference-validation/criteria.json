@@ -1,0 +1,51 @@
+{
+  "context": "Tests whether the agent applies Phase 4 validation methods correctly: Python syntax using ast.parse, JavaScript syntax using node --check, command flag validity by consulting --help output, and file reference existence checks. The SKILL.md provided contains a Python syntax error, and a broken file reference.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Python via ast.parse",
+      "max_score": 15,
+      "description": "Uses Python's ast.parse() (or equivalent ast module usage) to validate the Python code block — not just visual inspection"
+    },
+    {
+      "name": "Python error identified",
+      "max_score": 10,
+      "description": "Correctly identifies the syntax error in the Python snippet (the missing closing parenthesis in the function signature `def run_ingestion(source_url: str, dest_table: str:`)"
+    },
+    {
+      "name": "JavaScript via node --check",
+      "max_score": 15,
+      "description": "Uses `node --check` to validate the JavaScript code block — not just visual inspection"
+    },
+    {
+      "name": "Command flag validation",
+      "max_score": 10,
+      "description": "Attempts to validate command flags from the bash snippet (e.g. checks `pipeline validate --help` or equivalent) rather than assuming flags are correct"
+    },
+    {
+      "name": "File reference check",
+      "max_score": 15,
+      "description": "Checks whether the files referenced in markdown links (SETUP_GUIDE.md, TROUBLESHOOT.md) exist in the skill bundle directory"
+    },
+    {
+      "name": "Broken reference identified",
+      "max_score": 10,
+      "description": "Correctly identifies that SETUP_GUIDE.md is referenced but does not exist in the bundle"
+    },
+    {
+      "name": "Validation before application",
+      "max_score": 5,
+      "description": "Report is framed as checks to perform BEFORE applying any changes (not after) — explicitly validates current state"
+    },
+    {
+      "name": "Per-check pass/fail",
+      "max_score": 10,
+      "description": "Report shows clear pass/fail (or ✓/✗) for each individual check, not just a summary"
+    },
+    {
+      "name": "Fix suggestions",
+      "max_score": 10,
+      "description": "Provides specific suggested fixes for each issue found (corrected Python syntax, how to create missing file)"
+    }
+  ]
+}

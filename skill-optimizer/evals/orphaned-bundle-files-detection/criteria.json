@@ -1,0 +1,61 @@
+{
+  "context": "Tests whether the agent can identify orphaned files in a skill bundle (files that exist but are never referenced in SKILL.md) and provide appropriate recommendations. The bundle contains 8 files: SKILL.md references MIGRATIONS.md and POOLING.md, leaving 5 orphaned files (TRANSACTIONS.md, PERFORMANCE.md, SECURITY.md should be linked; LEGACY_EXAMPLES.md and DRAFT_REPLICATION.md should be removed).",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Lists all bundle files",
+      "max_score": 10,
+      "description": "Identifies all 8 files in the bundle (SKILL.md, MIGRATIONS.md, POOLING.md, TRANSACTIONS.md, PERFORMANCE.md, SECURITY.md, LEGACY_EXAMPLES.md, DRAFT_REPLICATION.md)"
+    },
+    {
+      "name": "Identifies referenced files",
+      "max_score": 10,
+      "description": "Correctly identifies that MIGRATIONS.md and POOLING.md are referenced in SKILL.md"
+    },
+    {
+      "name": "Identifies orphaned files",
+      "max_score": 15,
+      "description": "Correctly identifies all 5 orphaned files (TRANSACTIONS.md, PERFORMANCE.md, SECURITY.md, LEGACY_EXAMPLES.md, DRAFT_REPLICATION.md) - files that exist but are never linked from SKILL.md"
+    },
+    {
+      "name": "TRANSACTIONS.md recommendation",
+      "max_score": 10,
+      "description": "Recommends linking TRANSACTIONS.md (valuable content about atomic operations) with clear routing signals like 'for atomic operations and rollback patterns' or similar"
+    },
+    {
+      "name": "PERFORMANCE.md recommendation",
+      "max_score": 10,
+      "description": "Recommends linking PERFORMANCE.md (valuable optimization content) with clear routing signals like 'for indexing strategies and batch operation optimization' or similar"
+    },
+    {
+      "name": "SECURITY.md recommendation",
+      "max_score": 10,
+      "description": "Recommends linking SECURITY.md (valuable security content) with clear routing signals like 'for credential management and connection security practices' or similar"
+    },
+    {
+      "name": "LEGACY_EXAMPLES.md recommendation",
+      "max_score": 10,
+      "description": "Recommends REMOVING LEGACY_EXAMPLES.md - it's deprecated content from v1.x that shouldn't be in the bundle anymore"
+    },
+    {
+      "name": "DRAFT_REPLICATION.md recommendation",
+      "max_score": 10,
+      "description": "Recommends REMOVING DRAFT_REPLICATION.md - it's unfinished/unimplemented content that shouldn't be in a published tile"
+    },
+    {
+      "name": "Bloat reduction framing",
+      "max_score": 5,
+      "description": "Frames orphaned files as adding bloat to the tile - mentions tile size, unnecessary files, or reducing bundle size"
+    },
+    {
+      "name": "Clear routing signals emphasis",
+      "max_score": 5,
+      "description": "When recommending links, emphasizes the need for clear routing signals (WHEN to open each file) rather than generic 'see FILE.md for more info' links"
+    },
+    {
+      "name": "Link vs remove justification",
+      "max_score": 5,
+      "description": "Provides clear reasoning for why some orphaned files should be linked (valuable content) vs removed (deprecated, unfinished, or no longer relevant)"
+    }
+  ]
+}

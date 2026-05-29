@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent correctly identifies and applies the three key scoring dimensions with their weights (Completeness 40%, Conciseness 30%, Actionability 30%), correctly identifies the missing 'Use when...' clause as the highest-impact fix, recommends executable code over abstract prose, and flags known-concept content that reduces conciseness.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Completeness weight correct",
+      "max_score": 10,
+      "description": "Plan states that Completeness has the highest weight (40%) among the dimensions"
+    },
+    {
+      "name": "Conciseness weight correct",
+      "max_score": 8,
+      "description": "Plan states Conciseness is 30% weight"
+    },
+    {
+      "name": "Actionability weight correct",
+      "max_score": 8,
+      "description": "Plan states Actionability is 30% weight"
+    },
+    {
+      "name": "Use when clause highest impact",
+      "max_score": 15,
+      "description": "Plan identifies adding a 'Use when...' clause as the highest-priority or highest-impact change"
+    },
+    {
+      "name": "Use when quantified",
+      "max_score": 10,
+      "description": "Plan states that the missing 'Use when...' clause adds approximately +15% to overall score (or is flagged as the most valuable single change)"
+    },
+    {
+      "name": "Revised description includes Use when",
+      "max_score": 12,
+      "description": "The revised description block in the output includes a 'Use when...' clause (e.g. 'Use when you need to retrieve, rotate, or audit secrets...')"
+    },
+    {
+      "name": "Executable code recommended",
+      "max_score": 12,
+      "description": "Plan recommends replacing abstract prose instructions with executable code examples (for actionability)"
+    },
+    {
+      "name": "Known concepts flagged",
+      "max_score": 10,
+      "description": "Plan identifies that the existing prose explains things an agent already knows (e.g. 'don't hardcode secrets', 'use environment variables') as reducing Conciseness"
+    },
+    {
+      "name": "High-impact first ordering",
+      "max_score": 10,
+      "description": "Quick wins are ordered so the highest-impact item (Use when clause) appears first"
+    },
+    {
+      "name": "Dimension coverage",
+      "max_score": 5,
+      "description": "Plan covers all three main scoring dimensions (Completeness, Conciseness, Actionability) with separate assessments"
+    }
+  ]
+}

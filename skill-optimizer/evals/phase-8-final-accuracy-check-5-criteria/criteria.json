@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent runs all five Phase 8 final accuracy checks: code syntax validity, command flag correctness, file reference existence, 'Use when...' clause in description, and absence of concepts the agent already knows. The SKILL.md has a Python syntax error, a missing Use-when clause, and explanatory text about known concepts (HTTP/TCP).",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Code syntax check included",
+      "max_score": 10,
+      "description": "Report includes a dedicated check for code syntax validity (covering Python, JavaScript, or bash code blocks)"
+    },
+    {
+      "name": "Python syntax error found",
+      "max_score": 15,
+      "description": "Report correctly identifies the Python syntax error (missing closing parenthesis in `json.loads(result.stdout`)"
+    },
+    {
+      "name": "Command flags check included",
+      "max_score": 8,
+      "description": "Report includes a dedicated check for command flag correctness (validating logq or other command flags)"
+    },
+    {
+      "name": "File references check included",
+      "max_score": 8,
+      "description": "Report includes a dedicated check for whether all linked files exist"
+    },
+    {
+      "name": "File reference passes",
+      "max_score": 8,
+      "description": "Report correctly identifies that QUERY_PATTERNS.md reference passes (file exists in the bundle)"
+    },
+    {
+      "name": "Use when clause check included",
+      "max_score": 12,
+      "description": "Report includes a dedicated check for whether the description contains a 'Use when...' trigger clause"
+    },
+    {
+      "name": "Use when clause fails",
+      "max_score": 12,
+      "description": "Report correctly identifies that the description is MISSING a 'Use when...' clause (current description doesn't start with or include 'Use when')"
+    },
+    {
+      "name": "Known concepts check included",
+      "max_score": 10,
+      "description": "Report includes a dedicated check for whether the skill explains concepts that an agent already knows"
+    },
+    {
+      "name": "Known concepts issue found",
+      "max_score": 12,
+      "description": "Report flags the HTTP/TCP explanation ('HTTP is a stateless request/response protocol...') as content an agent already knows"
+    },
+    {
+      "name": "Readiness summary",
+      "max_score": 5,
+      "description": "Report ends with a clear summary of whether the skill is ready to publish or lists required fixes first"
+    }
+  ]
+}

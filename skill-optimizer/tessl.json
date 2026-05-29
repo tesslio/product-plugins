@@ -1,0 +1,9 @@
+{
+  "name": "tessl/my-project",
+  "mode": "vendored",
+  "dependencies": {
+    "tessl-labs/tile-creator": {
+      "version": "1.1.0"
+    }
+  }
+}

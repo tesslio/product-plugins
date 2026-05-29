@@ -1,0 +1,46 @@
+{
+  "context": "Tests whether the agent correctly implements an approval-gated change workflow: producing a proposal document with grouped recommendations, trade-off analysis, risk assessment, and an explicit approval request — without modifying the SKILL.md file. Distinct from prioritized-recommendation-generation which tests recommendation quality and formatting.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "SKILL.md not modified",
+      "max_score": 20,
+      "description": "The output does NOT include a modified SKILL.md file — only the proposal document is produced. The agent resisted the temptation to apply fixes directly."
+    },
+    {
+      "name": "Explicit approval request",
+      "max_score": 15,
+      "description": "The proposal ends with a clear, explicit approval gate — asking the tech lead to approve, reject, or request changes before any edits proceed. Not just 'framed as a proposal' but actively requesting a decision."
+    },
+    {
+      "name": "Trade-off discussion",
+      "max_score": 15,
+      "description": "The proposal surfaces at least one genuine tension between recommendations (e.g., adding detail for completeness vs. removing detail for conciseness) and recommends a resolution while acknowledging the cost."
+    },
+    {
+      "name": "Risk assessment per recommendation",
+      "max_score": 12,
+      "description": "Each recommendation (or each group) includes what could go wrong — e.g., routing regressions, lost context, broken references, or unintended side effects if the change is applied incorrectly."
+    },
+    {
+      "name": "Grouped presentation",
+      "max_score": 8,
+      "description": "Related changes are batched into logical groups (e.g., 'Routing & Discovery', 'Content Quality') rather than presented as a flat numbered list. Each group can be approved or rejected as a unit."
+    },
+    {
+      "name": "All key issues addressed",
+      "max_score": 10,
+      "description": "Recommendations cover all key issues from the review: missing Use-when clause, HMAC explanation bloat, and missing idempotency pattern."
+    },
+    {
+      "name": "Priority summary present",
+      "max_score": 10,
+      "description": "Proposal includes a summary section that conveys priority levels (Critical/High/Medium) so the tech lead can quickly gauge urgency."
+    },
+    {
+      "name": "Current score per recommendation",
+      "max_score": 10,
+      "description": "Each recommendation or group references the current dimension score it targets (e.g., 'Completeness: 1/3 (33%)') to ground the proposal in data."
+    }
+  ]
+}

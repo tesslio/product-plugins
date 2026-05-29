@@ -1,0 +1,16 @@
+{
+  "context": "Activation-focused scenario: tests whether a routing-diagnosis user request activates a skill in this tile (expected: optimize-skill-performance Phase 0.4 or optimize-skill-instructions). Criteria below are placeholders for future content-eval use; activation eval ignores them.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Distinguishes routing gap from out-of-scope",
+      "max_score": 50,
+      "description": "Response separates the `—` rows into routing gaps (skill should have fired) versus tasks legitimately out of scope for the tile."
+    },
+    {
+      "name": "Addresses never-fired skills",
+      "max_score": 50,
+      "description": "Response identifies which skills never fired across any scenario and proposes a concrete next action (rewrite description, add scenario, accept)."
+    }
+  ]
+}

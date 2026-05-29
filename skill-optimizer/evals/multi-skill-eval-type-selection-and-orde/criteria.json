@@ -1,0 +1,46 @@
+{
+  "context": "Tests whether the agent correctly determines which type of eval (activation vs scored) to run first based on tile structure and existing results, and uses the correct command to detect skill count. The tile is multi-skill with no existing eval results — the correct strategy is to run activation first.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Skill count detection command",
+      "max_score": 14,
+      "description": "Script or notes include the command: ls skills/*/SKILL.md 2>/dev/null | wc -l (or functionally equivalent using find) to count the number of skills in the tile"
+    },
+    {
+      "name": "Activation eval run first",
+      "max_score": 20,
+      "description": "Script runs tessl eval run with --solver=activation as the FIRST eval command (before any scored eval run), since the tile is multi-skill with no existing results"
+    },
+    {
+      "name": "Scored eval follows activation",
+      "max_score": 14,
+      "description": "Script or notes describe running scored evals (tessl eval run without --solver=activation) AFTER reviewing activation results, not before"
+    },
+    {
+      "name": "Routing-clean gate explained",
+      "max_score": 12,
+      "description": "Notes file explains that scored evals should only be run for scenarios where routing is clean (activation succeeded), to avoid wasting scored-eval time on scenarios that route to the wrong skill"
+    },
+    {
+      "name": "Skip activation condition stated",
+      "max_score": 14,
+      "description": "Notes file states that activation would be skipped entirely if the tile had only a single skill (since there is no routing to test for single-skill tiles)"
+    },
+    {
+      "name": "Correct eval run command format",
+      "max_score": 8,
+      "description": "Script uses tessl eval run <path/to/tile> as the base command format (not tessl run eval or other variants)"
+    },
+    {
+      "name": "--solver=activation flag used",
+      "max_score": 10,
+      "description": "Script uses --solver=activation flag in the first eval run command (not --type=activation or other variant)"
+    },
+    {
+      "name": "Tile path used consistently",
+      "max_score": 8,
+      "description": "Script references ./invoice-processor/ (or a variable holding that path) rather than a hardcoded absolute path"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "context": "Tests whether the agent uses the correct `tessl skill review` command in the automation script, runs it both before and after changes, structures the workflow so validation happens before changes are applied, and incorporates multiple validation methods from Phase 4.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "tessl skill review command",
+      "max_score": 15,
+      "description": "Script uses `tessl skill review <path>` (exact command name) for the evaluation step — not a generic alternative"
+    },
+    {
+      "name": "Review before changes",
+      "max_score": 10,
+      "description": "Script runs `tessl skill review` BEFORE making any changes to capture the baseline score"
+    },
+    {
+      "name": "Review after changes",
+      "max_score": 10,
+      "description": "Script runs `tessl skill review` a SECOND TIME after changes are applied to verify improvement"
+    },
+    {
+      "name": "Validation before apply",
+      "max_score": 10,
+      "description": "Script includes a validation step that is placed BEFORE the change/edit step in the workflow"
+    },
+    {
+      "name": "Python ast.parse validation",
+      "max_score": 8,
+      "description": "Script includes Python syntax validation using `ast.parse` or `python -c 'import ast; ...'` — specifically the ast module"
+    },
+    {
+      "name": "node --check JS validation",
+      "max_score": 8,
+      "description": "Script includes JavaScript syntax validation using `node --check <file>` command"
+    },
+    {
+      "name": "Command --help flag validation",
+      "max_score": 8,
+      "description": "Script validates command flags by consulting the command's `--help` output"
+    },
+    {
+      "name": "File reference validation",
+      "max_score": 7,
+      "description": "Script checks that file references in the SKILL.md actually exist on disk"
+    },
+    {
+      "name": "Before/after score output",
+      "max_score": 8,
+      "description": "Script captures or outputs both the before and after scores side-by-side, enabling comparison"
+    },
+    {
+      "name": "Script accepts SKILL.md path",
+      "max_score": 8,
+      "description": "Script accepts the SKILL.md path as an argument (e.g. `$1` or script parameter), not hardcoded"
+    },
+    {
+      "name": "Phases are ordered",
+      "max_score": 8,
+      "description": "Script structure follows: baseline review → validation → (change step) → post-change review, in that order"
+    }
+  ]
+}
