@@ -2,7 +2,7 @@
 
 Official Tessl plugins published to the [`tessl` workspace](https://tessl.io/registry/tessl/) on the Tessl registry.
 
-These are R&D-maintained plugins intended for production use. Each plugin is published to the `tessl` namespace and meets the [Tessl publishing guidelines](https://app.notion.com/p/tessl/Skill-publishing-guidelines-32737cf6e97a800d9043d227dac35ef8): OSS source, tests for any scripts, eval scores of 80%+, no `beta` in names.
+These are R&D-maintained plugins intended for production use.
 
 ## Plugins
 
