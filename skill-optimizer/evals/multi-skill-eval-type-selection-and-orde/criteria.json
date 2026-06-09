@@ -10,12 +10,12 @@
     {
       "name": "Activation eval run first",
       "max_score": 20,
-      "description": "Script runs tessl eval run with --solver=activation as the FIRST eval command (before any scored eval run), since the tile is multi-skill with no existing results"
+      "description": "Script runs tessl eval run with --skip-forced-context-activation --skip-scoring as the FIRST eval command (before any scored eval run), since the tile is multi-skill with no existing results"
     },
     {
       "name": "Scored eval follows activation",
       "max_score": 14,
-      "description": "Script or notes describe running scored evals (tessl eval run without --solver=activation) AFTER reviewing activation results, not before"
+      "description": "Script or notes describe running scored evals (bare tessl eval run, without the --skip-forced-context-activation --skip-scoring flags) AFTER reviewing activation results, not before"
     },
     {
       "name": "Routing-clean gate explained",
@@ -33,9 +33,9 @@
       "description": "Script uses tessl eval run <path/to/tile> as the base command format (not tessl run eval or other variants)"
     },
     {
-      "name": "--solver=activation flag used",
+      "name": "--skip-forced-context-activation --skip-scoring flags used",
       "max_score": 10,
-      "description": "Script uses --solver=activation flag in the first eval run command (not --type=activation or other variant)"
+      "description": "Script uses the --skip-forced-context-activation --skip-scoring flags in the first eval run command (not --type=activation, --solver=activation, or other variant)"
     },
     {
       "name": "Tile path used consistently",

@@ -90,7 +90,7 @@ Read [references/phase3-download-scenarios.md](references/phase3-download-scenar
 
 ## Phase 4a: Activation Check
 
-Run the activation eval (`--solver=activation`) to observe which skill self-activates per scenario. Activation does NOT force a skill to fire — it tests routing/description quality. Applies to **all tiles**, single-skill and multi-skill alike: a single-skill tile with a bad description still won't fire, so this check is required regardless of skill count.
+Run the activation eval (`--skip-forced-context-activation --skip-scoring`) to observe which skill self-activates per scenario. Activation does NOT force a skill to fire — it tests routing/description quality. Applies to **all tiles**, single-skill and multi-skill alike: a single-skill tile with a bad description still won't fire, so this check is required regardless of skill count.
 
 **Ordering:**
 - Multi-skill tile: run 4a BEFORE 4b — routing problems surface fast and prevent wasted content-eval time on misrouted scenarios.
@@ -102,7 +102,7 @@ Read [references/phase4-run-evals.md](references/phase4-run-evals.md) §Phase 4a
 
 ## Phase 4b: Configure and Run Content (Task) Evals
 
-Choose agents/models, run `tessl eval run` (default solver — forces activation), and poll for completion.
+Choose agents/models, run `tessl eval run` (the default — forces activation and scores), and poll for completion.
 
 Read [references/phase4-run-evals.md](references/phase4-run-evals.md) §Phase 4b for the full procedure.
 

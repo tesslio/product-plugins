@@ -5,7 +5,7 @@
     {
       "name": "Recommends activation eval first",
       "max_score": 50,
-      "description": "Response recommends running an activation eval (--solver=activation) before the slower content eval, explaining it's the fast routing-only check."
+      "description": "Response recommends running an activation eval (--skip-forced-context-activation --skip-scoring) before the slower content eval, explaining it's the fast routing-only check."
     },
     {
       "name": "Defines pass/fail criteria",

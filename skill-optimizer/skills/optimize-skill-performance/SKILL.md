@@ -56,14 +56,14 @@ To check for existing eval results:
 tessl eval view --last --json 2>&1
 ```
 
-**If results exist**, check the solver type:
+**If results exist**, check whether the run skipped forced context activation:
 
 ```bash
-tessl eval view --last --json | jq '.solver'
+tessl eval view --last --json | jq '.skipForcedContextActivation'
 ```
 
-- `"default"` or field absent → proceed to Phase 1 (score-based analysis). If multi-skill, suggest also running activation to check routing.
-- `"activation"` → proceed to Phase 0.4 (activation analysis). Recommend a scored eval run next for scenarios where routing is clean.
+- `false` or field absent → proceed to Phase 1 (score-based analysis). If multi-skill, suggest also running activation to check routing.
+- `true` → proceed to Phase 0.4 (activation analysis). Recommend a scored eval run next for scenarios where routing is clean.
 
 ### 0.2 If no results, check for scenarios on disk
 
@@ -97,7 +97,7 @@ Tell the user no scenarios were found and offer to invoke `setup-skill-performan
 
 ### 0.4 Activation results detected
 
-The last eval used `--solver=activation`. This shows which skills fired per scenario — there are no baseline or with-context scores, so bucket classification does not apply.
+The last eval used `--skip-forced-context-activation --skip-scoring`. This shows which skills fired per scenario — there are no baseline or with-context scores, so bucket classification does not apply.
 
 1. **Skill coverage summary**: Report which skills in the tile never fired across any scenario (see phase5-view-results.md §5.1b "Skill coverage summary").
 
@@ -115,7 +115,7 @@ Then return to Phase 0.1 once complete.
 
 ## Phase 1: Analyze Results
 
-> This phase applies to **standard solver runs only**. If the last eval used `--solver=activation`, go back to Phase 0.4.
+> This phase applies to **scored runs only**. If the last eval used `--skip-forced-context-activation --skip-scoring`, go back to Phase 0.4.
 
 ### 1.1 Get the latest eval results
 
