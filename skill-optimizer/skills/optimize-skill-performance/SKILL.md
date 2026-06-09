@@ -59,7 +59,7 @@ tessl eval view --last --json 2>&1
 **If results exist**, check whether the run skipped forced context activation:
 
 ```bash
-tessl eval view --last --json | jq '.skipForcedContextActivation'
+tessl eval view --last --json | jq '.data.attributes.skipForcedContextActivation'
 ```
 
 - `false` or field absent → proceed to Phase 1 (score-based analysis). If multi-skill, suggest also running activation to check routing.
