@@ -5,7 +5,7 @@
     {
       "name": "Points to activation eval as the fast check",
       "max_score": 50,
-      "description": "Response identifies activation eval (--solver=activation) as the fast way to verify routing after description edits, rather than rerunning the slower scored eval."
+      "description": "Response identifies activation eval (--skip-forced-context-activation --skip-scoring) as the fast way to verify routing after description edits, rather than rerunning the slower scored eval."
     },
     {
       "name": "Suggests before/after comparison",

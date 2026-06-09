@@ -2,8 +2,8 @@
 
 This phase covers two distinct eval types. Both apply to every tile (single-skill and multi-skill alike).
 
-- **Activation eval** (`--solver=activation`): observes which skill self-activates per scenario. Does NOT force activation. Tests routing/description quality. Fast — completes in ~2–3 min.
-- **Content eval** (default solver): forces activation, runs the agent twice (baseline + with-context), scores the rubric. Tests content quality. Slow — ~10–15 min per scenario per agent.
+- **Activation eval** (`--skip-forced-context-activation --skip-scoring`): observes which skill self-activates per scenario. Does NOT force activation. Tests routing/description quality. Fast — completes in ~2–3 min.
+- **Content eval** (the default): forces activation, runs the agent twice (baseline + with-context), scores the rubric. Tests content quality. Slow — ~10–15 min per scenario per agent.
 
 **Ordering:** for multi-skill tiles run activation first (catches routing problems before scored time is invested); for single-skill tiles either order is fine, parallel works too. Both are required — the variable is ordering, not whether to run them.
 
@@ -12,7 +12,7 @@ This phase covers two distinct eval types. Both apply to every tile (single-skil
 ## Phase 4a: Activation eval
 
 ```bash
-tessl eval run <tile-path> --solver=activation --label <run-label>
+tessl eval run <tile-path> --skip-forced-context-activation --skip-scoring --label <run-label>
 ```
 
 This completes in ~2–3 min (no agent execution needed). Note the eval run URL from the output and share it with the user.

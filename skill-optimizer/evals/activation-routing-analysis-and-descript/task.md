@@ -23,7 +23,7 @@ The following files are provided as inputs. Extract them before beginning.
 =============== FILE: inputs/activation-results.json ===============
 {
   "eval_run_id": "act-run-881",
-  "solver": "activation",
+  "skipForcedContextActivation": true,
   "tile": "content-tools",
   "scenarios": [
     {
@@ -62,7 +62,7 @@ The following files are provided as inputs. Extract them before beginning.
 =============== FILE: inputs/scored-eval-results.json ===============
 {
   "eval_run_id": "scored-run-445",
-  "solver": "default",
+  "skipForcedContextActivation": false,
   "tile": "content-tools",
   "scenarios": [
     {

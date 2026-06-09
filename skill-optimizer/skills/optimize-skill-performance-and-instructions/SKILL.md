@@ -48,7 +48,7 @@ Keep it concise — what the run was about should be obvious without opening it.
 ```bash
 tessl skill review skills/<name>/SKILL.md     # review a skill (Step 1)
 tessl scenario generate <tile-path> --count=5 # generate scenarios (Step 2)
-tessl eval run <tile-path> --solver=activation --label <run-label> # test skill routing
+tessl eval run <tile-path> --skip-forced-context-activation --skip-scoring --label <run-label> # test skill routing
 tessl eval run <tile-path> --agent=claude:claude-sonnet-4-6 --label <run-label> # scored eval
 tessl eval view --last --json                 # check results
 ```

@@ -26,9 +26,9 @@ Key observations:
   - error-recovery: Strong improvement, above 80%
 ```
 
-## 5.1b Activation solver results
+## 5.1b Activation eval results
 
-If the eval used `--solver=activation`, present the skill routing table instead of score deltas:
+If the eval used `--skip-forced-context-activation --skip-scoring`, present the skill routing table instead of score deltas:
 
 ```
 Activation Results — <tile-name>
@@ -117,7 +117,7 @@ Zero-activation scenarios:
 When a routing gap is detected (scenario should activate a skill but doesn't), read the skill's current `description` field from its SKILL.md frontmatter and the scenario's task phrasing, then propose a rewrite:
 
 1. Read the skill's SKILL.md and extract the `description:` from frontmatter.
-2. Read the scenario's `task.md` to understand the phrasing the activation solver saw.
+2. Read the scenario's `task.md` to understand the phrasing the activation eval saw.
 3. Identify the mismatch — typically the description uses different terminology than the task.
 4. Propose a minimal description edit that would cover the missed phrasing without losing existing trigger coverage.
 
