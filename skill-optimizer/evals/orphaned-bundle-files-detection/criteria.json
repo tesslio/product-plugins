@@ -40,12 +40,12 @@
     {
       "name": "DRAFT_REPLICATION.md recommendation",
       "max_score": 10,
-      "description": "Recommends REMOVING DRAFT_REPLICATION.md - it's unfinished/unimplemented content that shouldn't be in a published tile"
+      "description": "Recommends REMOVING DRAFT_REPLICATION.md - it's unfinished/unimplemented content that shouldn't be in a published plugin"
     },
     {
       "name": "Bloat reduction framing",
       "max_score": 5,
-      "description": "Frames orphaned files as adding bloat to the tile - mentions tile size, unnecessary files, or reducing bundle size"
+      "description": "Frames orphaned files as adding bloat to the plugin - mentions plugin size, unnecessary files, or reducing bundle size"
     },
     {
       "name": "Clear routing signals emphasis",

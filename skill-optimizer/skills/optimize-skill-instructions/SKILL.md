@@ -127,7 +127,7 @@ grep -oE '\[[^]]*\]\(([^)]+\.md)\)' SKILL.md | cut -d'(' -f2 | cut -d')' -f1
 
 **For each orphaned file, recommend:**
 - ✅ Link it with clear routing signals: "See [FILE.md] for X when Y"
-- ❌ Remove it: "FILE.md exists but is never referenced—remove to reduce tile bloat?"
+- ❌ Remove it: "FILE.md exists but is never referenced—remove to reduce plugin bloat?"
 
 Don't leave unreferenced files in the bundle. They waste space and confuse maintainers.
 

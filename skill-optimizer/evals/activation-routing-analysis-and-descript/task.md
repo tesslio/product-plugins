@@ -1,10 +1,10 @@
-# Routing Health Report for content-tools Tile
+# Routing Health Report for content-tools Plugin
 
 ## Problem Description
 
-The content-tools tile has three skills: `markdown-formatter`, `citation-generator`, and `link-checker`. The team recently ran a quick eval run to check whether each skill is getting activated when it should be, and the results are concerning. Several scenarios produced no skill activation at all, and the team isn't sure whether those are gaps in how the skills describe themselves or whether the scenarios are simply out of scope for the tile.
+The content-tools plugin has three skills: `markdown-formatter`, `citation-generator`, and `link-checker`. The team recently ran a quick eval run to check whether each skill is getting activated when it should be, and the results are concerning. Several scenarios produced no skill activation at all, and the team isn't sure whether those are gaps in how the skills describe themselves or whether the scenarios are simply out of scope for the plugin.
 
-The tile has also had scored evals run previously, so there's comparison data available to help distinguish routing problems from out-of-scope tasks. The team wants a complete routing health report they can act on, including concrete suggestions for fixing any description mismatches they find.
+The plugin has also had scored evals run previously, so there's comparison data available to help distinguish routing problems from out-of-scope tasks. The team wants a complete routing health report they can act on, including concrete suggestions for fixing any description mismatches they find.
 
 ## Output Specification
 
@@ -12,7 +12,7 @@ Produce a file called `routing-health-report.md` containing:
 
 1. A routing table showing which skill fired for each scenario (or `–` if none fired)
 2. A skill coverage summary identifying any skills that never fired across all scenarios
-3. For each zero-activation scenario (`–`), an analysis of whether it represents a routing gap or an out-of-scope task for this tile
+3. For each zero-activation scenario (`–`), an analysis of whether it represents a routing gap or an out-of-scope task for this plugin
 4. For each scenario identified as a routing gap, a specific proposed description rewrite for the affected skill — presented as a diff or before/after comparison
 5. A summary section listing all proposed description changes together
 
@@ -24,7 +24,7 @@ The following files are provided as inputs. Extract them before beginning.
 {
   "eval_run_id": "act-run-881",
   "skipForcedContextActivation": true,
-  "tile": "content-tools",
+  "plugin": "content-tools",
   "scenarios": [
     {
       "name": "format-markdown-table",
@@ -63,7 +63,7 @@ The following files are provided as inputs. Extract them before beginning.
 {
   "eval_run_id": "scored-run-445",
   "skipForcedContextActivation": false,
-  "tile": "content-tools",
+  "plugin": "content-tools",
   "scenarios": [
     {
       "name": "rewrite-intro-paragraph",

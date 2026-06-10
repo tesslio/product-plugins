@@ -1,5 +1,5 @@
 {
-  "context": "Tests whether the agent correctly identifies a regression as caused by ambiguous or contradictory content in the tile (rather than missing content), and proposes a removal or clarification fix rather than adding more emphasis on the failing behavior.",
+  "context": "Tests whether the agent correctly identifies a regression as caused by ambiguous or contradictory content in the plugin (rather than missing content), and proposes a removal or clarification fix rather than adding more emphasis on the failing behavior.",
   "type": "weighted_checklist",
   "checklist": [
     {

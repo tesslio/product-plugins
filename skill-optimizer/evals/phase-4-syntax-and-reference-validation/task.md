@@ -2,7 +2,7 @@
 
 ## Problem Description
 
-A developer at a tools company has been iterating on a SKILL.md file for an internal automation tool. Before publishing it to the team's shared tile repository, they want to make sure all code examples in the skill are correct and all referenced files actually exist. In the past, a broken code example caused confusion when agents tried to follow the guidance — a syntax error in a Python snippet made the example unrunnable, and a linked file didn't exist.
+A developer at a tools company has been iterating on a SKILL.md file for an internal automation tool. Before publishing it to the team's shared plugin repository, they want to make sure all code examples in the skill are correct and all referenced files actually exist. In the past, a broken code example caused confusion when agents tried to follow the guidance — a syntax error in a Python snippet made the example unrunnable, and a linked file didn't exist.
 
 Your job is to validate the skill bundle below and produce a structured validation report. Check every code block in the skill for correctness and check that all file references resolve. For each issue found, clearly state what is wrong and suggest a fix.
 

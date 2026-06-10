@@ -1,26 +1,26 @@
 {
-  "context": "Tests whether the agent correctly performs pre-flight verification before running multi-model tile evals, including finding the tile safely, verifying scenarios and login, confirming the model configuration, and communicating time expectations.",
+  "context": "Tests whether the agent correctly performs pre-flight verification before running multi-model plugin evals, including finding the plugin safely, verifying scenarios and login, confirming the model configuration, and communicating time expectations.",
   "type": "weighted_checklist",
   "checklist": [
     {
       "name": "Excludes .tessl cache",
       "max_score": 10,
-      "description": "The tile search command or script explicitly excludes paths containing .tessl/ (e.g., uses -not -path '*/.tessl/*' or equivalent)"
+      "description": "The plugin search command or script explicitly excludes paths containing .tessl/ (e.g., uses -not -path '*/.tessl/*' or equivalent)"
     },
     {
-      "name": ".tessl/tiles warning",
+      "name": ".tessl/plugins warning",
       "max_score": 10,
-      "description": "The output warns the user if their tile path is inside a .tessl/tiles/ directory and explains this is the local install cache (not usable for evals)"
+      "description": "The output warns the user if their plugin path is inside a .tessl/plugins/ directory and explains this is the local install cache (not usable for evals)"
     },
     {
       "name": "Scenario existence check",
       "max_score": 10,
-      "description": "The verification checks for the presence of eval scenario files under the tile's evals/ directory (e.g., checks for evals/*/task.md or equivalent)"
+      "description": "The verification checks for the presence of eval scenario files under the plugin's evals/ directory (e.g., checks for evals/*/task.md or equivalent)"
     },
     {
       "name": "Scenario generation guidance",
       "max_score": 10,
-      "description": "If no scenarios are found, the output provides the tessl scenario generate command (not just a generic message) with the tile path argument"
+      "description": "If no scenarios are found, the output provides the tessl scenario generate command (not just a generic message) with the plugin path argument"
     },
     {
       "name": "Login verification",
@@ -30,7 +30,7 @@
     {
       "name": "No --workspace flag",
       "max_score": 8,
-      "description": "For tile evals, --workspace is not used. The criterion checks the agent correctly omits it for tile eval workflows. The output does NOT mention or include a --workspace flag in any tessl eval context."
+      "description": "For plugin evals, --workspace is not used. The criterion checks the agent correctly omits it for plugin eval workflows. The output does NOT mention or include a --workspace flag in any tessl eval context."
     },
     {
       "name": "Default model names",

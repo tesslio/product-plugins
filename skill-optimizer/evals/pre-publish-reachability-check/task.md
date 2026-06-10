@@ -2,9 +2,9 @@
 
 ## Problem Description
 
-I'm about to publish my tile and I have 4 skills inside it. Before I commit to a slow content eval that will take a few hours, I want a fast sanity check: are my skills actually reachable from the kinds of questions real users would ask?
+I'm about to publish my plugin and I have 4 skills inside it. Before I commit to a slow content eval that will take a few hours, I want a fast sanity check: are my skills actually reachable from the kinds of questions real users would ask?
 
-In other words — if someone phrases a request the way I expect them to, will Claude pick the right skill out of my tile, or will it just answer from scratch and ignore the tile entirely?
+In other words — if someone phrases a request the way I expect them to, will Claude pick the right skill out of my plugin, or will it just answer from scratch and ignore the plugin entirely?
 
 What's the fastest way to verify this, and what should I do with the result before I run the full eval?
 

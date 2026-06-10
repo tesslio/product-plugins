@@ -4,12 +4,12 @@
 
 Download the generated scenarios using the run ID from Phase 2:
 ```bash
-tessl scenario download --last -o <tile-dir>/evals/
+tessl scenario download --last -o <plugin-dir>/evals/
 ```
 
 Use `--strategy merge` to add new scenarios alongside existing ones — safe to use even on a first download when `evals/` is empty (merge is the default):
 ```bash
-tessl scenario download --last -o <tile-dir>/evals/ --strategy merge
+tessl scenario download --last -o <plugin-dir>/evals/ --strategy merge
 ```
 
 Use `--strategy replace` only if the user explicitly asked to replace existing scenarios.
@@ -17,7 +17,7 @@ Use `--strategy replace` only if the user explicitly asked to replace existing s
 ## 3.2 Verify the download
 
 ```bash
-ls <tile-dir>/evals/*/task.md
+ls <plugin-dir>/evals/*/task.md
 ```
 
 Show the user the downloaded scenario structure:
@@ -56,7 +56,7 @@ If the user wants to review, read and display the relevant files. Apply any edit
 
 ## 3.4 Detect fixture and setup-script needs
 
-Before kicking off the eval run, check each scenario for missing environment preparation it clearly needs. This step infers fixtures and setup scripts silently when the tile content makes the source obvious, and only prompts the user when sourcing genuinely can't be determined.
+Before kicking off the eval run, check each scenario for missing environment preparation it clearly needs. This step infers fixtures and setup scripts silently when the plugin content makes the source obvious, and only prompts the user when sourcing genuinely can't be determined.
 
 Read [references/phase3-fixtures-and-setup.md](phase3-fixtures-and-setup.md) for:
 

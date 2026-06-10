@@ -1,10 +1,10 @@
-# Optimization Decision Point for pull-request-reviewer Tile
+# Optimization Decision Point for pull-request-reviewer Plugin
 
 ## Problem Description
 
-The ML platform team at Crescendo has finished the initial eval setup for their `pull-request-reviewer` tile and has received the first batch of results. Before jumping into improvements, the engineering lead wants a structured triage document that analyzes the results and recommends what to do next.
+The ML platform team at Crescendo has finished the initial eval setup for their `pull-request-reviewer` plugin and has received the first batch of results. Before jumping into improvements, the engineering lead wants a structured triage document that analyzes the results and recommends what to do next.
 
-The team is time-constrained — they don't want to spend hours writing tile improvements only to discover the real problem is something structural. They need someone to read the results critically and flag any issues that should be addressed before diving into content edits.
+The team is time-constrained — they don't want to spend hours writing plugin improvements only to discover the real problem is something structural. They need someone to read the results critically and flag any issues that should be addressed before diving into content edits.
 
 ## Output Specification
 
@@ -20,7 +20,7 @@ The following files are provided as inputs. Extract them before beginning.
 
 =============== FILE: inputs/eval-results.json ===============
 {
-  "tile": "pull-request-reviewer",
+  "plugin": "pull-request-reviewer",
   "eval_run_id": "eval-run-3391",
   "scenarios": [
     {

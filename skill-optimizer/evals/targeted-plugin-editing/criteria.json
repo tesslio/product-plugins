@@ -1,5 +1,5 @@
 {
-  "context": "Tests whether the agent applies minimal, targeted fixes to the tile — adding explicit retry timing rather than vague guidance, matching the rubric's exact language, and leaving every unrelated working section untouched without restructuring or bloating.",
+  "context": "Tests whether the agent applies minimal, targeted fixes to the plugin — adding explicit retry timing rather than vague guidance, matching the rubric's exact language, and leaving every unrelated working section untouched without restructuring or bloating.",
   "type": "weighted_checklist",
   "checklist": [
     {
@@ -30,7 +30,7 @@
     {
       "name": "Processing section unchanged",
       "max_score": 7,
-      "description": "The four numbered steps in the Processing section are still present in the same order in the updated tile"
+      "description": "The four numbered steps in the Processing section are still present in the same order in the updated plugin"
     },
     {
       "name": "Retry section only changed",
@@ -40,12 +40,12 @@
     {
       "name": "Concise addition",
       "max_score": 10,
-      "description": "The Reliability section (or equivalent) does not exceed 100 words in the updated tile"
+      "description": "The Reliability section (or equivalent) does not exceed 100 words in the updated plugin"
     },
     {
       "name": "Max retry count preserved",
       "max_score": 8,
-      "description": "The 3-attempt maximum retry limit is still present in the updated tile (not removed or changed to a different number)"
+      "description": "The 3-attempt maximum retry limit is still present in the updated plugin (not removed or changed to a different number)"
     },
     {
       "name": "Fast acknowledgement preserved",

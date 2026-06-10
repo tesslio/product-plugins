@@ -10,17 +10,17 @@
     {
       "name": "Bucket B: webhook signature",
       "max_score": 8,
-      "description": "The 'Webhook signature validation' criterion (5/10 = 50% with-context, low baseline 1/10) is classified as a tile gap that needs a fix"
+      "description": "The 'Webhook signature validation' criterion (5/10 = 50% with-context, low baseline 1/10) is classified as a plugin gap that needs a fix"
     },
     {
       "name": "Bucket C: HTTP status codes",
       "max_score": 8,
-      "description": "The 'HTTP status code handling' criterion (9/10 baseline already high, >= 80% without tile) is classified as redundant / agents already know this"
+      "description": "The 'HTTP status code handling' criterion (9/10 baseline already high, >= 80% without plugin) is classified as redundant / agents already know this"
     },
     {
       "name": "Bucket B: currency precision",
       "max_score": 8,
-      "description": "The 'Currency precision' criterion (7/15 = 47% with-context, low baseline 3/15) is classified as a tile gap"
+      "description": "The 'Currency precision' criterion (7/15 = 47% with-context, low baseline 3/15) is classified as a plugin gap"
     },
     {
       "name": "Bucket D: API version pinning",
@@ -35,7 +35,7 @@
     {
       "name": "Bucket B diagnosis present",
       "max_score": 15,
-      "description": "Both Bucket B criteria include a diagnosis (what the tile is likely missing) and a reference to which tile file should be updated"
+      "description": "Both Bucket B criteria include a diagnosis (what the plugin is likely missing) and a reference to which plugin file should be updated"
     },
     {
       "name": "Bucket C action suggested",
@@ -45,7 +45,7 @@
     {
       "name": "Bucket A no-action",
       "max_score": 8,
-      "description": "The Bucket A criterion (idempotency key) is noted as leave alone / no action needed / tile's strength"
+      "description": "The Bucket A criterion (idempotency key) is noted as leave alone / no action needed / plugin's strength"
     },
     {
       "name": "80% threshold applied",

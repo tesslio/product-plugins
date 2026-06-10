@@ -1,15 +1,15 @@
-# Data Pipeline Tile: Consistency Audit
+# Data Pipeline Plugin: Consistency Audit
 
 ## Problem Description
 
-Your team has been iterating on a data pipeline tile over the past few months. Three different engineers have contributed to different parts of it — one owns the main skill file, another maintains the operational rules, and a third recently added a reference doc for error handling. No one has done a cross-file review since the initial version.
+Your team has been iterating on a data pipeline plugin over the past few months. Three different engineers have contributed to different parts of it — one owns the main skill file, another maintains the operational rules, and a third recently added a reference doc for error handling. No one has done a cross-file review since the initial version.
 
-Recent eval scores on the retry logic scenario have been inconsistent, with agents implementing wildly different retry counts. This suggests there may be conflicting guidance somewhere in the tile. Before the next release, you need a full consistency audit to find any statements that contradict each other across all tile files — not just the retry-related ones.
+Recent eval scores on the retry logic scenario have been inconsistent, with agents implementing wildly different retry counts. This suggests there may be conflicting guidance somewhere in the plugin. Before the next release, you need a full consistency audit to find any statements that contradict each other across all plugin files — not just the retry-related ones.
 
 ## Output Specification
 
 Produce a file called `contradiction_report.md` that:
-1. Lists every contradiction found across the tile files
+1. Lists every contradiction found across the plugin files
 2. For each contradiction: identifies the specific files involved, quotes the conflicting statements verbatim, and explains why they conflict
 3. Includes a severity note for each (would this likely cause agent confusion or regression?)
 
@@ -58,14 +58,14 @@ On any unrecoverable error, write a failure record to the dead-letter queue and 
 =============== FILE: inputs/rules/retry-policy.md ===============
 # Retry Policy
 
-All retry operations in this tile follow a conservative retry policy to protect downstream services:
+All retry operations in this plugin follow a conservative retry policy to protect downstream services:
 
 - Maximum retries: 3 attempts (not counting the initial attempt)
 - Retry only on transient errors (5xx responses, network timeouts, connection resets)
 - Do not retry on client errors (4xx responses) or validation failures
 - Log each retry attempt with: attempt number, error type, and timestamp
 
-This policy applies to all operations in the tile unless explicitly overridden by a specific step.
+This policy applies to all operations in the plugin unless explicitly overridden by a specific step.
 
 =============== FILE: inputs/docs/error-handling.md ===============
 # Error Handling Reference

@@ -1,21 +1,21 @@
 {
-  "context": "Tests whether the agent runs tessl tile lint after applying fixes, checks for token cost increases, and recommends moving heavy content to docs (on-demand) rather than rules (always loaded) when front-loaded tokens balloon. This covers the Phase 3.3 lint-after-each-fix instruction from optimize-skill-performance.",
+  "context": "Tests whether the agent runs tessl plugin lint after applying fixes, checks for token cost increases, and recommends moving heavy content to docs (on-demand) rather than rules (always loaded) when front-loaded tokens balloon. This covers the Phase 3.3 lint-after-each-fix instruction from optimize-skill-performance.",
   "type": "weighted_checklist",
   "checklist": [
     {
-      "name": "tessl tile lint command used",
+      "name": "tessl plugin lint command used",
       "max_score": 22,
-      "description": "Script uses tessl tile lint as the command for tile validation (not tessl lint tile, tessl validate, or other variants)"
+      "description": "Script uses tessl plugin lint as the command for plugin validation (not tessl lint plugin, tessl validate, or other variants)"
     },
     {
-      "name": "Tile path argument provided",
+      "name": "Plugin path argument provided",
       "max_score": 10,
-      "description": "Script passes the tile path (./database-migrator/ or equivalent) as an argument to tessl tile lint"
+      "description": "Script passes the plugin path (./database-migrator/ or equivalent) as an argument to tessl plugin lint"
     },
     {
       "name": "Lint run after each change set",
       "max_score": 15,
-      "description": "Script runs tessl tile lint at least twice — once after each distinct set of changes (i.e., there is more than one lint invocation, not a single final lint)"
+      "description": "Script runs tessl plugin lint at least twice — once after each distinct set of changes (i.e., there is more than one lint invocation, not a single final lint)"
     },
     {
       "name": "Token cost ballooning flagged",

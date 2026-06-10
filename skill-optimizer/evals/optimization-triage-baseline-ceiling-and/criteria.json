@@ -1,5 +1,5 @@
 {
-  "context": "Tests whether the agent applies the correct triage logic from the optimization cycle skill: identifying regressions as highest priority, recognizing that high baselines suggest scenarios may be too easy (consider regenerating), and recommending the right corrective actions before proceeding to tile content edits.",
+  "context": "Tests whether the agent applies the correct triage logic from the optimization cycle skill: identifying regressions as highest priority, recognizing that high baselines suggest scenarios may be too easy (consider regenerating), and recommending the right corrective actions before proceeding to plugin content edits.",
   "type": "weighted_checklist",
   "checklist": [
     {
@@ -15,17 +15,17 @@
     {
       "name": "High baseline warning present",
       "max_score": 18,
-      "description": "Report notes that all three scenarios have high baseline scores (84%, 87%, 82% — all above 80%), suggesting the scenarios may be too easy and agents can solve them without the tile"
+      "description": "Report notes that all three scenarios have high baseline scores (84%, 87%, 82% — all above 80%), suggesting the scenarios may be too easy and agents can solve them without the plugin"
     },
     {
       "name": "Scenario regeneration suggested",
       "max_score": 15,
-      "description": "Report recommends considering regenerating harder scenarios (before or alongside tile content fixes) as a response to the high baseline scores"
+      "description": "Report recommends considering regenerating harder scenarios (before or alongside plugin content fixes) as a response to the high baseline scores"
     },
     {
-      "name": "Tile is actively hurting",
+      "name": "Plugin is actively hurting",
       "max_score": 12,
-      "description": "Report states or implies that the tile is actively hurting agent performance on security-review (not just failing to help) — because with-tile scores are lower than without-tile scores on that scenario"
+      "description": "Report states or implies that the plugin is actively hurting agent performance on security-review (not just failing to help) — because with-plugin scores are lower than without-plugin scores on that scenario"
     },
     {
       "name": "Per-criterion regression analysis",
@@ -35,7 +35,7 @@
     {
       "name": "Correct prioritization order",
       "max_score": 10,
-      "description": "Recommendations are ordered with regression fix BEFORE any suggestion to improve the tile for the other two scenarios — NOT presented as equally weighted items"
+      "description": "Recommendations are ordered with regression fix BEFORE any suggestion to improve the plugin for the other two scenarios — NOT presented as equally weighted items"
     }
   ]
 }

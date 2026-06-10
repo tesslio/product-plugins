@@ -30,19 +30,19 @@ Fixture types:
 
 ## Detection rules
 
-For each scenario, read its `task.md`, `criteria.json`, and the parent tile's `SKILL.md` / `docs/` to classify needs.
+For each scenario, read its `task.md`, `criteria.json`, and the parent plugin's `SKILL.md` / `docs/` to classify needs.
 
 ### Fixture-warranted signals
 
 Fire if **any** of these apply:
-- The tile's `SKILL.md` talks about modifying or refactoring existing code, or uses phrases like "this codebase", "your repo", or names file paths the user is expected to edit.
+- The plugin's `SKILL.md` talks about modifying or refactoring existing code, or uses phrases like "this codebase", "your repo", or names file paths the user is expected to edit.
 - The scenario's `task.md` references files that must already exist — e.g. "fix the bug in `src/foo.ts`", "update the migration in `db/`".
 - The rubric in `criteria.json` checks for edits to existing files rather than from-scratch creation.
 
 ### Setup-script-warranted signals
 
 Fire if **any** of these apply:
-- The tile mentions an external CLI or dependency the agent must run (`npm install`, `pip install`, `brew install`, `cargo build`).
+- The plugin mentions an external CLI or dependency the agent must run (`npm install`, `pip install`, `brew install`, `cargo build`).
 - The task assumes a running service, database, env var, credentials, or migration state that can't be expressed as static files.
 
 ### Skip rules (always honour user intent)
@@ -51,19 +51,19 @@ Do **not** generate or overwrite when:
 - `scenario.json` already declares a `fixtures` record — leave it alone.
 - `scenario.json` already declares `setup`, **or** a `setup.sh` already exists next to the scenario — leave it alone.
 
-Skip rules apply per-scenario. A tile with five scenarios may need fixture generation on three of them and nothing on the other two.
+Skip rules apply per-scenario. A plugin with five scenarios may need fixture generation on three of them and nothing on the other two.
 
 ## Fixture sourcing — silent inference first
 
 When the fixture signal fires for a scenario:
 
-1. **Scan the tile silently.** Look in `SKILL.md`, the tile's `docs/`, and any `README.md` for:
+1. **Scan the plugin silently.** Look in `SKILL.md`, the plugin's `docs/`, and any `README.md` for:
    - A repo URL (anything matching `https://github.com/…` or a `git@github.com:…` reference) together with an obvious ref (branch name, tag, or commit), OR
-   - A sample directory path inside the tile (e.g. `examples/`, `fixtures/`).
+   - A sample directory path inside the plugin (e.g. `examples/`, `fixtures/`).
 2. **If a plausible source is found**, write it into `scenario.json` under `fixtures.<name>` using the schema above. Name the fixture descriptively — `codebase` for the primary repo snapshot is conventional; use `examples` or similar for directory fixtures.
 3. **If nothing plausible is found**, ask the user once:
 
-   > "Scenario `<slug>` looks like it needs an existing codebase to operate on, but I couldn't find a repo URL or sample path in the tile. Want to provide one (`<repo-url>#<ref>` or a local directory path), or skip fixture generation for this scenario?"
+   > "Scenario `<slug>` looks like it needs an existing codebase to operate on, but I couldn't find a repo URL or sample path in the plugin. Want to provide one (`<repo-url>#<ref>` or a local directory path), or skip fixture generation for this scenario?"
 
 4. **If the user declines or can't provide a source**, skip fixture generation for that scenario, record it in the pre-run summary, and continue. Do not stop the phase — the user has explicitly opted into a degraded eval.
 
@@ -84,7 +84,7 @@ When the setup-script signal fires for a scenario:
    ```
 
 3. **`chmod +x setup.sh`** after writing so the eval runner can execute it.
-4. **If the signal isn't specific enough to write a concrete script** (e.g. you can see the tile expects a database but not which migrations to run), ask the user to confirm the commands before writing:
+4. **If the signal isn't specific enough to write a concrete script** (e.g. you can see the plugin expects a database but not which migrations to run), ask the user to confirm the commands before writing:
 
    > "Scenario `<slug>` looks like it needs setup before the agent runs. My best guess is:
    >

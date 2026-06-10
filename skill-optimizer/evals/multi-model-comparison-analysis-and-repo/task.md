@@ -2,9 +2,9 @@
 
 ## Problem Description
 
-The quality team at a software tooling company has completed a multi-model benchmark run against their `workflow-tile` and needs a structured comparison report for an upcoming stakeholder review. The raw output from three separate eval runs has been collected and is provided below. The team lead needs a clear, decision-ready analysis: how do the three Claude models compare, where is the tile's skill making a real difference, and what should be fixed before the tile is published to the internal registry.
+The quality team at a software tooling company has completed a multi-model benchmark run against their `workflow-plugin` and needs a structured comparison report for an upcoming stakeholder review. The raw output from three separate eval runs has been collected and is provided below. The team lead needs a clear, decision-ready analysis: how do the three Claude models compare, where is the plugin's skill making a real difference, and what should be fixed before the plugin is published to the internal registry.
 
-Produce a comprehensive comparison report in `comparison_report.md` that stakeholders can use to understand the current state of the tile across all models and make an informed decision about publishing. The eval-improve skill is available for addressing identified gaps.
+Produce a comprehensive comparison report in `comparison_report.md` that stakeholders can use to understand the current state of the plugin across all models and make an informed decision about publishing. The eval-improve skill is available for addressing identified gaps.
 
 ## Output Specification
 
@@ -26,7 +26,7 @@ The following raw eval run outputs are provided as inputs. Extract them before b
 =============== FILE: inputs/run-haiku.txt ===============
 === EVAL RUN: run-abc123 ===
 Agent: claude:claude-haiku-4-5
-Tile: ./workflow-tile
+Plugin: ./workflow-plugin
 Status: Completed
 
 --- Scenario: scenario-0 ---
@@ -57,7 +57,7 @@ Overall: Without Skill 45% | With Skill 48% | Delta +3pp
 =============== FILE: inputs/run-sonnet.txt ===============
 === EVAL RUN: run-def456 ===
 Agent: claude:claude-sonnet-4-6
-Tile: ./workflow-tile
+Plugin: ./workflow-plugin
 Status: Completed
 
 --- Scenario: scenario-0 ---
@@ -88,7 +88,7 @@ Overall: Without Skill 65% | With Skill 69% | Delta +4pp
 =============== FILE: inputs/run-opus.txt ===============
 === EVAL RUN: run-ghi789 ===
 Agent: claude:claude-opus-4-6
-Tile: ./workflow-tile
+Plugin: ./workflow-plugin
 Status: Completed
 
 --- Scenario: scenario-0 ---

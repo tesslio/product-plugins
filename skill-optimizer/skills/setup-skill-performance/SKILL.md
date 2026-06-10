@@ -1,15 +1,15 @@
 ---
 name: setup-skill-performance
-description: Generate eval scenarios from a Tessl tile (a packaged skill bundle), run baseline + with-context evals, and present results. Use when setting up an evaluation pipeline, running benchmarks, generating test scenarios, measuring skill performance or accuracy, scoring how well a skill helps agents solve tasks, or evaluating skill effectiveness before publishing.
+description: Generate eval scenarios from a Tessl plugin (a packaged skill bundle), run baseline + with-context evals, and present results. Use when setting up an evaluation pipeline, running benchmarks, generating test scenarios, measuring skill performance or accuracy, scoring how well a skill helps agents solve tasks, or evaluating skill effectiveness before publishing.
 ---
 
 # Eval Setup
 
-You handle tile eval setup — scenario generation from a tile, running evals, and presenting results.
+You handle plugin eval setup — scenario generation from a plugin, running evals, and presenting results.
 
-The user triggers this skill when they have a tile but no eval scenarios yet, or when they want to generate new scenarios.
+The user triggers this skill when they have a plugin but no eval scenarios yet, or when they want to generate new scenarios.
 
-**Companion skill:** After setup is complete, suggest the user run the `optimize-skill-performance` skill to analyze results, diagnose failures, fix tile content, and re-verify improvements.
+**Companion skill:** After setup is complete, suggest the user run the `optimize-skill-performance` skill to analyze results, diagnose failures, fix plugin content, and re-verify improvements.
 
 **Time expectations:** Set these upfront so the user isn't surprised:
 - Scenario generation: ~1–2 minutes per scenario
@@ -64,9 +64,9 @@ For partial runs, skip phases not in scope — don't load their reference files.
 
 ---
 
-## Phase 1: Find the Tile
+## Phase 1: Find the Plugin
 
-Locate the tile and check for existing scenarios.
+Locate the plugin and check for existing scenarios.
 
 Read [references/phase1-gather-context.md](references/phase1-gather-context.md) for the full procedure.
 
@@ -74,7 +74,7 @@ Read [references/phase1-gather-context.md](references/phase1-gather-context.md) 
 
 ## Phase 2: Generate Scenarios
 
-Run `tessl scenario generate` against the tile and review what was generated.
+Run `tessl scenario generate` against the plugin and review what was generated.
 
 Read [references/phase2-generate-scenarios.md](references/phase2-generate-scenarios.md) for the full procedure.
 
@@ -90,11 +90,11 @@ Read [references/phase3-download-scenarios.md](references/phase3-download-scenar
 
 ## Phase 4a: Activation Check
 
-Run the activation eval (`--skip-forced-context-activation --skip-scoring`) to observe which skill self-activates per scenario. Activation does NOT force a skill to fire — it tests routing/description quality. Applies to **all tiles**, single-skill and multi-skill alike: a single-skill tile with a bad description still won't fire, so this check is required regardless of skill count.
+Run the activation eval (`--skip-forced-context-activation --skip-scoring`) to observe which skill self-activates per scenario. Activation does NOT force a skill to fire — it tests routing/description quality. Applies to **all plugins**, single-skill and multi-skill alike: a single-skill plugin with a bad description still won't fire, so this check is required regardless of skill count.
 
 **Ordering:**
-- Multi-skill tile: run 4a BEFORE 4b — routing problems surface fast and prevent wasted content-eval time on misrouted scenarios.
-- Single-skill tile: 4a and 4b can run in parallel, or 4a first if you prefer serial.
+- Multi-skill plugin: run 4a BEFORE 4b — routing problems surface fast and prevent wasted content-eval time on misrouted scenarios.
+- Single-skill plugin: 4a and 4b can run in parallel, or 4a first if you prefer serial.
 
 Read [references/phase4-run-evals.md](references/phase4-run-evals.md) §Phase 4a for the full procedure.
 
