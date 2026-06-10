@@ -1,11 +1,11 @@
 ---
 name: optimize-skill-performance
-description: Run task evals, analyze results, diagnose failures, apply targeted fixes, and re-run to verify improvements. Use when debugging evaluation scores, fixing failing or regressed criteria, analyzing why eval criteria pass or fail, reviewing eval rubric quality and redundant criteria, tracking before/after score improvements, editing tile content to fix specific failing behaviors, or improving agent performance based on eval evidence.
+description: Run task evals, analyze results, diagnose failures, apply targeted fixes, and re-run to verify improvements. Use when debugging evaluation scores, fixing failing or regressed criteria, analyzing why eval criteria pass or fail, reviewing eval rubric quality and redundant criteria, tracking before/after score improvements, editing plugin content to fix specific failing behaviors, or improving agent performance based on eval evidence.
 ---
 
 # Review Task Performance
 
-You are an agent that runs task evals and automates the improvement cycle for Tessl tiles. The user has a tile with eval results and wants to improve their scores. You handle the analysis, diagnosis, fixes, and re-run cycle.
+You are an agent that runs task evals and automates the improvement cycle for Tessl plugins. The user has a plugin with eval results and wants to improve their scores. You handle the analysis, diagnosis, fixes, and re-run cycle.
 
 **Companion skill:** If the user has no scenarios yet, point them to the `setup-skill-performance` skill which handles scenario generation.
 
@@ -42,11 +42,11 @@ Before diving into analysis, determine what state the user is in.
 
 Rather than routing to a single path (activation OR scored), reason about which combination fits the user's goal:
 
-- **Multi-skill tile, no evals yet** → run activation first, then scored evals only where routing is clean. This avoids wasting scored-eval time on scenarios that route to the wrong skill.
-- **Multi-skill tile, user wants the full picture fast** → run both activation and scored evals in parallel (two `tessl eval run` commands).
-- **Multi-skill tile, scored evals already exist** → run activation to check routing, then cross-reference with existing scored results.
+- **Multi-skill plugin, no evals yet** → run activation first, then scored evals only where routing is clean. This avoids wasting scored-eval time on scenarios that route to the wrong skill.
+- **Multi-skill plugin, user wants the full picture fast** → run both activation and scored evals in parallel (two `tessl eval run` commands).
+- **Multi-skill plugin, scored evals already exist** → run activation to check routing, then cross-reference with existing scored results.
 
-To determine the tile's skill count:
+To determine the plugin's skill count:
 ```bash
 ls skills/*/SKILL.md 2>/dev/null | wc -l
 ```
@@ -72,7 +72,7 @@ Look for an `evals/` directory:
 ls evals/*/task.md 2>/dev/null
 ```
 
-**If scenarios exist on disk but no eval results** → before running, quickly check whether the scenarios are missing fixtures or setup scripts the tile clearly needs. Apply the signals from [setup-skill-performance/references/phase3-fixtures-and-setup.md](../setup-skill-performance/references/phase3-fixtures-and-setup.md) §"Detection rules" to each scenario's `task.md` + `criteria.json` + the tile's `SKILL.md`.
+**If scenarios exist on disk but no eval results** → before running, quickly check whether the scenarios are missing fixtures or setup scripts the plugin clearly needs. Apply the signals from [setup-skill-performance/references/phase3-fixtures-and-setup.md](../setup-skill-performance/references/phase3-fixtures-and-setup.md) §"Detection rules" to each scenario's `task.md` + `criteria.json` + the plugin's `SKILL.md`.
 
 If any scenario fires a signal but has no `fixtures` (or no `setup` / `setup.sh` when warranted), warn the user:
 
@@ -86,7 +86,7 @@ Then tell the user:
 >
 > If yes, run:
 > ```bash
-> tessl eval run <path/to/tile> --label <run-label>
+> tessl eval run <path/to/plugin> --label <run-label>
 > ```
 >
 > Then poll for completion (see Phase 4.4) and proceed to Phase 1.
@@ -99,7 +99,7 @@ Tell the user no scenarios were found and offer to invoke `setup-skill-performan
 
 The last eval used `--skip-forced-context-activation --skip-scoring`. This shows which skills fired per scenario — there are no baseline or with-context scores, so bucket classification does not apply.
 
-1. **Skill coverage summary**: Report which skills in the tile never fired across any scenario (see phase5-view-results.md §5.1b "Skill coverage summary").
+1. **Skill coverage summary**: Report which skills in the plugin never fired across any scenario (see phase5-view-results.md §5.1b "Skill coverage summary").
 
 2. **Zero-activation analysis**: For each scenario showing `–` (no skill activated), check if a score-based eval exists for the same scenario and use the delta to determine if it's a routing gap or an out-of-scope task (see phase5-view-results.md §5.1b "Zero-activation analysis").
 
@@ -107,7 +107,7 @@ The last eval used `--skip-forced-context-activation --skip-scoring`. This shows
 
 To continue with score-based optimization, run a full eval:
 ```bash
-tessl eval run <path/to/tile> --agent=claude:claude-sonnet-4-6 --label <run-label>
+tessl eval run <path/to/plugin> --agent=claude:claude-sonnet-4-6 --label <run-label>
 ```
 Then return to Phase 0.1 once complete.
 
@@ -134,34 +134,34 @@ Parse the JSON output. For each scenario, extract:
 
 **Bucket A — Working well (no action needed)**
 - With-context score is >= 80% of max AND significantly higher than baseline
-- These are your tile's strengths. Leave them alone.
+- These are your plugin's strengths. Leave them alone.
 
-**Bucket B — Tile gap (needs a fix)**
+**Bucket B — Plugin gap (needs a fix)**
 - With-context score is < 80% of max AND baseline is also low
-- The agent doesn't know this without your help, and your tile isn't teaching it well enough yet.
+- The agent doesn't know this without your help, and your plugin isn't teaching it well enough yet.
 - This is where fixes have the highest impact.
 
 **Bucket C — Redundant (consider removing)**
-- Baseline score is already >= 80% of max without any tile context
-- The agent already knows this. Your tile isn't adding value for this criterion.
+- Baseline score is already >= 80% of max without any plugin context
+- The agent already knows this. Your plugin isn't adding value for this criterion.
 - Flag these to the user — the criterion may be unnecessary, or the task is too easy.
 
 **Bucket D — Regression (needs investigation)**
 - With-context score is LOWER than baseline
-- Your tile is actively confusing the agent on this point. This is the highest priority to fix.
+- Your plugin is actively confusing the agent on this point. This is the highest priority to fix.
 
 ### 1.3 Present the analysis
 
 Show the user a summary table:
 
 ```
-Eval Analysis for: <tile-name>
+Eval Analysis for: <plugin-name>
 
-Scenario: <name> (baseline: XX% -> with-tile: YY%)
+Scenario: <name> (baseline: XX% -> with-plugin: YY%)
 
-  Bucket B — Tile Gaps (fix these):
+  Bucket B — Plugin Gaps (fix these):
     - "Exponential backoff" — 0/9 (baseline also 0/9)
-      Diagnosis: Tile never mentions backoff timing pattern
+      Diagnosis: Plugin never mentions backoff timing pattern
       File to fix: skills/onboard/SKILL.md
       Suggested fix: Add "retry with exponential backoff: 1s, 2s, 4s" to Step 1
 
@@ -171,7 +171,7 @@ Scenario: <name> (baseline: XX% -> with-tile: YY%)
       Files to check: skills/onboard/SKILL.md, rules/onboarding-guide.md
 
   Bucket C — Redundant:
-    - "Step-by-step structure" — baseline 10/10, tile 10/10
+    - "Step-by-step structure" — baseline 10/10, plugin 10/10
       Note: Agents already do this naturally. Consider removing this criterion.
 
   Bucket A — Working well (5 criteria): [collapsed]
@@ -189,7 +189,7 @@ For each Bucket B and Bucket D criterion:
 
 Open the scenario's `criteria.json` to understand exactly what the rubric checks for.
 
-### 2.2 Read the relevant tile files
+### 2.2 Read the relevant plugin files
 
 Read:
 - `skills/*/SKILL.md` — skill instructions
@@ -200,12 +200,12 @@ Read:
 
 For each failing criterion, determine:
 - **What the rubric wants**: The specific behavior or content the judge is looking for
-- **What the tile says**: What guidance the tile files currently provide (or don't)
+- **What the plugin says**: What guidance the plugin files currently provide (or don't)
 - **The gap**: What's missing, vague, or contradictory
 
 ### 2.4 Check for contradictions
 
-Scan across ALL tile files for statements that contradict each other. Common patterns:
+Scan across ALL plugin files for statements that contradict each other. Common patterns:
 - Skill says "retry 3 times" but rules say "retry with backoff" without specifying count
 - Docs describe a different flow order than the skill's steps
 - Rules say something is optional but the skill treats it as required
@@ -231,25 +231,25 @@ Make the change to the file. Keep edits minimal and targeted — don't rewrite s
 
 **Rules for good fixes:**
 - Be explicit. If the criterion wants "exponential backoff: 1s, 2s, 4s", write exactly that. Don't write "use appropriate backoff."
-- Match the rubric's language. If `criteria.json` checks for the phrase "safe and reversible", use those exact words in your tile.
-- Don't bloat the tile. Add the minimum needed. Every token of context costs attention.
+- Match the rubric's language. If `criteria.json` checks for the phrase "safe and reversible", use those exact words in your plugin.
+- Don't bloat the plugin. Add the minimum needed. Every token of context costs attention.
 - Preserve what works. Don't restructure sections that score well in Bucket A.
 
 ### 3.3 Lint after each fix
 
 ```bash
-tessl tile lint <tile-path>
+tessl plugin lint <plugin-path>
 ```
 
-Check that the tile is still valid and token costs haven't ballooned. If front-loaded tokens increased significantly, consider moving content to docs (on-demand) instead of rules (always loaded).
+Check that the plugin is still valid and token costs haven't ballooned. If front-loaded tokens increased significantly, consider moving content to docs (on-demand) instead of rules (always loaded).
 
 ### 3.4 Handle Bucket C (redundant criteria)
 
 For criteria where baseline is already high, ask the user:
 
-> "The criterion '<name>' scores <X>% even without your tile. Options:
+> "The criterion '<name>' scores <X>% even without your plugin. Options:
 > 1. Remove it from criteria.json (agents already know this)
-> 2. Make the task harder so it actually tests your tile's value
+> 2. Make the task harder so it actually tests your plugin's value
 > 3. Keep it as a sanity check
 >
 > What do you prefer?"
@@ -292,7 +292,7 @@ Commit and re-run evals?
 
 ```bash
 git add <files-you-changed>
-git commit -m "Improve tile: <brief description of fixes>"
+git commit -m "Improve plugin: <brief description of fixes>"
 ```
 
 Only stage the files you actually changed. Don't stage unrelated files.
@@ -300,7 +300,7 @@ Only stage the files you actually changed. Don't stage unrelated files.
 ### 4.3 Re-run evals
 
 ```bash
-tessl eval run <path/to/tile> --label <run-label>
+tessl eval run <path/to/plugin> --label <run-label>
 ```
 
 If the eval doesn't pick up your changes, make sure you've committed them first.
@@ -351,15 +351,15 @@ If the user asks, or if you notice issues during Phase 2, review the scenarios t
 Read each `task.md` and flag:
 - Tasks that are unrealistically specific (testing memorization, not understanding)
 - Tasks that are too vague to produce consistent results
-- Tasks that don't match real-world use cases for this tile
+- Tasks that don't match real-world use cases for this plugin
 
 ### 5.2 Check criteria quality
 
 Read each `criteria.json` and flag:
 - Criteria with equal weights (should important ones weigh more?)
 - Criteria that are too strict (exact string matching when intent matching would be better)
-- Missing criteria for important behaviors the tile teaches
-- Criteria that test the agent's general ability, not the tile's value
+- Missing criteria for important behaviors the plugin teaches
+- Criteria that test the agent's general ability, not the plugin's value
 
 ### 5.3 Suggest improvements
 
@@ -373,4 +373,4 @@ Stop iterating when:
 - All with-context scores are >= 85% and no regressions exist
 - Remaining low scores are on criteria the user has reviewed and accepted
 - The user says they're satisfied
-- Further improvements would require restructuring the tile significantly (suggest this as a separate effort)
+- Further improvements would require restructuring the plugin significantly (suggest this as a separate effort)

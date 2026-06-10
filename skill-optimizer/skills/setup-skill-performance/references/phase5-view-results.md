@@ -13,15 +13,15 @@ Present the key findings:
 ```
 Eval Results Summary:
 
-  Scenario                  Baseline  With-Tile  Delta
-  checkout-flow              42%       87%       +45
-  webhook-setup              38%       72%       +34
-  error-recovery             65%       91%       +26
+  Scenario                  Baseline  With-Plugin  Delta
+  checkout-flow              42%       87%          +45
+  webhook-setup              38%       72%          +34
+  error-recovery             65%       91%          +26
 
-  Overall:                   48%       83%       +35
+  Overall:                   48%       83%          +35
 
 Key observations:
-  - checkout-flow: Tile adds significant value (+45 points)
+  - checkout-flow: Plugin adds significant value (+45 points)
   - webhook-setup: Good improvement but still below 80% threshold
   - error-recovery: Strong improvement, above 80%
 ```
@@ -31,7 +31,7 @@ Key observations:
 If the eval used `--skip-forced-context-activation --skip-scoring`, present the skill routing table instead of score deltas:
 
 ```
-Activation Results — <tile-name>
+Activation Results — <plugin-name>
 
   Scenario                          Activated skills
   ────────────────────────────────────────────────────────────
@@ -45,13 +45,13 @@ Activation Results — <tile-name>
 
 ### Skill coverage summary
 
-After presenting the routing table, report which skills in the tile **never fired** across any scenario:
+After presenting the routing table, report which skills in the plugin **never fired** across any scenario:
 
 ```bash
 ls skills/*/SKILL.md 2>/dev/null
 ```
 
-Cross-reference the skill names against the "Activated skills" column. Any skill that appears in the tile but never appears in the activation results is an untested skill:
+Cross-reference the skill names against the "Activated skills" column. Any skill that appears in the plugin but never appears in the activation results is an untested skill:
 
 ```
 Skill coverage:
@@ -91,7 +91,7 @@ Zero-activation scenarios:
     Delta:        -2
 
   The agent performs just as well without the skill. This task is likely
-  out of scope — the scenario may not be testing the tile's actual value.
+  out of scope — the scenario may not be testing the plugin's actual value.
   Consider removing it.
 
   ─────────────────────────────────────────────────────────────────
@@ -153,5 +153,5 @@ Agent Comparison:
 
 Observations:
   - Claude Sonnet scores highest on average
-  - Both agents struggle with webhook-setup — likely a tile gap
+  - Both agents struggle with webhook-setup — likely a plugin gap
 ```

@@ -30,7 +30,7 @@
     {
       "name": "Universal Failure identified",
       "max_score": 10,
-      "description": "Report identifies at least one criterion where ALL models score poorly (< 50%) and labels it or describes it as a Universal Failure (tile gap)"
+      "description": "Report identifies at least one criterion where ALL models score poorly (< 50%) and labels it or describes it as a Universal Failure (plugin gap)"
     },
     {
       "name": "Capability Gradient identified",

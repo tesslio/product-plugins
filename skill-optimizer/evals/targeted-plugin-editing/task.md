@@ -1,10 +1,10 @@
-# Webhook Processor Tile: Retry Reliability Fix
+# Webhook Processor Plugin: Retry Reliability Fix
 
 ## Problem Description
 
-Your platform team maintains a tile for webhook processing that multiple agent-driven services rely on. Recently, during a traffic spike, several services started hammering the downstream API with rapid retry bursts when webhooks failed — causing cascading failures and rate-limit errors. After reviewing the incidents, the team agreed the tile's retry guidance was too vague, leaving agents to implement whatever retry strategy seemed reasonable.
+Your platform team maintains a plugin for webhook processing that multiple agent-driven services rely on. Recently, during a traffic spike, several services started hammering the downstream API with rapid retry bursts when webhooks failed — causing cascading failures and rate-limit errors. After reviewing the incidents, the team agreed the plugin's retry guidance was too vague, leaving agents to implement whatever retry strategy seemed reasonable.
 
-You've been given the tile along with the eval rubric that's currently used to grade agents on their retry implementations. Your job is to update the tile so agents have unambiguous, specific guidance on how to retry failed webhook deliveries — without disrupting the parts of the tile that are already working well.
+You've been given the plugin along with the eval rubric that's currently used to grade agents on their retry implementations. Your job is to update the plugin so agents have unambiguous, specific guidance on how to retry failed webhook deliveries — without disrupting the parts of the plugin that are already working well.
 
 ## Output Specification
 

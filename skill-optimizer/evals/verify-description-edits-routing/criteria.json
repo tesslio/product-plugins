@@ -1,5 +1,5 @@
 {
-  "context": "Activation-focused scenario: tests whether a post-edit routing verification request activates a skill in this tile (expected: setup-skill-performance Phase 4a or optimize-skill-instructions). Criteria below are placeholders for future content-eval use; activation eval ignores them.",
+  "context": "Activation-focused scenario: tests whether a post-edit routing verification request activates a skill in this plugin (expected: setup-skill-performance Phase 4a or optimize-skill-instructions). Criteria below are placeholders for future content-eval use; activation eval ignores them.",
   "type": "weighted_checklist",
   "checklist": [
     {

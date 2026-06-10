@@ -1,6 +1,6 @@
 ---
 name: optimize-skill-performance-and-instructions
-description: Run the full optimization cycle for a tile — review best practices, generate eval scenarios, run BOTH activation evals (does the skill self-activate?) and content evals (does the tile help solve tasks?), diagnose gaps, fix, and re-run until scores improve. Use when someone says "optimize my skill", "improve my tile", "run evals", "benchmark my tile", or wants to measure and improve how well a tile helps agents solve tasks.
+description: Run the full optimization cycle for a plugin — review best practices, generate eval scenarios, run BOTH activation evals (does the skill self-activate?) and content evals (does the plugin help solve tasks?), diagnose gaps, fix, and re-run until scores improve. Use when someone says "optimize my skill", "improve my plugin", "run evals", "benchmark my plugin", or wants to measure and improve how well a plugin helps agents solve tasks.
 ---
 
 # Optimize
@@ -20,7 +20,7 @@ Two distinct eval types run in this cycle:
 - **Activation eval** — observes which skill self-activates per scenario (does NOT force activation). Tests routing/description quality. ~2–3 min.
 - **Content eval** — forces activation, runs baseline vs. with-context, scores the rubric. Tests content quality. ~10–15 min per scenario per agent.
 
-Both apply to every tile (single-skill and multi-skill alike). The variable is *ordering*, not whether to run them.
+Both apply to every plugin (single-skill and multi-skill alike). The variable is *ordering*, not whether to run them.
 
 ## Run labels
 
@@ -47,17 +47,17 @@ Keep it concise — what the run was about should be obvious without opening it.
 
 ```bash
 tessl skill review skills/<name>/SKILL.md     # review a skill (Step 1)
-tessl scenario generate <tile-path> --count=5 # generate scenarios (Step 2)
-tessl eval run <tile-path> --skip-forced-context-activation --skip-scoring --label <run-label> # test skill routing
-tessl eval run <tile-path> --agent=claude:claude-sonnet-4-6 --label <run-label> # scored eval
+tessl scenario generate <plugin-path> --count=5 # generate scenarios (Step 2)
+tessl eval run <plugin-path> --skip-forced-context-activation --skip-scoring --label <run-label> # test skill routing
+tessl eval run <plugin-path> --agent=claude:claude-sonnet-4-6 --label <run-label> # scored eval
 tessl eval view --last --json                 # check results
 ```
 
 ## Step 1: Review best practices
 
-Invoke the **optimize-skill-instructions** skill. This runs `tessl skill review` on the tile's skill(s), surfaces scoring dimensions and quick wins, and applies approved changes.
+Invoke the **optimize-skill-instructions** skill. This runs `tessl skill review` on the plugin's skill(s), surfaces scoring dimensions and quick wins, and applies approved changes.
 
-**Entry criteria:** The tile has at least one `SKILL.md`.
+**Entry criteria:** The plugin has at least one `SKILL.md`.
 
 **Exit criteria:** Review score is presented, approved quick wins are applied. Move to Step 2.
 
@@ -73,11 +73,11 @@ Invoke the **setup-skill-performance** skill with scope = "Full pipeline". Skip 
 ls skills/*/SKILL.md 2>/dev/null | wc -l
 ```
 
-- **Multi-skill tile (count > 1):** run Phase 4a (activation) BEFORE Phase 4b (content). Routing problems surface fast and prevent wasted content-eval time on misrouted scenarios.
-- **Single-skill tile (count == 1):** run 4a and 4b in parallel, or 4a first if you prefer serial. A bad description means the skill never fires regardless of skill count, so 4a is required either way.
+- **Multi-skill plugin (count > 1):** run Phase 4a (activation) BEFORE Phase 4b (content). Routing problems surface fast and prevent wasted content-eval time on misrouted scenarios.
+- **Single-skill plugin (count == 1):** run 4a and 4b in parallel, or 4a first if you prefer serial. A bad description means the skill never fires regardless of skill count, so 4a is required either way.
 
-Work through all phases of setup-skill-performance (Find Tile → Generate Scenarios → Download & QC → Activation Check → Content Evals → View Results → Next Steps). Key parameters:
-- Generate 3–5 scenarios from the tile
+Work through all phases of setup-skill-performance (Find Plugin → Generate Scenarios → Download & QC → Activation Check → Content Evals → View Results → Next Steps). Key parameters:
+- Generate 3–5 scenarios from the plugin
 - Quality-check downloaded criteria for anti-patterns before running
 - Default agent: `claude:claude-sonnet-4-6`
 
@@ -87,8 +87,8 @@ Work through all phases of setup-skill-performance (Find Tile → Generate Scena
 
 Before invoking optimize-skill-performance, do a quick triage of the results:
 
-- **If baseline is ≥ 80% on most scenarios**: The scenarios may be too easy. Consider regenerating harder scenarios before trying to improve the tile.
-- **If regressions exist** (with-context < baseline): These are highest priority — the tile is actively hurting.
+- **If baseline is ≥ 80% on most scenarios**: The scenarios may be too easy. Consider regenerating harder scenarios before trying to improve the plugin.
+- **If regressions exist** (with-context < baseline): These are highest priority — the plugin is actively hurting.
 - **If with-context has room to grow**: Proceed to optimize-skill-performance.
 
 ## Step 4: Run optimize-skill-performance
@@ -97,7 +97,7 @@ Invoke the **optimize-skill-performance** skill starting from Phase 1 (it will d
 
 Work through the improve cycle:
 1. Analyze results — classify every criterion into buckets (working / gap / redundant / regression)
-2. Diagnose root causes by reading the failing criteria and the tile files
+2. Diagnose root causes by reading the failing criteria and the plugin files
 3. Apply targeted, minimal fixes to the appropriate files
 4. Re-run evals
 5. Compare before/after
@@ -111,7 +111,7 @@ Present a final summary. Activation and content results are reported separately 
 ```
 Optimization Complete
 
-  Tile:         <tile-name>
+  Plugin:         <plugin-name>
   Review score: XX% → YY%
   Scenarios:    N scenarios
   Iterations:   X (1 setup + Y improve rounds)
@@ -152,6 +152,6 @@ Stop when:
 - Review score is high AND the activation check has been run and reviewed with the user AND content eval average ≥ 85% with no regressions
 - 2 improve iterations have been completed
 - The user says they're satisfied
-- Further improvements would require restructuring the tile significantly (suggest this as a separate effort)
+- Further improvements would require restructuring the plugin significantly (suggest this as a separate effort)
 
 Note: activation findings (zero-firing skills, scenarios with no activation) drive *follow-up actions* (description rewrites, scenario edits) but are not a numeric pass/fail gate. The gate is "ran and reviewed", not a coverage percentage — natural activation is scenario-driven, so "X of Y skills fired" is not a useful score.

@@ -2,7 +2,7 @@
 
 ## Problem Description
 
-A developer has a skill tile that's grown over time. They've noticed the tile size is larger than expected and suspect there might be files in the bundle that are no longer referenced. They want to audit their skill bundle to identify any orphaned files that could be removed to reduce bloat, or should be linked if they contain valuable content.
+A developer has a skill plugin that's grown over time. They've noticed the plugin size is larger than expected and suspect there might be files in the bundle that are no longer referenced. They want to audit their skill bundle to identify any orphaned files that could be removed to reduce bloat, or should be linked if they contain valuable content.
 
 Your job is to analyze the skill bundle below, identify which files are referenced vs orphaned, and provide recommendations for each orphaned file.
 

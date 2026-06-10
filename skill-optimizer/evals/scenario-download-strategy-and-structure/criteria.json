@@ -1,5 +1,5 @@
 {
-  "context": "Tests whether the agent uses the correct download strategy when adding scenarios to a tile that already has existing scenarios. The correct strategy is --strategy merge (not --strategy replace and not omitting the flag). The script should also verify the downloaded structure.",
+  "context": "Tests whether the agent uses the correct download strategy when adding scenarios to a plugin that already has existing scenarios. The correct strategy is --strategy merge (not --strategy replace and not omitting the flag). The script should also verify the downloaded structure.",
   "type": "weighted_checklist",
   "checklist": [
     {
@@ -20,7 +20,7 @@
     {
       "name": "Output directory specified",
       "max_score": 12,
-      "description": "Script includes -o ./shopify-connector/evals/ (or equivalent path to the tile's evals directory) as the output destination"
+      "description": "Script includes -o ./shopify-connector/evals/ (or equivalent path to the plugin's evals directory) as the output destination"
     },
     {
       "name": "Verification step present",

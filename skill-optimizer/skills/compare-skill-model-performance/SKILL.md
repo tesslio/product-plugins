@@ -1,13 +1,13 @@
 ---
 name: compare-skill-model-performance
-description: Run task evals across multiple Claude models, compare results side-by-side, and optimise. Use when you want to benchmark a skill across models, compare haiku vs sonnet vs opus performance, run multi-model comparison or benchmark reports, identify model-specific gaps versus universal tile gaps, evaluate whether a skill works for all model tiers, or validate a skill before publishing it to the registry.
+description: Run task evals across multiple Claude models, compare results side-by-side, and optimise. Use when you want to benchmark a skill across models, compare haiku vs sonnet vs opus performance, run multi-model comparison or benchmark reports, identify model-specific gaps versus universal plugin gaps, evaluate whether a skill works for all model tiers, or validate a skill before publishing it to the registry.
 ---
 
 # Review Model Performance
 
 **Models tested by default:** `claude-haiku-4-5`, `claude-sonnet-4-6`, `claude-opus-4-6` (cheapest to most capable)
 
-**Eval command:** `tessl eval run <path/to/tile> --agent=... --label <run-label>`
+**Eval command:** `tessl eval run <path/to/plugin> --agent=... --label <run-label>`
 
 ## Run labels
 
@@ -32,30 +32,30 @@ Keep it concise — what the run was about should be obvious without opening it.
 
 ---
 
-## Phase 1: Identify the tile
+## Phase 1: Identify the plugin
 
-### 1.1 Find the tile
+### 1.1 Find the plugin
 
-Look for a `tile.json` in the current directory or a parent/sibling directory. Exclude `.tessl/` cache directories:
+Look for a plugin manifest (`.tessl-plugin/plugin.json`) in the current directory or a parent/sibling directory. Exclude `.tessl/` cache directories:
 ```bash
-find . -name "tile.json" -not -path "*/node_modules/*" -not -path "*/.tessl/*" 2>/dev/null | head -10
+find . -path "*/.tessl-plugin/plugin.json" -not -path "*/node_modules/*" -not -path "*/.tessl/*" 2>/dev/null | head -10
 ```
 
-If the user provides a path inside a `.tessl/tiles/` directory (an installed tile cache), stop and warn them: that path is Tessl's local install cache — running evals from there won't work and changes would be overwritten on the next `tessl install`. Offer two options: point to the original tile source, or copy the tile out of `.tessl/tiles/` to a new location (`cp -r .tessl/tiles/<workspace>/<tile> ./<tile>`).
+If the user provides a path inside a `.tessl/plugins/` directory (an installed plugin cache), stop and warn them: that path is Tessl's local install cache — running evals from there won't work and changes would be overwritten on the next `tessl install`. Offer two options: point to the original plugin source, or copy the plugin out of `.tessl/plugins/` to a new location (`cp -r .tessl/plugins/<workspace>/<plugin> ./<plugin>`).
 
-If multiple tiles are found outside `.tessl/`, ask the user which one to evaluate. If none are found, explain that this skill evaluates a packaged tile and suggest `tessl tile new` to get started.
+If multiple plugins are found outside `.tessl/`, ask the user which one to evaluate. If none are found, explain that this skill evaluates a packaged plugin and suggest `tessl plugin new` to get started.
 
 ### 1.2 Verify eval scenarios exist
 
 ```bash
-ls <tile-dir>/evals/*/task.md 2>/dev/null
+ls <plugin-dir>/evals/*/task.md 2>/dev/null
 ```
 
 If no scenarios exist, inform the user and provide the quickest path to generate them:
 ```bash
-tessl scenario generate <path/to/tile> --count=3
+tessl scenario generate <path/to/plugin> --count=3
 tessl scenario download --last
-mv ./evals/ <tile-dir>/evals/
+mv ./evals/ <plugin-dir>/evals/
 ```
 Note that scenario generation takes roughly 1–2 minutes per scenario. Also mention the `setup-skill-performance` skill for a guided walkthrough.
 
@@ -98,7 +98,7 @@ For each model in your chosen set, in order:
 
 1. **Start** the eval:
    ```bash
-   tessl eval run <path/to/tile> --agent=claude:<model> [--runs=<n>] --label <run-label>
+   tessl eval run <path/to/plugin> --agent=claude:<model> [--runs=<n>] --label <run-label>
    ```
 2. **Capture** the eval run ID from the output (`Eval run started: <id>`). Store it mapped to the model name for Phase 5.
 3. **Share** the browser monitoring URL with the user (`https://tessl.io/eval-runs/<id>`).
@@ -133,7 +133,7 @@ Parse both the **baseline (without skill)** and **with skill** scores for every 
 ### 5.1 Overall summary table
 
 ```
-Model Comparison — <tile-name>
+Model Comparison — <plugin-name>
 
   Model                     Without Skill   With Skill   Delta
   ─────────────────────────────────────────────────────────────
@@ -183,7 +183,7 @@ Before discussing the skill's impact, note what the without-skill scores reveal:
 
 For criteria that score poorly (with skill):
 
-- **"Universal Failure" pattern (all models fail):** Tile gap — instructions are missing, ambiguous, or conflicting. Highest priority.
+- **"Universal Failure" pattern (all models fail):** Plugin gap — instructions are missing, ambiguous, or conflicting. Highest priority.
 - **"Capability Gradient" pattern (haiku fails, sonnet/opus pass):** Instructions too implicit for weaker models. Fix: simpler, more explicit phrasing.
 - **"Model Anomaly" pattern (single-model anomaly):** Likely eval variance. Note but don't prioritize.
 - **"Regression" pattern (without-skill outperforms with-skill):** The skill is actively confusing the model. High priority regardless of which model it affects.
@@ -202,7 +202,7 @@ Give a plain-language summary of the combined baseline + with-skill picture for 
 
 **If all models score well (≥ 80% with skill):**
 ```bash
-tessl tile publish <path/to/tile>
+tessl plugin publish <path/to/plugin>
 ```
 
 **If results are variable / runs=1 was used:** Recommend re-running with `--runs=3` before publishing to average out variance.

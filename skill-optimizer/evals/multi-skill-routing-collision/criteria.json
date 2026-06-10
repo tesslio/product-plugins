@@ -1,5 +1,5 @@
 {
-  "context": "Activation-focused scenario: tests whether a multi-skill collision-diagnosis request activates a skill in this tile (expected: optimize-skill-performance Phase 0.4 or optimize-skill-instructions). Criteria below are placeholders for future content-eval use; activation eval ignores them.",
+  "context": "Activation-focused scenario: tests whether a multi-skill collision-diagnosis request activates a skill in this plugin (expected: optimize-skill-performance Phase 0.4 or optimize-skill-instructions). Criteria below are placeholders for future content-eval use; activation eval ignores them.",
   "type": "weighted_checklist",
   "checklist": [
     {

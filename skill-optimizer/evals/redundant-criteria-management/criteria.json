@@ -1,5 +1,5 @@
 {
-  "context": "Tests whether the agent correctly identifies redundant criteria using the 80% baseline threshold, presents multiple options for each, preserves criteria that the tile is genuinely helping with, and correctly redistributes weights in criteria.json when criteria are removed.",
+  "context": "Tests whether the agent correctly identifies redundant criteria using the 80% baseline threshold, presents multiple options for each, preserves criteria that the plugin is genuinely helping with, and correctly redistributes weights in criteria.json when criteria are removed.",
   "type": "weighted_checklist",
   "checklist": [
     {

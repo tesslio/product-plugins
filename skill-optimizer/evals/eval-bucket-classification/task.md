@@ -1,14 +1,14 @@
-# Payments Tile Eval Analysis
+# Payments Plugin Eval Analysis
 
 ## Problem Description
 
-Your team has been running evals on your `payments-gateway` tile for three months. A senior engineer is planning the next round of tile improvements and wants a clear picture of where the tile is actually earning its weight versus where it's redundant or causing problems.
+Your team has been running evals on your `payments-gateway` plugin for three months. A senior engineer is planning the next round of plugin improvements and wants a clear picture of where the plugin is actually earning its weight versus where it's redundant or causing problems.
 
 Specifically, they want to know:
-- Which criteria is the tile genuinely helping with (agents perform much better with it than without)?
-- Which criteria are agents already handling on their own, even without the tile?
-- Which criteria should be top priorities because agents are doing *worse* with the tile than without it?
-- For anything problematic: what's a plausible explanation and where in the tile should someone look?
+- Which criteria is the plugin genuinely helping with (agents perform much better with it than without)?
+- Which criteria are agents already handling on their own, even without the plugin?
+- Which criteria should be top priorities because agents are doing *worse* with the plugin than without it?
+- For anything problematic: what's a plausible explanation and where in the plugin should someone look?
 
 The engineer doesn't want raw scores — they want an actionable breakdown that tells them exactly what to do next.
 
@@ -16,8 +16,8 @@ The engineer doesn't want raw scores — they want an actionable breakdown that 
 
 Produce a file called `analysis_report.md` that:
 1. Categorizes each criterion into a status group with a short label
-2. For each criterion, shows its scores (baseline and with-tile) and the percentage of max it achieves
-3. For criteria that need action, includes a short diagnosis (1-2 sentences on what's likely missing or wrong) and which file in the tile to look at
+2. For each criterion, shows its scores (baseline and with-plugin) and the percentage of max it achieves
+3. For criteria that need action, includes a short diagnosis (1-2 sentences on what's likely missing or wrong) and which file in the plugin to look at
 4. Ends with a prioritized list of recommended next steps
 
 ## Input Files
@@ -26,7 +26,7 @@ The following files are provided as inputs. Extract them before beginning.
 
 =============== FILE: inputs/eval_results.json ===============
 {
-  "tile": "payments-gateway",
+  "plugin": "payments-gateway",
   "eval_id": "eval_2026_03_15_payments",
   "scenarios": [
     {

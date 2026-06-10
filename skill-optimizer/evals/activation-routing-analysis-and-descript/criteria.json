@@ -20,7 +20,7 @@
     {
       "name": "generate-bibliography routing gap determination",
       "max_score": 12,
-      "description": "The zero-activation analysis for 'generate-bibliography' concludes it IS a routing gap — the agent struggles (31% baseline) and the skill isn't firing despite the task being within the tile's domain (bibliography/citations)"
+      "description": "The zero-activation analysis for 'generate-bibliography' concludes it IS a routing gap — the agent struggles (31% baseline) and the skill isn't firing despite the task being within the plugin's domain (bibliography/citations)"
     },
     {
       "name": "fix-heading-hierarchy routing gap determination",

@@ -1,5 +1,5 @@
 {
-  "context": "Tests whether the agent scans all tile files for contradictions and reports every conflict found — including those unrelated to the retry issue that triggered the audit — attributing each contradiction to the specific files involved with direct quotes.",
+  "context": "Tests whether the agent scans all plugin files for contradictions and reports every conflict found — including those unrelated to the retry issue that triggered the audit — attributing each contradiction to the specific files involved with direct quotes.",
   "type": "weighted_checklist",
   "checklist": [
     {
@@ -25,7 +25,7 @@
     {
       "name": "Auth contradiction despite scope",
       "max_score": 20,
-      "description": "The authentication failure contradiction is included in the report even though the task mentions retry logic as the trigger — demonstrates scanning all tile content, not just retry-related sections"
+      "description": "The authentication failure contradiction is included in the report even though the task mentions retry logic as the trigger — demonstrates scanning all plugin content, not just retry-related sections"
     },
     {
       "name": "Verbatim quotes included",
