@@ -13,7 +13,7 @@ tessl install tessl/skill-optimizer
 This plugin combines two complementary approaches to improving your skills:
 
 - **Plugin evals** (`tessl eval run`) — measure whether a plugin makes agents better at real tasks. Scenarios are generated from the plugin, an agent solves each task with and without the plugin, and a judge scores outputs against a per-scenario rubric. The delta between baseline and with-plugin scores shows the value-add.
-- **Skill reviews** (`tessl skill review`) — assess the quality of a SKILL.md file itself, without executing any tasks. A judge scores the document on fixed dimensions (completeness, actionability, conciseness, robustness) to check whether it's well-structured for routing and agent comprehension.
+- **Skill reviews** (`tessl review run`) — assess the quality of a skill itself, without executing any tasks. The review packs the whole bundle (SKILL.md plus references/scripts/assets) and judges score it on dimensions like completeness, actionability, and conciseness to check whether it's well-structured for routing and agent comprehension. `tessl review fix` runs this as an automated review-and-fix loop. Both use the default reviewer unless you pass `--review-plugin` to customize the judges.
 
 The `optimize-skill-performance-and-instructions` skill combines both into a single end-to-end cycle: review → eval → improve.
 

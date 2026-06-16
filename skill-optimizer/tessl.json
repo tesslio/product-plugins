@@ -1,5 +1,5 @@
 {
-  "name": "tessl/my-project",
+  "name": "sandra-workspace/testing",
   "mode": "vendored",
   "dependencies": {
     "tessl-labs/tile-creator": {
