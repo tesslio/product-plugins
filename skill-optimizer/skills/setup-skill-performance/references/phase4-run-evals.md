@@ -29,34 +29,28 @@ Poll for completion as described in §Polling below.
 
 For a first run, recommend keeping it simple:
 
-> "For a first run, I recommend just using `claude:claude-sonnet-4-6` to keep eval time manageable (~10–15 minutes per scenario). Once you've validated the scenarios are good, you can add more agents to compare.
+> "For a first run, I recommend a single agent to keep eval time manageable (~10–15 minutes per scenario). Once you've validated the scenarios are good, you can compare more agents.
 >
-> Want to go with the default, or test multiple agents now?
+> Want to go with one agent, or compare several now?
 >
-> **Available agents:**
->
-> | Agent | Models |
-> |-------|--------|
-> | `claude` | `claude-sonnet-4-6` (default), `claude-opus-4-6`, `claude-sonnet-4-5`, `claude-opus-4-5`, `claude-haiku-4-5` |
-> | `cursor` | `auto`, `composer-1.5` |
->
-> Note: Each additional agent multiplies the eval run time and cost."
+> Run `tessl eval run --list-agents` to see the supported `agent:model` values and the current default. Each additional agent is a separate run, so it multiplies eval time and cost."
 
-Build the `--agent` flags based on their choice. For multi-agent, each agent is a separate `--agent` flag:
-```
---agent=claude:claude-sonnet-4-6 --agent=cursor:auto
-```
+`--agent` takes a **single** `agent:model`. To compare agents or models, run `tessl eval run` **once per agent** — there is no multi-`--agent` form.
 
 ### Run the eval
 
+Single agent:
 ```bash
-tessl eval run <plugin-path> \
-  --agent=<agent1:model1> \
-  [--agent=<agent2:model2>] \
-  --label <run-label>
+tessl eval run <plugin-path> --agent=<agent:model> --label <run-label>
 ```
 
-Note the eval run URL from the output and share it with the user so they can optionally watch progress in the browser.
+Comparing agents — one invocation each, with a distinct `--label`:
+```bash
+tessl eval run <plugin-path> --agent=claude:claude-sonnet-4-6 --label <run-label-sonnet>
+tessl eval run <plugin-path> --agent=cursor:auto --label <run-label-cursor>
+```
+
+Note each eval run URL from the output and share it with the user so they can optionally watch progress in the browser.
 
 ---
 
