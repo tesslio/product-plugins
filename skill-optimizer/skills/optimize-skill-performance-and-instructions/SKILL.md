@@ -79,7 +79,7 @@ ls skills/*/SKILL.md 2>/dev/null | wc -l
 Work through all phases of setup-skill-performance (Find Plugin → Generate Scenarios → Download & QC → Activation Check → Content Evals → View Results → Next Steps). Key parameters:
 - Generate 3–5 scenarios from the plugin
 - Quality-check downloaded criteria for anti-patterns before running
-- Default agent: `claude:claude-sonnet-4-6`
+- Agent: pick one with `--agent` (e.g. `claude:claude-sonnet-4-6`); `tessl eval run --list-agents` lists the options and the current default
 
 **Decision point after results:** If the activation check has been run and reviewed AND the content eval average is ≥ 85% with no regressions, stop and report success. Otherwise, continue to Step 3.
 

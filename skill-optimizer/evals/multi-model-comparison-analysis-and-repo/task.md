@@ -87,7 +87,7 @@ Overall: Without Skill 65% | With Skill 69% | Delta +4pp
 
 =============== FILE: inputs/run-opus.txt ===============
 === EVAL RUN: run-ghi789 ===
-Agent: claude:claude-opus-4-6
+Agent: claude:claude-opus-4-8
 Plugin: ./workflow-plugin
 Status: Completed
 
