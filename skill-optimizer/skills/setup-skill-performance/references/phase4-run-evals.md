@@ -47,7 +47,7 @@ tessl eval run <plugin-path> --agent=<agent:model> --label <run-label>
 Comparing agents — one invocation each, with a distinct `--label`:
 ```bash
 tessl eval run <plugin-path> --agent=claude:claude-sonnet-4-6 --label <run-label-sonnet>
-tessl eval run <plugin-path> --agent=cursor:auto --label <run-label-cursor>
+tessl eval run <plugin-path> --agent=claude:claude-opus-4-8 --label <run-label-opus>
 ```
 
 Note each eval run URL from the output and share it with the user so they can optionally watch progress in the browser.

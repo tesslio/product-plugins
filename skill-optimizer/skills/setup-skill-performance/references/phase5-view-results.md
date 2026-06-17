@@ -149,7 +149,7 @@ Agent Comparison:
 
   Agent                     Avg Score   Best Scenario          Worst Scenario
   claude:claude-sonnet-4-6   80%       checkout-flow (87%)    webhook-setup (72%)
-  cursor:auto                74%       error-recovery (85%)   webhook-setup (58%)
+  codex:gpt-5.5              74%       error-recovery (85%)   webhook-setup (58%)
 
 Observations:
   - Claude Sonnet scores highest on average

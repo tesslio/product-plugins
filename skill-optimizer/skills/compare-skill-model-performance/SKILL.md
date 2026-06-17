@@ -5,7 +5,7 @@ description: Run task evals across multiple Claude models, compare results side-
 
 # Review Model Performance
 
-**Models tested by default:** `claude-haiku-4-5`, `claude-sonnet-4-6`, `claude-opus-4-6` (cheapest to most capable)
+**Models tested by default:** `claude-haiku-4-5`, `claude-sonnet-4-6`, `claude-opus-4-8` (cheapest to most capable). Run `tessl eval run --list-agents` for the full current list.
 
 **Eval command:** `tessl eval run <path/to/plugin> --agent=... --label <run-label>`
 
@@ -80,7 +80,7 @@ If not logged in, ask the user to run `tessl login` before continuing.
 
 ### 2.1 Models
 
-Confirm the default model set with the user: `claude-haiku-4-5` (fast/cheap), `claude-sonnet-4-6` (default), `claude-opus-4-6` (most capable). This runs **3 sequential eval jobs**. Each scenario takes roughly 10–15 minutes per model, so with N scenarios expect around N×30–45 minutes total. Ask whether to proceed with all three or a subset.
+Confirm the default model set with the user: `claude-haiku-4-5` (fast/cheap), `claude-sonnet-4-6` (mid-tier), `claude-opus-4-8` (most capable). This runs **3 sequential eval jobs**. Each scenario takes roughly 10–15 minutes per model, so with N scenarios expect around N×30–45 minutes total. Ask whether to proceed with all three or a subset.
 
 ### 2.2 Number of runs
 
@@ -139,7 +139,7 @@ Model Comparison — <plugin-name>
   ─────────────────────────────────────────────────────────────
   claude:claude-haiku-4-5       XX%            YY%       +ZZpp
   claude:claude-sonnet-4-6      XX%            YY%       +ZZpp
-  claude:claude-opus-4-6        XX%            YY%       +ZZpp
+  claude:claude-opus-4-8        XX%            YY%       +ZZpp
 ```
 
 ### 5.2 Per-scenario breakdown
