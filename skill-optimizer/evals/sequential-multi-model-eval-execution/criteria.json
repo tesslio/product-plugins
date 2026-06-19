@@ -15,7 +15,7 @@
     {
       "name": "All three default models",
       "max_score": 10,
-      "description": "Includes all three model identifiers: claude-haiku-4-5, claude-sonnet-4-6, and claude-opus-4-6"
+      "description": "Includes all three model identifiers: claude-haiku-4-5, claude-sonnet-4-6, and claude-opus-4-8"
     },
     {
       "name": "Sequential execution",

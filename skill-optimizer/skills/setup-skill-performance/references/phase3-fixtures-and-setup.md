@@ -43,7 +43,9 @@ Fire if **any** of these apply:
 
 Fire if **any** of these apply:
 - The plugin mentions an external CLI or dependency the agent must run (`npm install`, `pip install`, `brew install`, `cargo build`).
-- The task assumes a running service, database, env var, credentials, or migration state that can't be expressed as static files.
+- The task assumes a running service, database, or migration state that can't be expressed as static files.
+
+**Note on env vars and credentials:** these do not require a setup script. They are injected at the eval run level via `tessl eval run --env-file <path>`. Ask the user whether they have an env file when the plugin calls external services — do not generate a setup script solely for env var injection.
 
 ### Skip rules (always honour user intent)
 
