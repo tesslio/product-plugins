@@ -1,0 +1,1 @@
+{ "description": "Fork default rubric and add domain-specific judge", "include": ["./inputs"] }

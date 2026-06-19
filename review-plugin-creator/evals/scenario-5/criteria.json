@@ -1,0 +1,76 @@
+{
+  "context": "Tests whether the agent correctly authors a three-judge reviewer plugin from scratch, following the skill's structural conventions: exact directory layout, plugin.json fields, config.json weight invariant, schema copying, rubric schema conformance, snake_case dimension ids, standard scale, and per-rubric dimension weight sums.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Three rubric files",
+      "description": "Exactly three rubric JSON files exist in skills/skill-reviewer/references/rubrics/",
+      "max_score": 6
+    },
+    {
+      "name": "Config judge key match",
+      "description": "Each key in config.json judges map exactly matches the filename stem of a rubric file in rubrics/ (e.g., key 'description_quality' → 'description_quality.json')",
+      "max_score": 8
+    },
+    {
+      "name": "Weight invariant",
+      "description": "validation_weight + sum of all judge weights in config.json = 1.0 exactly",
+      "max_score": 12
+    },
+    {
+      "name": "Small validation weight",
+      "description": "validation_weight in config.json is greater than 0 and no greater than 0.15",
+      "max_score": 8
+    },
+    {
+      "name": "plugin.json name field",
+      "description": "plugin.json has a 'name' field in the format '<workspace>/<plugin-name>'  (contains a forward slash)",
+      "max_score": 5
+    },
+    {
+      "name": "plugin.json version",
+      "description": "plugin.json has version set to '0.1.0'",
+      "max_score": 5
+    },
+    {
+      "name": "plugin.json private",
+      "description": "plugin.json has 'private': true",
+      "max_score": 6
+    },
+    {
+      "name": "plugin.json skills path",
+      "description": "plugin.json has 'skills' set to './skills/'",
+      "max_score": 6
+    },
+    {
+      "name": "Schemas copied",
+      "description": "All three schema files (rubric.schema.json, config.schema.json, results.schema.json) exist in skills/skill-reviewer/references/schemas/",
+      "max_score": 8
+    },
+    {
+      "name": "Standard scale",
+      "description": "Every rubric file uses scale { 'min': 1, 'max': 3 }",
+      "max_score": 6
+    },
+    {
+      "name": "Dimension id snake_case",
+      "description": "All dimension ids across all rubrics are in snake_case (lowercase letters, digits, underscores only, starting with a letter)",
+      "max_score": 6
+    },
+    {
+      "name": "Rubric dimension weights sum",
+      "description": "Dimension weights within each rubric sum to 1.0",
+      "max_score": 10
+    },
+    {
+      "name": "Required rubric fields",
+      "description": "Each rubric file contains all required fields: evaluation_target, scale, reference_examples (with judging_guidelines, good_overall_examples, bad_overall_examples), and dimensions",
+      "max_score": 8
+    },
+    {
+      "name": "Dimension score entries",
+      "description": "Each dimension in every rubric has a scores array with exactly 3 entries (score, anchor, example for each of scores 1, 2, 3)",
+      "max_score": 6
+    }
+  ]
+}

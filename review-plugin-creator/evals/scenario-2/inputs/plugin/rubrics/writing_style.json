@@ -1,0 +1,41 @@
+{
+  "evaluation_target": "writing style",
+  "scale": { "min": 1, "max": 3 },
+  "reference_examples": {
+    "judging_guidelines": [
+      "Evaluate clarity and precision of language.",
+      "Reward consistent terminology over synonyms.",
+      "Penalize ambiguous phrasing that could be interpreted multiple ways."
+    ],
+    "good_overall_examples": [
+      "## Install\n\n```bash\nnpm install my-package\n```\n\nRun with: `npx my-package --input file.txt`"
+    ],
+    "bad_overall_examples": [
+      "You can install the package using npm or yarn or pnpm, depending on your preference..."
+    ]
+  },
+  "dimensions": [
+    {
+      "id": "clarity",
+      "name": "Clarity",
+      "weight": 0.5,
+      "question": "Is language precise and unambiguous?",
+      "scores": [
+        { "score": 1, "anchor": "Ambiguous or confusing phrasing", "example": "Do the thing with the file somehow." },
+        { "score": 2, "anchor": "Mostly clear but some vagueness", "example": "Process the input file using the tool." },
+        { "score": 3, "anchor": "Precise, unambiguous instructions", "example": "Run: `npx tool --input file.txt`" }
+      ]
+    },
+    {
+      "id": "terminology_consistency",
+      "name": "Terminology Consistency",
+      "weight": 0.5,
+      "question": "Are terms used consistently throughout?",
+      "scores": [
+        { "score": 1, "anchor": "Frequently switches terms for the same concept", "example": "Use the library / module / package interchangeably." },
+        { "score": 2, "anchor": "Mostly consistent with minor slips", "example": "Uses 'library' except once says 'package'." },
+        { "score": 3, "anchor": "Consistent terminology throughout", "example": "Always uses 'package' to refer to the dependency." }
+      ]
+    }
+  ]
+}

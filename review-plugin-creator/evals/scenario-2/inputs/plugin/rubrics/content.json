@@ -1,0 +1,56 @@
+{
+  "evaluation_target": "content quality",
+  "scope": "SKILL.md body content",
+  "scale": { "min": 1, "max": 3 },
+  "reference_examples": {
+    "judging_guidelines": [
+      "Evaluate what is written, not what could be inferred.",
+      "Reward brevity that preserves clarity.",
+      "Code examples should be executable and complete."
+    ],
+    "good_overall_examples": [
+      "## Quick start\n\n```python\nimport mylib\nresult = mylib.process('input.txt')\n```"
+    ],
+    "bad_overall_examples": [
+      "There are many ways to do this. Choose the one that fits your needs best and follow the instructions accordingly."
+    ]
+  },
+  "dimensions": [
+    {
+      "id": "conciseness",
+      "name": "Conciseness",
+      "weight": 0.4,
+      "question": "Is content lean and efficient?",
+      "scores": [
+        { "score": 1, "anchor": "Verbose; padded with unnecessary content", "example": "First, you need to understand what the library does..." },
+        { "score": 2, "anchor": "Mostly efficient but could be trimmed", "example": "Use mylib (a library for processing) to handle files." },
+        { "score": 3, "anchor": "Lean and efficient; every token earns its place", "example": "```python\nimport mylib\nmylib.process('input.txt')\n```" }
+      ]
+    },
+    {
+      "id": "actionability",
+      "name": "Actionability",
+      "weight": 0.35,
+      "question": "Does it provide concrete, executable guidance?",
+      "scores": [
+        { "score": 1, "anchor": "Vague or abstract; describes rather than instructs", "example": "Use a library to process the file." },
+        { "score": 2, "anchor": "Some concrete guidance but incomplete", "example": "# pseudocode\nopen file\nprocess it" },
+        { "score": 3, "anchor": "Fully executable; copy-paste ready", "example": "```python\nwith open('file.txt') as f:\n    result = process(f.read())\n```" }
+      ]
+    },
+    {
+      "id": "completeness",
+      "name": "Completeness",
+      "weight": 0.15,
+      "question": "Does it cover the key scenarios without gaps?",
+      "scores": [
+        { "score": 1, "anchor": "Major gaps; important cases missing", "example": "Only covers the happy path, no error handling." },
+        { "score": 2, "anchor": "Covers main scenarios but misses edge cases", "example": "Covers success, briefly mentions errors." },
+        { "score": 3, "anchor": "Comprehensive coverage including edge cases", "example": "Covers success, errors, and edge cases with examples." }
+      ]
+    }
+  ],
+  "scoring_notes": {
+    "simple_skills": "For simple, single-purpose skills, completeness can score 3 if the single action is unambiguous."
+  }
+}
