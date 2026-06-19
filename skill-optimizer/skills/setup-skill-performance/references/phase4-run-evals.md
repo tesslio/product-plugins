@@ -37,6 +37,16 @@ For a first run, recommend keeping it simple:
 
 `--agent` takes a **single** `agent:model`. To compare agents or models, run `tessl eval run` **once per agent** — there is no multi-`--agent` form.
 
+### Env var injection (optional)
+
+If the skill involves external service calls — APIs, databases, MCPs, third-party tools — and the user has secrets to inject, they can pass an env file to the sandbox:
+
+```bash
+tessl eval run <plugin-path> --env-file <path-to-env-file> --agent=<agent:model> --label <run-label>
+```
+
+Ask the user whether they have an env file when the plugin clearly exercises external services. Scenarios that don't need secrets run fine without it.
+
 ### Run the eval
 
 Single agent:
