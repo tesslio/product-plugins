@@ -12,7 +12,6 @@ For a hands-off, automated improve loop, use `tessl review fix` instead — see 
 
 ## Guiding Principles
 
-- The rubric optimizes for routing, not domain excellence — some skills legitimately need verbose explanations or specialized structure
 - A judge suggestion that conflicts with the skill's purpose should be discussed as a trade-off, not silently applied
 - Don't invent rubric dimensions, score deltas, or `tessl review` flags — derive them from actual review output
 
@@ -24,7 +23,7 @@ For a hands-off, automated improve loop, use `tessl review fix` instead — see 
 tessl review run <path-to-skill> --label "baseline"
 ```
 
-`tessl review run` reviews the whole skill bundle (SKILL.md + references/scripts/assets) with the default reviewer and prints validation checks, judge scores, and suggestions. It requires authentication and a workspace — the first run may prompt you to select one. Pass `--threshold <percent>` to make it exit non-zero below a score gate, and re-open the most recent result any time with `tessl review view --last`.
+Pass `--threshold <percent>` to exit non-zero below a score gate. Re-open the most recent result with `tessl review view --last`.
 
 Parse output for scores, validation issues, and judge suggestions. Prioritize fixes:
 **Critical** (ERRORs) → **High** (missing "Use when...", low actionability/conciseness) → **Medium** (other dimensions) → **Low** (warnings)
@@ -35,9 +34,23 @@ Read SKILL.md and list files in its directory. Bundle = SKILL.md + sibling files
 
 ### Phase 3: Generate Recommendations
 
-For each issue, provide: what to change, why (dimension + score), before/after, impact, educational note explaining WHY it helps. Apply "Don't invent" principle from Guiding Principles—ask user when unsure.
+For each issue, produce a recommendation block:
 
-If bundle has reference files (REFERENCE.md, etc.), recommend linking instead of inlining for progressive disclosure.
+```
+## [Action verb]: [what to change]
+
+Dimension: [name] [current]/3 → [target]/3 (+Z% overall)
+
+Before:
+> [exact current text]
+
+After:
+> [exact replacement text]
+
+Why: [one sentence: how this improves routing/clarity/actionability]
+```
+
+If bundle has reference files, recommend linking instead of inlining for progressive disclosure.
 
 ### Phase 4: Validate Recommendations
 
@@ -51,7 +64,7 @@ Run each validation step and show the output — do not just describe what you w
 - Frontmatter `description:` field: verify it contains a "Use when..." trigger clause (check the YAML header, not the body)
 - Content: flag any concepts the agent already knows (explain nothing obvious)
 
-See [references/REFERENCE.md](references/REFERENCE.md) for examples. When producing an automation script, include each step as executable code (not comments).
+See [REFERENCE.md](references/REFERENCE.md) for validation code snippets (Python `ast.parse`, JS `node --check`, bash file-reference checks). When producing an automation script, include each step as executable code (not comments).
 
 ### Phase 5: Present Recommendations
 
@@ -65,16 +78,11 @@ High     | Remove HMAC explanation  | +8% overall  | Conciseness 1→2
 Medium   | Add retry example        | +5% overall  | Actionability 2→3
 ```
 
-Then for each recommendation: current dimension score, issue, before/after examples, numeric score impact estimate (e.g. "+8% overall, Actionability 2→3"), and educational WHY.
+Then expand each row using the recommendation block format from Phase 3.
 
 The dimension names above are illustrative — use the actual dimensions from your review output. They come from the active reviewer's judges (the default reviewer scores a `description` and a `content` judge); a custom reviewer can define different ones.
 
-**Discuss trade-offs, not just score gains:**
-- "This would improve Conciseness but removes domain context—worth it?"
-- "The judge suggests X, but it might not fit your skill's purpose—thoughts?"
-- Present options when recommendations have trade-offs
-
-Frame changes as proposals (e.g., "I recommend X" or "I suggest removing Y") rather than imperative instructions. Get user approval before applying.
+When a recommendation has a trade-off (e.g. conciseness gain vs. domain context loss), present both options and ask. Frame changes as proposals; get user approval before applying.
 
 ### Phase 6: Apply Changes
 
@@ -128,15 +136,11 @@ Choose between the two paths:
 
 Both `tessl review run` and `tessl review fix` use the **default reviewer** unless you pass `--review-plugin <local-dir | workspace/plugin[@version]>`. Most users keep the default. To author a custom reviewer that adds or removes judges and scoring dimensions, use the **`create-review-plugin`** skill (`tessleng/review-plugin-creator`).
 
-## Progressive Disclosure: Routing Clarity, Not File Count
+## Progressive Disclosure
 
-40 files is excellent IF each link signals WHEN it's relevant. Bad links force agents to open files "just in case."
-
-**The gate: Can the agent decide WITHOUT opening?**
+**Every link must signal WHEN it's relevant:**
 - ✅ "See [AUTH.md] for OAuth flow setup, token refresh, and session management"
 - ❌ "See [GUIDE.md] for more details"
-
-If routing is unclear, inlining may be more token-efficient than splitting.
 
 **Check for orphaned files:**
 
