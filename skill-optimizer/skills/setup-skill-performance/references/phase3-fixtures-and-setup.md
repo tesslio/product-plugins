@@ -70,8 +70,8 @@ When the fixture signal fires for a scenario, your job is to **help the user** d
    - (b) that the eval runner may **`git clone` / fetch it at eval runtime** (for `commit`-type fixtures).
 
    > "For scenario `<slug>` I found these candidate sources:
-   >   - `https://github.com/acme/example.git` @ `main` (from `SKILL.md`)
-   >   - `examples/` (local directory in the plugin)
+   > - `https://github.com/acme/example.git` @ `main` (from `SKILL.md`)
+   > - `examples/` (local directory in the plugin)
    >
    > If you approve, I'll add a fixture to `scenario.json`. Note that a `commit` fixture means the eval runner will git-clone that repo at eval time. Which (if any) should I use?"
 

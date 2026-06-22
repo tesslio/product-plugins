@@ -134,7 +134,7 @@ Choose between the two paths:
 
 ## Customizing the reviewer
 
-Both `tessl review run` and `tessl review fix` use the **default reviewer** unless you pass `--review-plugin <local-dir | workspace/plugin[@version]>`. Most users keep the default. To author a custom reviewer that adds or removes judges and scoring dimensions, use the **`create-review-plugin`** skill (`tessleng/review-plugin-creator`).
+Both `tessl review run` and `tessl review fix` use the **default reviewer** unless you pass `--review-plugin <local-dir | workspace/plugin[@version]>`. Most users keep the default. To author a custom reviewer that adds or removes judges and scoring dimensions, use the **`create-review-plugin`** skill (`tessl/review-plugin-creator`).
 
 ## Progressive Disclosure
 
