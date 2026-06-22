@@ -1,0 +1,22 @@
+name: version-check
+
+# Block merging a plugin change that doesn't bump its published version.
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  check-version-bump:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Full history so both the PR base and head commits are available
+          # to diff and to read each plugin manifest at either ref.
+          fetch-depth: 0
+
+      - name: Require a version bump for each changed plugin
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: .github/scripts/check-version-bump.sh "$BASE_SHA" "$HEAD_SHA"
