@@ -1,0 +1,1 @@
+{ "description": "Fix broken reviewer plugin config", "include": ["./inputs"] }

@@ -1,0 +1,8 @@
+{
+  "$schema": "./rubrics/../schemas/config.schema.json",
+  "validation_weight": 0.3,
+  "judges": {
+    "style": { "weight": 0.4 },
+    "content": { "weight": 0.4 }
+  }
+}

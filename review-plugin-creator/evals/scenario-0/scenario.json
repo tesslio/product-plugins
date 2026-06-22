@@ -1,0 +1,4 @@
+{
+  "description": "From-scratch security reviewer plugin creation",
+  "include": ["./inputs"]
+}

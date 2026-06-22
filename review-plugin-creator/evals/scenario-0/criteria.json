@@ -1,0 +1,81 @@
+{
+  "context": "The agent must build a from-scratch (Path B) reviewer plugin at ./security-reviewer with a single security judge. This scenario tests correct directory layout, schema file handling, rubric structure, config.json weight invariant, SKILL.md sourcing, and plugin.json fields.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "plugin.json name field",
+      "description": "plugin.json contains a 'name' field with a non-empty string value",
+      "max_score": 5
+    },
+    {
+      "name": "plugin.json version field",
+      "description": "plugin.json contains a 'version' field",
+      "max_score": 5
+    },
+    {
+      "name": "plugin.json description field",
+      "description": "plugin.json contains a 'description' field",
+      "max_score": 5
+    },
+    {
+      "name": "plugin.json private field",
+      "description": "plugin.json contains a 'private' field set to true",
+      "max_score": 4
+    },
+    {
+      "name": "plugin.json skills field",
+      "description": "plugin.json contains a 'skills' field pointing to the skills directory",
+      "max_score": 4
+    },
+    {
+      "name": "Three schema files present",
+      "description": "All three files are present under skills/skill-reviewer/references/schemas/: rubric.schema.json, config.schema.json, and results.schema.json",
+      "max_score": 9
+    },
+    {
+      "name": "Rubric evaluation_target",
+      "description": "security.json rubric file contains an 'evaluation_target' field",
+      "max_score": 5
+    },
+    {
+      "name": "Rubric scale",
+      "description": "security.json rubric contains a 'scale' object with 'min' and 'max' numeric fields",
+      "max_score": 5
+    },
+    {
+      "name": "Rubric reference_examples",
+      "description": "security.json rubric contains a 'reference_examples' object with judging_guidelines, good_overall_examples, and bad_overall_examples arrays (each with at least one entry)",
+      "max_score": 5
+    },
+    {
+      "name": "Dimension weights sum",
+      "description": "The 'weight' values of all dimensions in security.json sum to exactly 1.0",
+      "max_score": 10
+    },
+    {
+      "name": "Dimension required fields",
+      "description": "Each dimension in security.json has all required fields: id (snake_case), name, weight, question, and scores array",
+      "max_score": 10
+    },
+    {
+      "name": "config.json judge key matches rubric stem",
+      "description": "config.json has a 'judges' map with a key named 'security' (matching the rubric filename stem security.json)",
+      "max_score": 10
+    },
+    {
+      "name": "config.json weight invariant",
+      "description": "In config.json, validation_weight + security judge weight equals exactly 1.0",
+      "max_score": 10
+    },
+    {
+      "name": "validation_weight is 0.0",
+      "description": "config.json sets validation_weight to 0.0",
+      "max_score": 8
+    },
+    {
+      "name": "SKILL.md present",
+      "description": "skills/skill-reviewer/SKILL.md file exists and is non-empty",
+      "max_score": 5
+    }
+  ]
+}

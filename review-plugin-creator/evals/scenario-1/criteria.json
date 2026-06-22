@@ -1,0 +1,66 @@
+{
+  "context": "Tests whether the agent correctly forks the default rubric to create a reviewer plugin: copying the default rubric files and config rather than writing from scratch, adding a new judge rubric file, updating config.json in-place to register the new judge, and maintaining all weight invariants.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Fork approach used",
+      "description": "The two default rubric files (description.json and content.json) are present in the plugin's rubrics/ directory — indicating the agent copied rather than rewrote them from scratch",
+      "max_score": 12
+    },
+    {
+      "name": "New judge file exists",
+      "description": "A file named code_examples.json (or similar stem matching a code-examples-related name) exists in the plugin's rubrics/ directory",
+      "max_score": 10
+    },
+    {
+      "name": "Judge key matches filename",
+      "description": "The key used in config.json for the new rubric exactly matches the stem of its .json filename (e.g. if the file is code_examples.json, the key is code_examples)",
+      "max_score": 10
+    },
+    {
+      "name": "All three judges registered",
+      "description": "config.json lists exactly three judges: description, content, and the new code-examples judge",
+      "max_score": 8
+    },
+    {
+      "name": "Plugin-level weight invariant",
+      "description": "validation_weight + sum of all judge weights in config.json equals exactly 1.0",
+      "max_score": 12
+    },
+    {
+      "name": "New judge weight ~30%",
+      "description": "The new code_examples judge has a weight of approximately 0.3 (0.25–0.35 acceptable) in config.json",
+      "max_score": 8
+    },
+    {
+      "name": "Rubric dimension weights",
+      "description": "The dimension weights within the new code_examples.json rubric sum to exactly 1.0",
+      "max_score": 10
+    },
+    {
+      "name": "New rubric required fields",
+      "description": "The new rubric JSON contains all required fields: evaluation_target, scale, reference_examples (with judging_guidelines), and dimensions",
+      "max_score": 8
+    },
+    {
+      "name": "Standard scale used",
+      "description": "The new rubric uses scale { \"min\": 1, \"max\": 3 }",
+      "max_score": 6
+    },
+    {
+      "name": "Dimension id snake_case",
+      "description": "Every dimension id in the new rubric is snake_case (no hyphens, spaces, or camelCase)",
+      "max_score": 6
+    },
+    {
+      "name": "plugin.json present",
+      "description": "A plugin.json file exists under .tessl-plugin/ with name, version, description, private: true, and skills fields",
+      "max_score": 5
+    },
+    {
+      "name": "Correct directory scaffold",
+      "description": "The plugin contains the expected subdirectories: .tessl-plugin/, skills/skill-reviewer/references/rubrics/, and skills/skill-reviewer/references/schemas/",
+      "max_score": 5
+    }
+  ]
+}

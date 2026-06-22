@@ -1,0 +1,41 @@
+{
+  "context": "Tests whether the agent correctly diagnoses and fixes three distinct configuration errors in a reviewer plugin: the plugin-level weight invariant violation in config.json, a judge key / rubric filename mismatch, and a rubric-level dimension weight sum error. The agent must also produce a fix log documenting the changes.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Config weights sum to 1.0",
+      "description": "In the corrected config.json, validation_weight + sum of all judge weights equals exactly 1.0",
+      "max_score": 20
+    },
+    {
+      "name": "Judge key matches rubric filename",
+      "description": "The judge key in config.json exactly matches the stem of the corresponding rubric file in rubrics/ (e.g. a key 'writing_style' matches 'writing_style.json', not 'style')",
+      "max_score": 20
+    },
+    {
+      "name": "Rubric dimension weights sum to 1.0",
+      "description": "In the corrected content.json rubric, the sum of all dimensions[].weight values equals exactly 1.0",
+      "max_score": 20
+    },
+    {
+      "name": "Config weight error documented",
+      "description": "fix-log.md identifies the config.json weight sum problem (validation_weight + judge weights not equaling 1.0) as one of the issues found",
+      "max_score": 10
+    },
+    {
+      "name": "Key mismatch error documented",
+      "description": "fix-log.md identifies the judge key / rubric filename mismatch as one of the issues found",
+      "max_score": 10
+    },
+    {
+      "name": "Dimension weight error documented",
+      "description": "fix-log.md identifies the rubric dimension weights not summing to 1.0 as one of the issues found",
+      "max_score": 10
+    },
+    {
+      "name": "fix-log.md corrections described",
+      "description": "fix-log.md describes the specific correction made for each problem (not just identifies them)",
+      "max_score": 10
+    }
+  ]
+}
