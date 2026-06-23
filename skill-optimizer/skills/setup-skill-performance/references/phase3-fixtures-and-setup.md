@@ -16,7 +16,7 @@ A `scenario.json` with both kinds of preparation looks like:
   "fixtures": {
     "codebase": {
       "type": "commit",
-      "repoUrl": "https://github.com/acme/example.git",
+      "repoUrl": "<your-repo-url>.git",
       "ref": "main"
     }
   },
@@ -61,7 +61,7 @@ When the fixture signal fires for a scenario, your job is to **help the user** d
 
 1. **Tell the user you're going to look for fixture context, then look.** Say what you're inspecting before you do it, e.g.:
 
-   > "Scenario `<slug>` looks like it needs an existing codebase to operate on. I'm going to check the plugin's `SKILL.md`, `docs/`, and `README.md` for a suitable source — including any `https://github.com/…` or `git@github.com:…` repo URLs, and any sample directories like `examples/` or `fixtures/`."
+   > "Scenario `<slug>` looks like it needs an existing codebase to operate on. I'm going to check the plugin's `SKILL.md`, `docs/`, and `README.md` for a suitable source — including any `<https-repo-url>` or `<ssh-repo-url>` repo URLs, and any sample directories like `examples/` or `fixtures/`."
 
    Then read those files. A candidate is a repo URL together with an obvious ref (branch, tag, or commit), or a sample directory path inside the plugin. Synthetic fixtures (context you'd construct rather than pull from a repo) are also fair game — call that out too.
 
@@ -70,7 +70,7 @@ When the fixture signal fires for a scenario, your job is to **help the user** d
    - (b) that the eval runner may **`git clone` / fetch it at eval runtime** (for `commit`-type fixtures).
 
    > "For scenario `<slug>` I found these candidate sources:
-   > - `https://github.com/acme/example.git` @ `main` (from `SKILL.md`)
+   > - `<your-repo-url>.git` @ `main` (from `SKILL.md`)
    > - `examples/` (local directory in the plugin)
    >
    > If you approve, I'll add a fixture to `scenario.json`. Note that a `commit` fixture means the eval runner will git-clone that repo at eval time. Which (if any) should I use?"
