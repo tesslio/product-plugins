@@ -1,6 +1,6 @@
 {
   "name": "tessl/skill-optimizer",
-  "version": "0.15.5",
+  "version": "0.16.0",
   "description": "Optimize your skills and plugins: review SKILL.md quality, generate eval scenarios, run evals, compare across models, diagnose gaps, and re-run until scores improve.",
   "private": false,
   "skills": [
