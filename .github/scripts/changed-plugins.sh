@@ -16,6 +16,11 @@ head_ref="${2:?usage: changed-plugins.sh <base-ref> <head-ref>}"
 # no slash are repo-root files (e.g. README.md) and are skipped. A while-read
 # loop (not `for dir in $changed_dirs`) keeps directory names with whitespace
 # intact instead of word-splitting them.
+#
+# The three-dot range diffs head against the merge-base of the two refs, not
+# against base_ref's tip. So a change that landed on base_ref after head_ref
+# forked is not misattributed to head_ref. For a push (before/after on a linear
+# branch) the merge-base is base_ref, so this equals a plain base..head range.
 while IFS= read -r dir; do
   [ -z "$dir" ] && continue
   # Keep only directories that are plugins at the head ref.
@@ -23,7 +28,7 @@ while IFS= read -r dir; do
     echo "$dir"
   fi
 done < <(
-  git diff --name-only "$base_ref" "$head_ref" \
+  git diff --name-only "${base_ref}...${head_ref}" \
     | awk -F/ 'NF > 1 { print $1 }' \
     | sort -u
 )
