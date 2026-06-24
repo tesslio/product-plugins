@@ -1,0 +1,36 @@
+name: publish
+
+# Publish every plugin whose files changed when a commit lands on main.
+on:
+  push:
+    branches: [main]
+
+# Serialize publishes so overlapping merges don't race the registry.
+concurrency:
+  group: publish-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        with:
+          # Need the previous commit (github.event.before) to diff against.
+          fetch-depth: 0
+          # Publishing authenticates with TESSL_TOKEN, not the git credential.
+          persist-credentials: false
+
+      - name: Install Tessl CLI
+        uses: tesslio/setup-tessl@25ec223fc0da33b41b8044ff5ab2b85235f4f91e # v2
+        with:
+          token: ${{ secrets.TESSL_TOKEN }}
+
+      - name: Publish changed plugins
+        env:
+          TESSL_TOKEN: ${{ secrets.TESSL_TOKEN }}
+          BEFORE_SHA: ${{ github.event.before }}
+          AFTER_SHA: ${{ github.sha }}
+        run: .github/scripts/publish-changed.sh "$BEFORE_SHA" "$AFTER_SHA"
