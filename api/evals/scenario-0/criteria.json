@@ -1,0 +1,46 @@
+{
+  "context": "The agent must use the tessl_api_discover.py helper to search for and inspect an install-related endpoint, using the proper search-then-show workflow, and then use --expand to reveal the full union schema details. The output file install-source-variants.md must document the commands run and the variant shapes found.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses search first",
+      "description": "The documented workflow shows a `search` command (e.g. `python3 scripts/tessl_api_discover.py search ...`) was run before `show`, establishing the correct discovery order",
+      "max_score": 10
+    },
+    {
+      "name": "Uses show command",
+      "description": "The documented workflow includes a `show` command (e.g. `python3 scripts/tessl_api_discover.py show ...`) targeting the install/policy endpoint",
+      "max_score": 10
+    },
+    {
+      "name": "Uses --expand flag",
+      "description": "The documented workflow shows `--expand` was passed to a `show` command to fully inline the union schema",
+      "max_score": 15
+    },
+    {
+      "name": "Uses --status flag",
+      "description": "The documented workflow includes `--status 200` (or another status code) on a `show` invocation to limit output to a single response shape",
+      "max_score": 10
+    },
+    {
+      "name": "Multiple variant shapes listed",
+      "description": "The output document lists at least two distinct install source variant types (e.g. registry, git, file) rather than a single collapsed line",
+      "max_score": 20
+    },
+    {
+      "name": "Required fields per variant",
+      "description": "For each listed variant, the document identifies which fields are required (not just the variant name)",
+      "max_score": 15
+    },
+    {
+      "name": "Uses helper script not raw spec",
+      "description": "Commands shown use `python3 scripts/tessl_api_discover.py` — does NOT reference reading `openapi.json` directly",
+      "max_score": 10
+    },
+    {
+      "name": "No Authorization header",
+      "description": "The documented commands and any example API calls do NOT manually set an Authorization header",
+      "max_score": 10
+    }
+  ]
+}

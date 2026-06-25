@@ -1,0 +1,9 @@
+{
+  "name": "tessl/api",
+  "version": "0.1.0",
+  "description": "Find and call Tessl API endpoints token-efficiently. Fires whenever an agent needs a Tessl REST API endpoint — to discover which endpoint does something, learn its path/parameters/request-body/response shape, or actually call it via `tessl api`. Searches and renders just the one endpoint you need instead of loading the whole openapi.json into context.",
+  "private": false,
+  "skills": [
+    "skills/api"
+  ]
+}
