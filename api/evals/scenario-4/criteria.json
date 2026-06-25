@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent uses the tessl_api_discover.py helper script correctly for multi-page endpoint discovery, including pagination via --page N, forcing fresh data with --refresh, using search then show in the correct order, and copying the tessl api invocation line into the final report rather than constructing raw curl calls.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses helper script for search",
+      "description": "discover-endpoints.sh invokes `python3 scripts/tessl_api_discover.py search` (not raw curl or direct openapi.json reads) to find endpoints",
+      "max_score": 10
+    },
+    {
+      "name": "Search before show",
+      "description": "discover-endpoints.sh runs a `search` command before running a `show` command — search is used as the first discovery step",
+      "max_score": 8
+    },
+    {
+      "name": "Pagination with --page flag",
+      "description": "discover-endpoints.sh uses `--page N` (where N is a variable or numeric argument) in a loop or repeated invocation to iterate through multiple pages of search results",
+      "max_score": 15
+    },
+    {
+      "name": "Covers all pages",
+      "description": "The script iterates through pages dynamically (e.g. loops until a last-page condition) rather than hard-coding a single page number",
+      "max_score": 10
+    },
+    {
+      "name": "--refresh flag present",
+      "description": "discover-endpoints.sh passes `--refresh` to at least one invocation of tessl_api_discover.py to force a fresh spec fetch",
+      "max_score": 12
+    },
+    {
+      "name": "Uses show to drill into endpoint",
+      "description": "discover-endpoints.sh invokes `python3 scripts/tessl_api_discover.py show` with a METHOD and path argument to retrieve full details of a chosen endpoint",
+      "max_score": 10
+    },
+    {
+      "name": "tessl api invocation in report",
+      "description": "discovery-report.md contains a `tessl api` command line (starting with `tessl api`) copied from the show output — not a raw curl command with Authorization header",
+      "max_score": 15
+    },
+    {
+      "name": "No manual Authorization header",
+      "description": "Neither discover-endpoints.sh nor discovery-report.md sets an Authorization or Bearer token header manually",
+      "max_score": 10
+    },
+    {
+      "name": "Report includes endpoint details",
+      "description": "discovery-report.md contains the full or partial detail output for the chosen endpoint (description, parameters, or request/response shape)",
+      "max_score": 5
+    },
+    {
+      "name": "Report includes page/match summary",
+      "description": "discovery-report.md mentions either the total number of matching endpoints or the number of pages searched",
+      "max_score": 5
+    }
+  ]
+}
