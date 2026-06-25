@@ -157,15 +157,37 @@ def collect_property_names(schema, acc):
             collect_property_names(sub, acc)
 
 
+def _is_json_media_type(media_type):
+    """True for application/json and any structured `*+json` suffix."""
+    mt = (media_type or "").split(";", 1)[0].strip().lower()
+    return mt == "application/json" or mt.endswith("+json")
+
+
+def schema_from_content(content):
+    """Pick the JSON schema from an OpenAPI `content` map.
+
+    Prefers `application/json` / `*+json` so `show` and the generated
+    `--input` example match the JSON flow the skill describes; falls back to
+    the first available schema only when no JSON media type is present.
+    """
+    if not isinstance(content, dict):
+        return None
+    fallback = None
+    for media_type, media in content.items():
+        if not (isinstance(media, dict) and "schema" in media):
+            continue
+        if _is_json_media_type(media_type):
+            return media["schema"]
+        if fallback is None:
+            fallback = media["schema"]
+    return fallback
+
+
 def request_schema(op):
     body = op.get("requestBody")
     if not isinstance(body, dict):
         return None
-    content = body.get("content") or {}
-    for media in content.values():
-        if isinstance(media, dict) and "schema" in media:
-            return media["schema"]
-    return None
+    return schema_from_content(body.get("content") or {})
 
 
 def response_schemas(op):
@@ -174,13 +196,7 @@ def response_schemas(op):
     for code, resp in (op.get("responses") or {}).items():
         if not isinstance(resp, dict):
             continue
-        content = resp.get("content") or {}
-        schema = None
-        for media in content.values():
-            if isinstance(media, dict) and "schema" in media:
-                schema = media["schema"]
-                break
-        out[str(code)] = schema
+        out[str(code)] = schema_from_content(resp.get("content") or {})
     return out
 
 
@@ -597,7 +613,7 @@ def invocation_line(path, method, op):
     rs = request_schema(op)
     if rs is not None and method != "GET":
         body = sample_for_schema(rs)
-        if body in (None, {}, []):
+        if body is None:
             body = {}
         body_json = json.dumps(body, indent=2)
         return (
