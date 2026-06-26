@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "ReviewRunResults",
-  "description": "Output schema for the skill-reviewer plugin. Judges are a generic map keyed by rubric file stem (e.g. 'description', 'content') — one entry per rubric. Scoring contains one component per judge; weights come from each rubric's top-level 'weight' field.",
+  "description": "Output schema for the skill-reviewer plugin. Judges are a generic map keyed by rubric file stem (e.g. 'description', 'content') — one entry per rubric. Scoring contains one component per judge; each component's weight comes from that judge's entry in config.json's judges map.",
   "type": "object",
   "required": [],
   "additionalProperties": false,
@@ -15,11 +15,11 @@
       "type": "integer",
       "minimum": 0,
       "maximum": 100,
-      "description": "Overall review score 0–100. Computed as floor(100 * weighted sum of component scores). Weights come from the rubric files (judge components). Absent if the scoring block is incomplete."
+      "description": "Overall review score 0–100. Computed as floor(100 * weighted sum of component scores). Component weights come from config.json's judges map. Absent if the scoring block is incomplete."
     },
     "scoring": {
       "type": "object",
-      "description": "Per-component normalized scores — one entry per rubric file. Weights come from each rubric's top-level 'weight' field.",
+      "description": "Per-component normalized scores — one entry per judge. Each component's weight comes from that judge's entry in config.json's judges map.",
       "required": ["components"],
       "additionalProperties": false,
       "properties": {
@@ -39,7 +39,7 @@
                 "type": "number",
                 "minimum": 0,
                 "maximum": 1,
-                "description": "Component weight: the top-level 'weight' from the judge's rubric file."
+                "description": "Component weight: the judge's weight from config.json (config.judges[stem].weight)."
               },
               "normalized": {
                 "type": "number",

@@ -17,7 +17,7 @@
     },
     "judges": {
       "type": "object",
-      "description": "Per-judge weight map keyed by rubric filename stem. Weights must sum to 1.0 (validated at runtime, not enforced by schema). If absent, equal weights are applied across discovered rubrics.",
+      "description": "Per-judge weight map keyed by rubric filename stem. Each key must match a rubric file in rubrics/. The judge weights plus validation_weight must sum to 1.0 (validated at publish time, not enforced by this schema).",
       "additionalProperties": {
         "type": "object",
         "required": ["weight"],
