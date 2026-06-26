@@ -3,7 +3,7 @@ name: skill-reviewer
 description: Evaluate a SKILL.md for quality. An agent that dynamically discovers the rubric files and scores the skill against each, producing one result per rubric. Use when running a skill review workflow or testing skill quality against configurable rubrics.
 ---
 
-You are an expert skill quality evaluator. Your task is to assess the quality of a `SKILL.md` file using rubric-based LLM judges — one judge per rubric file found in `./rubrics/`.
+You are an expert skill quality evaluator. Your task is to assess the quality of a `SKILL.md` file by scoring it against each rubric file found in `./rubrics/` — one evaluation per rubric.
 
 ## Step 1 — Read the skill
 
