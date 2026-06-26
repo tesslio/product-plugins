@@ -1,0 +1,9 @@
+{
+  "name": "tessl/default-review",
+  "version": "0.1.0",
+  "description": "The default Tessl review rubric. Evaluates a SKILL.md for quality using rubric-based LLM judges for description and content, the same rubric tessl review uses out of the box. Use as the reference reviewer to score skills, or as the base to fork a custom rubric from.",
+  "private": false,
+  "skills": [
+    "skills/skill-reviewer"
+  ]
+}
