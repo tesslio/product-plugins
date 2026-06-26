@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent correctly applies the derive-review-rubrics skill in a cloud sandbox scenario: proceeding on Stream A alone when no agent logs are available, not fabricating log-based activation evidence (while still deriving a description-clarity dimension from the recurring vague-description PR feedback), classifying evidence patterns as dimensions vs verifiers, grounding anchor examples in the provided PR feedback, and weighting dimensions by frequency/severity. The agent must produce a rubric-design.md suitable for handoff to /create-review-plugin without scaffolding any files.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Acknowledges no log evidence",
+      "description": "rubric-design.md explicitly states that agent-log evidence is unavailable (e.g. cloud sandbox) and that the design proceeds on Stream A alone",
+      "max_score": 10
+    },
+    {
+      "name": "No fabricated log-based activation evidence",
+      "description": "With no agent logs available, the design must not invent or claim log-derived activation evidence — e.g. a dimension anchored in 'the skill failed to fire in N transcripts', or a score example that purports to come from observed non-activation. Deriving a description/trigger-clarity dimension from the recurring PR feedback that descriptions are too vague to tell when a skill fires (Theme 1) is correct and expected — that is valid Stream-A evidence. Full marks: no invented log evidence, and any trigger-clarity dimension is anchored in the actual PR review comments rather than in non-existent logs.",
+      "max_score": 12
+    },
+    {
+      "name": "Judges with evaluation_target",
+      "description": "At least one proposed judge includes an explicit evaluation_target field (e.g. 'description', 'content', 'structure')",
+      "max_score": 8
+    },
+    {
+      "name": "Verifier classification present",
+      "description": "At least one evidence pattern from pr-feedback.md is classified as a verifier or lint check (binary pass/fail) rather than a rubric dimension, with a stated reason",
+      "max_score": 10
+    },
+    {
+      "name": "Dimension vs verifier reasoning",
+      "description": "The document explains WHY each classification was made — i.e. distinguishes judgmental qualities from binary pass/fail invariants",
+      "max_score": 8
+    },
+    {
+      "name": "Anchors from actual feedback",
+      "description": "At least two rubric score anchors or examples are drawn verbatim or near-verbatim from the text in pr-feedback.md (not invented examples)",
+      "max_score": 12
+    },
+    {
+      "name": "Frequency/severity drives weights",
+      "description": "The document states that dimension weights reflect the frequency and severity data from pr-feedback.md (e.g. Theme 1 at 18/40 PRs and High severity receiving more weight than Theme 6 at 5/40 PRs and Low severity)",
+      "max_score": 10
+    },
+    {
+      "name": "Weights sum to 1.0 per judge",
+      "description": "Within each proposed judge, the listed dimension weights sum to 1.0 (or the document clearly states they should)",
+      "max_score": 8
+    },
+    {
+      "name": "Handoff note to create-review-plugin",
+      "description": "The document includes a section or note explaining what /create-review-plugin would do next — without actually scaffolding directories, copying schemas, or running tessl commands",
+      "max_score": 10
+    },
+    {
+      "name": "No scaffolding actions taken",
+      "description": "The agent did NOT create any plugin directories, schema files, rubric JSON files, or run any tessl CLI commands — only rubric-design.md was produced",
+      "max_score": 12
+    }
+  ]
+}

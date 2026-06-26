@@ -1,0 +1,61 @@
+{
+  "context": "Tests whether the agent, following derive-review-rubrics, correctly maps a fixed set of evidence to rubric design content. The evidence (in ./inputs/) contains: a target SKILL.md with a vague description and a vague type-sync step; PR feedback with a recurring skill-type api:sync finding, a verifier-type finding about the typed reply helper, and a discoverability complaint; and an agent log showing one session where the skill failed to activate and one where it activated but a vague step was skipped and the user corrected it. The agent must produce a design.md that translates each evidence pattern into the right rubric element (or routes it out of the rubric), with anchors grounded in the actual evidence. The strongest signals are: a trigger-clarity dimension on `description` from the didn't-activate session, an enforceability dimension on `content` (with scope + scoring_notes) from the ignored-step correction, a dimension for the recurring api:sync feedback, and the verifier-type finding routed OUT to a verifier rather than made a rubric dimension.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Produces a design file only",
+      "max_score": 8,
+      "description": "A `./design.md` file exists describing the rubric design. The agent did NOT scaffold a plugin directory, copy schemas, run `tessl review run`, or modify any file under `./inputs/`."
+    },
+    {
+      "name": "Trigger-clarity dimension on description",
+      "max_score": 12,
+      "description": "The design includes a dimension that judges trigger/description clarity, and its judge's `evaluation_target` is `description`. This is the correct mapping for the Session 1 evidence where the skill failed to activate."
+    },
+    {
+      "name": "Trigger-clarity anchored in the real failed description",
+      "max_score": 8,
+      "description": "The trigger-clarity dimension's low-score (e.g. score-1) example is the actual description that failed to fire — `\"Add an endpoint to the backend.\"` — and its high-score example is a description that names the situation it triggers on. The example is drawn from the evidence, not invented."
+    },
+    {
+      "name": "Enforceability dimension on content",
+      "max_score": 12,
+      "description": "The design includes an enforceability/actionability dimension whose judge's `evaluation_target` is `content`, mapping the Session 2 evidence (skill activated but the vague step was skipped). Its bad example is the vague step (`\"Make sure the types are in sync.\"`) and its good example makes the step concrete (e.g. `\"Run `bun run api:sync` and commit the regenerated files.\"`)."
+    },
+    {
+      "name": "Content judge carries scope and scoring_notes",
+      "max_score": 10,
+      "description": "Any judge with `evaluation_target: \"content\"` in the design also specifies a `scope` (one-line description of what it evaluates) and `scoring_notes`. A judge on `description` is not required to have them."
+    },
+    {
+      "name": "Dimension for the recurring api:sync feedback",
+      "max_score": 10,
+      "description": "The design includes a dimension derived from the recurring skill-type PR finding (Finding 1): does the skill instruct the agent to run `bun run api:sync` / regenerate API types after a route change."
+    },
+    {
+      "name": "api:sync anchors drawn from the PR evidence",
+      "max_score": 8,
+      "description": "The api:sync dimension's examples are grounded in the actual review comments from PRs #4821 / #4855 / #4902, not invented."
+    },
+    {
+      "name": "Verifier-type finding routed out of the rubric",
+      "max_score": 12,
+      "description": "The verifier-type finding (Finding 2 — every handler returns via the typed `reply.send` helper, never raw `res.end`) is kept as a verifier (a binary pass/fail check), NOT turned into a rubric dimension. The design explicitly states this routing decision and the reason (binary invariant, not a degree of quality)."
+    },
+    {
+      "name": "Dimension weights sum to 1.0 per rubric",
+      "max_score": 8,
+      "description": "Within each rubric the dimension weights sum to 1.0, and the design states this."
+    },
+    {
+      "name": "Plugin-level weight split sums to 1.0",
+      "max_score": 6,
+      "description": "The plugin-level split — `validation_weight` plus each judge's weight — sums to 1.0 in the design."
+    },
+    {
+      "name": "Weights reflect frequency and severity",
+      "max_score": 6,
+      "description": "The design justifies its weights by how often / how severely each pattern recurred (e.g. the api:sync pattern, recurring across three PRs and causing red CI, is weighted higher than a one-off stylistic nit)."
+    }
+  ]
+}
