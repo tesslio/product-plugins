@@ -1,0 +1,5 @@
+{
+  "type": "generic",
+  "description": "Derive rubrics from evidence, cloud sandbox (no agent logs)",
+  "include": ["./inputs"]
+}

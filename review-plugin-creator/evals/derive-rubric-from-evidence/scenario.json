@@ -1,0 +1,5 @@
+{
+  "type": "generic",
+  "description": "Derive a review-plugin rubric from gathered evidence (agent logs present)",
+  "include": ["./inputs"]
+}
