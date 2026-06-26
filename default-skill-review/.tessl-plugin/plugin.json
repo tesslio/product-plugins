@@ -1,0 +1,9 @@
+{
+  "name": "tessl/default-skill-review",
+  "version": "0.1.0",
+  "description": "The default Tessl review rubric. An agentic reviewer that reads a SKILL.md and scores it against rubrics for its description and its content, the same reviewer tessl review uses out of the box. Use it as the reference reviewer to score skills, or as the base to fork a custom rubric from.",
+  "private": false,
+  "skills": [
+    "skills/skill-reviewer"
+  ]
+}

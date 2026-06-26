@@ -1,0 +1,124 @@
+{
+  "$schema": "../schemas/rubric.schema.json",
+  "evaluation_target": "description",
+  "scale": {
+    "min": 1,
+    "max": 3
+  },
+  "reference_examples": {
+    "judging_guidelines": [
+      "Score only what is explicitly stated; do not infer capabilities or intentions.",
+      "Penalize vague fluff, buzzwords, and over-claims.",
+      "Do not reward verbosity; concise and clear beats long and padded.",
+      "Evaluate trigger terms as: 'would a user naturally say this when they need this skill?'",
+      "A missing 'Use when...' clause or equivalent explicit trigger guidance should cap completeness at 2.",
+      "Descriptions must use third person voice ('Processes files', 'Analyzes data'). Penalize first person ('I can help') or second person ('You can use this') by reducing specificity score by 1."
+    ],
+    "good_overall_examples": [
+      "Extract text and tables from PDF files, fill forms, merge documents. Use when working with PDF files or when the user mentions PDFs, forms, or document extraction.",
+      "Analyze Excel spreadsheets, create pivot tables, generate charts. Use when analyzing Excel files, spreadsheets, tabular data, or .xlsx files.",
+      "Generate descriptive commit messages by analyzing git diffs. Use when the user asks for help writing commit messages or reviewing staged changes.",
+      "Presentation creation, editing, and analysis. When Claude needs to work with presentations (.pptx files) for: (1) Creating new presentations, (2) Modifying or editing content, (3) Working with layouts, (4) Adding comments or speaker notes, or any other presentation tasks.",
+      "Applies Anthropic's official brand colors and typography to any sort of artifact that may benefit from having Anthropic's look-and-feel. Use it when brand colors or style guidelines, visual formatting, or company design standards apply."
+    ],
+    "bad_overall_examples": [
+      "Helps with documents",
+      "Processes data",
+      "Does stuff with files"
+    ]
+  },
+  "dimensions": [
+    {
+      "id": "specificity",
+      "name": "Specificity of Capabilities",
+      "weight": 0.2,
+      "question": "Does it describe concrete actions vs vague language?",
+      "scores": [
+        {
+          "score": 1,
+          "anchor": "Vague or no actions; abstract language",
+          "example": "Helps with documents"
+        },
+        {
+          "score": 2,
+          "anchor": "Names domain and some actions, but not comprehensive",
+          "example": "Processes PDF files and extracts content"
+        },
+        {
+          "score": 3,
+          "anchor": "Lists multiple specific concrete actions",
+          "example": "Extract text and tables from PDF files, fill forms, merge documents"
+        }
+      ]
+    },
+    {
+      "id": "trigger_term_quality",
+      "name": "Trigger Term Quality",
+      "weight": 0.3,
+      "question": "Does it include natural keywords users would actually say?",
+      "scores": [
+        {
+          "score": 1,
+          "anchor": "No natural keywords; technical jargon or overly generic",
+          "example": "Handles document object model manipulation"
+        },
+        {
+          "score": 2,
+          "anchor": "Some relevant keywords but missing common variations",
+          "example": "Works with PDF files"
+        },
+        {
+          "score": 3,
+          "anchor": "Good coverage of natural terms users would say",
+          "example": "PDF files, PDFs, forms, document extraction, .pdf"
+        }
+      ]
+    },
+    {
+      "id": "completeness",
+      "name": "Completeness",
+      "weight": 0.35,
+      "question": "Does it explicitly answer both 'what does this do' AND 'when should Claude use it'?",
+      "scores": [
+        {
+          "score": 1,
+          "anchor": "Missing what OR when, or both very weak",
+          "example": "Helps with documents"
+        },
+        {
+          "score": 2,
+          "anchor": "Has what, but when is missing or only implied",
+          "example": "Extract text and tables from PDF files, fill forms, merge documents"
+        },
+        {
+          "score": 3,
+          "anchor": "Clearly answers both what AND when with explicit triggers",
+          "example": "Extract text and tables from PDF files, fill forms, merge documents. Use when working with PDF files or when the user mentions PDFs, forms, or document extraction."
+        }
+      ]
+    },
+    {
+      "id": "distinctiveness_conflict_risk",
+      "name": "Distinctiveness / Conflict Risk",
+      "weight": 0.15,
+      "question": "Is it clearly distinguishable from other skills; unlikely to trigger for the wrong skill?",
+      "scores": [
+        {
+          "score": 1,
+          "anchor": "Very generic; would conflict with many skills",
+          "example": "Helps with code and documents"
+        },
+        {
+          "score": 2,
+          "anchor": "Somewhat specific but could still overlap with similar skills",
+          "example": "Works with document files"
+        },
+        {
+          "score": 3,
+          "anchor": "Clear niche with distinct triggers; unlikely to conflict",
+          "example": "Extract text and tables from PDF files, fill forms, merge documents. Use when working with PDF files or when the user mentions PDFs."
+        }
+      ]
+    }
+  ]
+}
