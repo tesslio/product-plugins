@@ -10,12 +10,12 @@ tessl install tessl/default-skill-review
 
 ## What it does
 
-`tessl review` scores a skill against a **reviewer plugin**. This is that reviewer: rubric-based LLM judges that score a `SKILL.md` against Anthropic best practices.
+`tessl review` scores a skill against a **reviewer plugin**. This is that reviewer: an agent that reads a `SKILL.md` and scores it against rubrics grounded in Anthropic best practices.
 
-It ships two judges (their weights live in `config.json`):
+It ships two rubrics (their weights live in `config.json`):
 
-| Judge | What it measures |
-|-------|------------------|
+| Rubric | What it measures |
+|--------|------------------|
 | `description` | How well the skill's description drives activation |
 | `content` | Quality of the SKILL.md body |
 
@@ -28,4 +28,4 @@ Use it two ways:
 
 | Skill | Description |
 |-------|-------------|
-| `skill-reviewer` | Evaluate a SKILL.md for quality using rubric-based LLM judges for description and content |
+| `skill-reviewer` | An agent that reads a SKILL.md and scores it against the description and content rubrics |
