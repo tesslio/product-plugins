@@ -6,8 +6,6 @@ Your team maintains a library of internal Tessl skills that are periodically rev
 
 You've been asked to build a reviewer plugin called `code-quality-reviewer` that extends the standard evaluation approach. The plugin should retain the existing judges for description quality and content quality, but add a new dedicated judge for code example quality. The code example judge should carry roughly 30% of the total score, reflecting how important executable, well-structured code is to the team. The remaining weight should be shared among the other judges and the validation check, adjusted to make room for the new judge.
 
-The skill files needed to build the plugin are available at `inputs/create-review-plugin/references/`. Use these as the starting point for your plugin.
-
 ## Output Specification
 
 Produce the complete plugin directory at `./code-quality-reviewer/` with all necessary files so the plugin could be loaded and run against a skill. The plugin must be a valid Tessl reviewer plugin.
