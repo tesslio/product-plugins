@@ -14,11 +14,11 @@ tessl install tessl/review-plugin-creator
 
 Three starting points:
 
-- **Fork the default rubric** – start from Tessl's default rubric (bundled with the skill) and tweak weights, anchors, or dimensions.
+- **Fork the default rubric** – start from Tessl's default rubric (the published `tessl/default-skill-review`, fetched on demand) and tweak weights, anchors, or dimensions.
 - **Build from scratch** – author new judges from a blank template for a security-only or domain-specific reviewer.
 - **Derive from evidence** – ground the rubric in how your agents actually behave: existing skills, recurring PR review feedback, and agent logs showing where skills failed to activate or needed correction.
 
-The default rubric is bundled at `skills/create-review-plugin/references/default-rubric/` so you can read exactly what `tessl review` uses out of the box before deciding which path to take.
+The default rubric lives in the published `tessl/default-skill-review` plugin (not bundled here); the fork path fetches it on demand, so you always read and fork exactly what `tessl review` uses out of the box.
 
 ## Skills
 
