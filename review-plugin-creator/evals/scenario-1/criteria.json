@@ -24,7 +24,7 @@
     },
     {
       "name": "Plugin-level weight invariant",
-      "description": "validation_weight + sum of all judge weights in config.json equals exactly 1.0",
+      "description": "List validation_weight and every judge weight from config.json, then add them together. Pass only if the sum is within 0.001 of 1.0.",
       "max_score": 12
     },
     {
@@ -34,7 +34,7 @@
     },
     {
       "name": "Rubric dimension weights",
-      "description": "The dimension weights within the new code_examples.json rubric sum to exactly 1.0",
+      "description": "List the weight of every dimension in the new code_examples.json rubric, then add them together. Pass only if the sum is within 0.001 of 1.0.",
       "max_score": 10
     },
     {
