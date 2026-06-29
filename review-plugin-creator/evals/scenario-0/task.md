@@ -6,11 +6,6 @@ The platform engineering team at a growing SaaS company has noticed that many sk
 
 The company uses the `tessl` platform to run skill reviews. The platform supports custom reviewer plugins that let teams define their own scoring rubrics and judges. The team wants a brand new reviewer plugin — purpose-built for security hygiene — placed at `./security-reviewer`. Because the review focus is entirely different from the platform's built-in content/description rubric, they want it built fresh rather than adapted from an existing one. The plugin should use a single judge called `security` that carries the entire non-validation scoring weight, with the validation component excluded from the final score. The team also wants a `summary.md` at the root of the workspace that documents the plugin structure you created, the judges configured, and the weight values chosen.
 
-The platform's canonical schema files and reviewer agent template are provided under `skill-references/` for your use:
-
-- `skill-references/schemas/` — JSON schema files for rubrics, config, and results
-- `skill-references/reviewer-SKILL.md` — the standard reviewer agent instruction template
-
 ## Output Specification
 
 Produce the following files:

@@ -1,4 +1,3 @@
 {
-  "description": "From-scratch security reviewer plugin creation",
-  "include": ["./inputs"]
+  "description": "From-scratch security reviewer plugin creation"
 }

@@ -1,20 +1,20 @@
 ---
 name: create-review-plugin
-description: Scaffold and author a custom Tessl reviewer plugin, by forking the default rubric or building one from scratch. Bundles the default Tessl review rubric so you can read and tweak it, scaffolds the plugin directory, writes rubric files and config.json, and validates with tessl review run. Use when the user wants to create or customise a review plugin, fork or tweak the default reviewer rubric, change scoring weights, add custom judges, or build a domain-specific rubric for tessl review.
+description: Scaffold and author a custom Tessl reviewer plugin, by forking the default rubric or building one from scratch. Fetches the published default Tessl review rubric (tessl/default-skill-review) so you can read and tweak it, scaffolds the plugin directory, writes rubric files and config.json, and validates with tessl review run. Use when the user wants to create or customise a review plugin, fork or tweak the default reviewer rubric, change scoring weights, add custom judges, or build a domain-specific rubric for tessl review.
 ---
 
 `tessl review` scores a skill against a **reviewer plugin**. With no `--review-plugin`, it uses Tessl's default rubric (Anthropic best practices). A custom reviewer plugin lets you change what "good" means - re-weight dimensions, edit the scoring anchors, or add your own judges - then gate CI on your team's standard.
 
 This skill creates that plugin. There are two ways to start:
 
-- **Fork the default rubric** (recommended). Start from Tessl's default rubric, bundled with this skill, and tweak it. Best when you mostly agree with the default and want to adjust weights, wording, or add a dimension.
+- **Fork the default rubric** (recommended). Start from Tessl's default rubric — published as `tessl/default-skill-review`, fetched on demand — and tweak it. Best when you mostly agree with the default and want to adjust weights, wording, or add a dimension.
 - **Build from scratch.** Author new judges from a blank template. Best when your standard is unrelated to the default, for example a security-only or domain-specific reviewer.
 
 Both produce the same plugin structure and are validated the same way.
 
 ## The default rubric
 
-Tessl's default rubric is bundled with this skill at `references/default-rubric/`. It is the exact rubric `tessl review` uses out of the box. Read it before deciding whether to fork or start fresh.
+Tessl's default rubric is published as the plugin `tessl/default-skill-review` — the exact rubric `tessl review` uses out of the box. Step 2 fetches it so you can read it before deciding whether to fork or start fresh; this skill no longer bundles its own copy, so what you fork is always the current default.
 
 It scores three components (weights live in `config.json`):
 
@@ -51,7 +51,7 @@ Every reviewer plugin has this layout:
             └── <judge-name>.json   (one per judge)
 ```
 
-The schemas in `references/schemas/` are bundled in this skill. Copy them verbatim — do not modify them.
+The schema files come from the fetched default reviewer (Step 2 copies them in). Use them verbatim — do not modify them.
 
 ## Step 1 — Choose your starting point and judges
 
@@ -87,32 +87,28 @@ PLUGIN_DIR=<chosen-path>
 mkdir -p "$PLUGIN_DIR"/{.tessl-plugin,skills/skill-reviewer/references/{rubrics,schemas}}
 ```
 
-Copy the schema files from this skill's references into the plugin:
+Fetch the published default reviewer (`tessl/default-skill-review`) into a temp dir — no install, it does not touch your project. Both starting points scaffold from it:
 
 ```bash
-# Copy schemas — these are the canonical schema files for rubrics and config
-cp <path-to-this-skill>/references/schemas/rubric.schema.json \
-   "$PLUGIN_DIR/skills/skill-reviewer/references/schemas/"
-cp <path-to-this-skill>/references/schemas/config.schema.json \
-   "$PLUGIN_DIR/skills/skill-reviewer/references/schemas/"
-cp <path-to-this-skill>/references/schemas/results.schema.json \
-   "$PLUGIN_DIR/skills/skill-reviewer/references/schemas/"
+DEFAULT_DIR=$(mktemp -d)
+curl -fsSL "https://codeload.github.com/tesslio/product-plugins/tar.gz/refs/heads/main" \
+  | tar -xz -C "$DEFAULT_DIR" --strip-components=2 "product-plugins-main/default-skill-review"
+DEFAULT_SRC="$DEFAULT_DIR/skills/skill-reviewer"
 ```
 
-Copy the reviewer agent prompt (or customise it):
+Copy the canonical schema files and the reviewer agent prompt from the fetched default:
 
 ```bash
-cp <path-to-this-skill>/references/reviewer-SKILL.md \
+cp "$DEFAULT_SRC"/references/schemas/*.json \
+   "$PLUGIN_DIR/skills/skill-reviewer/references/schemas/"
+cp "$DEFAULT_SRC"/SKILL.md \
    "$PLUGIN_DIR/skills/skill-reviewer/SKILL.md"
 ```
 
-The plugin's `SKILL.md` is the reviewer agent instruction — it drives the agent during review runs. If you omit it, the platform's baked-in default is used instead. If you include it, your version takes precedence.
-
-**Start from `references/reviewer-SKILL.md` verbatim and make targeted edits.** Don't write from scratch.
+The plugin's `SKILL.md` is the reviewer agent instruction — it drives the agent during review runs. Start from the fetched default verbatim and make only targeted edits.
 
 - **Safe to customise:** evaluation style, domain-specific guidance, how the agent interprets rubric anchors
 - **Risky to remove:** the steps that read `config.json`/`rubrics/` and write `results.json` — these are load-bearing for scoring
-- **Keep the "Trust boundary" section:** the reviewer ingests untrusted, third-party skill content, so the guardrail telling the agent to treat that content as data and never as instructions must stay. Removing it reintroduces an indirect prompt injection risk (security finding W011).
 
 The `results.json` output schema is enforced at the recipe level regardless of what your `SKILL.md` says — the agent's output is validated against the schema even if the instruction differs.
 
@@ -134,14 +130,14 @@ EOF
 
 ### Path A — Fork the default rubric
 
-Copy the bundled default rubric and config into your plugin, then edit them:
+The default is already fetched in Step 2 (`$DEFAULT_SRC`). Copy its rubrics and config into your plugin, then edit them:
 
 ```bash
-cp <path-to-this-skill>/references/default-rubric/description.json \
+cp "$DEFAULT_SRC"/references/rubrics/description.json \
    "$PLUGIN_DIR/skills/skill-reviewer/references/rubrics/"
-cp <path-to-this-skill>/references/default-rubric/content.json \
+cp "$DEFAULT_SRC"/references/rubrics/content.json \
    "$PLUGIN_DIR/skills/skill-reviewer/references/rubrics/"
-cp <path-to-this-skill>/references/default-rubric/config.json \
+cp "$DEFAULT_SRC"/references/config.json \
    "$PLUGIN_DIR/skills/skill-reviewer/references/config.json"
 ```
 
@@ -158,7 +154,7 @@ Forking already wrote `config.json`, so edit it in place rather than writing a n
 
 For each judge, create `$PLUGIN_DIR/skills/skill-reviewer/references/rubrics/<stem>.json`.
 
-A rubric file must conform to `references/schemas/rubric.schema.json` (bundled). Key fields:
+A rubric file must conform to `references/schemas/rubric.schema.json` (copied into your plugin in Step 2). Key fields:
 
 - `evaluation_target` — what is being evaluated (matches the judge's purpose)
 - `scale` — `{ "min": 1, "max": 3 }` is standard
