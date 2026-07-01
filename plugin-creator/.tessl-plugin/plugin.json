@@ -1,0 +1,7 @@
+{
+  "name": "tessl/plugin-creator",
+  "version": "0.1.0",
+  "description": "Create a Tessl plugin: wrap your existing skills into a versioned, shareable bundle, decide what else it needs (rules, commands, MCP servers), validate, and publish.",
+  "private": true,
+  "skills": "./skills/"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "tessl/plugin-creator-dev",
+  "mode": "vendored",
+  "dependencies": {
+    "tessl/skill-optimizer": {
+      "version": "0.14.0"
+    }
+  }
+}
