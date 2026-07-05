@@ -13,7 +13,7 @@ A skill is too big when it does several distinct jobs, has unrelated triggers, o
 
 ## 2. Propose the split
 
-Draft a decomposition: one skill per responsibility, each with its own clear trigger. Show the user the proposed structure and the reasoning. Make the call for them, but bring them in, explain why each split makes the result more reliable and easier to prove later. This is the moment to make the benefit visible.
+Draft a decomposition: one skill per responsibility, each with its own clear trigger and a verb-form skill name. Show the user the proposed structure and the reasoning. Make the call for them, but bring them in, explain why each split makes the result more reliable and easier to prove later. This is the moment to make the benefit visible.
 
 ## 3. Restructure
 

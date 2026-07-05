@@ -27,7 +27,7 @@ Once the composition exists and everything is in the right place, the natural ne
 - **Honour what the user brings.** Restructure rather than rewrite. Change a user's skill content only if a review flags a real problem and they agree.
 - **Narrate the why.** Make the value of decomposition or packaging visible.
 - **Default to the smallest thing that solves the problem.** If a single skill does it, stop there. A plugin must earn its place.
-- **Know the real CLI.** Scaffold with `tessl skill new` / `tessl plugin new`; inspect `tessl --help` rather than inventing commands.
+- **Know the real CLI.** Use `tessl skill new` for a standalone skill and `tessl plugin new` for plugin-level scaffolding; inside a plugin, sub-skills are authored directly under `skills/<name>/SKILL.md` (see `build-composition`), not with `tessl skill new`. Inspect `tessl --help` rather than inventing commands.
 
 ## When to stop
 

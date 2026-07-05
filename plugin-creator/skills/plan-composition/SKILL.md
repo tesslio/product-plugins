@@ -1,6 +1,6 @@
 ---
 name: plan-composition
-description: Use once the problem and artifacts are understood, to decide the right shape for the context. Produces a short composition plan - a single skill for simple cases, or a plugin (with rules, MCP servers, or multiple skills) for richer ones - and confirms it with the user before anything is built.
+description: Use once the problem and artifacts are understood, to decide the right shape for the context. Produces a short composition plan - a single skill for simple cases, or a plugin (with rules, commands, MCP servers, or multiple skills) for richer ones - and confirms it with the user before anything is built.
 ---
 
 # Plan the composition

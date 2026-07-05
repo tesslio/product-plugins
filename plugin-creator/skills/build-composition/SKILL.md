@@ -53,6 +53,8 @@ Lint checks structure; pack confirms what actually ships. Because lint can pass 
 tessl plugin lint <plugin-dir>
 tessl plugin pack <plugin-dir> --output /tmp/check.tgz
 tar tzf /tmp/check.tgz | grep SKILL.md   # every intended skill must appear
+tar tzf /tmp/check.tgz | grep -E '(^|/)rules/[^/]+\.md$' || true      # any rules the plan called for
+tar tzf /tmp/check.tgz | grep -E '(^|/)commands/[^/]+\.md$' || true   # any commands the plan called for
 ```
 
 Optionally install into a throwaway project (a `file:` dependency) and confirm the skills, rules, and any MCP servers materialise.
