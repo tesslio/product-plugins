@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent correctly maps a set of team requirements to Tessl primitives (skill, rule, MCP server, hooks), justifies each choice, avoids padding with unneeded primitives, and correctly handles a not-GA primitive (hooks) by deferring rather than planning to ship it.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Skill for PR review",
+      "description": "Recommends a skill (not a rule or command) for the task-specific, on-demand PR review workflow",
+      "max_score": 10
+    },
+    {
+      "name": "Rule for import convention",
+      "description": "Recommends a rule (not a skill) for the always-on Python import ordering convention",
+      "max_score": 10
+    },
+    {
+      "name": "MCP server for metrics API",
+      "description": "Recommends an MCP server (not a skill or rule) for the live metrics API query capability",
+      "max_score": 10
+    },
+    {
+      "name": "Hooks deferred, not shipped",
+      "description": "Does NOT plan to ship hooks for the commit-triggered summaries; notes that hooks are not GA or unavailable, and defers the requirement as a follow-up",
+      "max_score": 12
+    },
+    {
+      "name": "Justification for each primitive",
+      "description": "Provides a brief justification for each primitive choice (not just a list of types), explaining why that primitive fits the requirement",
+      "max_score": 8
+    },
+    {
+      "name": "No padding",
+      "description": "Does NOT add extra primitives (e.g. a command, a second MCP server, additional rules/skills) that were not needed by the stated requirements",
+      "max_score": 10
+    },
+    {
+      "name": "Plan is concise",
+      "description": "The composition-plan.md is structured as a short plan (not a full implementation or lengthy spec) — a few lines per component rather than detailed code or exhaustive prose",
+      "max_score": 10
+    },
+    {
+      "name": "Plugin shape stated",
+      "description": "States the overall proposed shape — whether this is a single skill or a plugin — and names which primitives will be bundled together",
+      "max_score": 10
+    },
+    {
+      "name": "No secrets hard-coded for MCP",
+      "description": "Does not hard-code the bearer token or API URL secret in the plan; notes that credentials should be provided via environment variable or configuration",
+      "max_score": 10
+    },
+    {
+      "name": "Skill vs rule distinction clear",
+      "description": "The plan explicitly distinguishes between always-on (rule) and on-demand/task-specific (skill) as the reason for the primitive split, not just listing names",
+      "max_score": 10
+    }
+  ]
+}

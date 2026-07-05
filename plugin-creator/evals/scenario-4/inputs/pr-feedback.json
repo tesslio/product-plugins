@@ -1,0 +1,38 @@
+{
+  "repository": "acme-corp/platform",
+  "period": "last 3 months",
+  "recurring_review_comments": [
+    {
+      "comment_id": "rc-001",
+      "count": 7,
+      "pattern": "Missing pre-deploy test run",
+      "representative_comment": "You deployed without running tests first. The test suite must pass before any deploy to production. This has caused rollbacks twice this quarter.",
+      "pr_examples": ["PR #412", "PR #438", "PR #451"],
+      "reviewer": "@sarah-ops"
+    },
+    {
+      "comment_id": "rc-002",
+      "count": 5,
+      "pattern": "No database migration step",
+      "representative_comment": "The deploy script ran but the database migrations weren't applied. Always run `db migrate` before starting the new service version.",
+      "pr_examples": ["PR #419", "PR #433", "PR #447"],
+      "reviewer": "@sarah-ops"
+    },
+    {
+      "comment_id": "rc-003",
+      "count": 4,
+      "pattern": "No smoke test after deploy",
+      "representative_comment": "After deploying, you need to hit the /health endpoint and verify the response. The skill says to 'check that it worked' but doesn't specify how.",
+      "pr_examples": ["PR #421", "PR #436", "PR #449"],
+      "reviewer": "@devops-bot"
+    },
+    {
+      "comment_id": "rc-004",
+      "count": 3,
+      "pattern": "Environment variables not documented",
+      "representative_comment": "What env vars are required? The skill just says 'sometimes you need to set environment variables first' but never lists them. Reviewers keep asking the same question.",
+      "pr_examples": ["PR #415", "PR #429", "PR #444"],
+      "reviewer": "@marcus-dev"
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent correctly applies Tessl plugin conventions when scaffolding a single-skill plugin: verb-form skill naming, valid plugin.json manifest fields, skill description quality (what + when), progressive disclosure via references/, and choosing the smallest appropriate shape.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Verb-form skill name",
+      "description": "The skill folder name is a verb or verb phrase (e.g. 'review-pr', 'audit-pull-request') — NOT a noun or noun phrase (e.g. 'prs', 'pr-review-skill', 'code-review-tool')",
+      "max_score": 15
+    },
+    {
+      "name": "plugin.json name format",
+      "description": "plugin.json contains a 'name' field in the format '<workspace>/<plugin-name>' (two slash-separated segments, no extra slashes)",
+      "max_score": 12
+    },
+    {
+      "name": "plugin.json semver version",
+      "description": "plugin.json contains a 'version' field that is a valid semver string (e.g. '1.0.0', '0.1.0')",
+      "max_score": 8
+    },
+    {
+      "name": "plugin.json description present",
+      "description": "plugin.json contains a non-empty 'description' field",
+      "max_score": 8
+    },
+    {
+      "name": "SKILL.md description covers what",
+      "description": "The SKILL.md frontmatter 'description' field states what the skill does (i.e. describes the PR review workflow or its output)",
+      "max_score": 10
+    },
+    {
+      "name": "SKILL.md description covers when",
+      "description": "The SKILL.md frontmatter 'description' field also states when to use the skill (e.g. 'when reviewing a pull request', 'use when...', or a trigger condition)",
+      "max_score": 10
+    },
+    {
+      "name": "References directory used",
+      "description": "A 'references/' subdirectory exists inside the skill folder containing at least one file",
+      "max_score": 12
+    },
+    {
+      "name": "SKILL.md links to references",
+      "description": "SKILL.md contains at least one markdown link pointing into the references/ directory (e.g. '[see checklist](references/checklist.md)')",
+      "max_score": 10
+    },
+    {
+      "name": "Single-skill shape chosen",
+      "description": "The agent produced a single skill (not a multi-skill plugin with multiple skill folders) — the problem is simple and self-contained",
+      "max_score": 10
+    },
+    {
+      "name": "plan.md justifies shape choice",
+      "description": "plan.md explains why a single skill was chosen (or if a plugin with multiple skills was chosen, gives a clear rationale beyond 'completeness')",
+      "max_score": 5
+    }
+  ]
+}

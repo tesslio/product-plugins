@@ -1,0 +1,11 @@
+{
+  "name": "acme/data-pipeline-tools",
+  "version": "0.1.0",
+  "description": "A plugin that bundles data pipeline authoring skills for the Acme workspace, including skills contributed by external collaborators.",
+  "private": true,
+  "skills": [
+    "skills/write-pipeline",
+    "skills/validate-schema",
+    "skills/transform-csv"
+  ]
+}

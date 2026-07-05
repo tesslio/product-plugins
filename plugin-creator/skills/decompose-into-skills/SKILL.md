@@ -17,7 +17,9 @@ Draft a decomposition: one skill per responsibility, each with its own clear tri
 
 ## 3. Restructure
 
-Create the focused skills (`tessl skill new`). Move shared depth into `references/`. If skills depend on one another, make that explicit so they are not used in isolation. The plugin becomes the superstructure that bundles them, a legitimate reason to go from a single skill to a plugin.
+Create each focused skill as `skills/<name>/SKILL.md` directly (do **not** run `tessl skill new` per sub-skill inside a plugin, it nests a broken standalone plugin that `pack` silently drops, see `build-composition`). Move shared depth into `references/`. If skills depend on one another, make that explicit so they are not used in isolation. The plugin becomes the superstructure that bundles them, a legitimate reason to go from a single skill to a plugin.
+
+Not every piece is a skill. If decomposition surfaces an always-on convention (something the agent should always follow, not a workflow it triggers), that piece belongs in a **rule**, not a skill. Route it accordingly.
 
 Honour the original content: preserve the user's wording and intent, restructure rather than rewrite, unless a review flags a real problem and the user agrees.
 

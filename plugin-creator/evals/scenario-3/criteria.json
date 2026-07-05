@@ -1,0 +1,46 @@
+{
+  "context": "Tests whether an agent producing a plugin-publishing checklist correctly surfaces provenance sensitivity for third-party skills, warns about the irreversibility of making a plugin public, includes the required lint and dry-run steps, mentions auth requirements, bumps the version for a second release, and handles plugin retirement correctly.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Provenance concern raised",
+      "description": "The checklist explicitly mentions that the plugin wraps skills authored by someone else (a colleague/third party) and states this must be addressed or confirmed before publishing",
+      "max_score": 16
+    },
+    {
+      "name": "Public visibility confirmed",
+      "description": "The checklist includes a step to confirm or explicitly set the plugin's visibility to public (i.e., changing or verifying the `private` field in plugin.json)",
+      "max_score": 14
+    },
+    {
+      "name": "Public is irreversible warning",
+      "description": "The checklist states that making a plugin public is irreversible — a public plugin cannot be made private again",
+      "max_score": 14
+    },
+    {
+      "name": "Lint step included",
+      "description": "The checklist includes running `tessl plugin lint` (with the plugin directory) as a required pre-publish step",
+      "max_score": 12
+    },
+    {
+      "name": "Dry-run step included",
+      "description": "The checklist includes running `tessl plugin publish --dry-run` (or equivalent) before the actual publish command",
+      "max_score": 12
+    },
+    {
+      "name": "Auth requirement mentioned",
+      "description": "The checklist mentions that publishing requires authentication via `tessl login` or the `TESSL_TOKEN` environment variable",
+      "max_score": 10
+    },
+    {
+      "name": "Version bump step",
+      "description": "The checklist includes bumping the plugin version (e.g., using `--bump patch`, `--bump minor`, `--bump major`, or editing the `version` field in plugin.json) since this is a second release",
+      "max_score": 12
+    },
+    {
+      "name": "Retirement via archive, not unpublish",
+      "description": "The note about taking the plugin down recommends `tessl plugin archive` as the standard approach, OR clearly states that `tessl plugin unpublish` only works within 2 days of publishing — does NOT present unpublish as a general rollback strategy",
+      "max_score": 10
+    }
+  ]
+}

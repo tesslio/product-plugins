@@ -19,10 +19,13 @@ Do not escalate to a plugin for its own sake. If a single skill solves it, that 
 | Use a tool or live data it does not have | MCP server |
 | Run something automatically at a lifecycle event | Hook (not GA, defer) |
 
+## Skill vs rule: do not default to skills
+
+The most common mistake is making everything a skill. A skill fires when the agent judges a task relevant; a rule is always in context. If the user says the agent "keeps getting X wrong", "every time", or "never follows our convention", that is an always-on convention, which is a **rule** (sometimes a rule plus a skill), not a skill on its own. Weigh this explicitly for any conventions-style request before defaulting to a skill.
+
 ## Heuristics
 
-- A skill is instructions; an MCP server is capability.
-- Rules are for the always-on minority; task-specific guidance belongs in a skill.
+- A skill is instructions the agent reaches for; a rule is a convention it always obeys; an MCP server is a capability.
 - One responsibility per plugin; two unrelated jobs are two plugins.
 - Do not add primitives to look complete.
 

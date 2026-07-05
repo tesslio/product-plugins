@@ -13,7 +13,7 @@ The most common authoring mistakes are cramming everything into one skill and pa
 
 - One responsibility per plugin. A plugin is a focused bundle, not a junk drawer.
 - A few tightly-related skills, not fifty.
-- An orchestrator skill plus a small number of sub-skills it delegates to is a good shape.
+- Two shapes are both fine: **peer skills** (several independently-triggered skills with no coordinator, e.g. separate logging / errors / config skills) and **orchestrator plus sub-skills** (one entry skill that delegates). Use an orchestrator only when the skills genuinely need coordinating; do not add one just to look complete.
 
 ## Decomposition (why it matters)
 
