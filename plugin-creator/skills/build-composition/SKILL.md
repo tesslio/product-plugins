@@ -59,6 +59,8 @@ tar tzf /tmp/check.tgz | grep -E '(^|/)commands/[^/]+\.md$' || true   # any comm
 
 Optionally install into a throwaway project (a `file:` dependency) and confirm the skills, rules, and any MCP servers materialise.
 
+If the plugin ships an MCP server, scripts, or otherwise touches secrets, auth, file or network access, or CI, also run a security review (`tessl review run security <plugin-dir>`; inspect `tessl review --help` for the current form). Expect findings and triage each, a flagged item is not automatically a blocker but should be reviewed with the user.
+
 ## 6. Hand off
 
 The composition now exists. Point the user at the next steps: eval via `tessl/skill-optimizer` (a separate flow), and `publish-plugin` if they want to share it. Do not run evals here.

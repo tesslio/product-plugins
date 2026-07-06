@@ -29,6 +29,10 @@ The most common mistake is making everything a skill. A skill fires when the age
 - One responsibility per plugin; two unrelated jobs are two plugins.
 - Do not add primitives to look complete.
 
+## Some behaviours are not skills or rules at all
+
+Not every "the agent should X" belongs in the plugin. If a behaviour is better enforced deterministically (a lint, a test, or a hook once hooks are GA), or is a broad observable invariant better expressed as a verifier (`tessl change verify`, an LLM-judge at glob level), say so and point the user at the `change-verify` skill rather than forcing it into skill or rule prose. Context is the right tool for workflows and conventions the agent reasons about, not for deterministic guardrails.
+
 ## Eval is downstream
 
 Evaluation is not part of choosing the shape, and not part of this plugin. Once the composition is built, skill-optimizer handles eval as a separate step. The only thing composition owes eval is a well-formed skill or plugin for it to run on.

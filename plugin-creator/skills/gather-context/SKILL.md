@@ -19,6 +19,7 @@ Look at what they have. The material you need may already be the thing they are 
 - **Code, configs, or docs** — the conventions to capture may be implicit in the codebase.
 - **A prompt, transcript, or notes** — raw intent to structure.
 - **A pointer** — "go find it in my PRs / recent sessions."
+- **Team preferences** — if `.tessl/memory/preferences/` exists, read it for grounding: `plugins.md` (where plugins are kept), `agents.md` (which agents to set up), `source-control-and-ci.md` (existing checks and conventions). Use these so you infer rather than ask.
 
 ## 3. Fill the gaps
 
