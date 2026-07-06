@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent correctly decomposes a monolithic skill into focused, independently-triggerable sub-skills following the decompose-into-skills guidance. The agent must lead with the value of decomposition, use verb-form skill names, surface shared material in references/, and avoid running evals or hinting at them.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Benefit-led rationale",
+      "description": "decomposition-rationale.md leads with the benefit of the split (reliability, independent verifiability, or ease of maintenance) — not with mechanics or tidying framing",
+      "max_score": 12
+    },
+    {
+      "name": "Independent verifiability mentioned",
+      "description": "decomposition-rationale.md mentions that each skill can now be evaluated or verified independently (e.g., references skill-optimizer or independent evaluation)",
+      "max_score": 10
+    },
+    {
+      "name": "No eval-running",
+      "description": "decomposition-rationale.md does NOT announce plans to run evals now or as an immediate next step — evaluation is deferred or pointed at a separate tool",
+      "max_score": 8
+    },
+    {
+      "name": "Verb-form skill names",
+      "description": "All skill sub-folder names use verb form (e.g., migrate-schema, backup-database, monitor-health, manage-access) — none use noun-only names like 'migrations' or 'backups'",
+      "max_score": 10
+    },
+    {
+      "name": "One responsibility per skill",
+      "description": "Each resulting SKILL.md covers exactly one distinct responsibility area; no two skills have substantially overlapping trigger conditions",
+      "max_score": 12
+    },
+    {
+      "name": "Shared material in references/",
+      "description": "Shared reference content (e.g., environment variable requirements, safety rules) is placed in a references/ directory rather than duplicated across multiple skill files",
+      "max_score": 10
+    },
+    {
+      "name": "Orchestrator or explicit delegation",
+      "description": "Either an orchestrator skill exists that delegates to sub-skills, OR the plugin.json / rationale document makes delegation relationships explicit",
+      "max_score": 10
+    },
+    {
+      "name": "Cross-skill dependencies explicit",
+      "description": "If any skill depends on another (e.g., backup-database is a prerequisite for migrate-schema), that dependency is called out explicitly in the skill content or rationale — skills are not expected to be used in isolation when they cannot be",
+      "max_score": 8
+    },
+    {
+      "name": "plugin.json present",
+      "description": "A plugin.json manifest exists at the top of the plugin directory with at minimum name, version, and description fields",
+      "max_score": 8
+    },
+    {
+      "name": "Decomposition structure shown",
+      "description": "decomposition-rationale.md includes a proposed structure listing each skill name and its trigger or responsibility — not just prose explanation",
+      "max_score": 12
+    }
+  ]
+}

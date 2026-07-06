@@ -1,0 +1,66 @@
+{
+  "context": "Tests whether the agent correctly distinguishes between what can be inferred from provided artifacts (SKILL.md and PR feedback JSON) versus what must be asked of the user. Also tests that the agent does not fabricate evidence, honors the existing skill's intent, and proposes a strong skill description covering both what the skill does and when to use it.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Identifies test gap",
+      "description": "The 'What We Already Know' section includes missing pre-deploy test run as an inferred gap (sourced from the PR feedback — do NOT ask the user about this)",
+      "max_score": 8
+    },
+    {
+      "name": "Identifies migration gap",
+      "description": "The 'What We Already Know' section includes missing database migration step as an inferred gap (sourced from the PR feedback)",
+      "max_score": 8
+    },
+    {
+      "name": "Identifies smoke test gap",
+      "description": "The 'What We Already Know' section includes missing post-deploy smoke test / health check as an inferred gap (sourced from the PR feedback)",
+      "max_score": 8
+    },
+    {
+      "name": "Identifies env var gap",
+      "description": "The 'What We Already Know' section includes undocumented environment variables as an inferred gap (sourced from the PR feedback or SKILL.md)",
+      "max_score": 8
+    },
+    {
+      "name": "No redundant questions",
+      "description": "The 'Questions for the Team Lead' section does NOT ask about things already present in the fixtures (e.g., does not ask which steps are missing when PR feedback already lists them)",
+      "max_score": 10
+    },
+    {
+      "name": "Questions target unknowns only",
+      "description": "All questions in 'Questions for the Team Lead' concern genuinely unknown information (e.g., required env var names, rollback procedure, target environment specifics, trigger conditions) not readable from the provided files",
+      "max_score": 10
+    },
+    {
+      "name": "No fabricated evidence",
+      "description": "The output does NOT claim to have run `/find-optimizations` or `tessl agent-logs` with specific results; any mention of these tools is framed as what could be done next, not as already completed",
+      "max_score": 9
+    },
+    {
+      "name": "Preserves original intent",
+      "description": "The Problem Summary and analysis treat the existing SKILL.md content as a base to improve, not discard — it acknowledges the skill exists and describes what it currently covers",
+      "max_score": 7
+    },
+    {
+      "name": "Description has 'what'",
+      "description": "The Proposed Skill Description states what the skill does (e.g., guides production deployment of the platform service)",
+      "max_score": 8
+    },
+    {
+      "name": "Description has 'when'",
+      "description": "The Proposed Skill Description states when to use the skill (e.g., when deploying to production, before a release, etc.)",
+      "max_score": 8
+    },
+    {
+      "name": "Sources cited",
+      "description": "Items in 'What We Already Know' reference which artifact (SKILL.md or a specific PR feedback pattern) they were inferred from",
+      "max_score": 8
+    },
+    {
+      "name": "No invented PR feedback",
+      "description": "The output does not introduce additional PR feedback patterns beyond the four provided in pr-feedback.json",
+      "max_score": 8
+    }
+  ]
+}
