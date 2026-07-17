@@ -1,0 +1,10 @@
+{
+  "description": "Author location — avoid the .tessl/plugins install cache, use a repo-owned source dir",
+  "fixtures": {
+    "install-cache": {
+      "type": "directory",
+      "path": "./inputs/install-cache",
+      "installPath": ".tessl/plugins"
+    }
+  }
+}

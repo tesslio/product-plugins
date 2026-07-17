@@ -1,0 +1,31 @@
+{
+  "context": "Tests whether the agent authors a new plugin in a repo-owned source directory rather than under .tessl/plugins/, which is pre-seeded in the working directory as Tessl's installed-content cache (a populated tessl/pr-reviewer plugin). The agent must recognise that .tessl/plugins/ is a cache, not a source location, place the new plugin somewhere it controls and commits, leave the existing cache untouched, and validate with the correct lint command. This directly exercises the guidance added to build-composition to stop agents thrashing on where to author plugin source.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Source NOT under .tessl/plugins/",
+      "description": "The newly authored commit-writer plugin (its .tessl-plugin/plugin.json and skill SKILL.md) is NOT located anywhere under the .tessl/plugins/ directory. Authoring the new plugin inside .tessl/plugins/ is a hard failure for this item.",
+      "max_score": 35
+    },
+    {
+      "name": "Repo-owned source directory used",
+      "description": "The new plugin is authored in a repo-owned source directory the developer would commit — e.g. tessl-plugins/commit-writer/, plugins/commit-writer/, or another top-level project directory (including the working-directory root). Full marks for tessl-plugins/<name>/ or plugins/<name>/; partial credit for another sensible repo-owned location.",
+      "max_score": 25
+    },
+    {
+      "name": "Install cache left intact",
+      "description": "The pre-existing .tessl/plugins/tessl/pr-reviewer/ cache contents are left unmodified — the agent did not write its new plugin into, overwrite, or delete anything in the install cache.",
+      "max_score": 12
+    },
+    {
+      "name": "Wired into tessl.json via file:",
+      "description": "The new plugin is referenced from tessl.json as a local dependency using a file: path (e.g. file:tessl-plugins/commit-writer), confirming it is treated as committed, repo-owned source rather than installed content. This is filesystem-observable, unlike whether a lint command was run.",
+      "max_score": 18
+    },
+    {
+      "name": "Valid plugin produced",
+      "description": "A structurally valid plugin exists: a .tessl-plugin/plugin.json with name (tessl/commit-writer), version, and description, plus a skills/<verb-name>/SKILL.md with a frontmatter description.",
+      "max_score": 10
+    }
+  ]
+}
