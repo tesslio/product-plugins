@@ -21,7 +21,7 @@ Scaffold this with `tessl plugin new` (or `tessl skill new` for a single skill) 
 
 ## Where to author the source
 
-Author the plugin in a **repo-owned directory you commit and control**. If `.tessl/memory/preferences/plugins.md` names a plugins dir, use it. Otherwise default to `tessl-plugins/<plugin-name>/` (or `plugins/<plugin-name>/`), then reference it from `tessl.json` with `file:<path>`.
+Author the plugin in a **repo-owned directory you commit and control**. If `.tessl/memory/preferences/plugins.md` names a plugins dir, use it. Otherwise the default is `tessl-plugins/<plugin-name>/`, referenced from `tessl.json` with `file:<path>`. (Some repos keep plugins under `plugins/<plugin-name>/` instead; follow that only when it is already the repo's convention.)
 
 **Do not author source under `.tessl/plugins/`.** That path is Tessl's installed-content cache, where installed plugins are materialised, not a source directory. Anything you write there can be overwritten or wiped by install operations.
 

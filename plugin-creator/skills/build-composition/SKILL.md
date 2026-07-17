@@ -54,9 +54,15 @@ Only add what the plan specified, do not pad.
 ```bash
 tessl plugin lint <plugin-dir>
 tessl plugin pack <plugin-dir> --output /tmp/check.tgz
-tar tzf /tmp/check.tgz | grep SKILL.md   # every intended skill must appear
-tar tzf /tmp/check.tgz | grep -E '(^|/)rules/[^/]+\.md$' || true      # any rules the plan called for
-tar tzf /tmp/check.tgz | grep -E '(^|/)commands/[^/]+\.md$' || true   # any commands the plan called for
+tar tzf /tmp/check.tgz                    # inspect the full file list
+```
+
+Then assert **each** intended file is present, do not settle for a bare `grep SKILL.md` (it passes as soon as any one skill appears, so it hides a dropped skill). List the paths the plan called for and fail on the first miss:
+
+```bash
+for p in skills/<first>/SKILL.md skills/<second>/SKILL.md rules/<rule>.md commands/<cmd>.md; do
+  tar tzf /tmp/check.tgz | grep -q "/$p\$\|^$p\$" || echo "MISSING: $p"
+done
 ```
 
 `tessl skill lint <skill-dir>` is a separate tool for a single loose `SKILL.md` not yet inside a plugin. Do not run it against a skill folder within your plugin, `tessl plugin lint` already covers those; if it errors about missing plugin metadata, you pointed it at the wrong shape, drop it.
