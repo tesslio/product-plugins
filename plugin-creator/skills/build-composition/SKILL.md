@@ -60,9 +60,11 @@ tar tzf /tmp/check.tgz                    # inspect the full file list
 Then assert **each** intended file is present, do not settle for a bare `grep SKILL.md` (it passes as soon as any one skill appears, so it hides a dropped skill). List the paths the plan called for and fail on the first miss:
 
 ```bash
+missing=0
 for p in skills/<first>/SKILL.md skills/<second>/SKILL.md rules/<rule>.md commands/<cmd>.md; do
-  tar tzf /tmp/check.tgz | grep -q "/$p\$\|^$p\$" || echo "MISSING: $p"
+  tar tzf /tmp/check.tgz | grep -q "/$p\$\|^$p\$" || { echo "MISSING: $p"; missing=1; }
 done
+[ "$missing" -eq 0 ]   # nonzero exit if any intended file is absent
 ```
 
 `tessl skill lint <skill-dir>` is a separate tool for a single loose `SKILL.md` not yet inside a plugin. Do not run it against a skill folder within your plugin, `tessl plugin lint` already covers those; if it errors about missing plugin metadata, you pointed it at the wrong shape, drop it.
