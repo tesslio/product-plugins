@@ -19,6 +19,12 @@
 
 Scaffold this with `tessl plugin new` (or `tessl skill new` for a single skill) rather than writing it by hand. A single skill created with `tessl skill new` is already a minimal plugin, it gets a `.tessl-plugin/plugin.json`.
 
+## Where to author the source
+
+Author the plugin in a **repo-owned directory you commit and control**. If `.tessl/memory/preferences/plugins.md` names a plugins dir, use it. Otherwise the default is `tessl-plugins/<plugin-name>/`, referenced from `tessl.json` with `file:<path>`. (Some repos keep plugins under `plugins/<plugin-name>/` instead; follow that only when it is already the repo's convention.)
+
+**Do not author source under `.tessl/plugins/`.** That path is Tessl's installed-content cache, where installed plugins are materialised, not a source directory. Anything you write there can be overwritten or wiped by install operations.
+
 ## `plugin.json` fields
 
 **Required:** `name` (`<workspace>/<plugin-name>`, matches the key in `tessl.json`), `version` (semver), `description` (the registry shopfront, what others see to decide whether to install).

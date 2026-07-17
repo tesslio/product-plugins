@@ -9,6 +9,8 @@ Turn the confirmed plan into real files, in the right place. Do not re-litigate 
 
 ## 1. Scaffold the plugin once
 
+First choose **where** to author it: a repo-owned directory you commit, defaulting to `tessl-plugins/<plugin-name>/` when `.tessl/memory/preferences/plugins.md` names no other. **Never author under `.tessl/plugins/`** — that is Tessl's installed-content cache, not source. See [references/plugin-anatomy.md](references/plugin-anatomy.md).
+
 Create the plugin skeleton with the CLI. Inspect `tessl plugin new --help` first, and note two things it requires:
 - Pass `--skill` (with `--skill-name` and `--skill-description`) or `--rules` to seed initial content; it errors with neither.
 - Pass `--workspace <name>` explicitly. The workspace in `--name workspace/plugin` is **not** parsed from the name.
@@ -47,19 +49,29 @@ Only add what the plan specified, do not pad.
 
 ## 5. Validate with lint AND pack
 
-Lint checks structure; pack confirms what actually ships. Because lint can pass on a mis-nested skill, always do both:
+`tessl plugin lint <plugin-dir>` is the primary structural check; pack confirms what actually ships. Because lint can pass on a mis-nested skill, always do both:
 
 ```bash
 tessl plugin lint <plugin-dir>
 tessl plugin pack <plugin-dir> --output /tmp/check.tgz
-tar tzf /tmp/check.tgz | grep SKILL.md   # every intended skill must appear
-tar tzf /tmp/check.tgz | grep -E '(^|/)rules/[^/]+\.md$' || true      # any rules the plan called for
-tar tzf /tmp/check.tgz | grep -E '(^|/)commands/[^/]+\.md$' || true   # any commands the plan called for
+tar tzf /tmp/check.tgz                    # inspect the full file list
 ```
+
+Then assert **each** intended file is present, do not settle for a bare `grep SKILL.md` (it passes as soon as any one skill appears, so it hides a dropped skill). List the paths the plan called for and fail on the first miss:
+
+```bash
+missing=0
+for p in skills/<first>/SKILL.md skills/<second>/SKILL.md rules/<rule>.md commands/<cmd>.md; do
+  tar tzf /tmp/check.tgz | grep -q "/$p\$\|^$p\$" || { echo "MISSING: $p"; missing=1; }
+done
+[ "$missing" -eq 0 ]   # nonzero exit if any intended file is absent
+```
+
+`tessl skill lint <skill-dir>` is a separate tool for a single loose `SKILL.md` not yet inside a plugin. Do not run it against a skill folder within your plugin, `tessl plugin lint` already covers those; if it errors about missing plugin metadata, you pointed it at the wrong shape, drop it.
 
 Optionally install into a throwaway project (a `file:` dependency) and confirm the skills, rules, and any MCP servers materialise.
 
-If the plugin ships an MCP server, scripts, or otherwise touches secrets, auth, file or network access, or CI, also run a security review (`tessl review run security <plugin-dir>`; inspect `tessl review --help` for the current form). Expect findings and triage each, a flagged item is not automatically a blocker but should be reviewed with the user.
+If the plugin ships an MCP server, scripts, or otherwise touches secrets, auth, file or network access, or CI, also run a security review: `tessl review run security <path> --workspace <name>` (inspect `tessl review run --help` for the current form). Pass `--workspace <name>` on any non-interactive `tessl review run`, quality or security (e.g. `tessl review run quality <path> --workspace <name>`), or the CLI opens an interactive workspace selector and hangs. Expect findings and triage each, a flagged item is not automatically a blocker but should be reviewed with the user.
 
 ## 6. Hand off
 

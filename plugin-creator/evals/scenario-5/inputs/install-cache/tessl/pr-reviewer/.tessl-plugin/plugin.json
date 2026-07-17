@@ -1,0 +1,7 @@
+{
+  "name": "tessl/pr-reviewer",
+  "version": "1.2.0",
+  "description": "Review a pull request: check for logic bugs, style consistency, and security concerns, then summarise findings.",
+  "private": false,
+  "skills": "./skills/"
+}
