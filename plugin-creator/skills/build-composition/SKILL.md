@@ -23,6 +23,17 @@ See [references/plugin-anatomy.md](references/plugin-anatomy.md).
 
 The scaffold command does not seed hooks or MCP servers. After it creates the base manifest, add the planned `hooks` / `nativeHooks` fields or `mcpServers` pointer and their companion files.
 
+For a hook-only or MCP-only plugin, use a temporary rule only to satisfy the scaffold constraint:
+
+```bash
+tessl plugin new --name <workspace>/<plugin> --summary "<description>" \
+  --path <plugin-dir> --rules temporary-seed \
+  --rule-description "Temporary scaffold seed; remove before packaging." \
+  --workspace <workspace>
+```
+
+After scaffolding, remove `rules/temporary-seed.md`, the empty `rules/` directory, and the manifest's `rules` field before adding the planned hook or MCP server. Do not ship a placeholder skill or rule. Run the lint and pack checks in step 5, and inspect the archive to confirm the temporary seed is absent.
+
 ## 2. Add each further skill by hand, not with `tessl skill new`
 
 To add more skills to an existing plugin, **create the file directly**:
