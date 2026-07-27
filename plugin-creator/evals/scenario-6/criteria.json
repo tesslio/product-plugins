@@ -1,0 +1,51 @@
+{
+  "context": "Tests whether plugin-creator builds a valid cross-agent hook artifact for deterministic, agent-independent PostToolUse behavior. The output must use the generic hooks tier, the supported matcher and command shape, a bundled entrypoint anchored through TESSL_PLUGIN_DIR, and must leave agent-native configuration to Tessl.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Generic PostToolUse hook declared",
+      "description": "validate-after-edit/.tessl-plugin/plugin.json contains a top-level `hooks` field with a `PostToolUse` hook group",
+      "max_score": 16
+    },
+    {
+      "name": "Edit and Write matcher",
+      "description": "The PostToolUse hook group has a matcher that covers both Edit and Write tool calls, such as `Edit|Write`",
+      "max_score": 10
+    },
+    {
+      "name": "Valid command hook shape",
+      "description": "The group contains a command hook with `type: command`; if `args` is present the command is an executable and args are separate, otherwise the command is a valid shell command string",
+      "max_score": 12
+    },
+    {
+      "name": "Plugin path anchored correctly",
+      "description": "The hook declaration references its bundled entrypoint with the exact braced `${TESSL_PLUGIN_DIR}` token in command or args; it does not rely on a bare relative plugin path",
+      "max_score": 14
+    },
+    {
+      "name": "Hook entrypoint ships",
+      "description": "A substantive hook entrypoint exists under validate-after-edit/hooks/ and runs `npm run validate:changed`; the manifest reference resolves to that file",
+      "max_score": 14
+    },
+    {
+      "name": "Generic tier preferred",
+      "description": "The manifest does not use `nativeHooks` for this agent-independent requirement",
+      "max_score": 12
+    },
+    {
+      "name": "No prose-only substitute",
+      "description": "The output does not substitute a skill or rule that only tells the model to run validation instead of implementing the deterministic hook",
+      "max_score": 8
+    },
+    {
+      "name": "No direct agent config edits",
+      "description": "The output does not create or edit agent-native hook configuration such as .claude/settings.json or .cursor/hooks.json",
+      "max_score": 8
+    },
+    {
+      "name": "Valid plugin metadata",
+      "description": "validate-after-edit/.tessl-plugin/plugin.json has the requested name plus valid version and description fields",
+      "max_score": 6
+    }
+  ]
+}

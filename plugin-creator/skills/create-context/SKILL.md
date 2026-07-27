@@ -14,8 +14,8 @@ A plugin is just the packaging mechanism. Do not lead with it. And do not run ev
 Run these phases in order. Each has a skill.
 
 1. **Understand and gather** — `gather-context`. Understand the problem, take stock of what the user already has (an existing skill or plugin, code, a prompt or transcript, or a pointer like "go look at my PRs"), and fill the gaps by asking or by hunting. The material you need may already be the thing they are trying to create. Make sure you have enough before moving on.
-2. **Plan the composition** — `plan-composition`. Decide the right shape to solve the problem. Simple problems want a single skill; richer ones want a plugin, possibly with rules or an MCP server. Produce a short plan and confirm it.
-3. **Build the composition** — `build-composition`. Create it: author or restructure the skill(s), decompose anything too big (`decompose-into-skills`), and assemble the plugin with the primitives the plan called for. Scaffold with the CLI, do not hand-write manifests.
+2. **Plan the composition** — `plan-composition`. Decide the right shape to solve the problem. Simple problems want a single skill; richer ones may need rules, hooks, or an MCP server. Produce a short plan and confirm it.
+3. **Build the composition** — `build-composition`. Create it: author or restructure the skills, decompose anything too big (`decompose-into-skills`), and assemble the plugin with the primitives the plan called for. Scaffold the base manifest with the CLI, then add the planned hook or MCP fields and companion files.
 4. **Publish (optional)** — `publish-plugin`, only if the user wants to share it now.
 
 ## Then, separately: eval

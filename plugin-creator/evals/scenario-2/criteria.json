@@ -1,5 +1,5 @@
 {
-  "context": "Tests whether the agent correctly maps a set of team requirements to Tessl primitives (skill, rule, MCP server, hooks), justifies each choice, avoids padding with unneeded primitives, and correctly handles a not-GA primitive (hooks) by deferring rather than planning to ship it.",
+  "context": "Tests whether the agent correctly maps a set of team requirements to Tessl primitives (skill, rule, MCP server, hook), justifies each choice, avoids padding with unneeded primitives, and chooses the cross-agent hook tier for agent-independent lifecycle behavior.",
   "type": "weighted_checklist",
   "checklist": [
     {
@@ -18,8 +18,8 @@
       "max_score": 10
     },
     {
-      "name": "Hooks deferred, not shipped",
-      "description": "Does NOT plan to ship hooks for the commit-triggered summaries; notes that hooks are not GA or unavailable, and defers the requirement as a follow-up",
+      "name": "Cross-agent hook for post-edit validation",
+      "description": "Recommends a generic cross-agent `hooks` entry using the `PostToolUse` event and an Edit/Write matcher for deterministic post-edit validation; does not defer hooks or claim they are unavailable",
       "max_score": 12
     },
     {

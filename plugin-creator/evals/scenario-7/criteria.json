@@ -1,0 +1,46 @@
+{
+  "context": "Tests the boundary between generic hooks and nativeHooks. Claude Code's Notification event and idle_prompt matcher are agent-specific, so the plugin should use the native escape hatch, keep the entrypoint in the package, and explain why a generic Tessl event is insufficient.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Native hook tier selected",
+      "description": "claude-idle-notifier/.tessl-plugin/plugin.json contains top-level `nativeHooks` keyed by the recognized agent id `claude-code`",
+      "max_score": 18
+    },
+    {
+      "name": "Agent-specific event represented",
+      "description": "The claude-code native hook configuration declares the `Notification` event and filters it for `idle_prompt` using the native shape",
+      "max_score": 16
+    },
+    {
+      "name": "Bundled entrypoint anchored",
+      "description": "The native hook command references hooks/notify-idle.sh through the exact braced `${TESSL_PLUGIN_DIR}` token rather than a bare relative path",
+      "max_score": 14
+    },
+    {
+      "name": "Hook entrypoint ships",
+      "description": "A claude-idle-notifier/hooks/notify-idle.sh file exists, is the file referenced by the manifest, and invokes a desktop notification mechanism such as osascript, terminal-notifier, notify-send, or an equivalent platform command; a no-op or echo-only script does not satisfy this criterion",
+      "max_score": 12
+    },
+    {
+      "name": "Native boundary justified",
+      "description": "A hook-decision.md file exists at the working-directory root, not nested under the plugin or another directory, and explains that `nativeHooks` is necessary because Notification and idle_prompt are Claude Code-specific and are not expressible by the generic PreToolUse, PostToolUse, UserPromptSubmit, SessionStart, or Stop events",
+      "max_score": 14
+    },
+    {
+      "name": "No false generic workaround",
+      "description": "The manifest does not incorrectly map the native Notification requirement onto a generic Tessl event or add an unrelated generic hook",
+      "max_score": 10
+    },
+    {
+      "name": "No direct Claude config edit",
+      "description": "The output does not create or edit .claude/settings.json; Tessl is left to materialize the native hook on install",
+      "max_score": 8
+    },
+    {
+      "name": "Valid plugin metadata",
+      "description": "claude-idle-notifier/.tessl-plugin/plugin.json has the requested name plus valid version and description fields",
+      "max_score": 8
+    }
+  ]
+}
