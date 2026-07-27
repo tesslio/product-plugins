@@ -1,6 +1,6 @@
 ---
 name: build-composition
-description: Use once there is a confirmed composition plan, to create it. Scaffolds the plugin, authors or restructures the skill(s), decomposes anything too big, and adds any rules or MCP servers the plan called for. Uses the CLI to scaffold the plugin, then adds further skills by hand.
+description: Use once there is a confirmed composition plan, to create it. Scaffolds the plugin, authors or restructures the skills, and adds the rules, hooks, MCP servers, or commands the plan called for. Uses the CLI to scaffold the plugin, then authors the planned composition.
 ---
 
 # Build the composition
@@ -20,6 +20,8 @@ Create the plugin skeleton with the CLI. Inspect `tessl plugin new --help` first
 - Wrapping an existing loose `SKILL.md` into a plugin → `tessl skill import`.
 
 See [references/plugin-anatomy.md](references/plugin-anatomy.md).
+
+The scaffold command does not seed hooks or MCP servers. After it creates the base manifest, add the planned `hooks` / `nativeHooks` fields or `mcpServers` pointer and their companion files.
 
 ## 2. Add each further skill by hand, not with `tessl skill new`
 
@@ -44,8 +46,11 @@ The manifest's `skills: ./skills/` discovers them automatically.
 Only add what the plan specified, do not pad.
 
 - **Rule** — a plain `.md` under `rules/` for an always-on convention. If the plan identified a convention the agent should always follow (see `plan-composition`), it belongs here, not in a skill.
-- **MCP server** — a bundled `.mcp.json` when the plan calls for a capability. Point the manifest at it (`"mcpServers": ".mcp.json"`). Two transports: `http` (a URL) and `stdio` (a command plus args). Do not hard-code secrets.
+- **Hook** — a command that runs at an agent lifecycle event. Put plugin-owned entrypoints under `hooks/` and declare them in the manifest. Prefer cross-agent `hooks`; use `nativeHooks` only for an agent-specific event or field the generic contract cannot express.
+- **MCP server** — a bundled `.mcp.json` at the plugin root when the plan calls for a live capability. Point the manifest at it (`"mcpServers": ".mcp.json"`). Two transports: `http` (a URL) and `stdio` (a command plus args). Do not hard-code secrets.
 - **Command** — a `.md` under `commands/` for a user-invoked action.
+
+For the exact hook and MCP shapes, shipping rules, and examples, read [references/hooks-and-mcp.md](references/hooks-and-mcp.md).
 
 ## 5. Validate with lint AND pack
 
@@ -61,7 +66,7 @@ Then assert **each** intended file is present, do not settle for a bare `grep SK
 
 ```bash
 missing=0
-for p in skills/<first>/SKILL.md skills/<second>/SKILL.md rules/<rule>.md commands/<cmd>.md; do
+for p in skills/<first>/SKILL.md skills/<second>/SKILL.md rules/<rule>.md hooks/<hook>.sh .mcp.json commands/<cmd>.md; do
   tar tzf /tmp/check.tgz | grep -q "/$p\$\|^$p\$" || { echo "MISSING: $p"; missing=1; }
 done
 [ "$missing" -eq 0 ]   # nonzero exit if any intended file is absent
@@ -71,7 +76,9 @@ done
 
 Optionally install into a throwaway project (a `file:` dependency) and confirm the skills, rules, and any MCP servers materialise.
 
-If the plugin ships an MCP server, scripts, or otherwise touches secrets, auth, file or network access, or CI, also run a security review: `tessl review run security <path> --workspace <name>` (inspect `tessl review run --help` for the current form). Pass `--workspace <name>` on any non-interactive `tessl review run`, quality or security (e.g. `tessl review run quality <path> --workspace <name>`), or the CLI opens an interactive workspace selector and hangs. Expect findings and triage each, a flagged item is not automatically a blocker but should be reviewed with the user.
+If the plugin contains hooks or MCP servers, install it into a throwaway project when practical and inspect the target agent configuration. Confirm that hooks and servers materialise, plugin-owned paths resolve independently of the project cwd, and uninstall removes only Tessl-managed entries.
+
+If the plugin ships a hook, MCP server, scripts, or otherwise touches secrets, auth, file or network access, or CI, also run a security review: `tessl review run security <path> --workspace <name>` (inspect `tessl review run --help` for the current form). Pass `--workspace <name>` on any non-interactive `tessl review run`, quality or security (e.g. `tessl review run quality <path> --workspace <name>`), or the CLI opens an interactive workspace selector and hangs. Expect findings and triage each, a flagged item is not automatically a blocker but should be reviewed with the user.
 
 ## 6. Hand off
 

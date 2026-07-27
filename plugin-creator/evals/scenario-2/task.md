@@ -10,7 +10,7 @@ The Meridian backend team has been using AI coding assistants for a few months a
 
 3. **Internal metrics dashboard**: During incident response and performance reviews, engineers frequently need to query the team's internal metrics API (`https://metrics.meridian.internal/api`) to pull latency percentiles, error rates, and deployment event timelines. The agent needs to be able to call this API with a bearer token to fetch live data on demand.
 
-4. **Commit-triggered summaries**: The team mentioned it would be great if the agent could automatically produce a summary of changes whenever a commit lands — no manual invocation needed.
+4. **Post-edit validation**: Whenever the agent edits or writes a file, the team wants a deterministic validation script to run automatically. The check is agent-independent and should work across supported agents — no manual invocation needed.
 
 Your job is to produce a `composition-plan.md` file that describes how you would build this out in Tessl — which components to use for each need, the overall shape of the solution, and anything the team should know or confirm before you start building.
 

@@ -14,6 +14,8 @@
     <rule-name>.md
   commands/              # optional
     <command-name>.md
+  hooks/                 # optional; packaged hook entrypoints
+    <hook-name>.sh
   .mcp.json              # optional (bundled MCP servers)
 ```
 
@@ -31,16 +33,18 @@ Author the plugin in a **repo-owned directory you commit and control**. If `.tes
 
 **Optional metadata:** `author`, `homepage`, `repository`, `license`, `private` (true keeps it workspace-only; public is irreversible).
 
-**Content paths (string or array):** `skills` (defaults to `./skills/`), `rules` (defaults to `./rules/`), `commands`, `mcpServers` (literal `".mcp.json"` or `"./.mcp.json"`).
+**Content paths (string or array):** `skills` (defaults to `./skills/`), `rules` (defaults to `./rules/`), and `commands`. `mcpServers` is an optional fixed pointer whose value is `".mcp.json"` or `"./.mcp.json"`.
 
-Hooks (`hooks` / `nativeHooks`) exist in the schema but are not GA. Do not include them in a published plugin.
+**Lifecycle behavior:** `hooks` declares cross-agent commands against Tessl's generic event contract. `nativeHooks` declares per-agent hook entries and is reserved for an event or field the generic contract cannot express. Hook scripts conventionally live under `hooks/` and are shipped with the plugin.
 
-## The five primitives, and who triggers each
+See [hooks-and-mcp.md](hooks-and-mcp.md) for the current manifest shapes and validation rules.
+
+## The primitives, and who triggers each
 
 - **Skill** — a workflow the *model* loads when the task matches its `description`.
 - **Rule** — an always-on convention the agent follows passively. Plain markdown.
 - **Command** — an action the *user* invokes explicitly (a slash command).
 - **MCP server** — external tools or data, declared in a bundled `.mcp.json`.
-- **Hook** — a shell command at a lifecycle event. Not GA yet.
+- **Hook** — a deterministic command an *agent lifecycle event* invokes.
 
-Rule of thumb: always-on → rule; reach-for-it-when-relevant → skill; a button the user presses → command; needs live tools or data → MCP server.
+Rule of thumb: always-on guidance → rule; reach-for-it-when-relevant → skill; a button the user presses → command; deterministic lifecycle behavior → hook; live tools or data → MCP server.

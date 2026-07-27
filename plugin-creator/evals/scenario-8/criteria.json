@@ -1,0 +1,51 @@
+{
+  "context": "Tests whether plugin-creator implements a live capability as a bundled MCP server rather than prose. The plugin must contain a root .mcp.json using the supported HTTP shape, an explicit fixed manifest pointer, no credentials, and no hand-authored consuming-agent configuration.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Root MCP file created",
+      "description": "component-search/.mcp.json exists at the plugin root, not inside a skill or agent-specific config directory",
+      "max_score": 16
+    },
+    {
+      "name": "Valid MCP envelope",
+      "description": ".mcp.json contains a top-level `mcpServers` map with a named component-search server",
+      "max_score": 14
+    },
+    {
+      "name": "Correct HTTP server config",
+      "description": "The component-search server has `type: http` and the exact URL https://components.meridian.internal/mcp",
+      "max_score": 16
+    },
+    {
+      "name": "Explicit manifest pointer",
+      "description": "component-search/.tessl-plugin/plugin.json sets `mcpServers` to the fixed value `.mcp.json` or `./.mcp.json`",
+      "max_score": 12
+    },
+    {
+      "name": "Capability not prose",
+      "description": "The output implements the live capability with .mcp.json and does not substitute a skill or rule that merely tells the model how to call the service",
+      "max_score": 12
+    },
+    {
+      "name": "No credentials invented",
+      "description": "The MCP declaration contains no tokens, passwords, Authorization header, or invented authentication configuration",
+      "max_score": 10
+    },
+    {
+      "name": "No direct agent config edits",
+      "description": "The output does not create or edit consuming-agent MCP configuration such as .claude.json, .mcp.json outside the plugin, or .cursor/mcp.json",
+      "max_score": 10
+    },
+    {
+      "name": "No unrelated primitives",
+      "description": "The plugin does not add hooks, rules, commands, or unrelated skills for this single live-capability requirement",
+      "max_score": 4
+    },
+    {
+      "name": "Valid plugin metadata",
+      "description": "component-search/.tessl-plugin/plugin.json has the requested name plus valid version and description fields",
+      "max_score": 6
+    }
+  ]
+}
