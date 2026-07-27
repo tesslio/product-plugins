@@ -19,12 +19,12 @@
     },
     {
       "name": "Hook entrypoint ships",
-      "description": "A substantive claude-idle-notifier/hooks/notify-idle.sh file exists and is the file referenced by the manifest",
+      "description": "A claude-idle-notifier/hooks/notify-idle.sh file exists, is the file referenced by the manifest, and invokes a desktop notification mechanism such as osascript, terminal-notifier, notify-send, or an equivalent platform command; a no-op or echo-only script does not satisfy this criterion",
       "max_score": 12
     },
     {
       "name": "Native boundary justified",
-      "description": "hook-decision.md explains that `nativeHooks` is necessary because Notification and idle_prompt are Claude Code-specific and are not expressible by the generic PreToolUse, PostToolUse, UserPromptSubmit, SessionStart, or Stop events",
+      "description": "A hook-decision.md file exists at the working-directory root, not nested under the plugin or another directory, and explains that `nativeHooks` is necessary because Notification and idle_prompt are Claude Code-specific and are not expressible by the generic PreToolUse, PostToolUse, UserPromptSubmit, SessionStart, or Stop events",
       "max_score": 14
     },
     {
