@@ -29,7 +29,7 @@
     },
     {
       "name": "No credentials invented",
-      "description": "The MCP declaration contains no tokens, passwords, Authorization header, or invented authentication configuration",
+      "description": "The MCP declaration contains no `headers` field, tokens, passwords, or other invented authentication configuration",
       "max_score": 10
     },
     {
