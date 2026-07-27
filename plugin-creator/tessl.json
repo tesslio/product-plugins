@@ -1,5 +1,5 @@
 {
-  "name": "tessl/plugin-creator-dev",
+  "name": "tessl/plugin-creator",
   "mode": "vendored",
   "dependencies": {
     "tessl/skill-optimizer": {
