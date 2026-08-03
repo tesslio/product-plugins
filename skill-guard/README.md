@@ -5,7 +5,7 @@ Cross-agent guard that blocks agents from loading skills not managed by Tessl.
 ## Install
 
 ```bash
-tessl install tessleng/skill-guard
+tessl install tessl/skill-guard
 ```
 
 ## What it does
