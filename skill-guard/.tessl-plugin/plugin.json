@@ -1,0 +1,31 @@
+{
+  "name": "tessl/skill-guard",
+  "version": "0.2.0",
+  "description": "Cross-agent guard that blocks loading of skills not managed by Tessl. Allows tessl__ skills whose base names are listed under a dependency's include.skills in tessl.json (or whose tessl__<name> directory is installed on disk by tessl install), plus built-in commands; blocks any other skill found in a user skill directory. Best-effort, not foolproof, since an agent can always run arbitrary code.",
+  "private": false,
+  "rules": ["rules/skill-guard.md"],
+  "hooks": {
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash",
+            "args": ["${TESSL_PLUGIN_DIR}/hooks/skill-guard.sh"]
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash",
+            "args": ["${TESSL_PLUGIN_DIR}/hooks/skill-guard.sh"]
+          }
+        ]
+      }
+    ]
+  }
+}
