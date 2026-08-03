@@ -23,7 +23,7 @@ The plugin has two parts:
 
 - **`rules/skill-guard.md`** — the contract. Injected into agent context so agents know the policy and follow it without being blocked.
 - **`hooks/skill-guard.sh`** — the backstop. Registered for two hook events:
-  - `PreToolUse` — hard block (exit 2). Denies the `Skill` tool for unauthorised skills (Claude), reads of files under a skill directory for unauthorised skills (the escape hatch on Claude, the primary skill-load path on Cursor), and any tool call or shell command that writes `tessl.json`.
+  - `PreToolUse` — hard block (exit 2). Denies the `Skill` tool for unauthorized skills (Claude), reads, greps, and globs of files under a skill directory for unauthorized skills (the escape hatch on Claude, the primary skill-load path on Cursor), and any tool call or shell command that writes `tessl.json`.
   - `UserPromptSubmit` — soft steer. Slash-command invocations (`/some-skill`) and skill-path attachments can't be blocked at this stage, so the hook injects `additionalContext` warning the agent off; hard enforcement still happens at `PreToolUse`.
 
 The hook is written against the Tessl generic hook event schema: the Tessl dispatcher (`tessl hook run`) translates each agent's native event into one normalized payload and translates the hook's output back, so a single script covers Claude Code and Cursor without per-runtime branches. It registers no `PreToolUse` matcher because tool names pass through verbatim and differ per agent (Claude `Read` vs Cursor `read_file`); the script filters on `tool_name` itself.

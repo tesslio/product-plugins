@@ -163,7 +163,7 @@ json_escape() {
 }
 
 # Hard block (PreToolUse). Emits both `decision`/`reason` and
-# `permissionDecision`/`permissionDecisionReason` so the block is recognised
+# `permissionDecision`/`permissionDecisionReason` so the block is recognized
 # regardless of which field an agent's translator reads, then exits 2.
 deny() {
   local r
@@ -256,7 +256,7 @@ skill_policy_violation_reason() {
   if [[ "$skill" == tessl__* ]]; then
     local base="${skill#tessl__}"
     if [[ ! -f "$TESSL_JSON" ]]; then
-      echo "tessl.json not found at '${TESSL_JSON}'. Cannot verify that skill '${skill}' is authorised."
+      echo "tessl.json not found at '${TESSL_JSON}'. Cannot verify that skill '${skill}' is authorized."
       return 0
     fi
     if ! in_tessl_json "$base"; then
@@ -330,9 +330,11 @@ if [[ "$EVENT" == "PreToolUse" ]]; then
   # is allowed, so this arm returns before the write-protection below.
   # Tool names are passed through verbatim per agent and are NOT normalized by
   # the generic schema: Claude's read tool is `Read`, Cursor's is `read_file` /
-  # `read_file_v2`.
+  # `read_file_v2`. Claude's `Grep` and `Glob` are gated too — both take a
+  # `path` that can target a skill directory, so they can read or enumerate
+  # skill files just like Read.
   case "$TOOL" in
-  Read | read_file | read_file_v2)
+  Read | read_file | read_file_v2 | Grep | Glob)
     FILE=$(tool_input_string "file_path" "target_file" "path")
     skill=$(skill_name_from_read_path "$FILE")
     [[ -z "$skill" ]] && exit 0
