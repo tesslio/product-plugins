@@ -172,6 +172,8 @@ Each dimension needs: `id` (snake_case), `name`, `weight`, `question`, and `scor
   "scale": { "min": 1, "max": 5 },
   "reference_examples": {
     "judging_guidelines": [
+      "Use odd scores (1, 3, 5) when the content clearly matches an anchor; use even scores (2, 4) when it falls between two anchors.",
+      "After assigning each score, re-read the anchors for the score above and below and adjust to the best fit.",
       "Award 5 only when <specific criterion>.",
       "Score 1 for <negative criterion>."
     ],
