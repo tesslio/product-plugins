@@ -24,7 +24,7 @@ It scores three components (weights live in `config.json`):
 | `description` judge | 0.4 | How well the skill's description drives activation |
 | `content` judge | 0.4 | Quality of the SKILL.md body |
 
-The two judges and their dimensions (all on a 1-3 scale):
+The two judges and their dimensions (all on a 1-5 scale):
 
 - **`description.json`** - specificity (0.2), trigger term quality (0.3), completeness (0.35), distinctiveness / conflict risk (0.15)
 - **`content.json`** - conciseness (0.3), actionability (0.3), workflow clarity (0.25), progressive disclosure (0.15)
@@ -157,7 +157,7 @@ For each judge, create `$PLUGIN_DIR/skills/skill-reviewer/references/rubrics/<st
 A rubric file must conform to `references/schemas/rubric.schema.json` (copied into your plugin in Step 2). Key fields:
 
 - `evaluation_target` — what is being evaluated (matches the judge's purpose)
-- `scale` — `{ "min": 1, "max": 3 }` is standard
+- `scale` — `{ "min": 1, "max": 5 }` is standard
 - `reference_examples` — `judging_guidelines` (array of strings), `good_overall_examples`, `bad_overall_examples`
 - `dimensions` — array of scoring dimensions; weights within a rubric must sum to `1.0`
 
@@ -169,10 +169,10 @@ Each dimension needs: `id` (snake_case), `name`, `weight`, `question`, and `scor
 {
   "$schema": "../schemas/rubric.schema.json",
   "evaluation_target": "<what-this-judge-evaluates>",
-  "scale": { "min": 1, "max": 3 },
+  "scale": { "min": 1, "max": 5 },
   "reference_examples": {
     "judging_guidelines": [
-      "Award 3 only when <specific criterion>.",
+      "Award 5 only when <specific criterion>.",
       "Score 1 for <negative criterion>."
     ],
     "good_overall_examples": ["<example of a high-scoring skill>"],
@@ -186,8 +186,10 @@ Each dimension needs: `id` (snake_case), `name`, `weight`, `question`, and `scor
       "question": "Does the skill <specific question>?",
       "scores": [
         { "score": 1, "anchor": "No evidence of <criterion>", "example": "<bad example>" },
-        { "score": 2, "anchor": "Partial <criterion>", "example": "<ok example>" },
-        { "score": 3, "anchor": "Clear and complete <criterion>", "example": "<good example>" }
+        { "score": 2, "anchor": "Minimal <criterion>", "example": "<weak example>" },
+        { "score": 3, "anchor": "Partial <criterion>", "example": "<ok example>" },
+        { "score": 4, "anchor": "Mostly complete <criterion>", "example": "<solid example>" },
+        { "score": 5, "anchor": "Clear and complete <criterion>", "example": "<good example>" }
       ]
     },
     {
@@ -198,7 +200,9 @@ Each dimension needs: `id` (snake_case), `name`, `weight`, `question`, and `scor
       "scores": [
         { "score": 1, "anchor": "...", "example": "..." },
         { "score": 2, "anchor": "...", "example": "..." },
-        { "score": 3, "anchor": "...", "example": "..." }
+        { "score": 3, "anchor": "...", "example": "..." },
+        { "score": 4, "anchor": "...", "example": "..." },
+        { "score": 5, "anchor": "...", "example": "..." }
       ]
     }
   ]
