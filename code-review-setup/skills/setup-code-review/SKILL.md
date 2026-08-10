@@ -30,19 +30,24 @@ Read the repository before asking anything. Gather:
   actions to commit SHAs.
 - **An existing Code Review caller.** Search the workflow directory for
   `tesslio/code-review`. If one exists, record its file path, the pinned
-  revision, its triggers, its concurrency group, and its `mode`, `profile`, and
-  `lenses` inputs. This is an update, not a fresh install.
+  revision, its triggers, its concurrency group, and its `mode`, `profile`,
+  `lenses`, `model`, and `effort` inputs. This is an update, not a fresh install.
+  Record `model` and `effort` even though the templates never set them, so that
+  an update does not silently drop a value the repository chose.
 - **Conflicting or duplicate callers.** More than one workflow invoking
   `tesslio/code-review`, or another reviewer bot on the same triggers, is a
   conflict. Surface it in phase 3 rather than overwriting either one.
 - **The token secret.** Check whether a `TESSL_TOKEN` repository secret exists
   (`gh secret list` if the GitHub CLI is authenticated). You cannot read its
-  value, only whether the name is present.
+  value, only whether the name is present. Listing secrets needs admin rights,
+  so treat a `403` as unknown rather than as missing.
 - **Fork traffic.** If the repository takes pull requests from forks, note it.
-  The Action rejects cross-repository pull requests before it runs a review, and
-  GitHub does not expose repository secrets to `pull_request` runs from a fork,
-  so those pull requests will not be reviewed. Say so in phase 3 rather than
-  installing something that silently never fires.
+  The Action rejects cross-repository pull requests before it runs a review, so
+  those pull requests are not reviewed on any trigger. Say so in phase 3 rather
+  than installing something that silently never fires.
+- **The default branch.** A `/tessl-review` comment runs the copy of the workflow
+  on the default branch, not the copy on the pull-request branch. The mention
+  trigger does nothing until this change is merged. Tell the user in phase 6.
 - **Branch protection.** If gate mode is a live option, note which checks are
   currently required on the default branch.
 
@@ -52,13 +57,22 @@ unanswerable from the repository.
 ### 2. Interview
 
 Ask the two questions in [references/interview.md](references/interview.md):
-when reviews run, and whether findings block. They are orthogonal and all six
-combinations are valid. Present the trade-offs briefly, state the default, and
-let the user take the default in one word.
+when reviews run, and whether findings block. They are orthogonal choices.
+Present the trade-offs briefly, state the default, and let the user take the
+default in one word.
 
-Do not ask about the model, the reasoning effort, the executor, the harness, the
-backend endpoint, the CLI channel, or telemetry. The caller workflow does not
-expose those.
+If the user picks gate, read the enforcement constraint in
+[references/interview.md](references/interview.md) before proposing anything. A
+required status check is reported against the head a run was triggered for, and
+only `pull_request` runs are triggered against a pull-request head. That makes
+some cadence and gate pairings enforce differently from how they read, and the
+user has to know which one they are choosing.
+
+Do not ask about the executor, the harness, the backend endpoint, the CLI
+channel, or telemetry. Do not ask about the model or the reasoning effort
+either: the Action accepts `model` and `effort`, but these templates deliberately
+leave both unset so the selected profile decides. If the user raises them, say
+that rather than saying they cannot be configured.
 
 ### 3. Propose
 
@@ -94,19 +108,23 @@ Writing is idempotent, and updating preserves user-owned choices:
 - If no caller exists, write the template.
 - If a caller exists, edit it in place. Change only what the interview decided
   plus the pinned SHA. Keep the user's runner label, `timeout-minutes`, job name,
-  step ordering, extra steps that consume the Action's outputs, and any triggers
-  or concurrency settings that are compatible with the chosen cadence.
+  step ordering, extra steps that consume the Action's outputs, any `model` or
+  `effort` input they set, and any triggers or concurrency settings that are
+  compatible with the chosen cadence.
 - If the existing caller has a trigger the chosen cadence does not include, do
   not delete it silently. Name it in phase 3 and let the user decide.
 - Never create a second workflow that also calls `tesslio/code-review`. One
-  caller per repository. Duplicate callers mean duplicate concurrent reviews,
-  which the concurrency group cannot prevent because it is per workflow.
+  caller per repository. Two callers double every review, and giving them the
+  same concurrency group is not a fix: it serializes the runs, so the second
+  review still happens, just afterwards.
 
 ### 5. Verify
 
 After writing, check:
 
-- the YAML parses (`gh workflow view` once pushed, or any local YAML parser);
+- the YAML parses, with a real parser rather than by eye
+  (`python3 -c "import yaml,sys; yaml.safe_load(open(sys.argv[1]))" <path>`, or
+  `yq . <path>`, or any equivalent already available in the repository);
 - the `uses:` line carries a full commit SHA, or the placeholder plus a stated
   follow-up;
 - `permissions` is exactly `contents: read`, `issues: write`,

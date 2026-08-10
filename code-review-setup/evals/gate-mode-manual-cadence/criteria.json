@@ -48,9 +48,14 @@
       "max_score": 6
     },
     {
-      "name": "Summary names the required status check",
-      "description": "summary.md instructs the administrator to enforce the gate by making this workflow's check a required status check in branch protection",
-      "max_score": 10
+      "name": "Summary names the required status check and the job-name detail",
+      "description": "summary.md instructs the administrator to enforce the gate through a required status check in branch protection, and states that branch protection names the job rather than the workflow",
+      "max_score": 8
+    },
+    {
+      "name": "Summary discloses the manual-cadence enforcement limit",
+      "description": "summary.md states that a required status check is only reported by a run triggered against the pull-request head, that comment-driven and dispatched runs are associated with the default branch, and therefore that a required check on this job is not reported on this manual-only cadence. Full credit requires the limitation to be disclosed rather than the summary claiming the required check will block merges as configured",
+      "max_score": 12
     },
     {
       "name": "Summary names the Actions approval setting",
@@ -64,7 +69,7 @@
     },
     {
       "name": "Summary states the unblocking contract",
-      "description": "summary.md states that a blocked pull request does not unblock itself and that a fresh round must be requested against the new head",
+      "description": "summary.md states that a blocked pull request does not unblock itself, that a fresh round must be requested against the new head, and that a comment-driven round publishes a review without clearing a required status check",
       "max_score": 10
     }
   ]

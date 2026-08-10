@@ -44,8 +44,9 @@ permissions:
   issues: write
   pull-requests: write
 
-# One review at a time per pull request. Runs queue rather than cancel, so a
-# requested round is never dropped on the floor.
+# One review at a time per pull request. A newer run waits instead of
+# superseding the running one. GitHub holds only one waiting run per group, so
+# a third request arriving during a run replaces the one already waiting.
 concurrency:
   group: tessl-code-review-${{ github.event.pull_request.number || github.event.issue.number || inputs['pr-number'] }}
   cancel-in-progress: false
@@ -75,7 +76,8 @@ jobs:
           tessl-token: ${{ secrets.TESSL_TOKEN }}
           # Named review profile. The standard profile is the supported default.
           profile: standard
-          # advisory publishes a COMMENT review and never fails this check.
+          # advisory publishes a COMMENT review. No review outcome fails this
+          # check, though a technical failure to run or publish still does.
           mode: advisory
           # Optional. A JSON array replaces the profile's lens selection with an
           # exact ordered list.
@@ -116,7 +118,8 @@ concurrency:
 jobs:
   review:
     # Run for an explicit dispatch, or for a /tessl-review comment posted on a
-    # pull request by someone with write access.
+    # pull request by an owner, an organization member, or an invited
+    # collaborator.
     if: >-
       github.event_name == 'workflow_dispatch' ||
       (github.event_name == 'issue_comment' &&
@@ -187,11 +190,17 @@ jobs:
 
 ## Applying the gate choice
 
-Gate mode is one input change on any of the three templates:
+Gate mode is one input change on any of the three templates. Replace the
+`mode: advisory` line on the Action step, keeping its indentation:
 
 ```yaml
           mode: gate
 ```
+
+Before installing it, check the cadence against "What gate mode can actually
+enforce" in [interview.md](interview.md). A required status check is only
+reported for a head that had a `pull_request` run, so on the manual-only and
+ready-once cadences the check does not do the blocking.
 
 When the cadence is manual only or ready once plus mentions, also record the
 invocation contract where the pull-request author will read it, immediately above
@@ -207,7 +216,8 @@ the `on:` block:
 Gate mode also needs two things this file cannot set. Both belong in the summary
 you give the user:
 
-- the workflow's check made a required status check in branch protection;
+- the job's check made a required status check in branch protection, named after
+  the job rather than the workflow;
 - the repository setting that allows GitHub Actions to create and approve pull
   requests.
 
@@ -219,6 +229,17 @@ to all three of: a comment on a pull request, a body starting with
 `/tessl-review`, and a commenter with `OWNER`, `MEMBER`, or `COLLABORATOR`
 association. Change the command string if it collides with another bot in the
 repository, and change it in the workflow comments at the same time.
+
+The match is a case-sensitive prefix on the whole comment body, so
+`/tessl-review` fires, `please run /tessl-review` does not, and
+`/tessl-reviewers` does. Because the trigger is `types: [created]`, editing an
+existing comment to add the command does nothing. Mention these when explaining
+the command, since each one reads as "nothing happened".
+
+`issue_comment` runs the copy of the workflow on the **default branch**, not the
+copy on the pull-request branch. The mention trigger therefore does nothing at
+all until the caller workflow is merged, and edits to the guard take effect only
+once they land on the default branch.
 
 Author association is a proxy, not a permission check. `MEMBER` means a member
 of the owning organization, which in an organization with open membership is not
@@ -232,12 +253,21 @@ reviewed and the `ready_for_review` transition is what starts the first review.
 Drop the clause if the repository wants drafts reviewed too.
 
 **Forks.** The Action rejects cross-repository pull requests before running a
-review, and GitHub does not expose repository secrets to `pull_request` runs from
-a fork. A repository whose contributions arrive as fork pull requests will not
-get reviews from this workflow. Do not reach for `pull_request_target` to work
-around it: that runs with a privileged token in the base repository's context
-against untrusted head code, which is exactly the trust boundary the Action is
-built to keep.
+review, so a repository whose contributions arrive as fork pull requests gets no
+reviews from this workflow on any trigger. That rejection is the control, and it
+is worth being precise about why, because the two triggers differ:
+
+- On `pull_request`, a fork run additionally receives no repository secrets, so
+  `tessl-token` would be empty even if the Action allowed it.
+- On `issue_comment`, the run is not a fork run at all. It executes on the base
+  ref with repository secrets and a writable token, including when the comment
+  sits on a fork pull request. Here the Action's cross-repository rejection is
+  the only thing standing between an outside pull request and a privileged run,
+  which is why the mention guard is worth keeping strict.
+
+Do not reach for `pull_request_target` to work around any of this: it runs with a
+privileged token in the base repository's context against untrusted head code,
+which is exactly the trust boundary the Action is built to keep.
 
 **Outputs.** Later steps in the same job can read the Action's `status`,
 `head-sha`, `review-id`, `result-path`, `publication-path`, and `result-artifact`

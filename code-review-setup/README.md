@@ -20,13 +20,18 @@ and the review policy.
 This plugin writes that caller and nothing else. It never copies review or
 publication logic into the repository, so there is only ever one execution path.
 
-Setup is two questions, and every combination of the two is valid:
+Setup is two questions:
 
 - **When do reviews run.** Manual only, once when the pull request becomes ready
   plus requested rounds (the default), or on every commit.
-- **Do findings block.** Advisory, where the review is a comment and never fails
-  the check, or gate, where a converged review approves and a non-converged one
-  requests changes and fails the check.
+- **Do findings block.** Advisory, where the review is a comment and no review
+  outcome fails the check, or gate, where a converged review approves and a
+  non-converged one requests changes and fails the check.
+
+The two are independent choices, but not independent in effect: a required status
+check is only reported for a head that a `pull_request` run was triggered for, so
+the skill explains what a gate can actually enforce on the cadence being chosen
+instead of leaving someone with a required check that never reports.
 
 Around those two answers, the skill inspects the repository first and asks only
 for what it cannot infer: existing workflow conventions, an existing Code Review

@@ -30,5 +30,6 @@ Produce the following files:
   `tesslio/code-review` and nothing else. Do not copy or reimplement any review,
   checkout, CLI-setup, or review-publication logic into the workflow.
 - `summary.md` at the root of the workspace, documenting the contract that was
-  installed and every configuration step a repository administrator still has to
-  perform by hand for the gate to be enforced.
+  installed, every configuration step a repository administrator still has to
+  perform by hand, and anything about this combination of choices that will not
+  behave the way the team expects.
