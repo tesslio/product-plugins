@@ -1,0 +1,71 @@
+{
+  "context": "The agent must install a manual-only caller workflow in gate mode. This scenario tests that no automatic pull-request trigger is added, that gate mode is selected through the Action input rather than any bespoke check logic, and that the agent explains the two enforcement prerequisites a workflow file cannot satisfy: a required status check and the repository setting allowing Actions to approve pull requests.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Caller workflow created",
+      "description": "A workflow file exists under .github/workflows/ that contains a step using tesslio/code-review",
+      "max_score": 10
+    },
+    {
+      "name": "No automatic pull_request trigger",
+      "description": "The workflow has no on.pull_request trigger, so pull-request activity never starts a review",
+      "max_score": 12
+    },
+    {
+      "name": "Both manual invocation paths present",
+      "description": "The workflow triggers on issue_comment with types [created] and on workflow_dispatch",
+      "max_score": 10
+    },
+    {
+      "name": "Dispatch accepts a pull-request number",
+      "description": "The workflow_dispatch trigger declares an input for the pull-request number, and that value reaches the Action's pr-number input",
+      "max_score": 8
+    },
+    {
+      "name": "Mention guard",
+      "description": "The job's if condition requires an issue_comment event to be on a pull request and to match a specific review command string",
+      "max_score": 10
+    },
+    {
+      "name": "Gate mode selected via the Action input",
+      "description": "The Action step passes mode: gate",
+      "max_score": 12
+    },
+    {
+      "name": "No bespoke gating logic",
+      "description": "The workflow contains no step that inspects the review outcome and fails the job itself, no custom check-run creation, and no conditional exit based on findings. Gating is left entirely to the Action",
+      "max_score": 10
+    },
+    {
+      "name": "Minimal permissions block",
+      "description": "The workflow declares permissions with exactly contents: read, issues: write, and pull-requests: write, and no other permission",
+      "max_score": 8
+    },
+    {
+      "name": "Pinned revision placeholder",
+      "description": "The uses: line references tesslio/code-review at the literal placeholder <full-commit-sha>, not at a branch name, a tag, main, or canary",
+      "max_score": 6
+    },
+    {
+      "name": "Summary names the required status check",
+      "description": "summary.md instructs the administrator to enforce the gate by making this workflow's check a required status check in branch protection",
+      "max_score": 10
+    },
+    {
+      "name": "Summary names the Actions approval setting",
+      "description": "summary.md states that approving requires the repository setting allowing GitHub Actions to create and approve pull requests",
+      "max_score": 10
+    },
+    {
+      "name": "Summary describes the refused-review fallback",
+      "description": "summary.md explains that when GitHub refuses the requested review event, the Action still publishes the completed review as a visible comment and fails the gate",
+      "max_score": 8
+    },
+    {
+      "name": "Summary states the unblocking contract",
+      "description": "summary.md states that a blocked pull request does not unblock itself and that a fresh round must be requested against the new head",
+      "max_score": 10
+    }
+  ]
+}

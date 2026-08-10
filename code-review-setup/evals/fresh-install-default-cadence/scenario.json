@@ -1,0 +1,5 @@
+{
+  "type": "generic",
+  "description": "Fresh install of the Code Review caller workflow with the default cadence in advisory mode",
+  "include": ["./inputs"]
+}

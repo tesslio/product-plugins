@@ -1,0 +1,5 @@
+{
+  "type": "generic",
+  "description": "Update an existing Code Review caller in place: change cadence and pinned revision while preserving user-owned workflow settings",
+  "include": ["./inputs"]
+}

@@ -1,0 +1,91 @@
+{
+  "context": "The agent must install a fresh Code Review caller workflow with the default cadence (ready-once plus mention-driven rounds) in advisory mode. This scenario tests trigger selection, the mention guard, minimal permissions, per-pull-request concurrency, SHA pinning, absence of a second execution path, and the explanation the user is left with.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Caller workflow created",
+      "description": "A new workflow file exists under .github/workflows/ that contains a step using tesslio/code-review",
+      "max_score": 10
+    },
+    {
+      "name": "Existing CI workflow untouched",
+      "description": ".github/workflows/ci.yml is byte-identical to the version provided in the inputs",
+      "max_score": 6
+    },
+    {
+      "name": "Ready-once pull_request trigger",
+      "description": "The workflow's on.pull_request.types includes ready_for_review and does NOT include synchronize",
+      "max_score": 10
+    },
+    {
+      "name": "Mention trigger present",
+      "description": "The workflow triggers on issue_comment with types [created]",
+      "max_score": 8
+    },
+    {
+      "name": "Mention guard restricts to pull-request comments",
+      "description": "The job's if condition requires github.event.issue.pull_request to be non-null for issue_comment events, so comments on plain issues do not start a review",
+      "max_score": 8
+    },
+    {
+      "name": "Mention guard matches a command string",
+      "description": "The job's if condition requires the comment body to match a specific review command string rather than firing on any comment",
+      "max_score": 8
+    },
+    {
+      "name": "Minimal permissions block",
+      "description": "The workflow declares permissions with exactly contents: read, issues: write, and pull-requests: write, and no other permission",
+      "max_score": 10
+    },
+    {
+      "name": "Per-pull-request concurrency",
+      "description": "A concurrency block is present whose group interpolates the pull-request number, so concurrent reviews of the same pull request do not overlap",
+      "max_score": 8
+    },
+    {
+      "name": "Concurrency does not cancel in progress",
+      "description": "cancel-in-progress is false, so a requested review round is queued rather than dropped",
+      "max_score": 5
+    },
+    {
+      "name": "Advisory mode",
+      "description": "The Action step passes mode: advisory, or omits mode entirely to take the advisory default",
+      "max_score": 8
+    },
+    {
+      "name": "Token wired from the repository secret",
+      "description": "The Action step passes tessl-token from secrets.TESSL_TOKEN",
+      "max_score": 8
+    },
+    {
+      "name": "Pinned revision placeholder",
+      "description": "The uses: line references tesslio/code-review at the literal placeholder <full-commit-sha>, not at a branch name, a tag, main, or canary",
+      "max_score": 8
+    },
+    {
+      "name": "pr-number supplied for non-pull-request events",
+      "description": "The Action step passes a pr-number input derived from the triggering event, so mention-driven and dispatched runs resolve a pull request",
+      "max_score": 6
+    },
+    {
+      "name": "No second execution path",
+      "description": "The workflow contains no checkout step, no Tessl CLI installation step, and no step that posts a review or comment itself. Its only substantive step is the tesslio/code-review Action",
+      "max_score": 10
+    },
+    {
+      "name": "Summary states the invocation contract",
+      "description": "summary.md states that reviews run once when the pull request becomes ready and otherwise only when explicitly requested, and names the command used to request a fresh round",
+      "max_score": 8
+    },
+    {
+      "name": "Summary covers secret, permissions, update, and removal",
+      "description": "summary.md names the TESSL_TOKEN repository secret, explains the three granted permissions, and describes both how to update the pinned revision and how to remove the setup",
+      "max_score": 8
+    },
+    {
+      "name": "Summary flags the placeholder SHA",
+      "description": "summary.md calls out that <full-commit-sha> must be replaced with a real released commit SHA before the workflow can run",
+      "max_score": 6
+    }
+  ]
+}
