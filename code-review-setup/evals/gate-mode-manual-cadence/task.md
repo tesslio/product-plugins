@@ -18,9 +18,10 @@ Their decisions, already made:
 The Tessl API token is supplied to the workflow as a repository secret named
 `TESSL_TOKEN`.
 
-You do not have a published release SHA for the Action available in this
-environment. Where the pinned revision belongs, write the literal placeholder
-`<full-commit-sha>`.
+Pin the Action to a full commit SHA. If you can reach the Action's releases,
+resolve the current supported release to its commit SHA and pin that. If you
+cannot reach them from this environment, write the literal placeholder
+`<full-commit-sha>` and say so in your summary.
 
 ## Output Specification
 

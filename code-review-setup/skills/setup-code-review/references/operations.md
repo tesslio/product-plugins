@@ -51,9 +51,9 @@ looking configured.
 A required check only does its job on a cadence that reviews every head. The
 check is reported against the commit its run was triggered for, and only
 `pull_request` runs are triggered against a pull-request head. A run started by a
-`/tessl-review` comment or by `workflow_dispatch` is associated with the default
-branch: it publishes a real review, but it does not report a check on the pull
-request. On the manual-only and ready-once cadences, a head that had no
+`@tessl-code-review` mention or by `workflow_dispatch` is associated with the
+default branch: it publishes a real review, but it does not report a check on the
+pull request. On the manual-only and ready-once cadences, a head that had no
 `pull_request` run therefore never gets the required check reported, and branch
 protection holds the pull request waiting for a status that will not arrive.
 
@@ -72,11 +72,20 @@ and fails the gate.
 
 Two things change over time, and they change independently.
 
-**The pinned Action revision.** Read the target release's notes, then replace the
-40-character SHA on the `uses:` line with the one the release publishes. Keep it a
-full commit SHA. A tag or a branch name is a moving reference, and `canary` is an
-experimental channel that can change CLI behavior without the compatibility
-guarantees of a release.
+**The pinned Action revision.** Resolve the target release to a commit SHA and
+replace the 40-character SHA on the `uses:` line with it:
+
+```bash
+gh api repos/tesslio/code-review/releases/latest --jq .tag_name
+gh api repos/tesslio/code-review/git/ref/tags/<tag> --jq '.object.sha, .object.type'
+```
+
+Follow an annotated tag through
+`gh api repos/tesslio/code-review/git/tags/<sha> --jq .object.sha` until the
+result is a commit. Keep the pin a full commit SHA. A tag or a branch name is a
+moving reference that hands `TESSL_TOKEN` to whatever it currently points at, and
+`canary` is an experimental channel that can change CLI behavior without the
+compatibility guarantees of a release.
 
 **The policy.** Cadence is the `on:` block, the job `if:` guard, and
 `cancel-in-progress`. Blocking is the `mode` input. What the reviewer looks for is
@@ -102,10 +111,10 @@ Past reviews and comments stay on their pull requests. Nothing removes them.
 | Symptom | Cause to check first |
 | --- | --- |
 | Nothing runs on a fork pull request | Expected. The Action rejects cross-repository pull requests, and a fork `pull_request` run receives no repository secrets either |
-| Nothing runs on a `/tessl-review` comment, anywhere | The caller workflow is not on the default branch yet. `issue_comment` always runs the default-branch copy |
-| Nothing runs on a `/tessl-review` comment, on one pull request | The comment is on an issue rather than a pull request, the body does not start with the command, the comment was edited rather than newly posted, or the commenter's author association is not `OWNER`, `MEMBER`, or `COLLABORATOR` |
+| Nothing runs on an `@tessl-code-review` mention, anywhere | The caller workflow is not on the default branch yet. `issue_comment` always runs the default-branch copy |
+| Nothing runs on an `@tessl-code-review` mention, on one pull request | The comment is on an issue rather than a pull request, the body carries only a longer token such as `@tessl-code-reviewer`, the comment was edited rather than newly posted, or the commenter's author association is outside the allowlist the workflow installs |
 | Two reviews appear per event | A second workflow also calls the Action. Putting both on one concurrency group only serializes them, it does not stop the second review |
 | Gate check fails with the review posted as a plain comment | The repository setting that allows GitHub Actions to approve pull requests is off |
 | The run fails immediately on input validation | `TESSL_TOKEN` is missing or empty, or `mode` is neither `advisory` nor `gate` |
 | A required check sits at "expected, waiting for status" forever | Gate mode on a cadence that does not review every head. Only a `pull_request` run reports a check against the head. See the branch-protection section |
-| A pull request stays blocked after pushing fixes | Gate mode on a cadence that does not review pushes. A `/tessl-review` round publishes a review but does not clear the required check |
+| A pull request stays blocked after pushing fixes | Gate mode on a cadence that does not review pushes. An `@tessl-code-review` round publishes a review but does not clear the required check |

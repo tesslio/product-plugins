@@ -59,7 +59,7 @@
     },
     {
       "name": "Mention trigger retained",
-      "description": "The issue_comment trigger and its guard requiring a pull-request comment matching the review command are still present",
+      "description": "The issue_comment trigger and its guard requiring a pull-request comment mentioning @tessl-code-review are still present",
       "max_score": 8
     },
     {

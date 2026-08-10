@@ -45,9 +45,10 @@ Read the repository before asking anything. Gather:
   The Action rejects cross-repository pull requests before it runs a review, so
   those pull requests are not reviewed on any trigger. Say so in phase 3 rather
   than installing something that silently never fires.
-- **The default branch.** A `/tessl-review` comment runs the copy of the workflow
-  on the default branch, not the copy on the pull-request branch. The mention
-  trigger does nothing until this change is merged. Tell the user in phase 6.
+- **The default branch.** A comment mentioning `@tessl-code-review` runs the copy
+  of the workflow on the default branch, not the copy on the pull-request branch.
+  The mention trigger does nothing until this change is merged. Tell the user in
+  phase 6.
 - **Branch protection.** If gate mode is a live option, note which checks are
   currently required on the default branch.
 
@@ -81,6 +82,8 @@ Show the user, before writing:
 - the exact file path you will create or modify;
 - the full workflow contents you propose, or a diff against the existing caller;
 - the pinned Action revision you will use, and where it came from;
+- who may request a mention-driven round, as a choice rather than a silent
+  default (see **The mention guard** below);
 - anything you found that needs a human decision: a conflicting caller, fork
   traffic, a missing `TESSL_TOKEN` secret, an unsafe existing trigger;
 - for gate mode, the branch-protection and repository-settings changes the user
@@ -88,12 +91,43 @@ Show the user, before writing:
 
 Ask for explicit approval. Do not proceed on silence or on a vague reply.
 
-**Pinning.** The `uses:` line must carry a full 40-character commit SHA. Take it
-from the release notes of the Tessl Code Review release you are installing. Do
-not substitute a tag, a branch, `main`, or `canary`, and do not invent a SHA. If
-you cannot obtain one, write the workflow with the literal placeholder
+**Pinning.** The `uses:` line must carry a full 40-character commit SHA. A tag or
+a branch is a moving reference, and every mention round hands the repository's
+`TESSL_TOKEN` to whatever that reference currently points at, so resolve the SHA
+yourself rather than trusting a name.
+
+Resolve it at setup time, against the current supported release:
+
+```bash
+gh api repos/tesslio/code-review/releases/latest --jq .tag_name
+gh api repos/tesslio/code-review/git/ref/tags/<tag> --jq '.object.sha, .object.type'
+```
+
+An annotated tag resolves to a tag object, so follow it once more
+(`gh api repos/tesslio/code-review/git/tags/<sha> --jq .object.sha`) until you
+hold a 40-character commit SHA. Pin that, and tell the user which release it came
+from.
+
+Do not substitute a tag, a branch, `main`, or `canary`, and do not invent a SHA.
+If the release cannot be resolved, because there is no network access or the
+lookup fails, write the workflow with the literal placeholder
 `<full-commit-sha>`, tell the user the workflow will not run until they replace
 it, and leave it to them.
+
+**The mention guard.** The templates restrict mention-driven rounds to commenters
+whose author association is `OWNER`, `MEMBER`, or `COLLABORATOR`. That is the
+recommended default, and it is a choice the user makes, not something you include
+silently. Put it to them in one line, with its reason and its alternatives: a
+mention round runs privileged and spends the repository's Tessl credits, so the
+allowlist keeps arbitrary commenters from driving it; the alternatives are to
+drop the condition so any commenter on a pull request can request a review, or to
+query the commenter's permission level through the API, which is stricter and
+costs an extra call. The trade-offs are in
+[references/workflow-templates.md](references/workflow-templates.md).
+
+The `@tessl-code-review` token itself is not a choice. It is the token the
+Action's published review tells reviewers to use, so a caller that listens for
+anything else installs a review that teaches a token the workflow ignores.
 
 ### 4. Write
 
@@ -139,9 +173,10 @@ After writing, check:
 
 Close with a short summary the user can act on, covering the contract they chose
 (when reviews run, whether findings block, and for gate mode, that a blocked
-pull request only unblocks when a new round is requested), the `TESSL_TOKEN`
-secret, the permissions granted and why, any branch-protection step still
-outstanding, and how to update or remove the setup later.
+pull request only unblocks when a new round is requested), how to request a round
+by mentioning `@tessl-code-review` in a comment and who is allowed to, the
+`TESSL_TOKEN` secret, the permissions granted and why, any branch-protection step
+still outstanding, and how to update or remove the setup later.
 
 The details for the secret, permissions, branch protection, update, and removal
 are in [references/operations.md](references/operations.md). Do not paste that

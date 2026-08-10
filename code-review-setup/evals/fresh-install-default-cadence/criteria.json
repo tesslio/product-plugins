@@ -28,8 +28,8 @@
       "max_score": 8
     },
     {
-      "name": "Mention guard matches a command string",
-      "description": "The job's if condition requires the comment body to match a specific review command string rather than firing on any comment",
+      "name": "Mention guard matches the Action's mention token",
+      "description": "The job's if condition requires the comment body to carry @tessl-code-review rather than firing on any comment, and does not substitute a different command string such as /tessl-review",
       "max_score": 8
     },
     {
@@ -58,8 +58,8 @@
       "max_score": 8
     },
     {
-      "name": "Pinned revision placeholder",
-      "description": "The uses: line references tesslio/code-review at the literal placeholder <full-commit-sha>, not at a branch name, a tag, main, or canary",
+      "name": "Pinned revision",
+      "description": "The uses: line references tesslio/code-review at either a full 40-hexadecimal-character commit SHA or the literal placeholder <full-commit-sha>, and not at a branch name, a tag, main, or canary",
       "max_score": 8
     },
     {
@@ -83,8 +83,8 @@
       "max_score": 8
     },
     {
-      "name": "Summary flags the placeholder SHA",
-      "description": "summary.md calls out that <full-commit-sha> must be replaced with a real released commit SHA before the workflow can run",
+      "name": "Summary accounts for the pin",
+      "description": "If the workflow carries the <full-commit-sha> placeholder, summary.md calls out that it must be replaced with a real released commit SHA before the workflow can run. If it carries a resolved 40-character SHA, summary.md names the release that SHA came from",
       "max_score": 6
     }
   ]

@@ -24,7 +24,7 @@
     },
     {
       "name": "Mention guard",
-      "description": "The job's if condition requires an issue_comment event to be on a pull request and to match a specific review command string",
+      "description": "The job's if condition requires an issue_comment event to be on a pull request and to carry the @tessl-code-review mention, rather than a different command string such as /tessl-review",
       "max_score": 10
     },
     {
@@ -43,8 +43,8 @@
       "max_score": 8
     },
     {
-      "name": "Pinned revision placeholder",
-      "description": "The uses: line references tesslio/code-review at the literal placeholder <full-commit-sha>, not at a branch name, a tag, main, or canary",
+      "name": "Pinned revision",
+      "description": "The uses: line references tesslio/code-review at either a full 40-hexadecimal-character commit SHA or the literal placeholder <full-commit-sha>, and not at a branch name, a tag, main, or canary",
       "max_score": 6
     },
     {

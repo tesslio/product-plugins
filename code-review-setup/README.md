@@ -41,8 +41,15 @@ explicit approval, writes idempotently, verifies the result, and then explains t
 permissions, the secret, the branch-protection step, and how to update or remove
 the setup.
 
-The installed workflow always pins the Action to a full commit SHA. Tags and
-branches are moving references and this plugin does not install them.
+The installed workflow always pins the Action to a full commit SHA, resolved from
+the current supported release at setup time. Tags and branches are moving
+references and this plugin does not install them.
+
+Mention-driven rounds are requested by mentioning `@tessl-code-review` in a
+comment on the pull request. That token belongs to the Action, whose published
+review asks reviewers to use it, so the caller matches it rather than inventing a
+command of its own. Who may request a round is a choice the skill puts to the
+user, defaulting to owners, organization members, and invited collaborators.
 
 ## Skills
 

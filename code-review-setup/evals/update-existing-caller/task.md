@@ -4,8 +4,8 @@
 
 This repository already runs Tessl Code Review. The caller workflow lives at
 `.github/workflows/tessl-code-review.yml` and currently reviews a pull request
-once when it becomes ready, plus any round requested by a `/tessl-review`
-comment.
+once when it becomes ready, plus any round requested by a comment mentioning
+`@tessl-code-review`.
 
 The team now wants a review on every push to a pull-request branch, with the
 in-flight review superseded when a newer commit lands. Everything else about
