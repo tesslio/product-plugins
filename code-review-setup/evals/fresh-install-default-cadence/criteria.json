@@ -1,0 +1,91 @@
+{
+  "context": "The agent must install a fresh Code Review caller workflow with the default cadence (ready-once plus mention-driven rounds) in advisory mode. This scenario tests trigger selection, the mention guard, the permissions the Action requires, per-pull-request concurrency, SHA pinning, absence of a second execution path, and the explanation the user is left with.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Caller workflow created",
+      "description": "A new workflow file exists under .github/workflows/ that contains a step using tesslio/code-review",
+      "max_score": 8
+    },
+    {
+      "name": "Existing CI workflow untouched",
+      "description": ".github/workflows/ci.yml is byte-identical to the version provided in the inputs",
+      "max_score": 3
+    },
+    {
+      "name": "Ready-once pull_request trigger",
+      "description": "The workflow's on.pull_request.types includes ready_for_review and does NOT include synchronize",
+      "max_score": 8
+    },
+    {
+      "name": "Mention trigger present",
+      "description": "The workflow triggers on issue_comment with types [created]",
+      "max_score": 6
+    },
+    {
+      "name": "Mention guard restricts to pull-request comments",
+      "description": "The job's if condition requires github.event.issue.pull_request to be non-null for issue_comment events, so comments on plain issues do not start a review",
+      "max_score": 6
+    },
+    {
+      "name": "Mention guard matches the Action's mention token",
+      "description": "The job's if condition requires the comment body to carry @tessl-code-review rather than firing on any comment, and does not substitute a different command string such as /tessl-review",
+      "max_score": 6
+    },
+    {
+      "name": "Permissions block grants what the Action needs",
+      "description": "The workflow declares permissions with exactly contents: read, checks: write, issues: write, and pull-requests: write, and no other permission. checks: write must be present: it is what lets the Action report its Tessl Code Review check on the reviewed head",
+      "max_score": 8
+    },
+    {
+      "name": "Per-pull-request concurrency",
+      "description": "A concurrency block is present whose group interpolates the pull-request number, so concurrent reviews of the same pull request do not overlap",
+      "max_score": 6
+    },
+    {
+      "name": "Concurrency does not cancel in progress",
+      "description": "cancel-in-progress is false, so a requested review round is queued rather than dropped",
+      "max_score": 4
+    },
+    {
+      "name": "Advisory mode",
+      "description": "The Action step passes mode: advisory, or omits mode entirely to take the advisory default",
+      "max_score": 6
+    },
+    {
+      "name": "Token wired from the repository secret",
+      "description": "The Action step passes tessl-token from secrets.TESSL_TOKEN",
+      "max_score": 6
+    },
+    {
+      "name": "Pinned to the supplied release SHA",
+      "description": "The uses: line references tesslio/code-review at the full 40-character commit SHA given in the task, 7c2f9a1e4b8d63057e9a1c4b8d63f0572a9e1c4b, and not at a branch name, a tag, main, canary, or a placeholder",
+      "max_score": 8
+    },
+    {
+      "name": "pr-number supplied for non-pull-request events",
+      "description": "The Action step passes a pr-number input derived from the triggering event, so mention-driven and dispatched runs resolve a pull request",
+      "max_score": 3
+    },
+    {
+      "name": "No second execution path",
+      "description": "The workflow contains no checkout step, no Tessl CLI installation step, and no step that posts a review, a comment, or a check run itself. Its only substantive step is the tesslio/code-review Action",
+      "max_score": 8
+    },
+    {
+      "name": "Summary states the invocation contract",
+      "description": "summary.md states that reviews run once when the pull request becomes ready and otherwise only when explicitly requested, and names the command used to request a fresh round",
+      "max_score": 6
+    },
+    {
+      "name": "Summary covers secret, permissions, update, and removal",
+      "description": "summary.md names the TESSL_TOKEN repository secret, explains the four granted permissions including why checks: write is needed, and describes both how to update the pinned revision and how to remove the setup",
+      "max_score": 6
+    },
+    {
+      "name": "Summary names the release behind the pin",
+      "description": "summary.md names the release the pinned SHA came from, so a later reader can tell which revision is installed",
+      "max_score": 2
+    }
+  ]
+}

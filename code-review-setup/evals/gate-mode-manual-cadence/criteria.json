@@ -1,0 +1,76 @@
+{
+  "context": "The agent must install a manual-only caller workflow in gate mode. This scenario tests that no automatic pull-request trigger is added, that gate mode is selected through the Action input rather than any bespoke check logic, that the caller grants checks: write, and that the agent explains the two enforcement prerequisites a workflow file cannot satisfy: requiring the Action's own Tessl Code Review check in branch protection, and the repository setting allowing Actions to approve pull requests.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Caller workflow created",
+      "description": "A workflow file exists under .github/workflows/ that contains a step using tesslio/code-review",
+      "max_score": 7
+    },
+    {
+      "name": "No automatic pull_request trigger",
+      "description": "The workflow has no on.pull_request trigger, so pull-request activity never starts a review",
+      "max_score": 9
+    },
+    {
+      "name": "Both manual invocation paths present",
+      "description": "The workflow triggers on issue_comment with types [created] and on workflow_dispatch",
+      "max_score": 7
+    },
+    {
+      "name": "Dispatch accepts a pull-request number",
+      "description": "The workflow_dispatch trigger declares an input for the pull-request number, and that value reaches the Action's pr-number input",
+      "max_score": 6
+    },
+    {
+      "name": "Mention guard",
+      "description": "The job's if condition requires an issue_comment event to be on a pull request and to carry the @tessl-code-review mention, rather than a different command string such as /tessl-review",
+      "max_score": 7
+    },
+    {
+      "name": "Gate mode selected via the Action input",
+      "description": "The Action step passes mode: gate",
+      "max_score": 9
+    },
+    {
+      "name": "No bespoke gating logic",
+      "description": "The workflow contains no step that inspects the review outcome and fails the job itself, no check-run creation of its own, and no conditional exit based on findings. Gating is left entirely to the Action",
+      "max_score": 7
+    },
+    {
+      "name": "Permissions block grants what the Action needs",
+      "description": "The workflow declares permissions with exactly contents: read, checks: write, issues: write, and pull-requests: write, and no other permission. checks: write must be present: without it the Action reports no check and the gate has nothing to enforce",
+      "max_score": 9
+    },
+    {
+      "name": "Pinned to the supplied release SHA",
+      "description": "The uses: line references tesslio/code-review at the full 40-character commit SHA given in the task, 3a914f7c2b8e5d061a934f7c2b8e5d061a934f7c, and not at a branch name, a tag, main, canary, or a placeholder",
+      "max_score": 6
+    },
+    {
+      "name": "Summary requires the Action's own check by name",
+      "description": "summary.md instructs the administrator to enforce the gate by requiring the status check named Tessl Code Review in branch protection. Full credit requires that exact name. Instructing the administrator to require the caller's job instead scores zero here, because a job status is only reported for a pull_request run and this cadence has none",
+      "max_score": 10
+    },
+    {
+      "name": "Summary states that the gate holds on this cadence",
+      "description": "summary.md states that the Action reports its check against the head it reviewed whatever the trigger was, so a comment-driven or dispatched round does report the required check and the gate is enforced on this manual-only cadence. Claiming the required check cannot be reported on this cadence scores zero",
+      "max_score": 8
+    },
+    {
+      "name": "Summary names the Actions approval setting",
+      "description": "summary.md states that approving requires the repository setting allowing GitHub Actions to create and approve pull requests",
+      "max_score": 7
+    },
+    {
+      "name": "Summary describes the refused-review fallback",
+      "description": "summary.md explains that when GitHub refuses the requested review event, the Action still publishes the completed review as a visible comment and fails the gate",
+      "max_score": 5
+    },
+    {
+      "name": "Summary states the unblocking contract",
+      "description": "summary.md states that a blocked pull request does not unblock itself on this cadence: nothing reviews a new head until someone mentions @tessl-code-review or dispatches the workflow, and that round is what reports a fresh verdict against the current head",
+      "max_score": 3
+    }
+  ]
+}

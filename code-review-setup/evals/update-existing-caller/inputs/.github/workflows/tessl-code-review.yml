@@ -1,0 +1,38 @@
+name: Tessl Code Review
+
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review]
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: tessl-code-review-${{ github.event.pull_request.number || github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  code-review:
+    if: >-
+      (github.event_name == 'pull_request' && github.event.pull_request.draft == false) ||
+      (github.event_name == 'issue_comment' &&
+        github.event.issue.pull_request != null &&
+        contains(github.event.comment.body, '@tessl-code-review'))
+    runs-on: [self-hosted, linux, x64]
+    timeout-minutes: 45
+    steps:
+      - id: review
+        uses: tesslio/code-review@1f0c9a4b7e2d8c6a5b3f0e9d8c7b6a5f4e3d2c1b
+        with:
+          tessl-token: ${{ secrets.TESSL_TOKEN }}
+          profile: standard
+          mode: advisory
+          pr-number: ${{ github.event.issue.number }}
+
+      - if: always()
+        run: |
+          echo "Review status: ${{ steps.review.outputs.status }}" >> "$GITHUB_STEP_SUMMARY"

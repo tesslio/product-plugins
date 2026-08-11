@@ -1,0 +1,4 @@
+{
+  "type": "generic",
+  "description": "Install the caller workflow in gate mode with manual-only invocation, and explain the enforcement prerequisites"
+}
