@@ -19,7 +19,7 @@ or publication logic, and it never adds a second execution path.
 
 ## The Action repository
 
-The supported Action is `tesslio/code-review`.
+The supported Action is `tesslio/code-review-action`.
 
 This is the only place that name is decided. Everywhere else in this skill,
 "the Action repository" means that repository, and the templates carry it on the
@@ -111,12 +111,12 @@ Resolve it at setup time, against the current supported release of the Action
 repository:
 
 ```bash
-gh api repos/tesslio/code-review/releases/latest --jq .tag_name
-gh api repos/tesslio/code-review/git/ref/tags/<tag> --jq '.object.sha, .object.type'
+gh api repos/tesslio/code-review-action/releases/latest --jq .tag_name
+gh api repos/tesslio/code-review-action/git/ref/tags/<tag> --jq '.object.sha, .object.type'
 ```
 
 An annotated tag resolves to a tag object, so follow it once more
-(`gh api repos/tesslio/code-review/git/tags/<sha> --jq .object.sha`) until you
+(`gh api repos/tesslio/code-review-action/git/tags/<sha> --jq .object.sha`) until you
 hold a 40-character commit SHA. Pin that, and tell the user which release it came
 from.
 

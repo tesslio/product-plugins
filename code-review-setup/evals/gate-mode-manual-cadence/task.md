@@ -3,7 +3,7 @@
 ## Problem Description
 
 A platform team wants Tessl Code Review installed in this repository using the
-supported Action, `tesslio/code-review`. Their release process is deliberate and
+supported Action, `tesslio/code-review-action`. Their release process is deliberate and
 they do not want review runs firing on pull-request activity.
 
 Their decisions, already made:
@@ -27,7 +27,7 @@ a branch, `main`, or `canary`, and do not leave a placeholder in the file.
 Produce the following files:
 
 - The Code Review caller workflow under `.github/workflows/`, invoking
-  `tesslio/code-review` and nothing else. Do not copy or reimplement any review,
+  `tesslio/code-review-action` and nothing else. Do not copy or reimplement any review,
   checkout, CLI-setup, or review-publication logic into the workflow.
 - `summary.md` at the root of the workspace, documenting the contract that was
   installed, every configuration step a repository administrator still has to

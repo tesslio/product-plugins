@@ -4,7 +4,7 @@
   "checklist": [
     {
       "name": "Caller workflow created",
-      "description": "A new workflow file exists under .github/workflows/ that contains a step using tesslio/code-review",
+      "description": "A new workflow file exists under .github/workflows/ that contains a step using tesslio/code-review-action",
       "max_score": 8
     },
     {
@@ -59,7 +59,7 @@
     },
     {
       "name": "Pinned to the supplied release SHA",
-      "description": "The uses: line references tesslio/code-review at the full 40-character commit SHA given in the task, 7c2f9a1e4b8d63057e9a1c4b8d63f0572a9e1c4b, and not at a branch name, a tag, main, canary, or a placeholder",
+      "description": "The uses: line references tesslio/code-review-action at the full 40-character commit SHA given in the task, 7c2f9a1e4b8d63057e9a1c4b8d63f0572a9e1c4b, and not at a branch name, a tag, main, canary, or a placeholder",
       "max_score": 8
     },
     {
@@ -69,7 +69,7 @@
     },
     {
       "name": "No second execution path",
-      "description": "The workflow contains no checkout step, no Tessl CLI installation step, and no step that posts a review, a comment, or a check run itself. Its only substantive step is the tesslio/code-review Action",
+      "description": "The workflow contains no checkout step, no Tessl CLI installation step, and no step that posts a review, a comment, or a check run itself. Its only substantive step is the tesslio/code-review-action Action",
       "max_score": 8
     },
     {

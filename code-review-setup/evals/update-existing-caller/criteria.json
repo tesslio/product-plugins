@@ -9,7 +9,7 @@
     },
     {
       "name": "Exactly one caller workflow",
-      "description": "Exactly one file under .github/workflows/ contains a step using tesslio/code-review",
+      "description": "Exactly one file under .github/workflows/ contains a step using tesslio/code-review-action",
       "max_score": 9
     },
     {
@@ -24,7 +24,7 @@
     },
     {
       "name": "New pinned revision applied",
-      "description": "The uses: line references tesslio/code-review at 4c8e1d0a9b7f6e5d4c3b2a1908f7e6d5c4b3a291",
+      "description": "The uses: line references tesslio/code-review-action at 4c8e1d0a9b7f6e5d4c3b2a1908f7e6d5c4b3a291",
       "max_score": 9
     },
     {
