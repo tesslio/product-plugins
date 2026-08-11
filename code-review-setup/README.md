@@ -1,7 +1,13 @@
 # code-review-setup
 
 Install Tessl Code Review into a GitHub repository, by writing the thin caller
-workflow that invokes the supported `tesslio/code-review` Action.
+workflow that invokes the supported Tessl Code Review Action.
+
+## The Action repository
+
+The Action lives at `tesslio/code-review` today and moves to
+`tesslio/code-review-action` at public launch, when callers re-pin against the
+new repository. Nothing else about an installed workflow changes with the move.
 
 ## Install
 
@@ -12,8 +18,9 @@ tessl install tessl/code-review-setup
 ## What it does
 
 The Action owns running a review: pull-request resolution, checkout of the exact
-head, Tessl CLI setup, review publication, stale-head protection, idempotent
-retries, failure notices, and result artifacts. The repository owns a caller
+head, Tessl CLI setup, review publication, the check run it reports on the
+reviewed head, stale-head protection, idempotent retries, failure notices, and
+result artifacts. The repository owns a caller
 workflow: triggers, concurrency, runner, timeout, permissions, the token secret,
 and the review policy.
 
@@ -25,13 +32,15 @@ Setup is two questions:
 - **When do reviews run.** Manual only, once when the pull request becomes ready
   plus requested rounds (the default), or on every commit.
 - **Do findings block.** Advisory, where the review is a comment and no review
-  outcome fails the check, or gate, where a converged review approves and a
-  non-converged one requests changes and fails the check.
+  outcome fails the check, or gate, where changes approved passes the check and
+  changes requested fails it.
 
-The two are independent choices, but not independent in effect: a required status
-check is only reported for a head that a `pull_request` run was triggered for, so
-the skill explains what a gate can actually enforce on the cadence being chosen
-instead of leaving someone with a required check that never reports.
+The two are independent choices, and every pairing is installable. The Action
+reports its own check, named `Tessl Code Review`, against the head it reviewed on
+every trigger, so a gate holds on any cadence once that check is required in
+branch protection. What the cadence decides is when a fresh verdict arrives, and
+the skill says plainly that on the non-automatic cadences a blocked pull request
+stays blocked until someone asks for a new round.
 
 Around those two answers, the skill inspects the repository first and asks only
 for what it cannot infer: existing workflow conventions, an existing Code Review
@@ -43,7 +52,8 @@ the setup.
 
 The installed workflow always pins the Action to a full commit SHA, resolved from
 the current supported release at setup time. Tags and branches are moving
-references and this plugin does not install them.
+references and this plugin does not install them. If no release resolves, setup
+stops and says so rather than leaving behind a workflow that cannot run.
 
 Mention-driven rounds are requested by mentioning `@tessl-code-review` in a
 comment on the pull request. That token belongs to the Action, whose published
@@ -60,4 +70,4 @@ user, defaulting to owners, organization members, and invited collaborators.
 ## Customizing what gets reviewed
 
 Cadence and blocking are what this plugin sets. What the reviewer looks for is
-the `profile` and `lenses` inputs, documented by the `tessl/code-review` plugin.
+the `profile` and `lenses` inputs, documented in the Action repository's README.

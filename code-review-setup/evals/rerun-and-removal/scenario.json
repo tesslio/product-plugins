@@ -1,0 +1,5 @@
+{
+  "type": "generic",
+  "description": "Re-run setup against a caller that already matches the requested configuration, and document how to remove the setup later",
+  "include": ["./inputs"]
+}

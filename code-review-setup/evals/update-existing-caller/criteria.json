@@ -1,76 +1,76 @@
 {
-  "context": "The agent must update an existing caller workflow in place rather than rewriting it from a template. This scenario tests idempotent updating: the cadence change and the pin change are applied, while user-owned settings (self-hosted runner, 45-minute timeout, job name, output-consuming step) survive untouched, and no second caller workflow appears.",
+  "context": "The agent must update an existing caller workflow in place rather than rewriting it from a template. This scenario tests idempotent updating: the cadence change, the pin change, and the missing checks: write permission are applied, while user-owned settings (self-hosted runner, 45-minute timeout, job name, output-consuming step) survive untouched, and no second caller workflow appears.",
   "type": "weighted_checklist",
   "checklist": [
     {
       "name": "Existing workflow edited in place",
       "description": ".github/workflows/tessl-code-review.yml still exists and was modified, rather than deleted, renamed, or replaced by a differently named workflow",
-      "max_score": 10
+      "max_score": 8
     },
     {
       "name": "Exactly one caller workflow",
       "description": "Exactly one file under .github/workflows/ contains a step using tesslio/code-review",
-      "max_score": 12
+      "max_score": 9
     },
     {
       "name": "synchronize trigger added",
       "description": "on.pull_request.types includes synchronize in addition to opened, reopened, and ready_for_review",
-      "max_score": 12
+      "max_score": 9
     },
     {
       "name": "cancel-in-progress switched on",
       "description": "The concurrency block sets cancel-in-progress to true",
-      "max_score": 12
+      "max_score": 9
     },
     {
       "name": "New pinned revision applied",
       "description": "The uses: line references tesslio/code-review at 4c8e1d0a9b7f6e5d4c3b2a1908f7e6d5c4b3a291",
-      "max_score": 12
+      "max_score": 9
     },
     {
       "name": "Self-hosted runner preserved",
       "description": "runs-on is still the self-hosted label list [self-hosted, linux, x64]",
-      "max_score": 8
+      "max_score": 6
     },
     {
       "name": "Timeout preserved",
       "description": "timeout-minutes is still 45",
-      "max_score": 6
+      "max_score": 5
     },
     {
       "name": "Job name preserved",
       "description": "The job is still keyed code-review",
-      "max_score": 5
+      "max_score": 4
     },
     {
       "name": "Output-consuming step preserved",
       "description": "The step writing the review status into GITHUB_STEP_SUMMARY is still present, still guarded by if: always(), and still reads steps.review.outputs.status",
-      "max_score": 10
+      "max_score": 8
     },
     {
       "name": "Mode unchanged",
       "description": "The Action step still passes mode: advisory",
-      "max_score": 6
+      "max_score": 5
     },
     {
-      "name": "Permissions unchanged",
-      "description": "The permissions block is still exactly contents: read, issues: write, and pull-requests: write",
-      "max_score": 6
+      "name": "Missing checks permission added",
+      "description": "The permissions block now reads contents: read, checks: write, issues: write, pull-requests: write. The input workflow granted the other three but not checks: write, which the Action needs to report its Tessl Code Review check, so the update adds it and changes nothing else in the block",
+      "max_score": 8
     },
     {
       "name": "Mention trigger retained",
       "description": "The issue_comment trigger and its guard requiring a pull-request comment mentioning @tessl-code-review are still present",
-      "max_score": 8
+      "max_score": 6
     },
     {
       "name": "Summary explains why superseding is safe",
       "description": "summary.md explains that canceling an in-flight review is safe because the Action verifies the pull-request head before publishing, refuses to publish for a superseded head, and publishes idempotently",
-      "max_score": 10
+      "max_score": 8
     },
     {
       "name": "Summary distinguishes changed from preserved",
-      "description": "summary.md lists what changed (cadence triggers, cancel-in-progress, pinned revision) separately from what was deliberately left alone (runner, timeout, job name, extra step, mode, profile)",
-      "max_score": 8
+      "description": "summary.md lists what changed (cadence triggers, cancel-in-progress, pinned revision, the added checks: write permission) separately from what was deliberately left alone (runner, timeout, job name, extra step, mode, profile)",
+      "max_score": 6
     }
   ]
 }

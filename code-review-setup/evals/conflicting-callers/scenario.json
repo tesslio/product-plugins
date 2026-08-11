@@ -1,0 +1,5 @@
+{
+  "type": "generic",
+  "description": "Two workflows already call the Code Review Action, one of them on an unsafe trigger. The conflict must be surfaced for a human decision rather than resolved by overwriting",
+  "include": ["./inputs"]
+}

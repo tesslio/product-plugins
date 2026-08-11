@@ -9,7 +9,13 @@ existing caller or a different naming convention.
 
 Adjust `runs-on` and `timeout-minutes` to match the repository's other workflows,
 and replace `<full-commit-sha>` with the SHA resolved from the current supported
-release. Everything else is the contract and should be left alone.
+release. A template is not installable while that placeholder is still in it: if
+no release resolves, stop rather than writing the file. Everything else is the
+contract and should be left alone.
+
+`tesslio/code-review` on the `uses:` line is the Action repository named in
+SKILL.md, and it is the one thing in these templates that changes at public
+launch.
 
 The `@tessl-code-review` mention token is part of the Action's contract, not a
 local naming choice. The review the Action publishes tells reviewers to mention
@@ -44,10 +50,12 @@ on:
         description: Pull-request number to review
         required: true
 
-# The minimum the Action needs: read the head to review it, publish a native
-# review, and post or clear a visible failure notice.
+# The minimum the Action needs: read the head to review it, report the
+# Tessl Code Review check on it, publish a native review, and post or clear a
+# visible failure notice.
 permissions:
   contents: read
+  checks: write
   issues: write
   pull-requests: write
 
@@ -62,18 +70,16 @@ jobs:
   review:
     # Run for a ready pull request, for an explicit dispatch, or for a comment
     # posted on a pull request that mentions @tessl-code-review, by an owner, an
-    # organization member, or an invited collaborator. The two negated
-    # conditions keep a superstring such as @tessl-code-reviewer from counting
-    # as a mention. The author-association check keeps the mention from being
-    # driven by arbitrary commenters.
+    # organization member, or an invited collaborator. The author-association
+    # check keeps the mention from being driven by arbitrary commenters. The
+    # body match is a plain substring, so a comment naming a longer handle that
+    # starts with the token also starts a round.
     if: >-
       (github.event_name == 'pull_request' && github.event.pull_request.draft == false) ||
       github.event_name == 'workflow_dispatch' ||
       (github.event_name == 'issue_comment' &&
         github.event.issue.pull_request != null &&
         contains(github.event.comment.body, '@tessl-code-review') &&
-        !contains(github.event.comment.body, '@tessl-code-reviewer') &&
-        !contains(github.event.comment.body, '@tessl-code-review-') &&
         contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.comment.author_association))
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -119,6 +125,7 @@ on:
 
 permissions:
   contents: read
+  checks: write
   issues: write
   pull-requests: write
 
@@ -136,8 +143,6 @@ jobs:
       (github.event_name == 'issue_comment' &&
         github.event.issue.pull_request != null &&
         contains(github.event.comment.body, '@tessl-code-review') &&
-        !contains(github.event.comment.body, '@tessl-code-reviewer') &&
-        !contains(github.event.comment.body, '@tessl-code-review-') &&
         contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.comment.author_association))
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -170,6 +175,7 @@ on:
 
 permissions:
   contents: read
+  checks: write
   issues: write
   pull-requests: write
 
@@ -189,8 +195,6 @@ jobs:
       (github.event_name == 'issue_comment' &&
         github.event.issue.pull_request != null &&
         contains(github.event.comment.body, '@tessl-code-review') &&
-        !contains(github.event.comment.body, '@tessl-code-reviewer') &&
-        !contains(github.event.comment.body, '@tessl-code-review-') &&
         contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.comment.author_association))
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -212,27 +216,28 @@ Gate mode is one input change on any of the three templates. Replace the
           mode: gate
 ```
 
-Before installing it, check the cadence against "What gate mode can actually
-enforce" in [interview.md](interview.md). A required status check is only
-reported for a head that had a `pull_request` run, so on the manual-only and
-ready-once cadences the check does not do the blocking.
+Before installing it, read "What gate mode enforces" in
+[interview.md](interview.md). The Action reports the `Tessl Code Review` check
+against the head it reviewed on every trigger, so the gate holds on all three
+cadences. What the cadence decides is when a fresh verdict arrives.
 
 When the cadence is manual only or ready once plus mentions, also record the
 invocation contract where the pull-request author will read it, immediately above
 the `on:` block:
 
 ```yaml
-# Gate mode: a converged review approves and the check passes, a non-converged
-# review requests changes and fails the check. A blocked pull request does not
-# unblock itself, because pushing commits does not start a review. Mention
-# @tessl-code-review in a comment to request a fresh round against the new head.
+# Gate mode: changes approved passes the Tessl Code Review check, changes
+# requested fails it. A blocked pull request does not unblock itself, because
+# pushing commits does not start a review. Mention @tessl-code-review in a
+# comment to have the new head reviewed and the check reported against it.
 ```
 
 Gate mode also needs two things this file cannot set. Both belong in the summary
 you give the user:
 
-- the job's check made a required status check in branch protection, named after
-  the job rather than the workflow;
+- the Action's own check, `Tessl Code Review`, made a required status check in
+  branch protection. Never the caller's job, which reports nothing on a
+  comment-driven or dispatched round;
 - the repository setting that allows GitHub Actions to create and approve pull
   requests.
 
@@ -241,19 +246,16 @@ you give the user:
 **The mention guard.** `issue_comment` fires for issues as well as pull requests,
 for every comment regardless of body, and for any commenter. The guard narrows it
 to all three of: a comment on a pull request, a body carrying
-`@tessl-code-review` as a complete token, and a commenter with `OWNER`, `MEMBER`,
-or `COLLABORATOR` association. The token itself is fixed by the Action, so the
-part to discuss with the user is the association allowlist, not the token.
+`@tessl-code-review`, and a commenter with `OWNER`, `MEMBER`, or `COLLABORATOR`
+association. The token itself is fixed by the Action, so the part to discuss with
+the user is the association allowlist, not the token.
 
 The match is case-sensitive and can sit anywhere in the body, so
 `@tessl-code-review` fires and `please take another look @tessl-code-review`
-fires too. `contains` alone would also match a longer token that merely starts
-with it, which is what the two negated conditions exclude: a body carrying
-`@tessl-code-reviewer` or `@tessl-code-review-bot` does not start a review, and
-neither does a body carrying both that and a real mention. Because the trigger is
+fires too. It is a plain substring match, so a body naming a longer handle that
+starts with the token starts a round as well. Because the trigger is
 `types: [created]`, editing an existing comment to add the mention does nothing.
-Mention these when explaining the trigger, since each one reads as "nothing
-happened".
+Mention both when explaining the trigger, since each one surprises someone.
 
 `issue_comment` runs the copy of the workflow on the **default branch**, not the
 copy on the pull-request branch. The mention trigger therefore does nothing at
@@ -267,7 +269,7 @@ skill puts to the user rather than deciding for them:
 
 - keep the `OWNER`, `MEMBER`, `COLLABORATOR` allowlist, the recommended default;
 - drop the association condition, so any commenter on a pull request can start a
-  review, which is what the monorepo's own workflow does;
+  review;
 - query the commenter's permission level through the API instead, which is
   stricter than association but costs an extra call and a token that can read it.
 

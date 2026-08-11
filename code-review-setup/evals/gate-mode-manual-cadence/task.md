@@ -11,17 +11,16 @@ Their decisions, already made:
 - Nothing runs automatically. A review happens only when someone asks for it, by
   commenting on the pull request or by dispatching the workflow manually with a
   pull-request number.
-- Findings block the merge. A converged review should approve and pass the check.
-  A non-converged review should request changes and fail the check.
+- Findings block the merge. A review that approves the changes should pass the
+  check. A review that requests changes should fail it.
 - The standard review profile, with no custom lens selection.
 
 The Tessl API token is supplied to the workflow as a repository secret named
 `TESSL_TOKEN`.
 
-Pin the Action to a full commit SHA. If you can reach the Action's releases,
-resolve the current supported release to its commit SHA and pin that. If you
-cannot reach them from this environment, write the literal placeholder
-`<full-commit-sha>` and say so in your summary.
+The team is adopting release `v1.4.0` of the Action, whose commit SHA is
+`3a914f7c2b8e5d061a934f7c2b8e5d061a934f7c`. Pin that full SHA. Do not pin a tag,
+a branch, `main`, or `canary`, and do not leave a placeholder in the file.
 
 ## Output Specification
 
@@ -32,5 +31,5 @@ Produce the following files:
   checkout, CLI-setup, or review-publication logic into the workflow.
 - `summary.md` at the root of the workspace, documenting the contract that was
   installed, every configuration step a repository administrator still has to
-  perform by hand, and anything about this combination of choices that will not
-  behave the way the team expects.
+  perform by hand, and what this team has to do to clear a blocked pull request
+  on the cadence they chose.

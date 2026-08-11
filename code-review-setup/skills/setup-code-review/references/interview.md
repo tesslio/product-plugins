@@ -3,9 +3,9 @@
 Two questions. They are orthogonal. Ask both, state the default, and keep the
 trade-offs to a sentence each.
 
-Their consequences are not independent, though: what a gate can enforce depends
-on the cadence. Read "What gate mode can actually enforce" below before proposing
-any gate setup.
+Every pairing of them is installable. What the cadence decides is when a fresh
+verdict arrives, which changes what a blocked pull request has to do to become
+unblocked. Read "What gate mode enforces" below before proposing any gate setup.
 
 ## Question 1: when do reviews run?
 
@@ -25,14 +25,17 @@ cannot leave a duplicate or stale review behind.
 | Option | What happens | Effect on merging |
 | --- | --- | --- |
 | Advisory (default) | The Action publishes a `COMMENT` review. Findings never fail the check | None. The review is information |
-| Gate | A converged review approves the pull request and the check passes. A non-converged review requests changes, publishes the full review, and fails the check | Merging is blocked while the check is required and failing |
+| Gate | A review that approves the changes approves the pull request and the check passes. A review that requests changes publishes the full review and fails the check | Merging is blocked while the check is required and failing |
 
 Gate mode has two prerequisites the workflow file cannot satisfy on its own, so
 raise them during the proposal:
 
-- Enforce the gate by making the job's check a **required status check** in
-  branch protection. Branch protection matches the **job** name, not the workflow
-  name, so require `review` (or whatever the job is keyed in the installed file).
+- Enforce the gate by making the Action's own check a **required status check**
+  in branch protection. The name to require is `Tessl Code Review`, the check the
+  Action reports against the head it reviewed. Never require the caller's job
+  instead: a job status only lands on the pull request for a `pull_request` run,
+  so requiring it turns every comment-driven or dispatched round into a check
+  that never arrives.
   Do not enforce it through review-state protection such as "require approval
   from someone with write access". The Action's approval comes from GitHub
   Actions, and treating it as a human approval is not what the gate is for.
@@ -43,51 +46,43 @@ raise them during the proposal:
   still fails the gate. The review is never lost, but the gate stays red until
   the setting is turned on.
 
-## What gate mode can actually enforce
+## What gate mode enforces
 
-A required status check is evaluated against the pull request's current head SHA.
-A workflow run reports its check against the commit it was triggered for, and
-only `pull_request` runs are triggered against a pull-request head. A run started
-by `issue_comment` or `workflow_dispatch` is associated with the default branch,
-so its result does not land on the pull request's head and cannot satisfy or fail
-a required check there.
+The Action reports its own check run, named `Tessl Code Review`, against the
+pull-request head it resolved, on every trigger. A comment-driven or dispatched
+round resolves the same head a `pull_request` run would, so its verdict reaches
+the pull request whatever started it. Requiring that check enforces the gate on
+all three cadences.
 
-Two consequences, both of which have to reach the user before they choose:
+Gate mode also fails closed: an outcome carrying no approval verdict fails the
+check rather than passing a head that nothing judged.
 
-- **A mention-driven round cannot clear a required check.** It publishes a real
-  review, and in gate mode a converged one still attempts to approve, but the
-  check itself stays as it was.
-- **A head with no `pull_request` run has no check to satisfy.** Branch
-  protection reports the required check as expected and never received, which
-  blocks the pull request until a run is triggered for that head.
+What the cadence decides is when a fresh verdict arrives:
 
-So the pairings behave like this:
-
-| Gate with | What enforcement you get |
+| Gate with | What the user gets |
 | --- | --- |
-| Every commit | Works as written. Every head gets a `pull_request` run, so the required check is always reported against the head being merged |
-| Ready once | The first head is gated. After any push, the new head has no run and the required check is never reported, so the pull request stays blocked and no comment can clear it |
-| Manual only | No `pull_request` run ever happens, so a required check on this job is never reported for any head |
+| Every commit | Every push is reviewed, so every head carries a verdict and the check clears itself once the findings are addressed |
+| Ready once | The first ready head is reviewed. A later push produces a head with no verdict yet, and branch protection holds the pull request until a requested round reviews it |
+| Manual only | No head carries a verdict until someone asks, so branch protection holds every pull request until the first round runs against its current head |
 
-**Recommend every-commit whenever the user wants gate mode enforced by a required
-status check.** If they want gate on another cadence, say plainly what they get:
-the review outcome is published and visible, and a non-converged review still
-requests changes, but the required-check mechanism does not do the blocking. In
-that case the honest enforcement story is the requested-changes review state, not
-a status check, which is a different control from the one this setup recommends.
+**Recommend every-commit when the user wants the gate to keep up with the branch
+on its own.** On the other two cadences the gate is just as real. Say plainly:
+clearing the gate is a deliberate act. Someone mentions `@tessl-code-review` or
+dispatches the workflow, the new round reviews the current head, and that
+verdict is what the required check reports for that head. Nothing about the gate
+is weaker on these cadences. It waits to be asked.
 
-Do not paper over this by adding a step that reports a check against the head
-yourself. That is a second execution path, and it belongs in the Action if it
-belongs anywhere.
+Do not add a step that reports a check of your own. The Action already reports
+one against the head it reviewed, and a second is a second execution path.
 
 ## The contract to spell out
 
 Whenever gate mode runs on a cadence that does not review pushes, state the
 contract in the summary and leave it as a comment in the installed workflow:
 
-> A blocked pull request does not unblock itself. Pushing fixes does not trigger
-> a new review, and a mention-driven round does not clear a required status
-> check.
+> A blocked pull request does not unblock itself. Pushing fixes does not start a
+> review, so mention `@tessl-code-review` on the pull request to have the new
+> head reviewed and the check reported against it.
 
 Gate plus every-commit is the closest thing to continuous enforcement. It costs
 the most, and the gate flips red and green as the branch moves.

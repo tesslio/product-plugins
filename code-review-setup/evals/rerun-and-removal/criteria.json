@@ -1,0 +1,56 @@
+{
+  "context": "The installed caller already matches the requested cadence, mode, profile, and pin. This scenario tests that a re-run is idempotent, that the agent says so rather than rewriting a file to look productive, and that it can give a correct removal procedure, including removing the Action's required check from branch protection before or with deleting the workflow.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Caller workflow unchanged",
+      "description": ".github/workflows/tessl-code-review.yml is byte-identical to the version provided in the inputs",
+      "max_score": 18
+    },
+    {
+      "name": "No second caller created",
+      "description": "Exactly one file under .github/workflows/ contains a step using tesslio/code-review, and no additional workflow file was added",
+      "max_score": 8
+    },
+    {
+      "name": "Summary reports that nothing changed",
+      "description": "summary.md states plainly that the existing workflow already matched the intent and that this run changed nothing, rather than describing edits that were not made",
+      "max_score": 12
+    },
+    {
+      "name": "Summary describes the installed contract",
+      "description": "summary.md states the cadence (a review on every push, in-flight run superseded), that findings block, the standard profile, and the pinned revision",
+      "max_score": 8
+    },
+    {
+      "name": "Removal deletes the caller workflow",
+      "description": "removal.md instructs the maintainer to delete .github/workflows/tessl-code-review.yml",
+      "max_score": 8
+    },
+    {
+      "name": "Removal covers the repository secret",
+      "description": "removal.md instructs the maintainer to delete the TESSL_TOKEN repository secret if nothing else uses it",
+      "max_score": 8
+    },
+    {
+      "name": "Removal names the required check to drop",
+      "description": "removal.md instructs the maintainer to remove the required status check named Tessl Code Review from branch protection. Full credit requires that exact name rather than the caller's job name",
+      "max_score": 14
+    },
+    {
+      "name": "Removal ordering explained",
+      "description": "removal.md states that the required check must be removed before or together with deleting the workflow, because a required check that nothing reports blocks every pull request indefinitely",
+      "max_score": 14
+    },
+    {
+      "name": "Removal states what it does not undo",
+      "description": "removal.md states that reviews and comments already published stay on their pull requests and are not removed",
+      "max_score": 5
+    },
+    {
+      "name": "No unrequested changes",
+      "description": "The agent did not modify the runner, timeout, permissions block, triggers, mention guard, or Action inputs, and did not propose adopting a newer release when the task said this pass keeps the current pin",
+      "max_score": 5
+    }
+  ]
+}
