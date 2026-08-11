@@ -4,7 +4,7 @@
   "checklist": [
     {
       "name": "Caller workflow created",
-      "description": "A workflow file exists under .github/workflows/ that contains a step using tesslio/code-review",
+      "description": "A workflow file exists under .github/workflows/ that contains a step using tesslio/code-review-action",
       "max_score": 7
     },
     {
@@ -44,7 +44,7 @@
     },
     {
       "name": "Pinned to the supplied release SHA",
-      "description": "The uses: line references tesslio/code-review at the full 40-character commit SHA given in the task, 3a914f7c2b8e5d061a934f7c2b8e5d061a934f7c, and not at a branch name, a tag, main, canary, or a placeholder",
+      "description": "The uses: line references tesslio/code-review-action at the full 40-character commit SHA given in the task, 3a914f7c2b8e5d061a934f7c2b8e5d061a934f7c, and not at a branch name, a tag, main, canary, or a placeholder",
       "max_score": 6
     },
     {

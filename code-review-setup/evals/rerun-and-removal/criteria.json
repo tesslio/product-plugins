@@ -9,7 +9,7 @@
     },
     {
       "name": "No second caller created",
-      "description": "Exactly one file under .github/workflows/ contains a step using tesslio/code-review, and no additional workflow file was added",
+      "description": "Exactly one file under .github/workflows/ contains a step using tesslio/code-review-action, and no additional workflow file was added",
       "max_score": 8
     },
     {

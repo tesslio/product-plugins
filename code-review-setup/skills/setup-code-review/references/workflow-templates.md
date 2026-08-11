@@ -13,9 +13,8 @@ release. A template is not installable while that placeholder is still in it: if
 no release resolves, stop rather than writing the file. Everything else is the
 contract and should be left alone.
 
-`tesslio/code-review` on the `uses:` line is the Action repository named in
-SKILL.md, and it is the one thing in these templates that changes at public
-launch.
+`tesslio/code-review-action` on the `uses:` line is the Action repository named
+in SKILL.md.
 
 The `@tessl-code-review` mention token is part of the Action's contract, not a
 local naming choice. The review the Action publishes tells reviewers to mention
@@ -88,7 +87,7 @@ jobs:
       # Code Review release when this workflow was written, and changed only as
       # a reviewed update. The Action checks out the pull-request head itself,
       # so this job needs no checkout step.
-      - uses: tesslio/code-review@<full-commit-sha>
+      - uses: tesslio/code-review-action@<full-commit-sha>
         with:
           tessl-token: ${{ secrets.TESSL_TOKEN }}
           # Named review profile. The standard profile is the supported default.
@@ -147,7 +146,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - uses: tesslio/code-review@<full-commit-sha>
+      - uses: tesslio/code-review-action@<full-commit-sha>
         with:
           tessl-token: ${{ secrets.TESSL_TOKEN }}
           profile: standard
@@ -199,7 +198,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - uses: tesslio/code-review@<full-commit-sha>
+      - uses: tesslio/code-review-action@<full-commit-sha>
         with:
           tessl-token: ${{ secrets.TESSL_TOKEN }}
           profile: standard

@@ -19,13 +19,14 @@ or publication logic, and it never adds a second execution path.
 
 ## The Action repository
 
-The supported Action is `tesslio/code-review`. At public launch it moves to
-`tesslio/code-review-action`, and callers re-pin against the new repository.
+The supported Action is `tesslio/code-review-action`.
 
-This is the only place that name is decided. Everywhere else in this skill,
-"the Action repository" means whichever of the two is current, and the templates
-carry it on the `uses:` line. When the move happens, change the name here, in
-the templates, and in the pin already installed in a repository. Nothing else
+This is the only place that name is decided; it is written in several. Everywhere
+else in this skill, "the Action repository" means that repository, and the
+templates carry it on their `uses:` lines. If the name ever changes, update it
+here, on the templates' `uses:` lines, and on the `uses:` line of any workflow
+already installed in a repository. The repository path is what changes; the
+pinned commit SHA stays, unless the selected release changes too. Nothing else
 about the setup changes.
 
 ## Procedure
@@ -113,12 +114,12 @@ Resolve it at setup time, against the current supported release of the Action
 repository:
 
 ```bash
-gh api repos/tesslio/code-review/releases/latest --jq .tag_name
-gh api repos/tesslio/code-review/git/ref/tags/<tag> --jq '.object.sha, .object.type'
+gh api repos/tesslio/code-review-action/releases/latest --jq .tag_name
+gh api repos/tesslio/code-review-action/git/ref/tags/<tag> --jq '.object.sha, .object.type'
 ```
 
 An annotated tag resolves to a tag object, so follow it once more
-(`gh api repos/tesslio/code-review/git/tags/<sha> --jq .object.sha`) until you
+(`gh api repos/tesslio/code-review-action/git/tags/<sha> --jq .object.sha`) until you
 hold a 40-character commit SHA. Pin that, and tell the user which release it came
 from.
 

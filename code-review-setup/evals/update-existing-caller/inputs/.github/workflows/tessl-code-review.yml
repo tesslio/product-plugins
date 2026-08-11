@@ -26,7 +26,7 @@ jobs:
     timeout-minutes: 45
     steps:
       - id: review
-        uses: tesslio/code-review@1f0c9a4b7e2d8c6a5b3f0e9d8c7b6a5f4e3d2c1b
+        uses: tesslio/code-review-action@1f0c9a4b7e2d8c6a5b3f0e9d8c7b6a5f4e3d2c1b
         with:
           tessl-token: ${{ secrets.TESSL_TOKEN }}
           profile: standard

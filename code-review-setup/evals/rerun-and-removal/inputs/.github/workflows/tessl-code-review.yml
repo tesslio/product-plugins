@@ -33,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - uses: tesslio/code-review@8d4a1e7b3c9f5026d8a4e1b7c3f950268d4a1e7b
+      - uses: tesslio/code-review-action@8d4a1e7b3c9f5026d8a4e1b7c3f950268d4a1e7b
         with:
           tessl-token: ${{ secrets.TESSL_TOKEN }}
           profile: standard
