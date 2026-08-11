@@ -14,8 +14,7 @@ no release resolves, stop rather than writing the file. Everything else is the
 contract and should be left alone.
 
 `tesslio/code-review` on the `uses:` line is the Action repository named in
-SKILL.md, and it is the one thing in these templates that changes at public
-launch.
+SKILL.md.
 
 The `@tessl-code-review` mention token is part of the Action's contract, not a
 local naming choice. The review the Action publishes tells reviewers to mention

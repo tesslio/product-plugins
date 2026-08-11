@@ -19,14 +19,12 @@ or publication logic, and it never adds a second execution path.
 
 ## The Action repository
 
-The supported Action is `tesslio/code-review`. At public launch it moves to
-`tesslio/code-review-action`, and callers re-pin against the new repository.
+The supported Action is `tesslio/code-review`.
 
 This is the only place that name is decided. Everywhere else in this skill,
-"the Action repository" means whichever of the two is current, and the templates
-carry it on the `uses:` line. When the move happens, change the name here, in
-the templates, and in the pin already installed in a repository. Nothing else
-about the setup changes.
+"the Action repository" means that repository, and the templates carry it on the
+`uses:` line. If the name ever changes, change it here, in the templates, and in
+the pin already installed in a repository. Nothing else about the setup changes.
 
 ## Procedure
 

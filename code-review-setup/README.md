@@ -5,9 +5,8 @@ workflow that invokes the supported Tessl Code Review Action.
 
 ## The Action repository
 
-The Action lives at `tesslio/code-review` today and moves to
-`tesslio/code-review-action` at public launch, when callers re-pin against the
-new repository. Nothing else about an installed workflow changes with the move.
+The supported Action lives at `tesslio/code-review`. An installed caller
+workflow names it on its `uses:` line.
 
 ## Install
 
