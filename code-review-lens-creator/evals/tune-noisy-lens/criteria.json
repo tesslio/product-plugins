@@ -1,0 +1,86 @@
+{
+  "context": "The agent must diagnose a noisy lens from categorized backtest evidence and edit it so each category is addressed by the right kind of change. The 19 false positives come from a threshold that invites reporting any possible gap and from the absence of any exclusion, and they fall into two named families (internal helpers whose caller already logs, and pure functions with no failure mode). The 5 misses are one family the Scope never names: thrown errors that omit the identifier needed to trace the failure. The 4 unplaced findings are whole-change verdicts that give the author nothing to do, produced by a reporting rule that asks for an overall assessment; they are a vagueness problem that happens to show up as unplaced, not evidence that every finding must sit on a line. The lens also assigns its own severity, which the review run does. Adding caution prose, or widening the lens to cover new subjects, is the wrong response.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Existing lens edited in place",
+      "description": "review-lenses/review-observability/SKILL.md was modified rather than deleted or replaced, and no second lens directory was created",
+      "max_score": 7
+    },
+    {
+      "name": "Threshold rewritten as a consequence",
+      "description": "The instruction to report anywhere observability could be improved is gone, replaced by a bar expressed as what goes wrong in operation. The reasoning that it is better to raise a possible gap than to miss one is removed rather than softened",
+      "max_score": 10
+    },
+    {
+      "name": "Exclusion added for the caller-logs family",
+      "description": "The lens now says not to report an internal function that does not log when the operation is already recorded by its caller, which is the 14-finding false-positive family",
+      "max_score": 10
+    },
+    {
+      "name": "Exclusion added for code with no failure mode",
+      "description": "The lens now says not to report pure functions, formatters, comparators, or similar code with no I/O and no failure mode, which is the 5-finding false-positive family",
+      "max_score": 8
+    },
+    {
+      "name": "Missed family added to scope",
+      "description": "The lens now names error messages and thrown or wrapped errors that omit the identifier, record, job, or account needed to trace the failure, and dropped causes. This is the family behind all 5 misses",
+      "max_score": 10
+    },
+    {
+      "name": "Whole-change verdicts replaced by specific findings",
+      "description": "The instruction to assess and summarize the overall observability posture is removed, and reporting now requires each finding to identify a specific failure the author can act on, whether that is in the changed code or a specific missing signal. Requiring every finding to sit on a changed line is not the fix and should not be scored as one, since a finding about something absent has no line",
+      "max_score": 9
+    },
+    {
+      "name": "Self-assigned severity removed",
+      "description": "The rule that marks findings critical or minor is gone. The lens no longer assigns severity, which the review run does",
+      "max_score": 8
+    },
+    {
+      "name": "Reporting demands a concrete fix",
+      "description": "The vague recommend improving the logging where it is weak is replaced by guidance requiring the specific failure that would go undiagnosed and the specific change that fixes it",
+      "max_score": 7
+    },
+    {
+      "name": "Fixed by narrowing, not by adding caution",
+      "description": "The false positives are addressed by naming the specific acceptable cases and tightening the bar, not by adding instructions to be careful, be conservative, or use judgment",
+      "max_score": 9
+    },
+    {
+      "name": "Scope not widened beyond the concern",
+      "description": "The lens still covers diagnosability only. It has not grown to cover correctness, performance, security, or maintainability, which other lenses cover",
+      "max_score": 6
+    },
+    {
+      "name": "Fixed without turning the lens into a checklist",
+      "description": "The tightened lens still names kinds of problem rather than enumerating instances. It does not answer the false positives or the misses by supplying a list of language-specific tokens, library names, or method calls for the reviewer to match against, which would make it precise on the listed cases and blind to the rest of the family",
+      "max_score": 9
+    },
+    {
+      "name": "No authoring guidance left in the lens",
+      "description": "The revised lens contains nothing addressed to its own author: no advice about how to write a lens, and no reference to material the reviewer will never see, such as the backtest results it was tuned against",
+      "max_score": 7
+    },
+    {
+      "name": "Lens stays short",
+      "description": "The revised SKILL.md is still a concise lens rather than having grown into a long observability handbook",
+      "max_score": 5
+    },
+    {
+      "name": "Notes map each change to its evidence",
+      "description": "tuning-notes.md links each edit to the backtest category it addresses, naming the false-positive families, the miss family, and the unplaced findings rather than describing the edits generically",
+      "max_score": 9
+    },
+    {
+      "name": "Notes require a re-backtest before adoption",
+      "description": "tuning-notes.md says the lens must be re-run over the same 12 pull requests and the categories recounted before adoption, so a gain in one category is not paid for out of another",
+      "max_score": 8
+    },
+    {
+      "name": "Notes name the residual risk",
+      "description": "tuning-notes.md acknowledges what the tightened threshold may now cost, such as findings the narrowed bar or the new exclusions could suppress, rather than presenting the change as pure improvement",
+      "max_score": 5
+    }
+  ]
+}

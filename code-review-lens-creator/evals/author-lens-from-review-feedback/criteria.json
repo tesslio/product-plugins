@@ -1,0 +1,101 @@
+{
+  "context": "The agent must turn a mixed pile of review comments into one usable lens. The feedback contains six on-theme comments (a swallowed error, a retry that gives up silently, an untimed outbound call, an error message missing the identifier, a production-invisible debug log, and unlogged early exits) and four that are not the concern (a naming preference, a const nit, a load-testing question, and a request for the attempt count on a log line that is arguably in scope). The lens must be narrowed to the diagnosability concern, must carry a threshold with an explicit exclusion, must not assign severity or duplicate the default lenses, and the validation plan must use tessl code review with a positive and a negative case rather than a single broad run.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Lens exists with valid frontmatter",
+      "description": "review-lenses/review-observability/SKILL.md exists and its frontmatter carries a name matching the directory and a description",
+      "max_score": 6
+    },
+    {
+      "name": "Description states the review question",
+      "description": "The description says in plain terms what the lens reviews a change for, and identifies it as a lens for a code review run rather than as a general skill",
+      "max_score": 7
+    },
+    {
+      "name": "Coherent, with the off-theme feedback left out",
+      "description": "The lens covers the diagnosability concern and does not fold in the off-theme feedback: no naming preference, no const style, no load-testing or performance dimension. Holding two or three related dimensions under the one concern is normal and must not be penalized; what is scored here is that unrelated feedback did not get swept in",
+      "max_score": 9
+    },
+    {
+      "name": "Scope drawn from the evidence",
+      "description": "What the lens covers is recognizably derived from the on-theme comments (failures that leave no signal, outbound calls with no timing, error text lacking the identifier needed to trace it, log levels invisible in production, exits that are not recorded) rather than a generic description of logging",
+      "max_score": 9
+    },
+    {
+      "name": "Threshold stated as a consequence",
+      "description": "The bar a finding must clear is expressed as what goes wrong in operation, not as a confidence adjective such as high-confidence or important",
+      "max_score": 8
+    },
+    {
+      "name": "Explicit exclusion present",
+      "description": "The lens names cases it should not report, identifying situations that resemble the concern and are acceptable, rather than only stating what to report",
+      "max_score": 9
+    },
+    {
+      "name": "Reporting demands a specific, actionable finding",
+      "description": "The reporting guidance requires each finding to name the specific failure that would go undiagnosed and the specific change that fixes it, rather than delivering a verdict on the change as a whole",
+      "max_score": 8
+    },
+    {
+      "name": "No severity assigned by the lens",
+      "description": "The lens does not instruct the reviewer to label findings critical, major, minor, or nit, nor define its own severity scale. Severity is assigned by the review run",
+      "max_score": 7
+    },
+    {
+      "name": "No overlap with the default lenses",
+      "description": "The lens does not restate correctness, security, scalability, or maintainability review, which the four defaults already cover",
+      "max_score": 6
+    },
+    {
+      "name": "Lens is short",
+      "description": "SKILL.md is concise, comparable to the default lenses rather than an exhaustive logging handbook, and carries only what makes this lens distinct",
+      "max_score": 5
+    },
+    {
+      "name": "Validation plan runs the lens with tessl code review --skill",
+      "description": "validation-plan.md gives concrete tessl code review invocations passing the lens through --skill by its local path. It must not use tessl change review, and must not use an --output flag, which the command does not have",
+      "max_score": 9
+    },
+    {
+      "name": "Validation plan has a positive and a negative case",
+      "description": "The plan checks a change that should trip the lens and a change that should not, and states what result counts as a pass for each",
+      "max_score": 8
+    },
+    {
+      "name": "Validation plan states the backtest set and how it is judged",
+      "description": "The plan says how the backtest pull requests are chosen (changes that already carry review feedback in this area) and how findings will be sorted, covering matches against the original feedback, novel findings, false positives, and concerns the lens missed",
+      "max_score": 7
+    },
+    {
+      "name": "Plan accounts for running as one lens among five",
+      "description": "The plan recognizes that --skill replaces the default lenses rather than adding to them, so isolating the lens and running it in the full set are different invocations, and both are covered",
+      "max_score": 6
+    },
+    {
+      "name": "Names kinds of problem, not instances of it",
+      "description": "The lens would still work on a codebase written in another language. It does not enumerate language-specific tokens or library names as its triggers (for example ?? [], ?? {}, axios, grpc, fetch, or a list of specific method calls). Naming a concrete pattern in prose is fine; supplying a match list the reviewer is meant to scan for is not, because it catches exactly what it lists and nothing else in the same family",
+      "max_score": 9
+    },
+    {
+      "name": "Method is a search strategy",
+      "description": "Method says where to start reading and what to follow from there, in a way that differs from reading the diff top to bottom. It is not the Scope items restated as conditions (a sequence of \"if X, that is a finding\" rules), and it does not demand an exhaustive classification pass over every changed line",
+      "max_score": 9
+    },
+    {
+      "name": "No invented output format",
+      "description": "The lens does not define how findings are rendered, tagged, numbered, or prefixed, and does not specify a token to emit when it finds nothing. Describing what a finding must name is correct; specifying the wire format it arrives in is not, because the review owns that",
+      "max_score": 6
+    },
+    {
+      "name": "No authoring guidance left in the lens",
+      "description": "The lens contains nothing addressed to its own author. No advice about how to write a lens, no phrase carried over from the authoring instructions, and no reference to material the reviewer will never see, such as the pull-request feedback the lens was derived from. Every sentence speaks to a reviewer about a diff",
+      "max_score": 8
+    },
+    {
+      "name": "Default lenses untouched",
+      "description": "No file belonging to the four default lenses was modified",
+      "max_score": 4
+    }
+  ]
+}

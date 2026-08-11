@@ -1,0 +1,6 @@
+{
+  "description": "Tune a lens that a backtest showed to be noisy: fix the threshold and exclusions behind the false positives, the missing signal behind the misses, and the reporting rule behind the unplaced findings",
+  "include": [
+    "./inputs"
+  ]
+}

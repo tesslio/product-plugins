@@ -1,0 +1,6 @@
+{
+  "description": "Author a new code review lens from recurring pull-request review feedback: narrow it to one review question, set a threshold with an explicit exclusion, and plan its validation",
+  "include": [
+    "./inputs"
+  ]
+}
