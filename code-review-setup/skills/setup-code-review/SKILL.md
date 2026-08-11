@@ -21,10 +21,13 @@ or publication logic, and it never adds a second execution path.
 
 The supported Action is `tesslio/code-review-action`.
 
-This is the only place that name is decided. Everywhere else in this skill,
-"the Action repository" means that repository, and the templates carry it on the
-`uses:` line. If the name ever changes, change it here, in the templates, and in
-the pin already installed in a repository. Nothing else about the setup changes.
+This is the only place that name is decided; it is written in several. Everywhere
+else in this skill, "the Action repository" means that repository, and the
+templates carry it on their `uses:` lines. If the name ever changes, update it
+here, on the templates' `uses:` lines, and on the `uses:` line of any workflow
+already installed in a repository. The repository path is what changes; the
+pinned commit SHA stays, unless the selected release changes too. Nothing else
+about the setup changes.
 
 ## Procedure
 
