@@ -12,7 +12,7 @@ unblocked. Read "What gate mode enforces" below before proposing any gate setup.
 | Option | What happens | Cost and latency | What the author has to remember |
 | --- | --- | --- | --- |
 | Manual only | Nothing runs until someone asks, by mentioning `@tessl-code-review` in a comment on the pull request or by dispatching the workflow | Lowest. One review per explicit request | To ask. No review appears on its own |
-| Ready once, plus mentions (default) | One review when the pull request opens or leaves draft, and another whenever someone mentions `@tessl-code-review` in a comment | One review per pull request, plus requested rounds | To ask for a fresh round after pushing fixes |
+| Ready once, plus mentions (default) | One review when the pull request opens, reopens, or leaves draft, and another whenever someone mentions `@tessl-code-review` in a comment | One review per pull request, plus requested rounds | To ask for a fresh round after pushing fixes |
 | Every commit | Adds a review on every push to the pull-request branch, with the in-flight run canceled when a newer commit lands | Highest. Scales with how often the branch is pushed | Nothing |
 
 Every-commit is safe to run without extra admission logic. The Action verifies

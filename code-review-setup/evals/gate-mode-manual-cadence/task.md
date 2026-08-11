@@ -18,7 +18,7 @@ Their decisions, already made:
 The Tessl API token is supplied to the workflow as a repository secret named
 `TESSL_TOKEN`.
 
-The team is adopting release `v1.4.0` of the Action, whose commit SHA is
+The team is adopting release `v1.5.0` of the Action, whose commit SHA is
 `3a914f7c2b8e5d061a934f7c2b8e5d061a934f7c`. Pin that full SHA. Do not pin a tag,
 a branch, `main`, or `canary`, and do not leave a placeholder in the file.
 

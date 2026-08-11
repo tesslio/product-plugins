@@ -137,7 +137,11 @@ adopting. Pin exactly that, after checking it is 40 hexadecimal characters.
 **The mention guard.** The templates restrict mention-driven rounds to commenters
 whose author association is `OWNER`, `MEMBER`, or `COLLABORATOR`. That is the
 recommended default, and it is a choice the user makes, not something you include
-silently. Put it to them in one line, with its reason and its alternatives: a
+silently. Put it to them in one line, with its reason and its alternatives. When
+the user has already given blanket approval for the described setup and said
+nothing about the guard, install the recommended default and state the decision
+and its alternatives in the proposal and the closing summary, rather than
+stalling the setup on it. The line to put to them: a
 mention round runs privileged and spends the repository's Tessl credits, so the
 allowlist keeps arbitrary commenters from driving it; the alternatives are to
 drop the condition so any commenter on a pull request can request a review, or to
@@ -160,14 +164,15 @@ convention).
 Writing is idempotent, and updating preserves user-owned choices:
 
 - If no caller exists, write the template.
-- If a caller exists, edit it in place. Change only what the interview decided
-  plus the pinned SHA. Keep the user's runner label, `timeout-minutes`, job name,
+- If a caller exists, edit it in place. Change only what the interview decided,
+  plus the pinned SHA when the user is adopting a new revision; an existing pin
+  the user is deliberately keeping stays. Keep the user's runner label, `timeout-minutes`, job name,
   step ordering, extra steps that consume the Action's outputs, any `model` or
   `effort` input already present, and any triggers or concurrency settings that
   are compatible with the chosen cadence.
 - Re-running against a repository whose caller already matches the interview and
-  carries the current pin changes nothing. Say that, rather than rewriting the
-  file to make the run look productive.
+  carries the pin the user selected changes nothing. Say that, rather than
+  rewriting the file to make the run look productive.
 - If the existing caller has a trigger the chosen cadence does not include, do
   not delete it silently. Name it in phase 3 and let the user decide.
 - Never create a second workflow that also calls the Action. One
