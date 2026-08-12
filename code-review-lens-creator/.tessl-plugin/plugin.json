@@ -1,6 +1,6 @@
 {
   "name": "tessl/code-review-lens-creator",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Author a review lens for Tessl Code Review: the reviewer skill that decides what `tessl code review` and the Tessl Code Review Action look for in a diff. Frames the review question and the bar a finding has to clear, drafts the lens, validates it by running it against changes that should and should not trip it, backtests it against pull requests that already carry review feedback, then packages it as a pinned registry ref a workflow can select. Use when someone wants their code review to catch something it misses, to stop flagging something it should not, or to write, fork, tune, or debug a code review lens. Not for `tessl review` rubrics, which score skill quality rather than code.",
   "private": false,
   "skills": [
