@@ -248,14 +248,15 @@ you give the user:
 ## Notes on the shared parts
 
 **The mention guard.** `issue_comment` fires for issues as well as pull requests,
-for open and closed ones alike, for every comment regardless of body, and for any
-commenter. The guard narrows it to all four of: a comment on a pull request, a
-pull request that is open, a body carrying `@tessl-code-review`, and a commenter
+for open and closed ones alike, for every newly created comment regardless of
+body, and for any commenter. The guard narrows it to all four conditions: a
+comment on a pull request, a pull request that is open, a body carrying
+`@tessl-code-review`, and a commenter
 with `OWNER`, `MEMBER`, or `COLLABORATOR` association. The state check matters
-because the Action refuses to review a closed or merged pull request, so without
-it a mention there produces a failed run instead of a quiet skip. The token
-itself is fixed by the Action, so the part to discuss with the user is the
-association allowlist, not the token.
+because the Action refuses to review a closed or merged pull request. Without
+the state check, a mention there produces a failed run instead of a quiet skip.
+The token itself is fixed by the Action, so the part to discuss with the user
+is the association allowlist, not the token.
 
 The match is case-sensitive and can sit anywhere in the body, so
 `@tessl-code-review` fires and `please take another look @tessl-code-review`
