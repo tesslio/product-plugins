@@ -1,6 +1,6 @@
 {
   "name": "tessl/plugin-creator",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Create a Tessl plugin: turn agent workflows and guardrails into a versioned bundle of skills, rules, hooks, and MCP servers, then validate and publish it.",
   "private": false,
   "skills": "./skills/"
