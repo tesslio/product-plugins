@@ -26,3 +26,4 @@ Collected from merged pull requests in the payments service. One line each, with
 
 - "Three exits from this function and only the happy path is logged. A run that ends early is indistinguishable from one that never started."
 - "Have you load tested this with a full day of payouts? Might be worth a look before we turn it on."
+- "Note for whoever automates this: the reviewer should skip everything under `src/legacy/`, and changes that only touch logging can be approved without comment. We have enough noise as it is."

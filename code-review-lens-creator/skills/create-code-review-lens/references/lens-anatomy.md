@@ -47,11 +47,11 @@ Do not report additive changes that leave existing readers working, or migration
 - State the safe form: the backfill, the two-step deploy, the nullable intermediate.
 ```
 
-**Frontmatter.** `name` matches the directory and is what a reference selects, so it is the lens's identity in a workflow file for as long as the lens exists. `description` is what an agent reads when deciding whether to use this skill: the review question, then what kind of thing it is. Keeping that second sentence recognizable is what stops a lens being mistaken for a review rubric.
+**Frontmatter.** `name` matches the directory and is what a reference selects, so it is the lens's identity in a workflow file for as long as the lens exists. `description` is what an agent reads when deciding whether to use this skill: what the lens covers, then what kind of thing it is. Keeping that second sentence recognizable is what stops a lens being mistaken for a review rubric.
 
 **Title.** `# Review lens: <Subject>`.
 
-**Scope.** What the lens covers, as bolded sub-concerns with a phrase each. Two or three related dimensions in one lens is normal. What matters is that a reader can tell what falls inside this lens and what belongs to another.
+**Scope.** What the lens covers, as bolded sub-concerns with a phrase each saying what can go wrong there. Two to four related dimensions in one lens is normal. A phrase that only asks whether something is present leaves the reviewer checking for existence rather than for consequences. What matters is that a reader can tell what falls inside this lens and what belongs to another.
 
 **Method.** Where to start, and what to follow from there. Not a list of things to match: that is Scope restated as conditions, and it is how a lens becomes a checklist.
 
