@@ -24,15 +24,15 @@ tessl code review
 Pin the version in a reference you keep. An unpinned ref resolves to whatever the latest published version is, so its meaning changes under you when the plugin is republished.
 
 ```bash
-tessl code review --skill tessl/code-review@0.0.3#review-security-and-privacy
+tessl code review --skill tessl/code-review@0.1.0#review-security-and-privacy
 ```
 
 Several lenses in one run:
 
 ```bash
 tessl code review \
-  --skill tessl/code-review@0.0.3#review-security-and-privacy \
-  --skill tessl/code-review@0.0.3#review-correctness-and-data-integrity
+  --skill tessl/code-review@0.1.0#review-security-and-privacy \
+  --skill tessl/code-review@0.1.0#review-correctness-and-data-integrity
 ```
 
 Or a lens you keep in your own repository, which is also how you iterate on one you have forked:
@@ -57,7 +57,7 @@ The [Tessl Code Review Action](https://github.com/tesslio/code-review-action) ru
 
 ```yaml
 lenses: >-
-  ["tessl/code-review@0.0.3#review-security-and-privacy"]
+  ["tessl/code-review@0.1.0#review-security-and-privacy"]
 ```
 
 For the caller workflow — triggers, permissions, advisory versus gating — use `tessl/code-review-setup`.
@@ -76,7 +76,3 @@ A skill needs `name` and `description` frontmatter. Past that, the shape is a su
 Several of these lenses hold two or three related dimensions, so treat one lens per dimension as a tendency rather than a rule. What matters more is that a lens stays short and carries only what makes it distinct.
 
 For authoring, validating and backtesting a lens of your own, use `tessl/code-review-lens-creator`.
-
-## Earlier lenses
-
-This version also contains `review-code-legibility`, `review-contract-boundaries`, `review-local-precedent`, `review-security-risks` and `review-test-risk`, unchanged from `0.0.1`. The lenses above supersede them. They are retained so existing unpinned references keep resolving, and they are not part of the recommended set.
