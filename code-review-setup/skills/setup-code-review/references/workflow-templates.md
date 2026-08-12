@@ -24,7 +24,7 @@ ignores. Do not rename it.
 
 ## What differs between the three
 
-| | Manual only | Ready once plus mentions | Every commit |
+| | Manual only (dispatch and mentions) | Ready once plus mentions | Every commit |
 | --- | --- | --- | --- |
 | `pull_request` trigger | absent | `[opened, reopened, ready_for_review]` | `[opened, reopened, ready_for_review, synchronize]` |
 | `cancel-in-progress` | `false` | `false` | `true` |
@@ -68,16 +68,19 @@ concurrency:
 jobs:
   review:
     # Run for a ready pull request, for an explicit dispatch, or for a comment
-    # posted on a pull request that mentions @tessl-code-review, by an owner, an
-    # organization member, or an invited collaborator. The author-association
-    # check keeps the mention from being driven by arbitrary commenters. The
-    # body match is a plain substring, so a comment naming a longer handle that
-    # starts with the token also starts a round.
+    # posted on an open pull request that mentions @tessl-code-review, by an
+    # owner, an organization member, or an invited collaborator. The state check
+    # skips mentions on closed or merged pull requests, which the Action refuses
+    # to review. The author-association check keeps the mention from being
+    # driven by arbitrary commenters. The body match is a plain substring, so a
+    # comment naming a longer handle that starts with the token also starts a
+    # round.
     if: >-
       (github.event_name == 'pull_request' && github.event.pull_request.draft == false) ||
       github.event_name == 'workflow_dispatch' ||
       (github.event_name == 'issue_comment' &&
         github.event.issue.pull_request != null &&
+        github.event.issue.state == 'open' &&
         contains(github.event.comment.body, '@tessl-code-review') &&
         contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.comment.author_association))
     runs-on: ubuntu-latest
@@ -106,7 +109,7 @@ jobs:
           pr-number: ${{ github.event.issue.number || inputs['pr-number'] }}
 ```
 
-## Cadence: manual only
+## Cadence: manual only (dispatch and mentions)
 
 ```yaml
 name: Tessl Code Review
@@ -134,13 +137,14 @@ concurrency:
 
 jobs:
   review:
-    # Run for an explicit dispatch, or for a comment posted on a pull request
-    # that mentions @tessl-code-review, by an owner, an organization member, or
-    # an invited collaborator.
+    # Run for an explicit dispatch, or for a comment posted on an open pull
+    # request that mentions @tessl-code-review, by an owner, an organization
+    # member, or an invited collaborator.
     if: >-
       github.event_name == 'workflow_dispatch' ||
       (github.event_name == 'issue_comment' &&
         github.event.issue.pull_request != null &&
+        github.event.issue.state == 'open' &&
         contains(github.event.comment.body, '@tessl-code-review') &&
         contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.comment.author_association))
     runs-on: ubuntu-latest
@@ -193,6 +197,7 @@ jobs:
       github.event_name == 'workflow_dispatch' ||
       (github.event_name == 'issue_comment' &&
         github.event.issue.pull_request != null &&
+        github.event.issue.state == 'open' &&
         contains(github.event.comment.body, '@tessl-code-review') &&
         contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.comment.author_association))
     runs-on: ubuntu-latest
@@ -243,11 +248,14 @@ you give the user:
 ## Notes on the shared parts
 
 **The mention guard.** `issue_comment` fires for issues as well as pull requests,
-for every comment regardless of body, and for any commenter. The guard narrows it
-to all three of: a comment on a pull request, a body carrying
-`@tessl-code-review`, and a commenter with `OWNER`, `MEMBER`, or `COLLABORATOR`
-association. The token itself is fixed by the Action, so the part to discuss with
-the user is the association allowlist, not the token.
+for open and closed ones alike, for every comment regardless of body, and for any
+commenter. The guard narrows it to all four of: a comment on a pull request, a
+pull request that is open, a body carrying `@tessl-code-review`, and a commenter
+with `OWNER`, `MEMBER`, or `COLLABORATOR` association. The state check matters
+because the Action refuses to review a closed or merged pull request, so without
+it a mention there produces a failed run instead of a quiet skip. The token
+itself is fixed by the Action, so the part to discuss with the user is the
+association allowlist, not the token.
 
 The match is case-sensitive and can sit anywhere in the body, so
 `@tessl-code-review` fires and `please take another look @tessl-code-review`

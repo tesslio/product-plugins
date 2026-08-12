@@ -135,7 +135,7 @@ Past reviews and comments stay on their pull requests. Nothing removes them.
 | --- | --- |
 | Nothing runs on a fork pull request | Expected. The Action rejects cross-repository pull requests, and a fork `pull_request` run receives no repository secrets either |
 | Nothing runs on an `@tessl-code-review` mention, anywhere | The caller workflow is not on the default branch yet. `issue_comment` always runs the default-branch copy |
-| Nothing runs on an `@tessl-code-review` mention, on one pull request | The comment is on an issue rather than a pull request, the comment was edited rather than newly posted, or the commenter's author association is outside the allowlist the workflow installs |
+| Nothing runs on an `@tessl-code-review` mention, on one pull request | The comment is on an issue rather than a pull request, the pull request is closed or merged, the comment was edited rather than newly posted, or the commenter's author association is outside the allowlist the workflow installs |
 | Two reviews appear per event | A second workflow also calls the Action. Putting both on one concurrency group only serializes them, it does not stop the second review |
 | Gate check fails with the review posted as a plain comment | The repository setting that allows GitHub Actions to approve pull requests is off |
 | The run fails immediately on input validation | `TESSL_TOKEN` is missing or empty, or `mode` is neither `advisory` nor `gate` |

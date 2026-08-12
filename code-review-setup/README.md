@@ -28,8 +28,10 @@ publication logic into the repository, so there is only ever one execution path.
 
 Setup is two questions:
 
-- **When do reviews run.** Manual only, once when the pull request becomes ready
-  plus requested rounds (the default), or on every commit.
+- **When do reviews run.** Manual only, where a review runs on an explicit
+  dispatch or an `@tessl-code-review` mention and never on its own; once when the
+  pull request becomes ready plus requested rounds (the default); or on every
+  commit.
 - **Do findings block.** Advisory, where the review is a comment and no review
   outcome fails the check, or gate, where changes approved passes the check and
   changes requested fails it.
