@@ -1,6 +1,6 @@
 {
   "name": "tessl/code-review",
-  "version": "0.0.3",
-  "description": "A suite of focused code-review skills for Tessl Agent and GitHub Actions review workflows (`tessl change review`). Each review lens is its own skill, so a workflow can invoke one lens or several. Fork and tune any skill for your own repository.",
+  "version": "0.1.0",
+  "description": "The default review lenses for `tessl code review`, which the Tessl Code Review GitHub Action also runs. Each lens is its own skill, so a run can invoke one lens or several. Fork and tune any lens for your own repository.",
   "private": false
 }

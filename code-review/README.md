@@ -1,8 +1,8 @@
 # tessl/code-review
 
-Code review lenses for use from Tessl Agent and GitHub Actions review workflows via `tessl change review`. Each lens is its own skill, so a workflow can point at exactly the lenses it wants.
+Code review lenses for `tessl code review` and the Tessl Code Review GitHub Action. Each lens is its own skill, so a run can point at exactly the lenses it wants.
 
-Between them they cover the common dimensions a review is expected to catch, and they are designed to run together. Name them all unless a workflow is scoped to paths that carry one signal.
+The lenses below are the set a review runs by default. Between them, they cover the common dimensions a review is expected to catch, and they were tuned to run together.
 
 ## Lenses
 
@@ -13,41 +13,54 @@ Between them they cover the common dimensions a review is expected to catch, and
 
 ## Selecting lenses
 
-`tessl change review` takes one or more `--skill` references. A reference can be a local path (a `SKILL.md` file or a skill directory), an installed skill name, or a registry ref `workspace/plugin[@version]#skill`. Pass only the lenses you want; skills are not auto-discovered.
+`tessl code review` runs these by default, so a plain run needs no lens selection at all:
+
+```bash
+tessl code review
+```
+
+`--skill` states the complete lens set instead, in the order supplied. It **replaces** the defaults rather than adding to them, so naming one lens makes it the whole review. A reference can be a local path (a `SKILL.md` file or a skill directory), an installed skill name, or a registry ref `workspace/plugin[@version]#skill`.
 
 Pin the version in a reference you keep. An unpinned ref resolves to whatever the latest published version is, so its meaning changes under you when the plugin is republished.
 
 ```bash
-tessl change review --skill tessl/code-review@0.0.3#review-security-and-privacy
+tessl code review --skill tessl/code-review@0.1.0#review-security-and-privacy
 ```
 
 Several lenses in one run:
 
 ```bash
-tessl change review \
-  --skill tessl/code-review@0.0.3#review-security-and-privacy \
-  --skill tessl/code-review@0.0.3#review-correctness-and-data-integrity
+tessl code review \
+  --skill tessl/code-review@0.1.0#review-security-and-privacy \
+  --skill tessl/code-review@0.1.0#review-correctness-and-data-integrity
 ```
 
 Or a lens you keep in your own repository, which is also how you iterate on one you have forked:
 
 ```bash
-tessl change review --skill ./review-lenses/review-scale-and-resilience
+tessl code review --skill ./review-lenses/review-scale-and-resilience
 ```
+
+## Reading the result
+
+`--json` writes one document to stdout, on success and on failure alike. There is no output flag, so redirect it:
+
+```bash
+tessl code review --base origin/main --json > review.json
+```
+
+Check `status` before counting anything: a failed run writes the same shaped document and carries no findings, so a broken run is indistinguishable from a clean review unless the status is read.
 
 ## Using from GitHub Actions
 
-`tessl change review` only emits structured review data; a GitHub caller posts it as an overall review plus inline comments. In a workflow step, select the lenses relevant to the changed paths and write the result to a file:
+The [Tessl Code Review Action](https://github.com/tesslio/code-review-action) runs the review and publishes it as one native pull-request review with inline comments. It runs the same defaults unless its `lenses` input names a complete ordered set of its own:
 
-```bash
-tessl change review \
-  --skill tessl/code-review@0.0.3#review-security-and-privacy \
-  --skill tessl/code-review@0.0.3#review-correctness-and-data-integrity \
-  --base origin/main \
-  --json --output review.json
+```yaml
+lenses: >-
+  ["tessl/code-review@0.1.0#review-security-and-privacy"]
 ```
 
-Then post `review.json` from a later step. Because each lens is a separate `--skill`, a workflow can choose lenses per changed path, for example running only the security lens on a workflow scoped to `src/auth/**`.
+For the caller workflow — triggers, permissions, advisory versus gating — use `tessl/code-review-setup`.
 
 ## Forking a lens
 
@@ -62,6 +75,4 @@ A skill needs `name` and `description` frontmatter. Past that, the shape is a su
 
 Several of these lenses hold two or three related dimensions, so treat one lens per dimension as a tendency rather than a rule. What matters more is that a lens stays short and carries only what makes it distinct.
 
-## Earlier lenses
-
-This version also contains `review-code-legibility`, `review-contract-boundaries`, `review-local-precedent`, `review-security-risks` and `review-test-risk`, unchanged from `0.0.1`. The lenses above supersede them. They are retained so existing unpinned references keep resolving, and they are not part of the recommended set.
+For authoring, validating and backtesting a lens of your own, use `tessl/code-review-lens-creator`.
