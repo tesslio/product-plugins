@@ -190,12 +190,15 @@ permissions:
 # The cancel policy is conditional because a run enters this group at run
 # creation, before the job's `if:` guard evaluates. An unconditional `true`
 # would let any comment on the pull request cancel the in-flight review and
-# then skip its own job, leaving the head unreviewed. Only a push (a
-# `synchronize` event) cancels; a reopened or ready-for-review event, a
-# mention, and a dispatch all wait for the running review instead.
+# then skip its own job, leaving the head unreviewed. The same timing applies
+# to a draft's push, whose job the draft guard skips, so the condition requires
+# a non-draft pull request too. Only a push to a ready pull request cancels;
+# every other event waits for the running review. GitHub keeps a single
+# pending run per group, so the newest waiting request replaces the one
+# already waiting.
 concurrency:
   group: tessl-code-review-${{ github.event.pull_request.number || github.event.issue.number || inputs['pr-number'] }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' && github.event.action == 'synchronize' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' && github.event.action == 'synchronize' && github.event.pull_request.draft == false }}
 
 jobs:
   review:
