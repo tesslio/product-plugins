@@ -27,7 +27,7 @@ ignores. Do not rename it.
 | | Manual only (dispatch and mentions) | Ready once plus mentions | Every commit |
 | --- | --- | --- | --- |
 | `pull_request` trigger | absent | `[opened, reopened, ready_for_review]` | `[opened, reopened, ready_for_review, synchronize]` |
-| `cancel-in-progress` | `false` | `false` | pull_request events only |
+| `cancel-in-progress` | `false` | `false` | `synchronize` events only |
 | `if:` guard | no `pull_request` clause | includes it | includes it |
 
 ## Cadence: ready once plus mentions (default)
@@ -190,11 +190,12 @@ permissions:
 # The cancel policy is conditional because a run enters this group at run
 # creation, before the job's `if:` guard evaluates. An unconditional `true`
 # would let any comment on the pull request cancel the in-flight review and
-# then skip its own job, leaving the head unreviewed. Only a push cancels;
-# mention and dispatch requests wait for the running review instead.
+# then skip its own job, leaving the head unreviewed. Only a push (a
+# `synchronize` event) cancels; a reopened or ready-for-review event, a
+# mention, and a dispatch all wait for the running review instead.
 concurrency:
   group: tessl-code-review-${{ github.event.pull_request.number || github.event.issue.number || inputs['pr-number'] }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' && github.event.action == 'synchronize' }}
 
 jobs:
   review:
