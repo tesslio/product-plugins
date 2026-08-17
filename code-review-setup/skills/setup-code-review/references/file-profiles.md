@@ -1,19 +1,26 @@
-# YAML file profiles for local reviews
+# YAML file profiles
 
-Use a repository-owned YAML profile when the user wants a local CLI review to
-route different lenses to different parts of a change. The command must name the
-file explicitly:
+Use a repository-owned YAML profile when the user wants a CLI or Action review
+to route different lenses to different parts of a change. The profile must be
+selected explicitly.
+
+For the CLI:
 
 ```sh
 $ tessl code review --profile ./.tessl-code-review.yml
 ```
 
+For the Action:
+
+```yaml
+with:
+  tessl-token: ${{ secrets.TESSL_TOKEN }}
+  profile: ./.tessl-code-review.yml
+  mode: advisory
+```
+
 Tessl does not discover profile files or make one the default. The file path
 must end in `.yml` or `.yaml`.
-
-File profiles are CLI-only in this release. The GitHub Action accepts a trusted
-named profile and optional `lenses` input. Never place a repository file path in
-the Action's `profile` input or load review policy from the pull request.
 
 ## Schema
 
