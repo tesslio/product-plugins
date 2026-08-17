@@ -72,3 +72,5 @@ user, defaulting to owners, organization members, and invited collaborators.
 
 Cadence and blocking are what this plugin sets. What the reviewer looks for is
 the `profile` and `lenses` inputs, documented in the Action repository's README.
+The Action uses a trusted named profile. Repository-owned YAML file profiles are
+available for explicit local CLI runs, not as an Action input.

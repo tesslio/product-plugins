@@ -225,4 +225,11 @@ the templates install.
 
 Once the workflow is running and the user wants to change what gets reviewed,
 point them at the Action repository's README, which documents the `lenses` input
-and the ordered selection it takes.
+and the ordered selection it takes. The Action accepts a trusted named profile;
+never put a repository file path in its `profile` input.
+
+For local CLI reviews, a user can instead keep an explicitly selected YAML
+profile in the repository and route lenses with globs. Read
+[references/file-profiles.md](references/file-profiles.md) before explaining or
+editing one. File profiles are CLI-only in this release and must not be added to
+the caller workflow.
