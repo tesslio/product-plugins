@@ -17,7 +17,7 @@ contract and should be left alone.
 in SKILL.md.
 
 The `@tessl-code-review` mention token is part of the Action's contract, not a
-local naming choice. The review the Action publishes tells reviewers to mention
+local naming choice. The published review tells reviewers to mention
 `@tessl-code-review` when fixes or replies are ready, so a caller that listens
 for anything else installs a review that teaches a token its own workflow
 ignores. Do not rename it.
