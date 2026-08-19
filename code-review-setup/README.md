@@ -16,12 +16,12 @@ tessl install tessl/code-review-setup
 
 ## What it does
 
-The Action owns running a review: pull-request resolution, checkout of the exact
-head, Tessl CLI setup, review publication, the check run it reports on the
-reviewed head, stale-head protection, idempotent retries, failure notices, and
-result artifacts. The repository owns a caller
-workflow: triggers, concurrency, runner, timeout, permissions, the token secret,
-and the review policy.
+The Action owns getting a review run: pull-request resolution, checkout of the
+exact head, Tessl CLI setup, the check run it reports on the reviewed head,
+failure notices, and result artifacts. The Tessl CLI it installs runs the review
+and publishes it, which is where stale-head protection and idempotent retries
+live. The repository owns a caller workflow: triggers, concurrency, runner,
+timeout, permissions, the token secret, and the review policy.
 
 This plugin writes that caller and nothing else. It never copies review or
 publication logic into the repository, so there is only ever one execution path.

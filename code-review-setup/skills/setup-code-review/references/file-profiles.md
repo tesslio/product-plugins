@@ -30,11 +30,13 @@ unknown fields, and multiple YAML documents are rejected.
 ```yaml
 schemaVersion: 1
 effort: low
+ignore:
+  - '**/*.generated.ts'
+  - vendor/**
 lenses:
   - ref: ./review-lenses/backend/SKILL.md
     globs:
       - apps/backend/**
-      - '!apps/backend/**/*.generated.ts'
   - ref: tessl/code-review@0.1.0#review-security-and-privacy
     effort: high
     globs:
@@ -52,6 +54,18 @@ Duplicate refs and aliases that resolve to the same local lens are rejected.
 it must be a non-empty list with at least one positive pattern. Each profile may
 declare up to 100 lenses, each lens may declare up to 32 globs, and the profile
 may be up to 1 MB.
+
+`ignore` is optional and bounds which paths any lens reviews, so generated code,
+lockfiles, snapshots, and vendored directories are named once instead of negated
+inside every lens. Each pattern is positive and excludes what it matches, so a
+leading `!` is rejected, as is a bare `**` that would leave every lens with
+nothing to review. It applies to every lens, including one that declares no
+`globs`, a lens's own `globs` still narrow it further, and `ignore` overrides
+anything a lens selected. At most 64 patterns are allowed. Because a file is
+selected when either rename endpoint matches, a file renamed into an ignored path
+is still reviewed and that path appears in the rename patch, and `ignore` bounds
+which paths a lens reviews rather than keeping their contents out of a model's
+context.
 
 `effort` is optional and sets how hard a lens thinks: `low`, `medium`, or
 `high`. The profile may set it for every lens, and any lens may set its own to
@@ -79,7 +93,7 @@ If no lens matches, the command exits successfully with a `skipped` result and
 `reason: no-matching-lenses`. No model runs and no approval is implied.
 
 Passing `--skill` replaces the profile's complete lens list, including its glob
-routing. It does not add to the file profile.
+routing and its `ignore` patterns. It does not add to the file profile.
 
 Treat the profile and its local lenses as executable review policy. Review their
 changes with the same care as source code.

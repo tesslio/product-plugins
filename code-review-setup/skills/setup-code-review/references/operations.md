@@ -31,20 +31,20 @@ permissions:
   pull-requests: write
 ```
 
-| Permission | Why the Action needs it |
+| Permission | Why the review needs it |
 | --- | --- |
 | `contents: read` | Resolve and check out the exact pull-request head |
 | `checks: write` | Report the `Tessl Code Review` check on the reviewed head |
 | `pull-requests: write` | Publish one native pull-request review |
 | `issues: write` | Publish and later clear a visible failure notice |
 
-Without `checks: write` the Action still reviews and still publishes, logs a
-warning naming the missing permission, and reports no check. A gate has nothing
+Without `checks: write` the review still runs and is still published, a warning
+naming the missing permission is logged, and no check is reported. A gate has nothing
 to enforce in that state, so treat the permission as required rather than
 optional.
 
-These apply to the automatic `GITHUB_TOKEN`, which the Action uses for
-publication. Declaring the `permissions` block at all narrows the token to
+These apply to the automatic `GITHUB_TOKEN`, which the Action passes to the
+Tessl CLI for publication. Declaring the `permissions` block at all narrows the token to
 exactly this list, so do not widen it and do not remove it.
 
 ## Branch protection, for gate mode
@@ -71,9 +71,8 @@ that counts it is not the control anyone intends.
 Approval additionally needs the repository or organization setting that allows
 GitHub Actions to create and approve pull requests
 (Settings, Actions, General, Workflow permissions). Without it GitHub refuses the
-review event. The Action does not lose the review when that happens: it publishes
-the completed review as a visible comment, explains the configuration problem,
-and fails the gate.
+review event. The review is not lost when that happens: it is published as a
+visible comment, the configuration problem is explained, and the gate fails.
 
 ## What the check reports, once it is required
 
@@ -83,8 +82,8 @@ branch:
 - **The gate fails closed.** A review that reaches no approval verdict fails the
   check rather than passing the head through. Only a verdict approves.
 - **A superseded run concludes neutral.** If the head moves while the review is
-  running, the Action publishes nothing for the head it reviewed and asserts
-  nothing about the head that replaced it. The job fails so an unpublished review
+  running, nothing is published for the head that was reviewed and nothing is
+  asserted about the head that replaced it. The job fails so an unpublished review
   cannot read as a completed one, and the new head is reviewed by whatever run
   covers it.
 - **Neutral must not block.** The conclusions above assume a neutral check does

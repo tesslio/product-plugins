@@ -15,16 +15,16 @@ unblocked. Read "What gate mode enforces" below before proposing any gate setup.
 | Ready once, plus mentions (default) | One review when the pull request opens, reopens, or leaves draft, and another whenever someone mentions `@tessl-code-review` in a comment | One review per pull request, plus requested rounds | To ask for a fresh round after pushing fixes |
 | Every commit | Adds a review on every push to the pull-request branch, with the in-flight run canceled when a newer commit lands | Highest. Scales with how often the branch is pushed | Nothing |
 
-Every-commit is safe to run without extra admission logic. The Action verifies
-the pull-request head immediately before publishing and refuses to publish for a
-superseded head, and its publication is idempotent, so a canceled or retried run
+Every-commit is safe to run without extra admission logic. The pull-request head
+is verified immediately before publishing, publication is refused for a
+superseded head, and publication is idempotent, so a canceled or retried run
 cannot leave a duplicate or stale review behind.
 
 ## Question 2: do findings block?
 
 | Option | What happens | Effect on merging |
 | --- | --- | --- |
-| Advisory (default) | The Action publishes a `COMMENT` review. Findings never fail the check | None. The review is information |
+| Advisory (default) | A `COMMENT` review is published. Findings never fail the check | None. The review is information |
 | Gate | A review that approves the changes approves the pull request and the check passes. A review that requests changes publishes the full review and fails the check | Merging is blocked while the check is required and failing |
 
 Gate mode has two prerequisites the workflow file cannot satisfy on its own, so
@@ -41,9 +41,9 @@ raise them during the proposal:
   Actions, and treating it as a human approval is not what the gate is for.
 - Approving requires the repository setting that allows GitHub Actions to create
   and approve pull requests. Without it, GitHub refuses the review event. The
-  Action handles that refusal rather than failing silently: it publishes the
-  completed review as a visible comment, explains the configuration problem, and
-  still fails the gate. The review is never lost, but the gate stays red until
+  refusal is handled rather than failing silently: the completed review is
+  published as a visible comment, the configuration problem is explained, and the
+  gate still fails. The review is never lost, but the gate stays red until
   the setting is turned on.
 
 ## What gate mode enforces

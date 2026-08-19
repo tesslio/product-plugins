@@ -5,11 +5,11 @@ description: Install or update Tessl Code Review in a GitHub repository by writi
 
 # Set up Tessl Code Review
 
-Tessl Code Review runs as a GitHub Action. The Action owns everything about
-running a review: pull-request resolution, checkout of the exact head, Tessl CLI
-setup, review publication, the check run it reports on the reviewed head,
-stale-head protection, idempotent retries, failure notices, and result
-artifacts.
+Tessl Code Review runs as a GitHub Action. The Action owns getting a review
+run: pull-request resolution, checkout of the exact head, Tessl CLI setup, the
+check run it reports on the reviewed head, failure notices, and result artifacts.
+The Tessl CLI it installs runs the review and publishes it, which is where
+stale-head protection and idempotent retries live.
 
 The repository owns a thin caller workflow: triggers, concurrency, runner,
 timeout, permissions, the token secret, and the review policy inputs.
