@@ -29,16 +29,17 @@ unknown fields, and multiple YAML documents are rejected.
 
 ```yaml
 schemaVersion: 1
+effort: low
 lenses:
   - ref: ./review-lenses/backend/SKILL.md
     globs:
       - apps/backend/**
       - '!apps/backend/**/*.generated.ts'
   - ref: tessl/code-review@0.1.0#review-security-and-privacy
+    effort: high
     globs:
       - infra/**
   - ref: ./review-lenses/general/SKILL.md
-    effort: low
 ```
 
 `schemaVersion` is required and must be `1`. `lenses` is an ordered, non-empty
