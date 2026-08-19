@@ -182,9 +182,9 @@ permissions:
   issues: write
   pull-requests: write
 
-# Superseding a run per pull request is safe here: the Action verifies the head
-# immediately before publishing and refuses to publish for a superseded head,
-# and its publication is idempotent, so no duplicate or stale review survives a
+# Superseding a run per pull request is safe here: the head is verified
+# immediately before publishing, publication is refused for a superseded head,
+# and publication is idempotent, so no duplicate or stale review survives a
 # cancellation or a retry.
 #
 # The cancel policy is conditional because a run enters this group at run
@@ -318,6 +318,5 @@ privileged token in the base repository's context against untrusted head code,
 which is exactly the trust boundary the Action is built to keep.
 
 **Outputs.** Later steps in the same job can read the Action's `status`,
-`head-sha`, `review-id`, `result-path`, `publication-path`, and `result-artifact`
-outputs. Add such a step only when the user asks for one, and give the Action
+`head-sha`, `review-id`, `result-path`, and `result-artifact` outputs. Add such a step only when the user asks for one, and give the Action
 step an `id` when you do.

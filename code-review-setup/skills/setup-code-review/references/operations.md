@@ -83,8 +83,8 @@ branch:
 - **The gate fails closed.** A review that reaches no approval verdict fails the
   check rather than passing the head through. Only a verdict approves.
 - **A superseded run concludes neutral.** If the head moves while the review is
-  running, the Action publishes nothing for the head it reviewed and asserts
-  nothing about the head that replaced it. The job fails so an unpublished review
+  running, nothing is published for the head that was reviewed and nothing is
+  asserted about the head that replaced it. The job fails so an unpublished review
   cannot read as a completed one, and the new head is reviewed by whatever run
   covers it.
 - **Neutral must not block.** The conclusions above assume a neutral check does
