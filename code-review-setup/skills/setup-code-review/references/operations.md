@@ -111,13 +111,14 @@ without the compatibility guarantees of a release.
 `profile` and `lenses`. Each is a small edit to the one caller workflow.
 
 Re-running this skill against a repository that already has a caller performs an
-update: it keeps the runner, timeout, job name, extra steps, any `model` or
-`effort` input already present, and any compatible triggers, and changes only the
+update: it keeps the runner, timeout, job name, extra steps, any input the
+interview does not decide, and any compatible triggers, and changes only the
 pinned SHA and whatever the interview decided. A re-run that finds nothing to
 change leaves the file untouched and says so.
 
-`model` and `effort` are restricted overrides rather than part of this setup. A
-caller that carries one keeps it; nothing here adds, removes, or tunes them.
+This setup neither adds nor tunes an `effort` input; a repository that wants to
+tune how hard its lenses think sets `effort` in its profile instead. A caller
+that already carries the input keeps it.
 
 ## Removing
 

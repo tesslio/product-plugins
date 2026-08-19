@@ -38,6 +38,7 @@ lenses:
     globs:
       - infra/**
   - ref: ./review-lenses/general/SKILL.md
+    effort: low
 ```
 
 `schemaVersion` is required and must be `1`. `lenses` is an ordered, non-empty
@@ -51,10 +52,12 @@ it must be a non-empty list with at least one positive pattern. Each profile may
 declare up to 100 lenses, each lens may declare up to 32 globs, and the profile
 may be up to 1 MB.
 
-The optional fields `model`, `effort`, `supervisorModel`, and
-`supervisorEffort` override model choices. They and the corresponding CLI flags
-are available only to Tessl employees. Supported effort values are `low`,
-`medium`, and `high`.
+`effort` is optional and sets how hard a lens thinks: `low`, `medium`, or
+`high`. The profile may set it for every lens, and any lens may set its own to
+think harder or less hard than the rest. A lens without one uses the profile's
+`effort`; with neither, the model applies its own default. The `--effort` flag
+applies to every lens and takes precedence over both. Higher settings take
+longer.
 
 ## Routing behavior
 
@@ -70,7 +73,7 @@ A renamed file selects a lens when either its old or new path matches. Each
 lens receives only its selected files in its prompt and diff tools. It cannot
 inspect files routed only to another lens through those tools.
 
-Only lenses with matching work count toward the customer limit of eight lenses.
+Only lenses with matching work count toward the limit of eight lenses.
 If no lens matches, the command exits successfully with a `skipped` result and
 `reason: no-matching-lenses`. No model runs and no approval is implied.
 

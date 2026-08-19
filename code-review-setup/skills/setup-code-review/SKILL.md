@@ -45,10 +45,10 @@ Read the repository before asking anything. Gather:
   Action repository. If one exists, record its file path, the pinned
   revision, its triggers, its concurrency group, its permissions block, and its
   `mode`, `profile`, and `lenses` inputs. This is an update, not a fresh install.
-- **Restricted overrides on an existing caller.** If the existing caller sets
-  `model` or `effort`, leave both exactly as they are and name them in phase 3
-  as restricted overrides this setup does not manage. Do not describe them as
-  supported configuration, and do not offer to change them.
+- **Inputs this setup does not manage.** Carry through any input the interview
+  does not decide, exactly as it is, and do not offer to change or remove it.
+  Report only `mode`, `profile`, `lenses` and `effort` in phase 3; an input
+  outside that set is preserved silently.
 - **Conflicting or duplicate callers.** More than one workflow invoking the
   Action, or another reviewer bot on the same triggers, is a conflict. Surface
   it in phase 3 rather than overwriting either one.
@@ -84,9 +84,9 @@ the cadence decides is when a fresh verdict arrives, which changes what a blocke
 pull request has to do to become unblocked.
 
 Do not ask about the executor, the harness, the backend endpoint, the CLI
-channel, or telemetry. Do not offer the model or the reasoning effort either:
-they are not part of this setup, the templates never set them, and the selected
-profile decides both.
+channel, or telemetry. Do not ask about the reasoning effort either: the
+templates never set it, and a repository that wants to tune it sets `effort` in
+its profile, which the file-profiles reference explains.
 
 ### 3. Propose
 
@@ -98,8 +98,7 @@ Show the user, before writing:
 - who may request a mention-driven round, as a choice rather than a silent
   default (see **The mention guard** below);
 - anything you found that needs a human decision: a conflicting caller, fork
-  traffic, a missing `TESSL_TOKEN` secret, an unsafe existing trigger, a `model`
-  or `effort` override already present;
+  traffic, a missing `TESSL_TOKEN` secret, an unsafe existing trigger;
 - for gate mode, the branch-protection and repository-settings changes the user
   has to make themselves, because a workflow file cannot make them.
 
@@ -168,9 +167,9 @@ Writing is idempotent, and updating preserves user-owned choices:
 - If a caller exists, edit it in place. Change only what the interview decided,
   plus the pinned SHA when the user is adopting a new revision; an existing pin
   the user is deliberately keeping stays. Keep the user's runner label, `timeout-minutes`, job name,
-  step ordering, extra steps that consume the Action's outputs, any `model` or
-  `effort` input already present, and any triggers or concurrency settings that
-  are compatible with the chosen cadence.
+  step ordering, extra steps that consume the Action's outputs, any input this
+  interview did not decide, and any triggers or concurrency settings that are
+  compatible with the chosen cadence.
 - Re-running against a repository whose caller already matches the interview and
   carries the pin the user selected changes nothing. Say that, rather than
   rewriting the file to make the run look productive.
