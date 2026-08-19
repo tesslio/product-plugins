@@ -103,8 +103,12 @@ Two things change over time, and they change independently.
 the lookup in the skill's proposal phase, and replace the 40-character SHA on the
 `uses:` line with the result. Keep the pin a full commit SHA. A tag or a branch
 name is a moving reference that hands `TESSL_TOKEN` to whatever it currently
-points at, and `canary` is an experimental channel that can change CLI behavior
-without the compatibility guarantees of a release.
+points at, and a pre-release revision does not carry the compatibility guarantees
+of a release.
+
+The pin fixes the Action, not the Tessl CLI the Action installs. The Action
+installs the current CLI release on every run, so CLI changes reach a repository
+without any edit to its workflow.
 
 **The policy.** Cadence is the `on:` block, the job `if:` guard, and
 `cancel-in-progress`. Blocking is the `mode` input. What the reviewer looks for is

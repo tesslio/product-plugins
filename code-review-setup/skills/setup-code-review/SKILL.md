@@ -84,7 +84,9 @@ the cadence decides is when a fresh verdict arrives, which changes what a blocke
 pull request has to do to become unblocked.
 
 Do not ask about the executor, the harness, the backend endpoint, the CLI
-channel, or telemetry. Do not ask about the reasoning effort either: the
+version, the CLI channel, or telemetry. The Action installs the current Tessl CLI
+release, and a repository that leaves it alone picks up CLI improvements without
+editing its workflow. Do not ask about the reasoning effort either: the
 templates never set it, and a repository that wants to tune it sets `effort` in
 its profile, which the file-profiles reference explains.
 
