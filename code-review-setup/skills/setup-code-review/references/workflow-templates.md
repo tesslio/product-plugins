@@ -81,6 +81,7 @@ jobs:
       github.event_name == 'workflow_dispatch' ||
       ((github.event_name == 'issue_comment' || github.event_name == 'pull_request_review_comment') &&
         (github.event_name != 'issue_comment' || github.event.issue.pull_request != null) &&
+        (github.event.issue.state == 'open' || github.event.pull_request.state == 'open') &&
         contains(github.event.comment.body, '@tessl-code-review'))
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -148,6 +149,7 @@ jobs:
       github.event_name == 'workflow_dispatch' ||
       ((github.event_name == 'issue_comment' || github.event_name == 'pull_request_review_comment') &&
         (github.event_name != 'issue_comment' || github.event.issue.pull_request != null) &&
+        (github.event.issue.state == 'open' || github.event.pull_request.state == 'open') &&
         contains(github.event.comment.body, '@tessl-code-review'))
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -215,6 +217,7 @@ jobs:
       github.event_name == 'workflow_dispatch' ||
       ((github.event_name == 'issue_comment' || github.event_name == 'pull_request_review_comment') &&
         (github.event_name != 'issue_comment' || github.event.issue.pull_request != null) &&
+        (github.event.issue.state == 'open' || github.event.pull_request.state == 'open') &&
         contains(github.event.comment.body, '@tessl-code-review'))
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -280,11 +283,13 @@ not requests, and it enforces `allowed-associations`. A comment the Action does
 not admit ends the run with nothing published, no check run, no reaction, and
 status `not-requested`.
 
-Two things still surprise people, so mention both. Because the trigger is
+The state condition is part of the prefilter and worth keeping: the Action refuses
+to review a closed or merged pull request, so without it a stray mention there
+starts a run that fails and posts a failure notice instead of quietly doing
+nothing.
+
+One thing still surprises people, so mention it: because the trigger is
 `types: [created]`, editing an existing comment to add the mention does nothing.
-And a mention on a closed or merged pull request starts a run that fails, because
-the Action refuses to review one; the template no longer filters on pull-request
-state, since the Action's own refusal is the clearer signal.
 
 **The acknowledgement.** An admitted mention gets an 👀 reaction on the comment
 within seconds, posted by the Action before it does anything else. That is the
