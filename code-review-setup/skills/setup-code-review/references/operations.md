@@ -98,12 +98,18 @@ branch:
 
 Two things change over time, and they change independently.
 
-**The pinned Action revision.** Resolve the target release to a commit SHA with
-the lookup in the skill's proposal phase, and replace the 40-character SHA on the
-`uses:` line with the result. Keep the pin a full commit SHA. A tag or a branch
-name is a moving reference that hands `TESSL_TOKEN` to whatever it currently
-points at, and a pre-release revision does not carry the compatibility guarantees
-of a release.
+**The Action reference.** A workflow on the major tag needs no update: the tag
+moves to each 1.x release, so a repository is on the newest one already. Nothing
+to do.
+
+A workflow pinned to a commit SHA does need one. Resolve the target release with
+the lookup in the skill's proposal phase and replace the SHA on the `uses:` line.
+Keep it a full commit SHA rather than a branch name: a branch hands `TESSL_TOKEN`
+to whatever it currently points at, without the moving major tag's guarantee that
+what it points at is a release.
+
+Either way the reference must name a release, never `main`: a pre-release revision
+does not carry the compatibility guarantees of a release.
 
 The pin fixes the Action, not the Tessl CLI the Action installs. The Action
 installs the current CLI release on every run, so CLI changes reach a repository

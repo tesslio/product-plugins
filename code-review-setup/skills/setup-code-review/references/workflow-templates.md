@@ -138,7 +138,7 @@ permissions:
   pull-requests: write
 
 concurrency:
-  group: tessl-code-review-${{ github.event.issue.number || inputs['pr-number'] }}
+  group: tessl-code-review-${{ github.event.pull_request.number || github.event.issue.number || inputs['pr-number'] }}
   cancel-in-progress: false
 
 jobs:

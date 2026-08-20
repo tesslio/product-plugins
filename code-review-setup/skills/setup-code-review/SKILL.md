@@ -126,8 +126,13 @@ gh api repos/tesslio/code-review-action/git/ref/tags/<tag> --jq '.object.sha, .o
 An annotated tag resolves to a tag object, so follow it once more
 (`gh api repos/tesslio/code-review-action/git/tags/<sha> --jq .object.sha`) until you
 hold a 40-character commit SHA. Pin that, and tell the user which release it came
-from. If no release resolves and the user asked for a pinned SHA, say so and
-install the major tag instead rather than writing a reference you did not verify.
+from.
+
+If the user asked for a pinned SHA and no release resolves, **stop and ask**. Do
+not write the major tag instead: the user asked for immutability, and quietly
+installing a moving reference gives them something else under the name they
+approved. Say what failed, and let them choose between retrying and accepting the
+major tag.
 
 Never substitute `main`, `canary`, or a branch name for either.
 
@@ -186,7 +191,8 @@ After writing, check:
 - the YAML parses, with a real parser rather than by eye
   (`python3 -c "import yaml,sys; yaml.safe_load(open(sys.argv[1]))" <path>`, or
   `yq . <path>`, or any equivalent already available in the repository);
-- the `uses:` line carries a full 40-character commit SHA;
+- the `uses:` line carries the reference that was agreed: the major tag, or a full
+  40-character commit SHA when the user asked to freeze the revision;
 - `permissions` is exactly `contents: read`, `checks: write`, `issues: write`,
   `pull-requests: write`. `checks: write` is what lets the Action report the
   `Tessl Code Review` check on the reviewed head, so a gate cannot be enforced
