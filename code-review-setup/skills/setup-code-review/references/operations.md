@@ -147,7 +147,7 @@ Past reviews and comments stay on their pull requests. Nothing removes them.
 | Nothing runs on an `@tessl-code-review` mention, anywhere | The caller workflow is not on the default branch yet. `issue_comment` always runs the default-branch copy |
 | Nothing runs on an `@tessl-code-review` mention, on one pull request | The comment is on an issue rather than a pull request, the comment was edited rather than newly posted, or the handle is not a whole token in the body, so `@tessl-code-reviewer` does not count |
 | A mention starts a run that ends with nothing published | The Action did not admit the comment: the handle is not a whole token, or the author's association is outside `allowed-associations`. The run succeeds and reports `not-requested`, because refusing a comment that did not ask for a review is not a failure |
-| A mention gets no 👀 reaction | Either the comment was not admitted, or the Action revision predates release v1.2.0. An admitted mention is acknowledged within seconds, before anything else the run does |
+| A mention gets no 👀 reaction | The comment was not admitted: the handle is not a whole token, or the author's association is outside `allowed-associations`. An admitted mention is acknowledged within seconds, before anything else the run does |
 | Two reviews appear per event | A second workflow also calls the Action. Putting both on one concurrency group only serializes them, it does not stop the second review |
 | Gate check fails with the review posted as a plain comment | The repository setting that allows GitHub Actions to approve pull requests is off |
 | The run fails immediately on input validation | `TESSL_TOKEN` is missing or empty, or `mode` is neither `advisory` nor `gate` |

@@ -294,8 +294,7 @@ One thing still surprises people, so mention it: because the trigger is
 **The acknowledgement.** An admitted mention gets an 👀 reaction on the comment
 within seconds, posted by the Action before it does anything else. That is the
 signal that a request was understood: no reaction means the comment was not
-admitted, rather than a review running quietly somewhere. It arrives from Action
-release v1.2.0 onward.
+admitted, rather than a review running quietly somewhere.
 
 `issue_comment` runs the copy of the workflow on the **default branch**, not the
 copy on the pull-request branch. The mention trigger therefore does nothing at
