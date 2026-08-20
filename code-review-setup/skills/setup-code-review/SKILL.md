@@ -1,6 +1,6 @@
 ---
 name: setup-code-review
-description: Install or update Tessl Code Review in a GitHub repository by writing a thin caller workflow that invokes the Tessl Code Review Action at a pinned commit SHA. Inspects existing workflows and any Code Review caller already present, asks when reviews should run and whether findings should block the merge, proposes the change, and only writes after explicit approval. Use when someone wants to add, set up, enable, configure, update, or remove Tessl Code Review, AI code review, or automated pull-request review in a repository, or wants to switch it between advisory and gate mode.
+description: Install or update Tessl Code Review in a GitHub repository by writing a thin caller workflow that invokes the Tessl Code Review Action. Inspects existing workflows and any Code Review caller already present, asks when reviews should run and whether findings should block the merge, proposes the change, and only writes after explicit approval. Use when someone wants to add, set up, enable, configure, update, or remove Tessl Code Review, AI code review, or automated pull-request review in a repository, or wants to switch it between advisory and gate mode.
 ---
 
 # Set up Tessl Code Review
@@ -26,8 +26,7 @@ else in this skill, "the Action repository" means that repository, and the
 templates carry it on their `uses:` lines. If the name ever changes, update it
 here, on the templates' `uses:` lines, and on the `uses:` line of any workflow
 already installed in a repository. The repository path is what changes; the
-pinned commit SHA stays, unless the selected release changes too. Nothing else
-about the setup changes.
+reference after the `@` stays. Nothing else about the setup changes.
 
 ## Procedure
 
@@ -106,13 +105,18 @@ Show the user, before writing:
 
 Ask for explicit approval. Do not proceed on silence or on a vague reply.
 
-**Pinning.** The `uses:` line must carry a full 40-character commit SHA. A tag or
-a branch is a moving reference, and every mention round hands the repository's
-`TESSL_TOKEN` to whatever that reference currently points at, so resolve the SHA
-yourself rather than trusting a name.
+**The reference.** The templates use the major tag, `@v1`. It moves to each 1.x
+release, so a fix reaches the repository without anyone editing the workflow.
+That is the recommended default and what to install unless the user asks
+otherwise.
 
-Resolve it at setup time, against the current supported release of the Action
-repository:
+Say what the trade is, in one line, because it is the user's to make: a moving
+tag means every mention round hands the repository's `TESSL_TOKEN` to whatever
+that tag currently points at, and a fixed commit SHA means a defect is theirs
+until they bump it.
+
+A user who wants the revision frozen gets a full 40-character commit SHA
+instead. Resolve it rather than inventing it:
 
 ```bash
 gh api repos/tesslio/code-review-action/releases/latest --jq .tag_name
@@ -122,24 +126,17 @@ gh api repos/tesslio/code-review-action/git/ref/tags/<tag> --jq '.object.sha, .o
 An annotated tag resolves to a tag object, so follow it once more
 (`gh api repos/tesslio/code-review-action/git/tags/<sha> --jq .object.sha`) until you
 hold a 40-character commit SHA. Pin that, and tell the user which release it came
-from.
+from. If no release resolves and the user asked for a pinned SHA, say so and
+install the major tag instead rather than writing a reference you did not verify.
 
-Do not substitute a tag, a branch, `main`, or `canary`, and do not invent a SHA.
+Never substitute `main`, `canary`, or a branch name for either.
 
-If no release resolves, because the repository publishes none yet, it is not
-readable from here, or there is no network access, **stop and say so**. There is
-no supported revision to pin, so there is no workflow worth writing: a file
-carrying a placeholder cannot run, and it reads as though setup succeeded. Tell
-the user what failed and what unblocks it, which is access to the Action
-repository or a released revision to pin. Write nothing.
-
-The one case that needs no lookup is a user who names the revision they are
-adopting. Pin exactly that, after checking it is 40 hexadecimal characters.
-
-**The mention guard.** The templates restrict mention-driven rounds to commenters
-whose author association is `OWNER`, `MEMBER`, or `COLLABORATOR`. That is the
-recommended default, and it is a choice the user makes, not something you include
-silently. Put it to them in one line, with its reason and its alternatives. When
+**Who may request a round.** The templates pass
+`allowed-associations: OWNER,MEMBER,COLLABORATOR` to the Action, which restricts
+mention-driven rounds to those commenters. That is the recommended default, and
+it is a choice the user makes, not something you include silently. Removing the
+input accepts any author. The Action enforces it, so this is a statement of
+policy rather than a condition the workflow has to get right. Put it to them in one line, with its reason and its alternatives. When
 the user has already given blanket approval for the described setup and said
 nothing about the guard, install the recommended default and state the decision
 and its alternatives in the proposal and the closing summary, rather than
