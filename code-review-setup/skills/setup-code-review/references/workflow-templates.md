@@ -7,11 +7,12 @@ nothing else. The blocking choice changes one input, `mode`.
 Install to `.github/workflows/tessl-code-review.yml` unless the repository has an
 existing caller or a different naming convention.
 
-Adjust `runs-on` and `timeout-minutes` to match the repository's other workflows,
-and replace `<full-commit-sha>` with the SHA resolved from the current supported
-release. A template is not installable while that placeholder is still in it: if
-no release resolves, stop rather than writing the file. Everything else is the
-contract and should be left alone.
+Adjust `runs-on` and `timeout-minutes` to match the repository's other workflows.
+The `uses:` line references the major tag, which moves to each 1.x release, so a
+fix reaches the repository without anyone editing this file. A repository that
+wants the revision frozen pins the current release's full commit SHA instead and
+accepts that updates then need a deliberate bump. Everything else is the contract
+and should be left alone.
 
 `tesslio/code-review-action` on the `uses:` line is the Action repository named
 in SKILL.md.
@@ -43,6 +44,8 @@ on:
     types: [opened, reopened, ready_for_review]
   issue_comment:
     types: [created]
+  pull_request_review_comment:
+    types: [created]
   workflow_dispatch:
     inputs:
       pr-number:
@@ -67,32 +70,33 @@ concurrency:
 
 jobs:
   review:
-    # Run for a ready pull request, for an explicit dispatch, or for a comment
-    # posted on an open pull request that mentions @tessl-code-review, by an
-    # owner, an organization member, or an invited collaborator. The state check
-    # skips mentions on closed or merged pull requests, which the Action refuses
-    # to review. The author-association check keeps the mention from being
-    # driven by arbitrary commenters. The body match is a plain substring, so a
-    # comment naming a longer handle that starts with the token also starts a
-    # round.
+    # A coarse prefilter, and only that: it keeps a runner from starting for
+    # every comment in the repository. Whether a comment actually requests a
+    # review is the Action's decision — the handle as a whole token, so
+    # @tessl-code-reviewer does not count — and `allowed-associations` below is
+    # where this workflow says who may ask. A workflow expression cannot match a
+    # token boundary, which is why this condition is loose on purpose.
     if: >-
       (github.event_name == 'pull_request' && github.event.pull_request.draft == false) ||
       github.event_name == 'workflow_dispatch' ||
-      (github.event_name == 'issue_comment' &&
-        github.event.issue.pull_request != null &&
-        github.event.issue.state == 'open' &&
-        contains(github.event.comment.body, '@tessl-code-review') &&
-        contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.comment.author_association))
+      ((github.event_name == 'issue_comment' || github.event_name == 'pull_request_review_comment') &&
+        (github.event_name != 'issue_comment' || github.event.issue.pull_request != null) &&
+        (github.event.issue.state == 'open' || github.event.pull_request.state == 'open') &&
+        contains(github.event.comment.body, '@tessl-code-review'))
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      # Pinned to a full commit SHA, resolved from the current supported Tessl
-      # Code Review release when this workflow was written, and changed only as
-      # a reviewed update. The Action checks out the pull-request head itself,
-      # so this job needs no checkout step.
-      - uses: tesslio/code-review-action@<full-commit-sha>
+      # The major tag moves to each 1.x release, so fixes arrive without editing
+      # this file. Pin the release's full commit SHA instead if you want the
+      # revision frozen, and accept that updates then need a deliberate bump.
+      # The Action checks out the pull-request head itself, so this job needs no
+      # checkout step.
+      - uses: tesslio/code-review-action@v1
         with:
           tessl-token: ${{ secrets.TESSL_TOKEN }}
+          # Who may request a review by mentioning the handle. The Action
+          # enforces it. Remove it to accept any author.
+          allowed-associations: OWNER,MEMBER,COLLABORATOR
           # Named review profile. The standard profile is the supported default.
           profile: standard
           # advisory publishes a COMMENT review. No review outcome fails this
@@ -119,6 +123,8 @@ name: Tessl Code Review
 on:
   issue_comment:
     types: [created]
+  pull_request_review_comment:
+    types: [created]
   workflow_dispatch:
     inputs:
       pr-number:
@@ -132,27 +138,28 @@ permissions:
   pull-requests: write
 
 concurrency:
-  group: tessl-code-review-${{ github.event.issue.number || inputs['pr-number'] }}
+  group: tessl-code-review-${{ github.event.pull_request.number || github.event.issue.number || inputs['pr-number'] }}
   cancel-in-progress: false
 
 jobs:
   review:
-    # Run for an explicit dispatch, or for a comment posted on an open pull
-    # request that mentions @tessl-code-review, by an owner, an organization
-    # member, or an invited collaborator.
+    # A coarse prefilter only; the Action decides whether a comment requests a
+    # review, and `allowed-associations` below says who may ask.
     if: >-
       github.event_name == 'workflow_dispatch' ||
-      (github.event_name == 'issue_comment' &&
-        github.event.issue.pull_request != null &&
-        github.event.issue.state == 'open' &&
-        contains(github.event.comment.body, '@tessl-code-review') &&
-        contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.comment.author_association))
+      ((github.event_name == 'issue_comment' || github.event_name == 'pull_request_review_comment') &&
+        (github.event_name != 'issue_comment' || github.event.issue.pull_request != null) &&
+        (github.event.issue.state == 'open' || github.event.pull_request.state == 'open') &&
+        contains(github.event.comment.body, '@tessl-code-review'))
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - uses: tesslio/code-review-action@<full-commit-sha>
+      - uses: tesslio/code-review-action@v1
         with:
           tessl-token: ${{ secrets.TESSL_TOKEN }}
+          # Who may request a review by mentioning the handle. The Action
+          # enforces it. Remove it to accept any author.
+          allowed-associations: OWNER,MEMBER,COLLABORATOR
           profile: standard
           mode: advisory
           pr-number: ${{ github.event.issue.number || inputs['pr-number'] }}
@@ -169,6 +176,8 @@ on:
   pull_request:
     types: [opened, reopened, ready_for_review, synchronize]
   issue_comment:
+    types: [created]
+  pull_request_review_comment:
     types: [created]
   workflow_dispatch:
     inputs:
@@ -202,20 +211,23 @@ concurrency:
 
 jobs:
   review:
+    # A coarse prefilter only; see the default cadence above for why.
     if: >-
       (github.event_name == 'pull_request' && github.event.pull_request.draft == false) ||
       github.event_name == 'workflow_dispatch' ||
-      (github.event_name == 'issue_comment' &&
-        github.event.issue.pull_request != null &&
-        github.event.issue.state == 'open' &&
-        contains(github.event.comment.body, '@tessl-code-review') &&
-        contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.comment.author_association))
+      ((github.event_name == 'issue_comment' || github.event_name == 'pull_request_review_comment') &&
+        (github.event_name != 'issue_comment' || github.event.issue.pull_request != null) &&
+        (github.event.issue.state == 'open' || github.event.pull_request.state == 'open') &&
+        contains(github.event.comment.body, '@tessl-code-review'))
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - uses: tesslio/code-review-action@<full-commit-sha>
+      - uses: tesslio/code-review-action@v1
         with:
           tessl-token: ${{ secrets.TESSL_TOKEN }}
+          # Who may request a review by mentioning the handle. The Action
+          # enforces it. Remove it to accept any author.
+          allowed-associations: OWNER,MEMBER,COLLABORATOR
           profile: standard
           mode: advisory
           pr-number: ${{ github.event.issue.number || inputs['pr-number'] }}
@@ -257,23 +269,35 @@ you give the user:
 
 ## Notes on the shared parts
 
-**The mention guard.** `issue_comment` fires for issues as well as pull requests,
-for open and closed ones alike, for every newly created comment regardless of
-body, and for any commenter. The guard narrows it to all four conditions: a
-comment on a pull request, a pull request that is open, a body carrying
-`@tessl-code-review`, and a commenter
-with `OWNER`, `MEMBER`, or `COLLABORATOR` association. The state check matters
-because the Action refuses to review a closed or merged pull request. Without
-the state check, a mention there produces a failed run instead of a quiet skip.
-The token itself is fixed by the Action, so the part to discuss with the user
-is the association allowlist, not the token.
+**The mention prefilter.** `issue_comment` fires for issues as well as pull
+requests, for open and closed ones alike, for every newly created comment
+whatever its body, and for any commenter. The condition in the template narrows
+that to a comment on a pull request whose body contains the handle somewhere. It
+is deliberately loose: a workflow expression cannot match a token boundary, so
+its only job is to keep a runner from starting for every comment in the
+repository.
 
-The match is case-sensitive and can sit anywhere in the body, so
-`@tessl-code-review` fires and `please take another look @tessl-code-review`
-fires too. It is a plain substring match, so a body naming a longer handle that
-starts with the token starts a round as well. Because the trigger is
+The Action makes the real decision. It requires the handle as a whole token,
+case-insensitively, so `@tessl-code-reviewer` and `@tessl-code-review-bot` are
+not requests, and it enforces `allowed-associations`. A comment the Action does
+not admit ends the run with nothing published, no check run, no reaction, and
+status `not-requested`.
+
+The state condition is part of the prefilter and worth keeping: the Action refuses
+to review a closed or merged pull request, so without it a stray mention there
+starts a run that fails and posts a failure notice instead of quietly doing
+nothing.
+
+One thing still surprises people, so mention it: because the trigger is
 `types: [created]`, editing an existing comment to add the mention does nothing.
-Mention both when explaining the trigger, since each one surprises someone.
+
+**The acknowledgement.** An admitted mention gets an 👀 reaction on the comment
+within seconds, posted by the Action before it does anything else.
+
+Read its absence as a prompt to look, not as a verdict. Reacting is best effort:
+a refused or failed reaction becomes a run notice and the review proceeds, so no
+reaction means either that the comment was not admitted or that the reaction
+itself failed. The workflow run distinguishes them, and re-mentioning does not.
 
 `issue_comment` runs the copy of the workflow on the **default branch**, not the
 copy on the pull-request branch. The mention trigger therefore does nothing at
