@@ -292,9 +292,12 @@ One thing still surprises people, so mention it: because the trigger is
 `types: [created]`, editing an existing comment to add the mention does nothing.
 
 **The acknowledgement.** An admitted mention gets an 👀 reaction on the comment
-within seconds, posted by the Action before it does anything else. That is the
-signal that a request was understood: no reaction means the comment was not
-admitted, rather than a review running quietly somewhere.
+within seconds, posted by the Action before it does anything else.
+
+Read its absence as a prompt to look, not as a verdict. Reacting is best effort:
+a refused or failed reaction becomes a run notice and the review proceeds, so no
+reaction means either that the comment was not admitted or that the reaction
+itself failed. The workflow run distinguishes them, and re-mentioning does not.
 
 `issue_comment` runs the copy of the workflow on the **default branch**, not the
 copy on the pull-request branch. The mention trigger therefore does nothing at
