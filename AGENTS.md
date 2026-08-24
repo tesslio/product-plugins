@@ -42,11 +42,16 @@ A plugin that is still a draft does not belong on `main`. Keep it on a branch un
 | `<plugin>/README.md` | User-facing documentation for that plugin. |
 | `<plugin>/tessl.json` | Local development project file. Not published. |
 | `<plugin>/.tesslignore` | Files excluded from `tessl publish`. See the warning above. |
+| `.tessl-code-review.yml` | Code Review profile for this repository: the lens set and the paths each lens reviews. |
+| `review-lenses/<lens>/SKILL.md` | A review lens this repository runs on its own pull requests. Not a plugin, and not published. |
 
 ## CI
 
 - `version-check` fails a pull request that changes a plugin without bumping that plugin's version.
 - `publish` publishes every changed plugin when a commit lands on `main`. Merging is publishing. There is no separate release step.
+- `tessl-code-review` reviews a pull request when it is opened, and again whenever someone mentions `@tessl-code-review` in a comment on it. Changes requested fails the `Tessl Code Review` check, so a blocked pull request needs a fresh review against the new head before it can merge.
+
+The lenses in `review-lenses/` and the profile that routes them are instructions that later run with a reviewer's authority. Review a change to either with the same care as a change to a published skill.
 
 ## Before opening a pull request
 

@@ -1,0 +1,55 @@
+schemaVersion: 1
+
+# Every lens runs at medium effort.
+effort: medium
+
+# Five repository lenses review the content this repository is made of, and two
+# of the published defaults review the executable parts. The remaining defaults
+# are left out on purpose: they read changed program logic, and a change here is
+# almost always instruction, a manifest, or an eval scenario, where they have
+# nothing to grip.
+lenses:
+  # The whole change, whatever it touches. A public repository leaks through any
+  # file type, example value, or file name.
+  - ref: ./review-lenses/review-public-exposure/SKILL.md
+
+  - ref: ./review-lenses/review-skill-instruction-integrity/SKILL.md
+    globs:
+      - '**/skills/**/*.md'
+      - '**/rules/**/*.md'
+      - AGENTS.md
+      - CLAUDE.md
+
+  # Any Markdown can carry a block a reader will paste into their own repository.
+  - ref: ./review-lenses/review-copyable-snippets/SKILL.md
+    globs:
+      - '**/*.md'
+
+  - ref: ./review-lenses/review-eval-scenario-integrity/SKILL.md
+    globs:
+      - '**/evals/**'
+
+  # The release surface: what a plugin publishes, and what documents it.
+  - ref: ./review-lenses/review-plugin-release-readiness/SKILL.md
+    globs:
+      - '**/.tessl-plugin/plugin.json'
+      - '**/tessl.json'
+      - '**/.tesslignore'
+      - '**/README.md'
+      - README.md
+      - '**/skills/**/*.md'
+
+  # The executable parts of the repository: CI, the publish scripts, plugin
+  # hooks, and the scripts a skill bundles.
+  - ref: tessl/code-review@0.1.0#review-correctness-and-data-integrity
+    globs:
+      - '.github/**'
+      - '**/*.sh'
+      - '**/*.py'
+      - '**/hooks/**'
+  - ref: tessl/code-review@0.1.0#review-security-and-privacy
+    globs:
+      - '.github/**'
+      - '**/*.sh'
+      - '**/*.py'
+      - '**/hooks/**'
