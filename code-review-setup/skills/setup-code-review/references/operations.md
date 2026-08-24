@@ -86,9 +86,17 @@ branch:
   asserted about the head that replaced it. The job fails so an unpublished review
   cannot read as a completed one, and the new head is reviewed by whatever run
   covers it.
+- **A refused approval request concludes neutral.** A comment can ask Tessl to
+  approve the pull request rather than review it. If its author may not approve,
+  no review runs in its place: nothing is published, the check concludes neutral,
+  and one comment on the pull request explains the refusal and says that
+  mentioning the reviewer still gets a review.
 - **Neutral must not block.** The conclusions above assume a neutral check does
   not hold a required status. Confirm that against the branch protection rule or
-  ruleset the repository actually uses before requiring the check.
+  ruleset the repository actually uses before requiring the check. Note which of
+  them a comment can reach: a refused approval request is one, so where neutral
+  does block, such a comment holds the pull request until something reviews the
+  head.
 - **A killed run leaves the check in progress.** A job timeout or a lost runner
   ends the run before it can conclude its check, and a check stuck in progress
   holds every pull request that requires it. Re-run the workflow: a later check

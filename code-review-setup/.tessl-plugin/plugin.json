@@ -1,6 +1,6 @@
 {
   "name": "tessl/code-review-setup",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Install Tessl Code Review into a GitHub repository. Inspects the repository's existing workflows and any Code Review caller already present, asks the two setup questions (when reviews run, and whether findings block the merge), then writes or updates a thin caller workflow that invokes the Tessl Code Review Action. Use when someone wants to add, set up, enable, configure, update, or remove Tessl Code Review, AI code review, or automated pull-request review in a repository, or asks to switch it between advisory and gate mode.",
   "private": false,
   "skills": [

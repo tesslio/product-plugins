@@ -43,11 +43,14 @@ Read the repository before asking anything. Gather:
 - **An existing Code Review caller.** Search the workflow directory for the
   Action repository. If one exists, record its file path, the pinned
   revision, its triggers, its concurrency group, its permissions block, and its
-  `mode`, `profile`, and `lenses` inputs. This is an update, not a fresh install.
+  `mode`, `profile`, `lenses` and `approver-logins` inputs. This is an update,
+  not a fresh install.
 - **Inputs this setup does not manage.** Carry through any input the interview
   does not decide, exactly as it is, and do not offer to change or remove it.
-  Report only `mode`, `profile`, `lenses` and `effort` in phase 3; an input
-  outside that set is preserved silently.
+  Report `mode`, `profile`, `lenses`, `effort` and `approver-logins` in phase 3;
+  an input outside that set is preserved silently. `approver-logins` is reported
+  even though the interview does not ask about it, because it names who may skip
+  a review altogether and a user cannot revisit a policy they are never shown.
 - **Conflicting or duplicate callers.** More than one workflow invoking the
   Action, or another reviewer bot on the same triggers, is a conflict. Surface
   it in phase 3 rather than overwriting either one.
@@ -81,6 +84,29 @@ If the user picks gate, read "What gate mode enforces" in
 own check run on the head it reviewed, so a gate enforces on every cadence. What
 the cadence decides is when a fresh verdict arrives, which changes what a blocked
 pull request has to do to become unblocked.
+
+Gate mode decides whether the check fails, not which findings make it fail. That
+is `requestChangesAt`, and it lives in a YAML profile rather than a workflow
+input. Name it in one line when the user picks gate: a repository that sets no
+threshold gates at `major` on every round, so a Minor is published as a
+suggestion and does not hold the pull request. Do not ask for a value. The
+default suits almost every repository, and
+[references/file-profiles.md](references/file-profiles.md) carries the values for
+one that wants a different bar.
+
+Do not add a third question about who may approve either. A comment can ask
+Tessl to approve a pull request rather than review it, and `approver-logins`
+names the authors who may. The same input also permits asking for a full review,
+which reviews the whole change and raises every finding rather than the narrower
+later round. Almost every repository wants the default, which is that only
+owners, members and collaborators can, so asking every repository costs a
+question to confirm what it already has. Handle it when it comes up instead:
+
+- The user asks for an agent, a bot or a named account to be able to approve.
+  Set `approver-logins` to that login, bracketed as the payload spells it
+  (`my-agent[bot]`), and say what it permits.
+- The detect phase found `approver-logins` already set. Report it in phase 3 and
+  leave it alone unless the user asks.
 
 Do not ask about the executor, the harness, the backend endpoint, the CLI
 version, the CLI channel, or telemetry. The Action installs the current Tessl CLI
@@ -209,7 +235,10 @@ Close with a short summary the user can act on, covering the contract they chose
 (when reviews run, whether findings block, and for gate mode, that a blocked
 pull request only unblocks when a fresh review runs against the new head), how to
 request a round by mentioning `@tessl-code-review` in a comment and who is
-allowed to, the `TESSL_TOKEN` secret, the permissions granted and why, any
+allowed to, that a comment can also ask Tessl to approve rather than review or
+ask for the whole change to be reviewed again, and that only owners, members and
+collaborators may unless `approver-logins` names someone, the `TESSL_TOKEN`
+secret, the permissions granted and why, any
 branch-protection step still outstanding, and how to update or remove the setup
 later.
 

@@ -31,6 +31,7 @@ jobs:
           tessl-token: ${{ secrets.TESSL_TOKEN }}
           profile: standard
           mode: advisory
+          approver-logins: release-bot[bot]
           pr-number: ${{ github.event.issue.number }}
 
       - if: always()
