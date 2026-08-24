@@ -1,0 +1,31 @@
+{
+  "context": "The eval checks whether the scale and resilience lens catches a batch-processing regression introduced by replacing one bulk remote call with a remote call per row.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Finds the N+1 remote call regression",
+      "max_score": 30,
+      "description": "States that the new code calls users.get once per audit row instead of using getMany once per unique actorId"
+    },
+    {
+      "name": "Quantifies the scale trigger",
+      "max_score": 20,
+      "description": "Connects the issue to large workspaces and the 20,000-row export size, not only to a theoretical performance concern"
+    },
+    {
+      "name": "Explains the failure mode",
+      "max_score": 15,
+      "description": "Mentions likely timeout, rate-limit, overload, or partial dependency failure from thousands of remote calls"
+    },
+    {
+      "name": "Gives the concrete fix",
+      "max_score": 20,
+      "description": "Proposes restoring the batched getMany path, caching by actorId, or another bounded bulk lookup"
+    },
+    {
+      "name": "Avoids cold-path nitpicks",
+      "max_score": 15,
+      "description": "Keeps the finding focused on the request path and does not spend the answer on small style or micro-optimization complaints"
+    }
+  ]
+}

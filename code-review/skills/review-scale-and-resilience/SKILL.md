@@ -1,6 +1,6 @@
 ---
 name: review-scale-and-resilience
-description: Review a change for what happens when there is more of it than expected, and when something it depends on fails. Use as one lens in a code review run.
+description: Review a code change for load, data-volume, concurrency, retry, rollout, dependency-failure, latency, throughput, timeout, and fault-tolerance risks. Use when reviewing for performance under load, scalability, resilience, or failure handling.
 ---
 
 # Review lens: Scale and Resilience

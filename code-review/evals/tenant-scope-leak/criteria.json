@@ -1,0 +1,31 @@
+{
+  "context": "The eval checks whether the code-review lenses identify a concrete authorization and privacy regression in a changed route, rather than giving generic advice.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Finds the tenant boundary break",
+      "max_score": 30,
+      "description": "States that replacing the workspace-scoped lookup with id-only findUnique lets a caller fetch another workspace's project by guessing or obtaining its projectId"
+    },
+    {
+      "name": "Identifies the privacy impact",
+      "max_score": 20,
+      "description": "Names the disclosed data, especially billingEmail, and explains that it can be returned to an unauthorized workspace"
+    },
+    {
+      "name": "Gives the concrete fix",
+      "max_score": 20,
+      "description": "Proposes restoring workspaceId in the lookup, adding an authorization check before send, or using a unique compound key that includes workspaceId"
+    },
+    {
+      "name": "Avoids generic security commentary",
+      "max_score": 15,
+      "description": "Does not stop at generic statements such as 'validate inputs' or 'check permissions' without tying the finding to projectId, workspaceId, and the changed query"
+    },
+    {
+      "name": "Mentions a focused regression test",
+      "max_score": 15,
+      "description": "Awards credit only when the review names the exact cross-workspace access regression test case; omitting test discussion or asking generally for more tests earns no credit"
+    }
+  ]
+}
