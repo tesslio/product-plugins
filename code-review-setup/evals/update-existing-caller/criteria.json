@@ -71,6 +71,11 @@
       "name": "Summary distinguishes changed from preserved",
       "description": "summary.md lists what changed (cadence triggers, cancel-in-progress, pinned revision, the added checks: write permission) separately from what was deliberately left alone (runner, timeout, job name, extra step, mode, profile)",
       "max_score": 6
+    },
+    {
+      "name": "Approver allowlist preserved and reported",
+      "description": "The caller still passes approver-logins: release-bot[bot], and the summary of the existing setup names it alongside mode and profile rather than passing it through silently. It names who may skip a review, so a user who is never shown it cannot revisit it",
+      "max_score": 6
     }
   ]
 }
