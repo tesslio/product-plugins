@@ -21,6 +21,10 @@ lenses:
       - 'review-lenses/**/*.md'
       - AGENTS.md
       - CLAUDE.md
+      # A skill's eval tasks and its README are where this lens checks a changed
+      # instruction against what the same skill says elsewhere.
+      - '**/evals/**'
+      - '**/README.md'
 
   # Any Markdown can carry a block a reader will paste into their own repository.
   - ref: ./review-lenses/review-copyable-snippets/SKILL.md
@@ -30,6 +34,8 @@ lenses:
   - ref: ./review-lenses/review-eval-scenario-integrity/SKILL.md
     globs:
       - '**/evals/**'
+      # A scenario is judged beside the skill it exercises.
+      - '**/skills/**/*.md'
 
   # The release surface: what a plugin publishes, and what documents it.
   - ref: ./review-lenses/review-plugin-release-readiness/SKILL.md

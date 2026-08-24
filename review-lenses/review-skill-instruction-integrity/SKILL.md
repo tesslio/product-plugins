@@ -22,6 +22,10 @@ Start from what the change asserts, then find every other place the same skill
 speaks about it: another phase of the procedure, a reference file, an eval task,
 the plugin README. A skill and its bundled files are one document here.
 
+The changed instruction is the subject. Those other files are read to see whether
+the skill still agrees with itself, and a defect that belongs to one of them on
+its own account belongs to another lens.
+
 Then follow the changed instruction as an agent would, in order, and at each step
 ask what the agent does when the step cannot be completed as written, and what it
 has to decide that the skill has not settled.

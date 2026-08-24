@@ -16,7 +16,9 @@ scenarios for the ways a score comes back looking like evidence when it is not.
 
 ## Method
 
-Take every changed task first, before any criterion.
+Take every changed task first, before any criterion. The scenario is the subject
+throughout: the skill it exercises is read to judge the scenario, not reviewed
+alongside it.
 
 Read the task as the agent under test sees it, with the skill absent, and ask
 what that agent would produce. Whatever it would produce anyway is what the
