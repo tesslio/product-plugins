@@ -71,6 +71,11 @@
       "name": "Summary states the unblocking contract",
       "description": "summary.md states that a blocked pull request does not unblock itself on this cadence: nothing reviews a new head until someone mentions @tessl-code-review or dispatches the workflow, and that round is what reports a fresh verdict against the current head",
       "max_score": 3
+    },
+    {
+      "name": "Summary names the severity threshold behind the gate",
+      "description": "summary.md states that gate mode decides whether the check fails, not which findings make it fail: that is requestChangesAt, which lives in a YAML profile rather than a workflow input and defaults to major on every round, so a Minor is published as a suggestion and does not hold the pull request. Presenting gate mode as the whole of the blocking decision scores zero here",
+      "max_score": 5
     }
   ]
 }

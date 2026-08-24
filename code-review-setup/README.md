@@ -36,6 +36,12 @@ Setup is two questions:
   outcome fails the check, or gate, where changes approved passes the check and
   changes requested fails it.
 
+Gate mode decides whether the check fails, not which findings make it fail. That
+is `requestChangesAt` in a repository YAML profile, and a repository that sets no
+threshold requests changes at Major on every round, so a Minor is published as a
+suggestion. Setup names the key when gate is chosen rather than asking for a
+value, because the default suits almost every repository.
+
 The two are independent choices, and every pairing is installable. The Action
 reports its own check, named `Tessl Code Review`, against the head it reviewed on
 every trigger, so a gate holds on any cadence once that check is required in
@@ -51,16 +57,24 @@ explicit approval, writes idempotently, verifies the result, and then explains t
 permissions, the secret, the branch-protection step, and how to update or remove
 the setup.
 
-The installed workflow always pins the Action to a full commit SHA, resolved from
-the current supported release at setup time. Tags and branches are moving
-references and this plugin does not install them. If no release resolves, setup
-stops and says so rather than leaving behind a workflow that cannot run.
+The installed workflow references the Action by its major tag, which moves to
+each 1.x release, so a fix reaches the repository without anyone editing the
+file. A repository that wants the revision frozen gets the current release's full
+commit SHA instead, resolved at setup time rather than invented, and accepts that
+updates then need a deliberate bump. A branch is never installed for either.
 
 Mention-driven rounds are requested by mentioning `@tessl-code-review` in a
 comment on the pull request. That token belongs to the Action, whose published
 review asks reviewers to use it, so the caller matches it rather than inventing a
 command of its own. Who may request a round is a choice the skill puts to the
 user, defaulting to owners, organization members, and invited collaborators.
+
+A comment can also ask Tessl to approve the pull request rather than review it,
+or to review the whole change again rather than the narrower later round. Both
+are permitted for owners, members and collaborators, and for any comment author
+named in `approver-logins`, which is the only route open to a GitHub App: an App
+comments with author association `NONE` whatever its permissions, so no
+association names one.
 
 ## Skills
 

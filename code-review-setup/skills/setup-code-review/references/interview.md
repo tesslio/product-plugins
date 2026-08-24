@@ -27,6 +27,19 @@ cannot leave a duplicate or stale review behind.
 | Advisory (default) | A `COMMENT` review is published. Findings never fail the check | None. The review is information |
 | Gate | A review that approves the changes approves the pull request and the check passes. A review that requests changes publishes the full review and fails the check | Merging is blocked while the check is required and failing |
 
+Blocking is three settings rather than one, and this question decides only the
+middle one. `requestChangesAt` in a YAML profile decides which findings request
+changes, `mode` decides whether the Action's check then fails, and branch
+protection decides whether a failing check holds the pull request. A repository
+that sets no threshold gates at `major` on every round, so a Minor is published
+as a suggestion and does not hold the pull request.
+
+Do not turn that into a third interview question. Name the key when the user
+picks gate, in one line, so they know the bar exists and where it lives, and
+point at [file-profiles.md](file-profiles.md) for the values. Most repositories
+should leave it at the default, and a repository that wants Minors held on every
+round sets `requestChangesAt: minor` in a profile whenever it is ready to.
+
 Gate mode has two prerequisites the workflow file cannot satisfy on its own, so
 raise them during the proposal:
 

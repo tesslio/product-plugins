@@ -85,9 +85,20 @@ own check run on the head it reviewed, so a gate enforces on every cadence. What
 the cadence decides is when a fresh verdict arrives, which changes what a blocked
 pull request has to do to become unblocked.
 
-Do not add a third question about who may approve. A comment can ask Tessl to
-approve a pull request rather than review it, and `approver-logins` names the
-authors who may. Almost every repository wants the default, which is that only
+Gate mode decides whether the check fails, not which findings make it fail. That
+is `requestChangesAt`, and it lives in a YAML profile rather than a workflow
+input. Name it in one line when the user picks gate: a repository that sets no
+threshold gates at `major` on every round, so a Minor is published as a
+suggestion and does not hold the pull request. Do not ask for a value. The
+default suits almost every repository, and
+[references/file-profiles.md](references/file-profiles.md) carries the values for
+one that wants a different bar.
+
+Do not add a third question about who may approve either. A comment can ask
+Tessl to approve a pull request rather than review it, and `approver-logins`
+names the authors who may. The same input also permits asking for a full review,
+which reviews the whole change and raises every finding rather than the narrower
+later round. Almost every repository wants the default, which is that only
 owners, members and collaborators can, so asking every repository costs a
 question to confirm what it already has. Handle it when it comes up instead:
 
@@ -224,9 +235,10 @@ Close with a short summary the user can act on, covering the contract they chose
 (when reviews run, whether findings block, and for gate mode, that a blocked
 pull request only unblocks when a fresh review runs against the new head), how to
 request a round by mentioning `@tessl-code-review` in a comment and who is
-allowed to, that a comment can also ask Tessl to approve rather than review and
-that only owners, members and collaborators may unless `approver-logins` names
-someone, the `TESSL_TOKEN` secret, the permissions granted and why, any
+allowed to, that a comment can also ask Tessl to approve rather than review or
+ask for the whole change to be reviewed again, and that only owners, members and
+collaborators may unless `approver-logins` names someone, the `TESSL_TOKEN`
+secret, the permissions granted and why, any
 branch-protection step still outstanding, and how to update or remove the setup
 later.
 
