@@ -34,8 +34,9 @@ Report a block that fails, silently does something other than what it says, or
 diverges from the prose introducing it, when pasted as printed.
 
 Do not report style, ordering, or a block that is plainly illustrative rather
-than runnable: an ellipsis, a bracketed placeholder, or a fragment quoted to make
-a point is not claiming to run. Defects in the instruction prose belong to Skill
+than runnable: an ellipsis, or a fragment quoted to make a point, is not claiming
+to run. A placeholder is exempt only where the surrounding prose says what to put
+there; one the reader is left to guess at is a substitution point, and in scope. Defects in the instruction prose belong to Skill
 Instruction Integrity.
 
 ## Reporting

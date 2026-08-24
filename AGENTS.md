@@ -49,9 +49,11 @@ A plugin that is still a draft does not belong on `main`. Keep it on a branch un
 
 - `version-check` fails a pull request that changes a plugin without bumping that plugin's version.
 - `publish` publishes every changed plugin when a commit lands on `main`. Merging is publishing. There is no separate release step.
-- `tessl-code-review` reviews a pull request when it is opened or marked ready for review, and again when an owner, member, or collaborator comments `@tessl-code-review` on it as a whole word. A draft is not reviewed, and pushing commits does not start a review. Changes requested fails the `Tessl Code Review` check, so a blocked pull request needs a fresh review against the new head before it can merge.
+- `tessl-code-review` reviews a pull request when it is opened, reopened, or marked ready for review, and again when an owner, member, or collaborator comments `@tessl-code-review` on it as a whole word. An opened draft is not reviewed until it is marked ready, though a mention on a draft is. Pushing commits does not start a review. Changes requested fails the `Tessl Code Review` check, so a blocked pull request needs a fresh review against the new head before it can merge.
 
 The lenses in `review-lenses/` and the profile that routes them are instructions that later run with a reviewer's authority. Review a change to either with the same care as a change to a published skill.
+
+A review reads them from the pull-request head, which is the branch under review. A change that narrows the profile's routing, or weakens a lens, therefore takes effect on the review of the change that makes it. Nothing in the workflow can catch that, so it is a reviewer's job: read a change to `.tessl-code-review.yml` or `review-lenses/` as a change to the gate itself. Contributions arriving as fork pull requests are not reviewed at all, so this reaches only branches pushed by someone who already has write access.
 
 ## Before opening a pull request
 
