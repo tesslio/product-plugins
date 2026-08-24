@@ -42,6 +42,12 @@ Where a block and the prose introducing it disagree, the finding is this lens's,
 whichever of the two is wrong. Skill Instruction Integrity covers prose that
 misdirects an agent on its own, away from any block.
 
+A block that hands a value to something outside this repository is only as
+reviewable as what that thing documents. An input that looks unset or incomplete
+may be one the receiver derives for itself, and this repository does not hold the
+answer. Report it only where the repository states the contract the block breaks,
+and otherwise leave it: an argument from the shape of the call alone is a guess.
+
 ## Reporting
 
 - Name the file and the block, and the input or event that makes it misbehave.
