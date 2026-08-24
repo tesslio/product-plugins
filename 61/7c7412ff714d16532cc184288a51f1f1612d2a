@@ -1,0 +1,58 @@
+code-review/evals/n-plus-one-regression/task.md
+  s_76eb552e68370d::t_5067e5dd2b4316 1-2,4-25
+  s_76eb552e68370d::t_955dcf990b673e 3
+code-review/skills/review-correctness-and-data-integrity/SKILL.md
+  s_76eb552e68370d::t_2185df7421b7fd 3,26
+  s_76eb552e68370d::t_3a13cd9408aed9 27
+code-review/skills/review-security-and-privacy/SKILL.md
+  s_76eb552e68370d::t_c9ff91de047142 33
+  s_76eb552e68370d::t_8e47dcb4a0222d 22
+  s_76eb552e68370d::t_2185df7421b7fd 21
+  s_76eb552e68370d::t_f70aafbb779799 3
+code-review/evals/misleading-helper-contract/criteria.json
+  s_76eb552e68370d::t_9f8673c6b24067 1-31
+code-review/evals/misleading-helper-contract/task.md
+  s_76eb552e68370d::t_23a1a21c164c72 1-2,4-27
+  s_76eb552e68370d::t_955dcf990b673e 3
+code-review/evals/tenant-scope-leak/task.md
+  s_76eb552e68370d::t_955dcf990b673e 3
+  s_76eb552e68370d::t_28a8ee839ff803 1-2,4-32
+code-review/evals/retry-duplicate-write/criteria.json
+  s_76eb552e68370d::t_b787d3d37027c4 1-31
+code-review/.tessl-plugin/plugin.json
+  s_76eb552e68370d::t_002e4b498bbd84 3
+  s_76eb552e68370d::t_fe425760356602 2,5
+code-review/evals/n-plus-one-regression/criteria.json
+  s_76eb552e68370d::t_7295d594666823 1-31
+code-review/tessl.json
+  s_76eb552e68370d::t_e4d9e164b10aa5 1-5
+code-review/skills/review-maintainability-and-code-quality/SKILL.md
+  s_76eb552e68370d::t_2185df7421b7fd 24
+  s_76eb552e68370d::t_d863f506a19143 3
+  s_76eb552e68370d::t_b5b5c06439b0ff 25
+code-review/evals/retry-duplicate-write/task.md
+  s_76eb552e68370d::t_955dcf990b673e 3
+  s_76eb552e68370d::t_250e3b82920a7d 1-2,4-26
+code-review/skills/review-scale-and-resilience/SKILL.md
+  s_76eb552e68370d::t_3125f76d0a8569 26
+  s_76eb552e68370d::t_d863f506a19143 3
+  s_76eb552e68370d::t_2185df7421b7fd 25
+code-review/evals/tenant-scope-leak/criteria.json
+  s_76eb552e68370d::t_725bdd3abc557e 1-31
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.24",
+  "base_commit_sha": "617c7412ff714d16532cc184288a51f1f1612d2a",
+  "prompts": {},
+  "sessions": {
+    "s_76eb552e68370d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0348c-a954-7a40-89f8-d6fa16b6b730",
+        "model": "gpt-5.5"
+      },
+      "human_author": null
+    }
+  }
+}
