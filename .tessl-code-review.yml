@@ -17,6 +17,8 @@ lenses:
     globs:
       - '**/skills/**/*.md'
       - '**/rules/**/*.md'
+      # The lenses are instruction too, and they run with a reviewer's authority.
+      - 'review-lenses/**/*.md'
       - AGENTS.md
       - CLAUDE.md
 

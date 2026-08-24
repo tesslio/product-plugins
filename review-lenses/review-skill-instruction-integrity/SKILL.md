@@ -33,9 +33,13 @@ says, contradicts another statement in the same skill, or leaves the agent to
 resolve something the skill and the repository do not answer.
 
 Do not report wording, ordering, or house style that leaves the outcome intact,
-and do not report a fact restated consistently in two places. Defects inside a
-code block a reader is meant to copy belong to Copyable Snippets; a scenario or
-criterion left behind by the change belongs to Eval Scenario Integrity.
+and do not report a fact restated consistently in two places.
+
+Read the prose, not the blocks. Whether an embedded workflow, command, or
+configuration block behaves as printed, including every expression inside it,
+belongs to Copyable Snippets, even where the prose introducing it is what made
+the block wrong. A scenario or criterion the change left behind belongs to Eval
+Scenario Integrity.
 
 ## Reporting
 

@@ -13,7 +13,7 @@ becomes.
 ## Scope
 
 - **The version step** Whether the version change reflects what actually changed for users. A bump is required by CI; whether it is the right size is not checked anywhere.
-- **Documentation against shipped behavior** A plugin README, a description, or the root listing describing behavior this change replaced, or omitting a skill it adds.
+- **Documentation against shipped behavior** A plugin README or description that describes behavior this change replaced.
 - **The published bundle** A file that reaches the registry and should not, or one the plugin needs at runtime that an ignore rule now excludes.
 
 ## Method
@@ -37,7 +37,14 @@ Do not report a missing version bump, which CI already blocks. Do not report
 README wording that is merely improvable, or an internal file that is correctly
 excluded from the bundle.
 
+This lens reads a document only as a statement about what a user receives.
+Whether a skill's own instructions are accurate, and whether a template in one
+behaves as printed, belong to Skill Instruction Integrity and Copyable Snippets.
+Program logic in a script or hook the plugin bundles belongs to the correctness
+and security lenses.
+
 ## Reporting
 
 - Name the plugin, the surface that changed, and what a user who installs it experiences.
 - State the version step the change calls for, or the document line that has to change with it.
+- A version step has no changed line of its own to sit on. Name the manifest, the surface that moved, and the step it calls for, so the finding stands on its own away from the code.
