@@ -36,8 +36,11 @@ diverges from the prose introducing it, when pasted as printed.
 Do not report style, ordering, or a block that is plainly illustrative rather
 than runnable: an ellipsis, or a fragment quoted to make a point, is not claiming
 to run. A placeholder is exempt only where the surrounding prose says what to put
-there; one the reader is left to guess at is a substitution point, and in scope. Defects in the instruction prose belong to Skill
-Instruction Integrity.
+there; one the reader is left to guess at is a substitution point, and in scope.
+
+Where a block and the prose introducing it disagree, the finding is this lens's,
+whichever of the two is wrong. Skill Instruction Integrity covers prose that
+misdirects an agent on its own, away from any block.
 
 ## Reporting
 

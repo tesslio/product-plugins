@@ -12,7 +12,7 @@ becomes.
 
 ## Scope
 
-- **The version step** Whether the version change reflects what actually changed for users. A bump is required by CI; whether it is the right size is not checked anywhere.
+- **The version step** Whether a change that takes something away from users — a removed or renamed skill, a dropped input, a trigger that no longer fires — is published as a version step that says so. CI requires a bump and cannot tell that kind from any other.
 - **Documentation against shipped behavior** A plugin README or description that describes behavior this change replaced.
 - **The published bundle** A file that reaches the registry and should not, or one the plugin needs at runtime that an ignore rule now excludes.
 
@@ -24,8 +24,11 @@ root listing, and its skills together, as one release.
 Then ask what a user who installs the new version gets that the previous version
 did not: a skill that triggers on different requests, a renamed or removed skill,
 a changed default, a hook registered on a new event. For each such difference,
-find where it is written down for that user, and confirm the version step says a
-difference of that kind happened.
+find where it is written down for that user.
+
+Where the difference takes something away, check the version step against it.
+Whether an addition is a patch or a minor is a policy this repository has not
+stated, so do not grade one.
 
 ## Threshold
 
