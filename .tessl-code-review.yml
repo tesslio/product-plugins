@@ -40,6 +40,8 @@ lenses:
       - '**/README.md'
       - README.md
       - '**/skills/**/*.md'
+      # A hook is a published surface: what it registers on is part of the release.
+      - '**/hooks/**'
 
   # The executable parts of the repository: CI, the publish scripts, plugin
   # hooks, and the scripts a skill bundles.
