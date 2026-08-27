@@ -1,6 +1,6 @@
 ---
 name: review-maintainability-and-code-quality
-description: Review a change for whether the next person can understand it and change it safely. Use as one lens in a code review run.
+description: Review a code change for maintainability, naming, weak contracts, duplicated local precedent, misleading comments, and API or code surfaces that do not enforce what they promise. Use when reviewing for readability, refactoring, code quality, or API design issues.
 ---
 
 # Review lens: Maintainability and Code Quality

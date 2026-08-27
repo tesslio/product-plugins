@@ -1,6 +1,6 @@
 ---
 name: review-correctness-and-data-integrity
-description: Review a change for whether it does what it is meant to do, and whether the data it touches survives it intact. Use as one lens in a code review run.
+description: Review a code change for realistic functional defects, data loss, duplicate writes, ordering mistakes, and broken integration contracts. Use as one lens in a code review run when correctness or data integrity may be affected.
 ---
 
 # Review lens: Correctness and Data Integrity

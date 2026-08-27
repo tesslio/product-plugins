@@ -1,0 +1,31 @@
+{
+  "context": "The eval checks whether the review lens suite catches a realistic data-integrity and resilience regression caused by removing idempotency from a retrying payment job.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Finds duplicate charge risk",
+      "max_score": 30,
+      "description": "Explains that if payments.charge succeeds but the worker receives a transient error before markPaid, the retried job can charge the same invoice again"
+    },
+    {
+      "name": "Connects risk to removed idempotency key",
+      "max_score": 20,
+      "description": "Points specifically to the removed idempotencyKey and the retry behavior, not just a vague concern about retries"
+    },
+    {
+      "name": "Names persisted data impact",
+      "max_score": 15,
+      "description": "States that customer payment state can diverge from invoice state or require refund/repair after duplicate external side effects"
+    },
+    {
+      "name": "Gives a minimal containment",
+      "max_score": 20,
+      "description": "Proposes restoring the stable idempotency key or otherwise making payment side effects idempotent before marking the invoice paid"
+    },
+    {
+      "name": "Avoids impossible transaction advice",
+      "max_score": 15,
+      "description": "Does not propose wrapping the external payment provider call and local database write in a single ordinary database transaction as the sole fix"
+    }
+  ]
+}

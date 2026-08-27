@@ -1,6 +1,6 @@
 {
   "name": "tessl/code-review",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "The default review lenses for `tessl code review`, which the Tessl Code Review GitHub Action also runs. Each lens is its own skill, so a run can invoke one lens or several. Fork and tune any lens for your own repository.",
   "private": false
 }

@@ -1,0 +1,31 @@
+{
+  "context": "The eval checks whether the maintainability lens treats misleading helper contracts as a real defect when they make a caller easy to misuse.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Finds the unchecked promise and access bypass",
+      "max_score": 30,
+      "description": "States that settings.patch no longer awaits or checks assertWorkspaceAccess, so settings.update can run before access is verified"
+    },
+    {
+      "name": "Connects the bug to the misleading contract",
+      "max_score": 20,
+      "description": "Explains that a helper named assertWorkspaceAccess now returns boolean instead of throwing, violating the stated assert* convention and making caller misuse likely"
+    },
+    {
+      "name": "Gives a structural fix",
+      "max_score": 20,
+      "description": "Proposes restoring throw-on-failure semantics, renaming to hasWorkspaceAccess and requiring an explicit branch, or otherwise narrowing the API so callers cannot ignore the result"
+    },
+    {
+      "name": "Names the security impact without overgeneralizing",
+      "max_score": 15,
+      "description": "Identifies unauthorized settings updates as the impact and avoids generic advice about authentication"
+    },
+    {
+      "name": "Uses local precedent",
+      "max_score": 15,
+      "description": "References the repository convention that assert* helpers throw on failure as evidence for the maintainability finding"
+    }
+  ]
+}
