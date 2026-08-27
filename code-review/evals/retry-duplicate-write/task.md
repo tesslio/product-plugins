@@ -1,8 +1,8 @@
-# Review a retrying payment worker diff
+# Review an invoice worker PR
 
-Use the code-review lens suite in this plugin to review the diff. Write only actionable findings to `review.md`.
+Review this PR and flag any findings that should be addressed. Write only actionable findings to `review.md`.
 
-The job runner retries failed jobs with the same `job.id`. The payment provider charges immediately and may return a network error after accepting the charge.
+This worker runs from a queue that retries failed jobs with the same `job.id`. `payments` is an external provider client; its request can be accepted by the provider even when the client sees a transient transport error. The PR also adds a `description` field to the payment request.
 
 ```diff
 diff --git a/src/jobs/collect-invoice.ts b/src/jobs/collect-invoice.ts
@@ -16,9 +16,11 @@ diff --git a/src/jobs/collect-invoice.ts b/src/jobs/collect-invoice.ts
 -    customerId: invoice.customerId,
 -    amountCents: invoice.amountCents,
 -  });
++  const description = `Invoice ${invoice.number}`;
 +  await payments.charge({
 +    customerId: invoice.customerId,
 +    amountCents: invoice.amountCents,
++    description,
 +  });
 
    await invoices.markPaid(invoice.id);

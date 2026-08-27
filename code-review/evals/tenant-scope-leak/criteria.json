@@ -1,16 +1,16 @@
 {
-  "context": "The eval checks whether the code-review lenses identify a concrete authorization and privacy regression in a changed route, rather than giving generic advice.",
+  "context": "The eval checks whether the code-review lenses stay focused on a concrete authorization and privacy regression, trace the exploit path, and avoid distracting presentation commentary.",
   "type": "weighted_checklist",
   "checklist": [
     {
       "name": "Finds the tenant boundary break",
-      "max_score": 30,
+      "max_score": 25,
       "description": "States that replacing the workspace-scoped lookup with id-only findUnique lets a caller fetch another workspace's project by guessing or obtaining its projectId"
     },
     {
-      "name": "Identifies the privacy impact",
+      "name": "Traces the actor, authority boundary, and disclosed data",
       "max_score": 20,
-      "description": "Names the disclosed data, especially billingEmail, and explains that it can be returned to an unauthorized workspace"
+      "description": "Names the unauthorized workspace caller, the missing workspaceId boundary, and the disclosed data, especially billingEmail, as one connected exploit path"
     },
     {
       "name": "Gives the concrete fix",
@@ -18,14 +18,14 @@
       "description": "Proposes restoring workspaceId in the lookup, adding an authorization check before send, or using a unique compound key that includes workspaceId"
     },
     {
-      "name": "Avoids generic security commentary",
-      "max_score": 15,
-      "description": "Does not stop at generic statements such as 'validate inputs' or 'check permissions' without tying the finding to projectId, workspaceId, and the changed query"
-    },
-    {
       "name": "Mentions a focused regression test",
       "max_score": 15,
-      "description": "Awards credit only when the review names the exact cross-workspace access regression test case; omitting test discussion or asking generally for more tests earns no credit"
+      "description": "Awards credit only when the review names a caller from one workspace requesting a project from another workspace and expecting denial or no billingEmail disclosure; omitting test discussion or asking generally for more tests earns no credit"
+    },
+    {
+      "name": "Stays focused on material security and privacy risk",
+      "max_score": 20,
+      "description": "Awards full credit only when the review has no actionable finding other than the tenant-scope leak and its fix or test; mentioning input validation, response formatting, the name trimming change, or generic permission advice earns credit only if clearly dismissed as not the material issue"
     }
   ]
 }

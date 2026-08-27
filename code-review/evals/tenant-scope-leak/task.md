@@ -1,8 +1,8 @@
-# Review a tenant-scoped API diff
+# Review a project lookup PR
 
-Use the code-review lens suite in this plugin to review the diff. Write only actionable findings to `review.md`.
+Review this PR and flag any findings that should be addressed. Write only actionable findings to `review.md`.
 
-The service stores projects for multiple workspaces. Every request has `request.auth.workspaceId`, and callers may only see projects in their own workspace.
+Projects are stored by workspace, and each request carries `request.auth.workspaceId`. This PR switches the lookup helper used by the route and also trims project names before returning them.
 
 ```diff
 diff --git a/src/routes/projects.ts b/src/routes/projects.ts
@@ -25,7 +25,8 @@ diff --git a/src/routes/projects.ts b/src/routes/projects.ts
 
    return reply.send({
      id: project.id,
-     name: project.name,
+-    name: project.name,
++    name: project.name.trim(),
      billingEmail: project.billingEmail,
    });
  });

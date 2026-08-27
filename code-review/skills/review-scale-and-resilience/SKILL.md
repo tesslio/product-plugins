@@ -31,5 +31,6 @@ Do not report cold-path inefficiencies or scenarios that depend on several unlik
 ## Reporting
 
 - Name what scales the cost, per request, per row, per user or per tenant, and the realistic upper bound.
+- For fan-out to dependencies, say whether one slow or failed dependency call can time out or fail the whole operation; do not present concurrency limiting as sufficient when the operation can be batched.
 - For a failure, name the fault that triggers it and what breaks when it does.
 - State what would contain it: the bound, the timeout, the checkpoint, the signal an operator would need.
