@@ -21,6 +21,8 @@ Read each new or changed name against what the code behind it does, and each com
 
 At a public boundary, read the signature and its description as a consumer who cannot see the implementation.
 
+When a changed helper stops enforcing what its name or previous behavior promised, cite that contract and the caller misuse it now permits.
+
 ## Threshold
 
 Report an issue when a reader cannot determine the code's intent, constraints, or relationship to established project patterns, or when a surface does not enforce what it claims.
@@ -32,6 +34,7 @@ Do not report a stylistic preference as a defect, though a convention the team h
 ## Reporting
 
 - Name the question a future reader is left with that the code does not answer.
+- For a misleading contract, name the promised behavior, the local evidence for it, the caller misuse it permits, and the structural fix.
 - Where the codebase already has the thing, name the precedent with its file path, and say whether to reuse it, import it, or follow it.
 - Note when a divergence looks deliberate, so the author can confirm or correct it.
 - State the structural fix, not "add a comment" or "improve clarity": renaming, restructuring, narrowing a type, inlining, extracting, removing.

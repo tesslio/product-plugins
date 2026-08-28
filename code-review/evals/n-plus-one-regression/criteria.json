@@ -1,11 +1,11 @@
 {
-  "context": "The eval checks whether the scale and resilience lens catches a batch-processing regression introduced by replacing one bulk remote call with a remote call per row.",
+  "context": "The eval checks whether the scale and resilience lens stays focused on a batch-processing regression introduced by replacing one bulk remote call with a remote call per row.",
   "type": "weighted_checklist",
   "checklist": [
     {
       "name": "Finds the N+1 remote call regression",
-      "max_score": 30,
-      "description": "States that the new code calls users.get once per audit row instead of using getMany once per unique actorId"
+      "max_score": 25,
+      "description": "States that the new code calls users.get once per audit row instead of deduplicating actorIds and fetching them through bounded getMany batches"
     },
     {
       "name": "Quantifies the scale trigger",
@@ -14,18 +14,18 @@
     },
     {
       "name": "Explains the failure mode",
-      "max_score": 15,
-      "description": "Mentions likely timeout, rate-limit, overload, or partial dependency failure from thousands of remote calls"
+      "max_score": 20,
+      "description": "Connects a slow, rate-limited, overloaded, timed-out, or failed users.get dependency call to the export becoming slow or failing through the Promise.all fan-out"
     },
     {
       "name": "Gives the concrete fix",
       "max_score": 20,
-      "description": "Proposes restoring the batched getMany path, caching by actorId, or another bounded bulk lookup"
+      "description": "Proposes restoring the deduplicated, chunked getMany path, caching by actorId, or another bounded bulk lookup that respects getMany's 500-id limit"
     },
     {
-      "name": "Avoids cold-path nitpicks",
+      "name": "Stays focused on material scale risk",
       "max_score": 15,
-      "description": "Keeps the finding focused on the request path and does not spend the answer on small style or micro-optimization complaints"
+      "description": "Keeps the finding focused on the remote-call fanout and does not spend the answer on Promise.all style, timestamp formatting, or small micro-optimization complaints"
     }
   ]
 }

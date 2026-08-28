@@ -34,6 +34,7 @@ Do not report guards for states the types or the callers already rule out.
 ## Reporting
 
 - State the concrete impact and the input or state that triggers it.
+- For repeatable external side effects, say what state must be repaired, replayed, or refunded if the run is interrupted.
 - At a boundary, name the boundary, the breaking change, the consumer at risk, and the missing migration, deprecation window, or version step.
 - If coverage is missing, identify the exact case: an error path, boundary value, or regression scenario. Avoid a general request for more tests.
 - State the smallest plausible fix or verification.

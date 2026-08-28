@@ -29,5 +29,7 @@ Do not report hypothetical risks without a plausible path through the changed co
 ## Reporting
 
 - Name the untrusted input or controlled authority, the sink or disclosure it reaches, and the impact, in one or two sentences.
+- For authorization or tenant-boundary findings, spell out the unauthorized actor, the missing scope check, and the specific data or operation exposed. Do not stop at "access control issue" or "data leak."
+- Include the smallest boundary fix and, when the change removes an authorization scope, the focused cross-boundary regression test.
 - State the concrete fix: validate at this boundary, parameterize this query, escape this output, move this secret to config. Not generic advice.
 - If coverage is warranted, name the exact actor, resource, or data boundary case to test rather than asking generally for more security tests.
