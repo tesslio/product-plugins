@@ -42,8 +42,7 @@ and do not report a fact restated consistently in two places.
 Read the prose, not the blocks. Whether an embedded workflow, command, or
 configuration block behaves as printed, including every expression inside it,
 belongs to Copyable Snippets, even where the prose introducing it is what made
-the block wrong. A scenario or criterion the change left behind belongs to Eval
-Scenario Integrity.
+the block wrong.
 
 ## Reporting
 
