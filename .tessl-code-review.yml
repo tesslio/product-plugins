@@ -44,6 +44,8 @@ lenses:
       - '**/skills/**'
       - '**/rules/**'
       - '**/hooks/**'
+      - '**/references/**'
+      - '**/scripts/**'
       - '**/evals/**'
       - '**/.tessl-plugin/plugin.json'
       - 'review-lenses/**'

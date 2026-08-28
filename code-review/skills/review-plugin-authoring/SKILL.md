@@ -36,9 +36,11 @@ to run, `evals/`, and the plugin manifest.
 - **Context cost** What the change adds to every future session. Always-on
   content (`rules/`, agent entry points) is paid on every request, skill
   content only when it activates, and a reference file only when it is read.
-- **Packaging** Whether the change ships. Where there is a manifest, a new
-  skill directory absent from its `skills` list is inert; a reference file no
-  instruction points to is never read.
+- **Packaging** Whether the change ships. Where a manifest enumerates what it
+  carries, an addition absent from that list is inert; where the plugin's layout
+  discovers skills from their directories instead, an addition in the wrong
+  place is. Either way, a reference file no instruction points to is never
+  read.
 - **Eval coverage** Whether a change to what a skill does leaves its `evals/`
   criteria asserting the old behavior.
 
