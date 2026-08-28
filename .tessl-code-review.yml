@@ -3,11 +3,12 @@ schemaVersion: 1
 # Every lens runs at medium effort.
 effort: medium
 
-# Five repository lenses review the content this repository is made of, and two
-# of the published defaults review the executable parts. The remaining defaults
-# are left out on purpose: they read changed program logic, and a change here is
-# almost always instruction, a manifest, or an eval scenario, where they have
-# nothing to grip.
+# Four repository lenses review the content this repository is made of, one
+# published lens reviews it as plugin content, and two of the published defaults
+# review the executable parts. The remaining defaults are left out on purpose:
+# they read changed program logic, and a change here is almost always
+# instruction, a manifest, or an eval scenario, where they have nothing to
+# grip.
 lenses:
   # The whole change, whatever it touches. A public repository leaks through any
   # file type, example value, or file name.
@@ -31,11 +32,21 @@ lenses:
     globs:
       - '**/*.md'
 
-  - ref: ./review-lenses/review-eval-scenario-integrity/SKILL.md
+  # The published plugin-authoring lens, read from this repository rather than
+  # from the registry so the change that edits it is reviewed by it. It reads
+  # plugin content as the input to an agent run: whether a description activates,
+  # whether a name an instruction gives resolves, what an addition costs every
+  # future session, and whether a changed behavior left its eval criteria behind.
+  # Skill Instruction Integrity reads the same files for whether a skill agrees
+  # with itself; this lens reads them against the repository and the user.
+  - ref: ./code-review/skills/review-plugin-authoring/SKILL.md
     globs:
+      - '**/skills/**'
+      - '**/rules/**'
+      - '**/hooks/**'
       - '**/evals/**'
-      # A scenario is judged beside the skill it exercises.
-      - '**/skills/**/*.md'
+      - '**/.tessl-plugin/plugin.json'
+      - 'review-lenses/**'
 
   # The release surface: what a plugin publishes, and what documents it.
   - ref: ./review-lenses/review-plugin-release-readiness/SKILL.md

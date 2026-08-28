@@ -11,6 +11,18 @@ The lenses below are the set a review runs by default. Between them, they cover 
 - **review-scale-and-resilience**: what the change costs as load, data volume, and concurrency grow, and what it does when something it depends on fails, including duplicate execution and deployments where old and new code run together.
 - **review-security-and-privacy**: what an adversary could do with the change, and what it exposes about people. Untrusted input reaching a sensitive operation, and data disclosed to a party not entitled to receive it.
 
+## Lenses outside the default set
+
+These ship with the plugin but do not run unless a review names them. They read
+a surface the default lenses have nothing to grip on, so running them on a whole
+repository would mostly produce nothing.
+
+- **review-plugin-authoring**: whether an agent will reach the right skill and then act correctly on it. Frontmatter descriptions that collide or under-trigger, a command or path an instruction names that does not resolve, a step an agent has to guess through, and what a change adds to the standing context cost of every session. Scope it to the paths that hold plugin and skill content.
+
+```bash
+tessl code review --skill tessl/code-review@0.2.0#review-plugin-authoring
+```
+
 ## Selecting lenses
 
 `tessl code review` runs these by default, so a plain run needs no lens selection at all:
