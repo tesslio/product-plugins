@@ -1,0 +1,63 @@
+code-review/skills/review-security-and-privacy/SKILL.md
+  s_76eb552e68370d::t_49d3c73594c6c7 32-33
+code-review/evals/misleading-helper-contract/criteria.json
+  s_76eb552e68370d::t_02aa6d0df08b93 26
+  s_76eb552e68370d::t_ff5e44db3e1863 2,7,29-33
+  s_76eb552e68370d::t_eb51ff32c664cf 13,28
+code-review/.tessl-plugin/plugin.json
+  s_76eb552e68370d::t_5a7783b2da5398 3
+code-review/skills/review-correctness-and-data-integrity/SKILL.md
+  s_76eb552e68370d::t_58f60bf8cd56de 37
+code-review/skills/review-scale-and-resilience/SKILL.md
+  s_76eb552e68370d::t_58f60bf8cd56de 34
+code-review/evals/n-plus-one-regression/task.md
+  s_76eb552e68370d::t_c5a6e86233354b 20,22
+  s_76eb552e68370d::t_66a8efcf8991e7 1,11
+  s_76eb552e68370d::t_5b9e12614dd5de 3
+  s_76eb552e68370d::t_2abea83440bc2b 5,12-15
+code-review/evals/misleading-helper-contract/task.md
+  s_76eb552e68370d::t_ff5e44db3e1863 23-26
+  s_76eb552e68370d::t_66a8efcf8991e7 1
+  s_76eb552e68370d::t_5b9e12614dd5de 3,5
+code-review/evals/retry-duplicate-write/criteria.json
+  s_76eb552e68370d::t_ffa7af4600cc83 2,7,17,26,28
+  s_76eb552e68370d::t_a5bbf1d6b2fd77 18
+code-review/evals/tenant-scope-leak/criteria.json
+  s_76eb552e68370d::t_5a7783b2da5398 2,7,11,13,26-27
+  s_76eb552e68370d::t_3c0e07f6e6ce62 21
+  s_76eb552e68370d::t_5b9e12614dd5de 23
+  s_76eb552e68370d::t_eb51ff32c664cf 28
+code-review/evals/n-plus-one-regression/criteria.json
+  s_76eb552e68370d::t_eb51ff32c664cf 8
+  s_76eb552e68370d::t_2abea83440bc2b 23
+  s_76eb552e68370d::t_c5a6e86233354b 2,7,17,26,28
+  s_76eb552e68370d::t_5b9e12614dd5de 18
+code-review/evals/tenant-scope-leak/task.md
+  s_76eb552e68370d::t_5b9e12614dd5de 3
+  s_76eb552e68370d::t_66a8efcf8991e7 1,5
+  s_76eb552e68370d::t_b219f52bcfc892 28-29
+code-review/skills/review-maintainability-and-code-quality/SKILL.md
+  s_76eb552e68370d::t_66a8efcf8991e7 24-25
+  s_76eb552e68370d::t_02aa6d0df08b93 37
+code-review/evals/retry-duplicate-write/task.md
+  s_76eb552e68370d::t_5b9e12614dd5de 3,5
+  s_76eb552e68370d::t_f225eb737e0a0e 19
+  s_76eb552e68370d::t_66a8efcf8991e7 1
+  s_76eb552e68370d::t_ffa7af4600cc83 23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "0102e28acc16a1e36539fb6a6159bcc9541795b2",
+  "prompts": {},
+  "sessions": {
+    "s_76eb552e68370d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0348c-a954-7a40-89f8-d6fa16b6b730",
+        "model": "gpt-5.5"
+      },
+      "human_author": null
+    }
+  }
+}
