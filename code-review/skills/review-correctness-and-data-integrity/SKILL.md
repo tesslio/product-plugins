@@ -1,6 +1,6 @@
 ---
 name: review-correctness-and-data-integrity
-description: Review a code change for realistic functional defects, data loss, duplicate writes, ordering mistakes, and broken integration contracts. Use as one lens in a code review run when correctness or data integrity may be affected.
+description: Review a code change for realistic functional defects, data loss, duplicate writes, ordering mistakes, race conditions, and broken integration contracts. Use when a Tessl Code Review run selects this lens to review a change for correctness, bugs, data integrity, data corruption, or contract breaks between components. Reviewer instructions that tessl code review and the Tessl Code Review Action load into a reviewer agent, not a standalone skill; the code-review skill handles a direct request to review code.
 ---
 
 # Review lens: Correctness and Data Integrity

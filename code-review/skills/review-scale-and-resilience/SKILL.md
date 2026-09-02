@@ -1,6 +1,6 @@
 ---
 name: review-scale-and-resilience
-description: Review a code change for load, data-volume, concurrency, retry, rollout, dependency-failure, latency, throughput, timeout, and fault-tolerance risks. Use when reviewing for performance under load, scalability, resilience, or failure handling.
+description: Review a code change for load, data-volume, concurrency, retry, rollout, dependency-failure, latency, throughput, timeout, and fault-tolerance risks. Use when a Tessl Code Review run selects this lens to review a change for performance under load, scalability, resilience, failure handling, or fault tolerance. Reviewer instructions that tessl code review and the Tessl Code Review Action load into a reviewer agent, not a standalone skill; the code-review skill handles a direct request to review code.
 ---
 
 # Review lens: Scale and Resilience

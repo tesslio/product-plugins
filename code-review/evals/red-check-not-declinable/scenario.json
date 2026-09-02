@@ -1,0 +1,6 @@
+{
+  "description": "A failing check the pull request caused must be fixed, while a failing check that also fails on the base branch may be declined with that evidence",
+  "include": [
+    "./inputs"
+  ]
+}

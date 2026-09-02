@@ -184,7 +184,7 @@ jobs:
           # Optional. A JSON array replaces the profile's lens selection with an
           # exact ordered list.
           # lenses: >-
-          #   ["tessl/code-review@0.0.3#review-correctness-and-data-integrity"]
+          #   ["tessl/code-review@0.2.0#review-correctness-and-data-integrity"]
           #
           # Supplies the pull-request number for events that carry no
           # pull-request context. Empty on pull_request events, where the Action

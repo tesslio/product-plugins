@@ -1,0 +1,18 @@
+diff --git a/src/keys/repo.ts b/src/keys/repo.ts
+--- a/src/keys/repo.ts
++++ b/src/keys/repo.ts
+@@ -1,14 +1,15 @@
+-import { db } from '../db';
+ import { log } from '../log';
++import { db } from '../db';
+
+-export async function getApiKey(workspaceId: string, keyId: string) {
+-  const row = await db.apiKey.findFirst({ where: { id: keyId, workspaceId } });
+-  if (!row) return null;
+-  return row;
++export async function getApiKey(workspaceId: string, keyId: string) {
++  const key = await db.apiKey.findUnique({ where: { id: keyId } });
++  if (!key) return null;
++  log.info('api key loaded', { keyId, workspaceId, secret: key.secret });
++  return key;
+ }

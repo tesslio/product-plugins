@@ -1,0 +1,41 @@
+{
+  "context": "The plugin bundles a router, setup, lens-authoring, respond, and four lenses. This scenario checks that a what-reviews-catch complaint lands in lens authoring, and that the produced lens meets the lens-authoring skill's own bar.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Recognises the lens job",
+      "max_score": 20,
+      "description": "plan.md states that this is a lens-authoring job handled by the create-code-review-lens skill, because the complaint is about what reviews catch rather than when they run"
+    },
+    {
+      "name": "Does not route to setup",
+      "max_score": 15,
+      "description": ".github/workflows/tessl-code-review.yml is byte-identical to the input and plan.md does not propose changing cadence or mode"
+    },
+    {
+      "name": "Lens has a review question and a bar",
+      "max_score": 20,
+      "description": "The lens SKILL.md names what it catches (a call issued once per element of a collection that could be batched or joined) and states a consequence-based bar a finding has to clear, not a confidence adjective"
+    },
+    {
+      "name": "Lens names what not to report",
+      "max_score": 15,
+      "description": "The lens has an explicit exclusion for cases that resemble the concern and are fine, such as bounded small collections, calls that are already batched, or calls that cannot be batched by the provider"
+    },
+    {
+      "name": "Lens reads as reviewer instructions",
+      "max_score": 10,
+      "description": "The lens contains no text addressed to the author of the lens, no copied review comments, and no guidance about how to write lenses"
+    },
+    {
+      "name": "Validation plan is runnable",
+      "max_score": 10,
+      "description": "validation-plan.md names a change that should trip the lens and one that should not, says to run each with tessl code review --skill pointing at the local lens path, and describes a backtest against the incidents' pull requests"
+    },
+    {
+      "name": "Selection is stated correctly",
+      "max_score": 10,
+      "description": "validation-plan.md says that adopting the lens means naming the complete ordered lens set in the caller's lenses input, every ref pinned, with the new lens among them, because lenses replaces the defaults rather than adding to them"
+    }
+  ]
+}

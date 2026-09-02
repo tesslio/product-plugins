@@ -1,0 +1,26 @@
+{
+  "context": "A red check caused by the pull request cannot be declined; one the base branch already fails can be, with evidence. This scenario has one of each.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Distinguishes the two failures",
+      "max_score": 25,
+      "description": "responses.md states that formatPrice rounding fails only with the PR applied while the legacy exporter test fails on the base branch too, citing the two logs"
+    },
+    {
+      "name": "PR-caused failure fixed",
+      "max_score": 35,
+      "description": "src/money/format.ts is changed so formatPrice returns two decimals for whole numbers (1200 renders as 12.00), and finding 1 is marked fixed"
+    },
+    {
+      "name": "Pre-existing failure declined with evidence",
+      "max_score": 25,
+      "description": "Finding 2 is declined, not fixed and not refuted, with the base-branch log as the anchor and a note that it belongs to separate work; src/export/legacy.ts is unchanged"
+    },
+    {
+      "name": "No 'out of scope' for the caused failure",
+      "max_score": 15,
+      "description": "responses.md does not decline or defer finding 1 on scope grounds"
+    }
+  ]
+}

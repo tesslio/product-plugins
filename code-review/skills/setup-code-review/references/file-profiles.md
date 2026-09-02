@@ -38,7 +38,7 @@ lenses:
   - ref: ./review-lenses/backend/SKILL.md
     globs:
       - apps/backend/**
-  - ref: tessl/code-review@0.1.0#review-security-and-privacy
+  - ref: tessl/code-review@0.2.0#review-security-and-privacy
     effort: high
     globs:
       - infra/**

@@ -1,6 +1,6 @@
 ---
 name: review-maintainability-and-code-quality
-description: Review a code change for maintainability, naming, weak contracts, duplicated local precedent, misleading comments, and API or code surfaces that do not enforce what they promise. Use when reviewing for readability, refactoring, code quality, or API design issues.
+description: Review a code change for maintainability, naming, weak contracts, duplicated local precedent, misleading comments, and API or code surfaces that do not enforce what they promise. Use when a Tessl Code Review run selects this lens to review a change for readability, refactoring safety, code quality, technical debt, or API design. Reviewer instructions that tessl code review and the Tessl Code Review Action load into a reviewer agent, not a standalone skill; the code-review skill handles a direct request to review code.
 ---
 
 # Review lens: Maintainability and Code Quality
