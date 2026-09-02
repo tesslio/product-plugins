@@ -47,8 +47,10 @@ before choosing a disposition.
 For a behavioral claim, a bug, a wrong output, a crash, an unsafe path, verify by
 tracing the execution: name the input or state that triggers it, the path that
 reaches the changed lines, and the wrong outcome. If you cannot trace all three,
-the claim did not reproduce. A claim you cannot check at all is unverified, not
-refuted; say so in the reply.
+the claim did not reproduce. A claim you cannot check at all, because the
+evidence is not in the repository or needs access you lack, is unverified, not
+refuted. It gets no disposition yet: reply with what you would need to check it,
+leave its thread open, and list it under what a human still has to decide.
 
 For a non-behavioral claim, missing coverage, incomplete documentation, a
 maintainability concern, a name, the standard is evidence rather than execution.
@@ -86,6 +88,7 @@ In short, for every finding:
 1. Restate the claim in one line.
 2. Verify it against the code: trace it, or check the evidence.
 3. True and in scope: fix. False: refute. True and not here: decline, with an anchor.
+   Cannot be checked: no disposition; say what is missing and leave it open.
 4. Write the reply for its thread.
 
 ## Some findings cannot be declined
@@ -117,14 +120,15 @@ Act on one only when it is plainly right.
 
 ## Reply on the thread
 
-Every finding you took gets a reply on its own comment thread, so the next round
-can reconcile it:
+Every finding gets a reply on its own comment thread, so the next round can
+reconcile it:
 
 - Fixed: what changed, in one or two sentences. The next round checks the code,
   not your word.
 - Refuted: what failed to reproduce, or what the finding misread. Name the line
   or the behavior.
 - Declined: the anchor you used and, if deferred, where the follow-up went.
+- Unverified: what evidence or access would settle it, and who can supply it.
 
 Resolve a thread only when its disposition is settled. Leave it open when the
 reviewer asked a question that still needs an answer, or when a human still has
