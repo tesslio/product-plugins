@@ -19,7 +19,7 @@
     },
     {
       "name": "Synchronize only recovers a missing initial review",
-      "description": "The workflow admits a synchronize event to the Action only when no trusted prior Tessl review marker exists. The lookup is bounded rather than paginating through an unlimited review history, and an ordinary push after an initial review skips the Action",
+      "description": "The workflow admits a synchronize event to the Action only when no trusted prior Tessl review marker exists. The lookup filters server-side to bounded histories for the trusted automation identities, and an ordinary push after an initial review skips the Action",
       "max_score": 8
     },
     {
@@ -29,12 +29,12 @@
     },
     {
       "name": "Mention guard restricts to pull-request comments",
-      "description": "The admission job's if condition requires github.event.issue.pull_request to be non-null for issue_comment events, so comments on plain issues do not start a runner",
+      "description": "The review job's if condition requires github.event.issue.pull_request to be non-null for issue_comment events, so comments on plain issues do not start a runner",
       "max_score": 6
     },
     {
       "name": "Mention guard matches the Action's mention token",
-      "description": "The admission job's if condition requires the comment body to carry @tessl-code-review rather than firing on any comment, and does not substitute a different command string such as /tessl-review",
+      "description": "The review job's if condition requires the comment body to carry @tessl-code-review rather than firing on any comment, and does not substitute a different command string such as /tessl-review",
       "max_score": 6
     },
     {
@@ -44,7 +44,7 @@
     },
     {
       "name": "Per-pull-request concurrency",
-      "description": "A concurrency block is present whose group interpolates the pull-request number, so concurrent reviews of the same pull request do not overlap",
+      "description": "The review job has a concurrency group that interpolates the pull-request number and contains both admission and the Action step, so overlapping recovery pushes cannot both authorize a review",
       "max_score": 6
     },
     {

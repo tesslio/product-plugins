@@ -126,7 +126,7 @@ installs the current CLI release on every run, so CLI changes reach a repository
 without any edit to its workflow.
 
 **The policy.** Cadence is the `on:` block, the job `if:` guard,
-`cancel-in-progress`, and, for ready-once, the admission job that distinguishes
+`cancel-in-progress`, and, for ready-once, the admission step that distinguishes
 missing-initial recovery from an ordinary push. Blocking is the `mode` input.
 What the reviewer looks for is `profile` and `lenses`. Each is an edit to the
 one caller workflow.
