@@ -1,5 +1,5 @@
 {
-  "context": "The agent must install a fresh Code Review caller workflow with the default cadence (ready-once with missing-initial recovery, plus mention-driven rounds) in advisory mode. This scenario tests trigger selection, bounded recovery admission, the mention guard, the permissions the Action requires, per-pull-request concurrency, SHA pinning, absence of a second execution path, and the explanation the user is left with.",
+  "context": "The agent must install a fresh Code Review caller workflow with the default cadence (ready-once with missing-initial recovery, plus mention-driven rounds) in advisory mode. This scenario tests trigger selection, trusted-author recovery admission, the mention guard, the permissions the Action requires, per-pull-request concurrency, SHA pinning, absence of a second execution path, and the explanation the user is left with.",
   "type": "weighted_checklist",
   "checklist": [
     {
@@ -19,7 +19,7 @@
     },
     {
       "name": "Synchronize only recovers a missing initial review",
-      "description": "The workflow admits a synchronize event to the Action only when no trusted prior Tessl review marker exists. The lookup filters server-side to bounded histories for the trusted automation identities, and an ordinary push after an initial review skips the Action",
+      "description": "The workflow admits a synchronize event to the Action only when no trusted prior Tessl review marker exists. The lookup filters and paginates server-side by trusted automation identity, stops immediately on a marker, and does not confuse incomplete trusted-author history with evidence that no marker exists",
       "max_score": 8
     },
     {

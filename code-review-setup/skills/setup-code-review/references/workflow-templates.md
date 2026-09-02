@@ -101,34 +101,62 @@ jobs:
           set -euo pipefail
 
           if [[ "$EVENT_NAME" == "pull_request" && "$EVENT_ACTION" == "synchronize" ]]; then
-            # shellcheck disable=SC2016 # GraphQL variables are not shell variables.
-            prior_reviews="$(
-              gh api graphql \
-                -F owner="${REPOSITORY%%/*}" \
-                -F name="${REPOSITORY#*/}" \
-                -F number="$PR_NUMBER" \
-                -f query='
-                  query($owner: String!, $name: String!, $number: Int!) {
-                    repository(owner: $owner, name: $name) {
-                      pullRequest(number: $number) {
-                        workflowReviews: reviews(last: 100, author: "github-actions[bot]") {
-                          nodes { body }
-                        }
-                        tesslReviews: reviews(last: 100, author: "tessl-code-review[bot]") {
-                          nodes { body }
+            prior_review_found=false
+            for review_author in "github-actions[bot]" "tessl-code-review[bot]"; do
+              review_cursor_args=()
+              while true; do
+                # shellcheck disable=SC2016 # GraphQL variables are not shell variables.
+                prior_reviews="$(
+                  gh api graphql \
+                    -F owner="${REPOSITORY%%/*}" \
+                    -F name="${REPOSITORY#*/}" \
+                    -F number="$PR_NUMBER" \
+                    -F author="$review_author" \
+                    "${review_cursor_args[@]}" \
+                    -f query='
+                      query(
+                        $owner: String!
+                        $name: String!
+                        $number: Int!
+                        $author: String!
+                        $cursor: String
+                      ) {
+                        repository(owner: $owner, name: $name) {
+                          pullRequest(number: $number) {
+                            reviews(
+                              first: 100
+                              after: $cursor
+                              author: $author
+                            ) {
+                              nodes { body }
+                              pageInfo {
+                                hasNextPage
+                                endCursor
+                              }
+                            }
+                          }
                         }
                       }
-                    }
-                  }
-                ' \
-                --jq '[
-                  .data.repository.pullRequest.workflowReviews.nodes[],
-                  .data.repository.pullRequest.tesslReviews.nodes[]
-                ]'
-            )"
-            if jq -e 'any(.[];
-              (.body // "") | test("<!--\\s*tessl-code-review:run:v1\\s*-->")
-            )' <<< "$prior_reviews" >/dev/null; then
+                    ' \
+                    --jq '.data.repository.pullRequest.reviews'
+                )"
+                if jq -e 'any(.nodes[];
+                  (.body // "") | test("<!--\\s*tessl-code-review:run:v1\\s*-->")
+                )' <<< "$prior_reviews" >/dev/null; then
+                  prior_review_found=true
+                  break 2
+                fi
+                if [[ "$(jq -r '.pageInfo.hasNextPage' <<< "$prior_reviews")" == "false" ]]; then
+                  break
+                fi
+                review_cursor_args=(
+                  -F
+                  "cursor=$(jq -r '.pageInfo.endCursor' <<< "$prior_reviews")"
+                )
+              done
+            done
+
+            if [[ "$prior_review_found" == "true" ]]; then
               echo "matched=false" >> "$GITHUB_OUTPUT"
               exit 0
             fi
