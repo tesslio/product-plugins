@@ -60,9 +60,11 @@ waiting for a status that will not arrive. The Action resolves the reviewed head
 itself, so its own check lands on that head whatever the trigger was, and the
 gate holds on all three cadences.
 
-What the cadence still decides is when a fresh verdict arrives. On manual-only
-and ready-once, a head nobody has asked about carries no verdict yet, and the
-pull request waits until a requested round reviews it.
+What the cadence still decides is when a fresh verdict arrives. Ready-once
+recovers an initial review suppressed by a conflicted opening, but after that
+initial review exists, it behaves like manual-only: a head nobody has asked
+about carries no verdict yet, and the pull request waits until a requested
+round reviews it.
 
 Do not enforce it through review-state protection instead. The Action's approval
 comes from GitHub Actions rather than a person, and a required-approvals rule
@@ -123,9 +125,11 @@ The pin fixes the Action, not the Tessl CLI the Action installs. The Action
 installs the current CLI release on every run, so CLI changes reach a repository
 without any edit to its workflow.
 
-**The policy.** Cadence is the `on:` block, the job `if:` guard, and
-`cancel-in-progress`. Blocking is the `mode` input. What the reviewer looks for is
-`profile` and `lenses`. Each is a small edit to the one caller workflow.
+**The policy.** Cadence is the `on:` block, the job `if:` guard,
+`cancel-in-progress`, and, for ready-once, the admission job that distinguishes
+missing-initial recovery from an ordinary push. Blocking is the `mode` input.
+What the reviewer looks for is `profile` and `lenses`. Each is an edit to the
+one caller workflow.
 
 Re-running this skill against a repository that already has a caller performs an
 update: it keeps the runner, timeout, job name, extra steps, any input the
@@ -152,6 +156,7 @@ Past reviews and comments stay on their pull requests. Nothing removes them.
 | Symptom | Cause to check first |
 | --- | --- |
 | Nothing runs on a fork pull request | Expected. The Action rejects cross-repository pull requests, and a fork `pull_request` run receives no repository secrets either |
+| A conflicted pull request gets no review when opened | GitHub can suppress the opening `pull_request` workflow. Ready-once recovers on the first later commit after the conflict is resolved; manual-only still requires a mention or dispatch |
 | Nothing runs on an `@tessl-code-review` mention, anywhere | The caller workflow is not on the default branch yet. `issue_comment` always runs the default-branch copy |
 | Nothing runs on an `@tessl-code-review` mention, on one pull request | The comment is on an issue rather than a pull request, the comment was edited rather than newly posted, or the handle is not a whole token in the body, so `@tessl-code-reviewer` does not count |
 | A mention starts a run that ends with nothing published | The Action did not admit the comment: the handle is not a whole token, or the author's association is outside `allowed-associations`. The run succeeds and reports `not-requested`, because refusing a comment that did not ask for a review is not a failure |

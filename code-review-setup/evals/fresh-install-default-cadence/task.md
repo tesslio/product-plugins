@@ -10,8 +10,10 @@ The team has already decided how they want it to behave, so no questions need to
 be asked:
 
 - Reviews should run once when a pull request becomes ready for review, and again
-  whenever someone requests a fresh round by commenting on the pull request.
-  Pushing new commits should not start a review on its own.
+  whenever someone requests a fresh round by commenting on the pull request. If
+  GitHub suppresses the opening workflow while the pull request is conflicted,
+  the first later commit should recover that missing initial review. After an
+  initial review exists, pushing new commits should not start another review.
 - Findings must not block merging. The review is advisory information.
 - The reviewer should use the standard review profile with no custom lens
   selection.
@@ -30,8 +32,9 @@ not leave a placeholder in the file.
 Produce the following files:
 
 - The Code Review caller workflow under `.github/workflows/`, invoking
-  `tesslio/code-review-action` and nothing else. Do not copy or reimplement any review,
-  checkout, CLI-setup, or review-publication logic into the workflow.
+  `tesslio/code-review-action` through one Action step. The caller may inspect
+  prior reviews only to recover a missing initial run. Do not copy or reimplement
+  review, checkout, CLI-setup, or review-publication logic into the workflow.
 - `summary.md` at the root of the workspace, documenting the cadence and blocking
   contract that was installed, the repository secret the workflow needs, the
   permissions it grants and why, and how to update or remove the setup later.

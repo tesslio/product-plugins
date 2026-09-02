@@ -200,6 +200,9 @@ Writing is idempotent, and updating preserves user-owned choices:
   step ordering, extra steps that consume the Action's outputs, any input this
   interview did not decide, and any triggers or concurrency settings that are
   compatible with the chosen cadence.
+- Ready-once includes its synchronize admission job. Keep that recovery path
+  when installing or updating the default cadence: it runs the Action only when
+  no trusted initial review exists, rather than turning every push into a review.
 - Re-running against a repository whose caller already matches the interview and
   carries the pin the user selected changes nothing. Say that, rather than
   rewriting the file to make the run look productive.
@@ -225,6 +228,8 @@ After writing, check:
   without it;
 - the concurrency group resolves to a pull-request number on every trigger the
   workflow declares;
+- for ready-once, synchronize reaches the bounded prior-review lookup and the
+  Action job requires its admission output, so an ordinary later push is skipped;
 - exactly one workflow in the repository calls the Action;
 - `TESSL_TOKEN` exists as a repository secret, or the user has been told to
   create one.
@@ -241,6 +246,10 @@ collaborators may unless `approver-logins` names someone, the `TESSL_TOKEN`
 secret, the permissions granted and why, any
 branch-protection step still outstanding, and how to update or remove the setup
 later.
+
+For ready-once, state that the first later commit recovers an initial review
+GitHub suppressed while the pull request was conflicted, but pushes after an
+initial review do not start another round.
 
 For gate mode, the check to require in branch protection is the Action's own
 check, named `Tessl Code Review`. Never the caller's job.

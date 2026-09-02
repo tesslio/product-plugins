@@ -12,7 +12,7 @@ unblocked. Read "What gate mode enforces" below before proposing any gate setup.
 | Option | What happens | Cost and latency | What the author has to remember |
 | --- | --- | --- | --- |
 | Manual only (dispatch and mentions) | Nothing runs until someone asks, by mentioning `@tessl-code-review` in a comment on the pull request or by dispatching the workflow with a pull-request number. Both request paths are part of this cadence | Lowest. One review per explicit request | To ask. No review appears on its own |
-| Ready once, plus mentions (default) | One review when the pull request opens, reopens, or leaves draft, and another whenever someone mentions `@tessl-code-review` in a comment | One review per pull request, plus requested rounds | To ask for a fresh round after pushing fixes |
+| Ready once, plus mentions (default) | One review when the pull request opens, reopens, or leaves draft. If GitHub suppresses that workflow while the pull request is conflicted, the first later commit recovers it. Mentions request later rounds | One review per pull request, plus requested rounds | To ask for a fresh round after pushing fixes |
 | Every commit | Adds a review on every push to the pull-request branch, with the in-flight run canceled when a newer commit lands | Highest. Scales with how often the branch is pushed | Nothing |
 
 Every-commit is safe to run without extra admission logic. The pull-request head
@@ -75,7 +75,7 @@ What the cadence decides is when a fresh verdict arrives:
 | Gate with | What the user gets |
 | --- | --- |
 | Every commit | Every push is reviewed, so every head carries a verdict and the check clears itself once the findings are addressed |
-| Ready once | The first ready head is reviewed. A later push produces a head with no verdict yet, and branch protection holds the pull request until a requested round reviews it |
+| Ready once | The first ready head is reviewed, including recovery on the first later commit if GitHub suppressed the opening workflow. After that initial review, a later push produces a head with no verdict yet, and branch protection holds the pull request until a requested round reviews it |
 | Manual only | No head carries a verdict until someone asks, so branch protection holds every pull request until the first round runs against its current head |
 
 **Recommend every-commit when the user wants the gate to keep up with the branch
@@ -93,9 +93,10 @@ one against the head it reviewed, and a second is a second execution path.
 Whenever gate mode runs on a cadence that does not review pushes, state the
 contract in the summary and leave it as a comment in the installed workflow:
 
-> A blocked pull request does not unblock itself. Pushing fixes does not start a
-> review, so mention `@tessl-code-review` on the pull request to have the new
-> head reviewed and the check reported against it.
+> After the initial review exists, a blocked pull request does not unblock
+> itself. Pushing fixes does not start another review, so mention
+> `@tessl-code-review` on the pull request to have the new head reviewed and the
+> check reported against it.
 
 Gate plus every-commit is the closest thing to continuous enforcement. It costs
 the most, and the gate flips red and green as the branch moves.
