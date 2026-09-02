@@ -1,5 +1,5 @@
 {
-  "context": "The agent must install a fresh Code Review caller workflow with the default cadence (ready-once plus mention-driven rounds) in advisory mode. This scenario tests trigger selection, the mention guard, the permissions the Action requires, per-pull-request concurrency, SHA pinning, absence of a second execution path, and the explanation the user is left with.",
+  "context": "The agent must install a fresh Code Review caller workflow with the default cadence (ready-once with missing-initial recovery, plus mention-driven rounds) in advisory mode. This scenario tests trigger selection, trusted-author recovery admission, the mention guard, the permissions the Action requires, per-pull-request concurrency, SHA pinning, absence of a second execution path, and the explanation the user is left with.",
   "type": "weighted_checklist",
   "checklist": [
     {
@@ -13,8 +13,13 @@
       "max_score": 3
     },
     {
-      "name": "Ready-once pull_request trigger",
-      "description": "The workflow's on.pull_request.types includes ready_for_review and does NOT include synchronize",
+      "name": "Ready-once recovery trigger",
+      "description": "The workflow's on.pull_request.types includes opened, reopened, ready_for_review, and synchronize so a later commit can recover an opening workflow GitHub suppressed",
+      "max_score": 8
+    },
+    {
+      "name": "Synchronize only recovers a missing initial review",
+      "description": "The workflow admits a synchronize event to the Action only when no trusted prior Tessl review marker exists. The lookup filters and paginates server-side by trusted automation identity, stops immediately on a marker, and does not confuse incomplete trusted-author history with evidence that no marker exists",
       "max_score": 8
     },
     {
@@ -24,12 +29,12 @@
     },
     {
       "name": "Mention guard restricts to pull-request comments",
-      "description": "The job's if condition requires github.event.issue.pull_request to be non-null for issue_comment events, so comments on plain issues do not start a review",
+      "description": "The review job's if condition requires github.event.issue.pull_request to be non-null for issue_comment events, so comments on plain issues do not start a runner",
       "max_score": 6
     },
     {
       "name": "Mention guard matches the Action's mention token",
-      "description": "The job's if condition requires the comment body to carry @tessl-code-review rather than firing on any comment, and does not substitute a different command string such as /tessl-review",
+      "description": "The review job's if condition requires the comment body to carry @tessl-code-review rather than firing on any comment, and does not substitute a different command string such as /tessl-review",
       "max_score": 6
     },
     {
@@ -39,7 +44,7 @@
     },
     {
       "name": "Per-pull-request concurrency",
-      "description": "A concurrency block is present whose group interpolates the pull-request number, so concurrent reviews of the same pull request do not overlap",
+      "description": "The review job has a concurrency group that interpolates the pull-request number and contains both admission and the Action step, so overlapping recovery pushes cannot both authorize a review",
       "max_score": 6
     },
     {
@@ -69,12 +74,12 @@
     },
     {
       "name": "No second execution path",
-      "description": "The workflow contains no checkout step, no Tessl CLI installation step, and no step that posts a review, a comment, or a check run itself. Its only substantive step is the tesslio/code-review-action Action",
+      "description": "The workflow contains exactly one tesslio/code-review-action step and no checkout step, Tessl CLI installation step, or step that posts a review, comment, or check run itself. Its only additional behavior is admission that reads prior review markers",
       "max_score": 8
     },
     {
       "name": "Summary states the invocation contract",
-      "description": "summary.md states that reviews run once when the pull request becomes ready and otherwise only when explicitly requested, and names the command used to request a fresh round",
+      "description": "summary.md states that reviews run once when the pull request becomes ready, that the first later commit recovers an opening workflow suppressed by a conflict, and that pushes after the initial review require an explicit requested round. It names the command used to request that round",
       "max_score": 6
     },
     {

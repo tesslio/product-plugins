@@ -30,8 +30,9 @@ Setup is two questions:
 
 - **When do reviews run.** Manual only, where a review runs on an explicit
   dispatch or an `@tessl-code-review` mention and never on its own; once when the
-  pull request becomes ready plus requested rounds (the default); or on every
-  commit.
+  pull request becomes ready, with recovery on the first later commit if GitHub
+  suppressed that initial workflow while the pull request was conflicted, plus
+  requested rounds (the default); or on every commit.
 - **Do findings block.** Advisory, where the review is a comment and no review
   outcome fails the check, or gate, where changes approved passes the check and
   changes requested fails it.

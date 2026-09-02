@@ -1,8 +1,11 @@
 # Caller workflow templates
 
-One template per cadence. They are deliberately near-identical: the cadence
-changes the `on:` block, the job's `if:` guard, and `cancel-in-progress`, and
-nothing else. The blocking choice changes one input, `mode`.
+One template per cadence. Manual-only and every-commit differ mainly in their
+triggers, job guard, and cancellation policy. Ready-once also has an admission
+step inside its per-pull-request concurrency group so a later commit can recover
+an initial review GitHub suppressed while the pull request was conflicted
+without reviewing every ordinary push. The blocking choice changes one input,
+`mode`.
 
 Install to `.github/workflows/tessl-code-review.yml` unless the repository has an
 existing caller or a different naming convention.
@@ -27,7 +30,7 @@ ignores. Do not rename it.
 
 | | Manual only (dispatch and mentions) | Ready once plus mentions | Every commit |
 | --- | --- | --- | --- |
-| `pull_request` trigger | absent | `[opened, reopened, ready_for_review]` | `[opened, reopened, ready_for_review, synchronize]` |
+| `pull_request` trigger | absent | `[opened, reopened, ready_for_review, synchronize]`, with synchronize admitted only to recover a missing initial review | `[opened, reopened, ready_for_review, synchronize]` |
 | `cancel-in-progress` | `false` | `false` | `synchronize` events only |
 | `if:` guard | no `pull_request` clause | includes it | includes it |
 
@@ -37,11 +40,12 @@ ignores. Do not rename it.
 name: Tessl Code Review
 
 # One review when the pull request is ready for review, and another whenever
-# someone mentions @tessl-code-review in a comment on it. Pushing new commits
-# does not start a review on its own.
+# someone mentions @tessl-code-review in a comment on it. If GitHub suppresses
+# the opening workflow while the pull request is conflicted, the first later
+# commit recovers the missing initial review. Other pushes do not start reviews.
 on:
   pull_request:
-    types: [opened, reopened, ready_for_review]
+    types: [opened, reopened, ready_for_review, synchronize]
   issue_comment:
     types: [created]
   pull_request_review_comment:
@@ -61,21 +65,13 @@ permissions:
   issues: write
   pull-requests: write
 
-# One review at a time per pull request. A newer run waits instead of
-# superseding the running one. GitHub holds only one waiting run per group, so
-# a third request arriving during a run replaces the one already waiting.
-concurrency:
-  group: tessl-code-review-${{ github.event.pull_request.number || github.event.issue.number || inputs['pr-number'] }}
-  cancel-in-progress: false
-
 jobs:
+  # A conflicted pull request can suppress its opening pull_request workflow.
+  # A later synchronize event reaches this job so it can recover that missing
+  # initial review without turning this cadence into review-every-commit.
+  # The condition is also a coarse comment prefilter. The Action makes the real
+  # mention and author decision.
   review:
-    # A coarse prefilter, and only that: it keeps a runner from starting for
-    # every comment in the repository. Whether a comment actually requests a
-    # review is the Action's decision — the handle as a whole token, so
-    # @tessl-code-reviewer does not count — and `allowed-associations` below is
-    # where this workflow says who may ask. A workflow expression cannot match a
-    # token boundary, which is why this condition is loose on purpose.
     if: >-
       (github.event_name == 'pull_request' && github.event.pull_request.draft == false) ||
       github.event_name == 'workflow_dispatch' ||
@@ -85,13 +81,96 @@ jobs:
         contains(github.event.comment.body, '@tessl-code-review'))
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    # Admission and review share this group. A second recovery push waits until
+    # the first has published its marker, then observes it and skips the Action.
+    # Requested rounds also wait instead of superseding the running review.
+    concurrency:
+      group: tessl-code-review-${{ github.event.pull_request.number || github.event.issue.number || inputs['pr-number'] }}
+      cancel-in-progress: false
     steps:
+      - name: Decide review admission
+        id: admission
+        env:
+          EVENT_ACTION: ${{ github.event.action }}
+          EVENT_NAME: ${{ github.event_name }}
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number || github.event.issue.number || inputs['pr-number'] }}
+          REPOSITORY: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [[ "$EVENT_NAME" == "pull_request" && "$EVENT_ACTION" == "synchronize" ]]; then
+            prior_review_found=false
+            for review_author in "github-actions[bot]" "tessl-code-review[bot]"; do
+              review_cursor_args=()
+              while true; do
+                # shellcheck disable=SC2016 # GraphQL variables are not shell variables.
+                prior_reviews="$(
+                  gh api graphql \
+                    -F owner="${REPOSITORY%%/*}" \
+                    -F name="${REPOSITORY#*/}" \
+                    -F number="$PR_NUMBER" \
+                    -F author="$review_author" \
+                    "${review_cursor_args[@]}" \
+                    -f query='
+                      query(
+                        $owner: String!
+                        $name: String!
+                        $number: Int!
+                        $author: String!
+                        $cursor: String
+                      ) {
+                        repository(owner: $owner, name: $name) {
+                          pullRequest(number: $number) {
+                            reviews(
+                              first: 100
+                              after: $cursor
+                              author: $author
+                            ) {
+                              nodes { body }
+                              pageInfo {
+                                hasNextPage
+                                endCursor
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ' \
+                    --jq '.data.repository.pullRequest.reviews'
+                )"
+                if jq -e 'any(.nodes[];
+                  (.body // "") | test("<!--\\s*tessl-code-review:run:v1\\s*-->")
+                )' <<< "$prior_reviews" >/dev/null; then
+                  prior_review_found=true
+                  break 2
+                fi
+                if [[ "$(jq -r '.pageInfo.hasNextPage' <<< "$prior_reviews")" == "false" ]]; then
+                  break
+                fi
+                review_cursor_args=(
+                  -F
+                  "cursor=$(jq -r '.pageInfo.endCursor' <<< "$prior_reviews")"
+                )
+              done
+            done
+
+            if [[ "$prior_review_found" == "true" ]]; then
+              echo "matched=false" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+          fi
+
+          echo "matched=true" >> "$GITHUB_OUTPUT"
+
       # The major tag moves to each 1.x release, so fixes arrive without editing
       # this file. Pin the release's full commit SHA instead if you want the
       # revision frozen, and accept that updates then need a deliberate bump.
       # The Action checks out the pull-request head itself, so this job needs no
       # checkout step.
       - uses: tesslio/code-review-action@v1
+        if: steps.admission.outputs.matched == 'true'
         with:
           tessl-token: ${{ secrets.TESSL_TOKEN }}
           # Who may request a review by mentioning the handle. The Action
