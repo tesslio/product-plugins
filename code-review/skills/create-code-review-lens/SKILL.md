@@ -1,6 +1,6 @@
 ---
 name: create-code-review-lens
-description: Author a review lens for Tessl Code Review, the reviewer skill that decides what a review looks for in a diff. Settles the review question and the bar a finding has to clear, drafts the lens, runs it against changes that should and should not trip it, backtests it against changes that already carry review feedback, and packages it as a pinned reference a workflow can select. Use when someone wants their code review to catch something it misses, to stop flagging something it should not, to add a custom review rule or check, to make the reviewer stricter or quieter about one concern, or to write, fork, tune, or debug a code review lens. Not for tessl review rubrics, which score skill quality rather than code.
+description: Author a review lens for Tessl Code Review, the reviewer skill that decides what a review looks for in a diff. Settles the review question and the bar a finding has to clear, drafts the lens, runs it against changes that should and should not trip it, backtests it against changes that already carry review feedback, and packages it as a pinned reference a workflow can select. Use when someone wants their code review to catch something it misses, to stop flagging something it should not, or to write, fork, tune, or debug a code review lens. Not for `tessl review` rubrics, which score skill quality rather than code.
 ---
 
 # Create a Tessl Code Review lens

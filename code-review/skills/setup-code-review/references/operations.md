@@ -143,18 +143,11 @@ that already carries the input keeps it.
 
 ## Removing
 
-1. Delete the caller workflow file. If more than one workflow invokes the
-   Action, delete each of them; removal means no workflow calls the Action.
+1. Delete the caller workflow file.
 2. Delete the `TESSL_TOKEN` repository secret if nothing else uses it.
 3. If gate mode was enabled, remove the `Tessl Code Review` check from branch
    protection. A required check that nothing reports will block every pull
    request indefinitely, so do this before or with step 1.
-
-That is the whole removal. Code Review on a repository is the caller workflow,
-the secret, and the required check. Do not touch the project's `tessl.json`,
-its installed plugins under `.tessl/`, agent skill directories, or any other
-workflow. Those belong to the developer's tooling, not to Code Review, and
-removing them is a different request the user has to make separately.
 
 Past reviews and comments stay on their pull requests. Nothing removes them.
 

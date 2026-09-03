@@ -19,11 +19,14 @@ or publication logic, and it never adds a second execution path.
 
 ## The Action repository
 
-The supported Action is `tesslio/code-review-action`. Everywhere else in this
-skill, "the Action repository" means that repository, and the templates carry
-it on their `uses:` lines. If the name ever changes, update it here, on the
-templates, and on the `uses:` line of any installed caller; the reference after
-the `@` stays.
+The supported Action is `tesslio/code-review-action`.
+
+This is the only place that name is decided; it is written in several. Everywhere
+else in this skill, "the Action repository" means that repository, and the
+templates carry it on their `uses:` lines. If the name ever changes, update it
+here, on the templates' `uses:` lines, and on the `uses:` line of any workflow
+already installed in a repository. The repository path is what changes; the
+reference after the `@` stays. Nothing else about the setup changes.
 
 ## Procedure
 
@@ -105,14 +108,12 @@ question to confirm what it already has. Handle it when it comes up instead:
 - The detect phase found `approver-logins` already set. Report it in phase 3 and
   leave it alone unless the user asks.
 
-Do not ask about any of these; each has a default the repository should keep:
-
-- the executor, harness, backend endpoint, or telemetry;
-- the CLI version or channel: the Action installs the current release, so a
-  repository that leaves it alone picks up improvements without editing its
-  workflow;
-- the reasoning effort: the templates never set it, and a repository that wants
-  to tune it sets `effort` in its profile (see the file-profiles reference).
+Do not ask about the executor, the harness, the backend endpoint, the CLI
+version, the CLI channel, or telemetry. The Action installs the current Tessl CLI
+release, and a repository that leaves it alone picks up CLI improvements without
+editing its workflow. Do not ask about the reasoning effort either: the
+templates never set it, and a repository that wants to tune it sets `effort` in
+its profile, which the file-profiles reference explains.
 
 ### 3. Propose
 
@@ -258,17 +259,6 @@ check, named `Tessl Code Review`. Never the caller's job.
 The details for the secret, permissions, branch protection, update, and removal
 are in [references/operations.md](references/operations.md). Do not paste that
 file wholesale. Pull out the parts that apply.
-
-## Removing
-
-Removal is the reverse of setup and touches only what setup put there: every
-workflow that invokes the Action, the `TESSL_TOKEN` secret if nothing else uses
-it, and the `Tessl Code Review` check in branch protection. The project's
-`tessl.json`, its installed plugins under `.tessl/`, agent skill directories,
-and unrelated workflows are the developer's tooling, not Code Review. Leave them
-alone even when asked to remove Code Review "entirely", and say what was left
-and why. The steps and their order are in
-[references/operations.md](references/operations.md).
 
 ## Customizing the review itself
 

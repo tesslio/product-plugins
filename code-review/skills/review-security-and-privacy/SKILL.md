@@ -1,6 +1,6 @@
 ---
 name: review-security-and-privacy
-description: Review a code change for trust-boundary, authorization, injection, secret-handling, logging, and privacy disclosure risks. Use when a Tessl Code Review run selects this lens to review a change for security, privacy, vulnerabilities, auth bugs, secrets in logs, sensitive-data exposure, or PII disclosure. Reviewer instructions that tessl code review and the Tessl Code Review Action load into a reviewer agent, not a standalone skill; the code-review skill handles a direct request to review code.
+description: Review a code change for trust-boundary, authorization, injection, secret-handling, logging, and privacy disclosure risks. Use when reviewing for security, privacy, vulnerabilities, auth bugs, secrets in logs, sensitive-data exposure, or PII disclosure.
 ---
 
 # Review lens: Security and Privacy
