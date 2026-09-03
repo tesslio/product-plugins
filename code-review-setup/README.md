@@ -6,4 +6,4 @@
 tessl install tessl/code-review
 ```
 
-Versions of this plugin up to 0.3.0 keep working as published. This version only points at the new home.
+Versions of this plugin up to 0.3.1 keep working as published. This version only points at the new home.

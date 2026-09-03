@@ -1,6 +1,6 @@
 {
   "name": "tessl/code-review-setup",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Moved. The Code Review setup skill now ships in tessl/code-review, alongside the default lenses, lens authoring, and review responses. Install tessl/code-review instead. This version only points there.",
   "private": false,
   "skills": [
