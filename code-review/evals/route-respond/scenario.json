@@ -1,0 +1,6 @@
+{
+  "description": "A request to deal with review comments that have arrived on the user's own pull request must be recognised as a respond job, and each finding must receive exactly one verified disposition",
+  "include": [
+    "./inputs"
+  ]
+}

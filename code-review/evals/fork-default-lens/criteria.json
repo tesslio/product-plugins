@@ -1,0 +1,41 @@
+{
+  "context": "Forking a default lens is the documented tuning path. This scenario checks the fork keeps what it should, drops what was asked, adds a dimension that meets the lens bar, and that selection semantics are stated correctly.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Starts from the default lens",
+      "max_score": 15,
+      "description": "The fork keeps the default lens's structure (scope, method, threshold, reporting) and its remaining dimensions (load, data volume, concurrency, dependency failure, duplicate execution) recognisably intact"
+    },
+    {
+      "name": "Rollout dimension removed",
+      "max_score": 15,
+      "description": "The fork contains no instruction about rollouts, mixed old-and-new versions, or deployment ordering"
+    },
+    {
+      "name": "Idempotency dimension has a bar",
+      "max_score": 20,
+      "description": "The added dimension states a consequence-based bar: a retry or duplicate delivery can cause a charge, refund, or ledger write to happen more than once, named as money moving twice or a ledger disagreeing with the processor"
+    },
+    {
+      "name": "Idempotency dimension has an exclusion",
+      "max_score": 15,
+      "description": "The fork names cases that resemble the concern and are fine, such as writes already guarded by an idempotency key or a unique constraint, or reads"
+    },
+    {
+      "name": "Local iteration command",
+      "max_score": 10,
+      "description": "usage.md gives tessl code review --skill ./review-lenses/review-scale-and-resilience-payments (a local path) for iterating"
+    },
+    {
+      "name": "Complete pinned lens set",
+      "max_score": 20,
+      "description": "usage.md's lenses input names all four lenses that should run: the three remaining defaults as pinned tessl/code-review@<version>#... refs plus the fork, and says the input replaces the defaults rather than adding to them"
+    },
+    {
+      "name": "Fork is not a registry ref",
+      "max_score": 5,
+      "description": "usage.md does not invent a registry ref for the fork; it references the fork by repository path, or says publishing it as a plugin is the step that would give it one"
+    }
+  ]
+}

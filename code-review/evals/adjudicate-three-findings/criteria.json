@@ -1,0 +1,36 @@
+{
+  "context": "Checks the respond skill's core contract: verify each claim against the code, then fix, refute, or decline, with refute reserved for false claims and decline for true ones not actioned here.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Goal stated first",
+      "max_score": 10,
+      "description": "responses.md opens with what the PR was opened to do, from pr.md, before any finding"
+    },
+    {
+      "name": "Finding 1 fixed correctly",
+      "max_score": 25,
+      "description": "src/orders/cancel.ts no longer allows cancelling an order whose status is shipped or delivered; the check is applied before the status write; responses.md marks finding 1 fixed and describes the change"
+    },
+    {
+      "name": "Finding 2 refuted with a trace",
+      "max_score": 25,
+      "description": "responses.md refutes finding 2 (that cancelOrder can be called without authentication) by pointing at requireUser on the route in src/orders/routes.ts, and does not mark it declined"
+    },
+    {
+      "name": "Finding 3 declined on the goal",
+      "max_score": 25,
+      "description": "responses.md declines finding 3 (add retry handling to refund.ts) as true but outside this PR's goal, anchored on pr.md, names it as follow-up work, and src/orders/refund.ts is unchanged; it is not refuted"
+    },
+    {
+      "name": "No scope widening",
+      "max_score": 10,
+      "description": "Only src/orders/cancel.ts changes; no other file is modified or created apart from responses.md"
+    },
+    {
+      "name": "Replies are postable",
+      "max_score": 5,
+      "description": "Each reply in responses.md is one to three sentences a maintainer could paste on the thread, and names the line or behaviour it relies on"
+    }
+  ]
+}

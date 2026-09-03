@@ -1,0 +1,6 @@
+{
+  "description": "An ambiguous request for automated pull-request review on a repository with no Code Review caller must be recognised as a setup job and handled by the setup procedure, not by writing a lens or reviewing code",
+  "include": [
+    "./inputs"
+  ]
+}

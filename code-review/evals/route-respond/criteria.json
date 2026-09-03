@@ -1,0 +1,36 @@
+{
+  "context": "The plugin bundles a router, setup, lens-authoring, respond, and four lenses. This scenario checks that review feedback on the user's own pull request lands in the respond skill, and that fix, refute, and decline are used correctly against the code.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Recognises the respond job",
+      "max_score": 20,
+      "description": "plan.md states that this is a respond-to-review job handled by the respond-to-code-review skill, because a review has arrived on the user's own pull request"
+    },
+    {
+      "name": "States the goal before the findings",
+      "max_score": 10,
+      "description": "responses.md or plan.md states what the pull request was opened to do, taken from pr.md, before adjudicating any finding"
+    },
+    {
+      "name": "Finding 1 fixed",
+      "max_score": 20,
+      "description": "The percentage discount clamp is fixed in src/cart/discounts.ts so a percentage above 100 cannot produce a negative total, and responses.md marks finding 1 fixed with the change described"
+    },
+    {
+      "name": "Finding 2 refuted with evidence",
+      "max_score": 20,
+      "description": "responses.md refutes finding 2 (the claim that applyDiscount mutates the cart argument) by pointing at the object spread that returns a new cart, and does not mark it declined or fixed"
+    },
+    {
+      "name": "Finding 3 declined, not refuted",
+      "max_score": 20,
+      "description": "responses.md declines finding 3 (the request to also migrate src/cart/tax.ts to the new rounding helper) as true but outside the pull request's goal, anchors the decline on that goal, and names it as follow-up work; it is not refuted and tax.ts is not changed"
+    },
+    {
+      "name": "One disposition each",
+      "max_score": 10,
+      "description": "Every finding has exactly one of fixed, refuted, declined, with a reason; none is skipped or given two"
+    }
+  ]
+}

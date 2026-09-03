@@ -1,0 +1,26 @@
+{
+  "context": "Refute and decline are not interchangeable. This scenario has a single true finding that the project's documented rules say not to action in this PR, and checks that the skill declines rather than refutes.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Acknowledges the claim is true",
+      "max_score": 30,
+      "description": "responses.md states plainly that the finding is correct: there is no test for the empty-input case"
+    },
+    {
+      "name": "Disposition is declined",
+      "max_score": 40,
+      "description": "The disposition is declined, not refuted and not fixed; no test file is added"
+    },
+    {
+      "name": "Anchored on a documented rule",
+      "max_score": 20,
+      "description": "The decline cites CONTRIBUTING.md's rule that hotfix PRs ship without new tests and that tests follow in the tracked follow-up, and names that follow-up"
+    },
+    {
+      "name": "Reply is respectful and specific",
+      "max_score": 10,
+      "description": "The reply does not call the finding wrong, does not argue the test would be pointless, and is short enough to post"
+    }
+  ]
+}

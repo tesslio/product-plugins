@@ -1,0 +1,41 @@
+{
+  "context": "The plugin bundles a router skill, a setup skill, a lens-authoring skill, a respond skill, and four review lenses. This scenario checks that a vague request for automated review lands in the setup skill and that the setup skill's contract is honoured.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Recognises the setup job",
+      "max_score": 20,
+      "description": "plan.md states that this is a Code Review setup (installation) job handled by the setup-code-review skill, and gives a reason grounded in the repository having no existing Code Review caller"
+    },
+    {
+      "name": "Does not route elsewhere",
+      "max_score": 15,
+      "description": "No review lens is authored, no code review of the repository's code is produced, and the four review-* lens skills are not presented as having been followed"
+    },
+    {
+      "name": "Caller workflow written",
+      "max_score": 20,
+      "description": "A workflow under .github/workflows/ contains exactly one step using tesslio/code-review-action, with tessl-token from secrets.TESSL_TOKEN, and no checkout, CLI install, or review-posting steps of its own"
+    },
+    {
+      "name": "Recommended defaults stated",
+      "max_score": 15,
+      "description": "plan.md says reviews run once when a pull request becomes ready plus requested rounds, that findings are advisory, and that the standard profile with no custom lenses is used"
+    },
+    {
+      "name": "Action reference follows the recommended form",
+      "max_score": 10,
+      "description": "The uses: line references tesslio/code-review-action at the major tag v1, or at a full 40-character commit SHA with the release named in plan.md; never main, canary, or a placeholder"
+    },
+    {
+      "name": "Permissions and concurrency",
+      "max_score": 10,
+      "description": "permissions is exactly contents: read, checks: write, issues: write, pull-requests: write, and the review job has a per-pull-request concurrency group with cancel-in-progress false"
+    },
+    {
+      "name": "Existing CI untouched",
+      "max_score": 10,
+      "description": ".github/workflows/ci.yml is byte-identical to the input"
+    }
+  ]
+}

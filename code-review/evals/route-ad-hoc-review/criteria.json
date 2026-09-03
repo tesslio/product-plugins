@@ -1,0 +1,36 @@
+{
+  "context": "The plugin's four review-* skills are reviewer instructions for tessl code review, not skills for an agent to follow when asked to review code. This scenario checks that an ad hoc review request does not fragment into per-lens reports and that the agent knows how to invoke the real tool.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "One coherent review",
+      "max_score": 25,
+      "description": "review.md is a single review with a unified findings list; it is not structured as four separate lens reports and does not present the review-* skills as instructions that were followed"
+    },
+    {
+      "name": "Finds the scope removal",
+      "max_score": 25,
+      "description": "review.md reports that the changed query drops the workspaceId filter, so a caller can read another workspace's API key by id, naming the actor, the missing boundary, and the disclosed field"
+    },
+    {
+      "name": "Finds the logged secret",
+      "max_score": 15,
+      "description": "review.md reports that the new log line writes the API key value, which discloses it to anyone with log access"
+    },
+    {
+      "name": "Does not pad",
+      "max_score": 10,
+      "description": "review.md raises no finding about the renamed variable or the reordered imports, or explicitly dismisses them as immaterial"
+    },
+    {
+      "name": "Names the CLI command correctly",
+      "max_score": 15,
+      "description": "review.md gives a tessl code review command that would review this change, and if it narrows to security it uses --skill with a pinned tessl/code-review@<version>#review-security-and-privacy ref and says that --skill replaces the default lens set"
+    },
+    {
+      "name": "Does not overclaim",
+      "max_score": 10,
+      "description": "review.md does not describe itself as a Tessl Code Review run or claim a verdict such as changes requested; it distinguishes this ad hoc read from a run of the tool"
+    }
+  ]
+}

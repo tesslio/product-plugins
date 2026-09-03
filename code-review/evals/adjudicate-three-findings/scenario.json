@@ -1,0 +1,6 @@
+{
+  "description": "Three findings on the user's pull request, one true and in scope, one false, one true but out of scope, each receiving exactly the right disposition with a reply",
+  "include": [
+    "./inputs"
+  ]
+}

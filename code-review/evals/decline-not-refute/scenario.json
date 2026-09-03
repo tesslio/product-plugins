@@ -1,0 +1,6 @@
+{
+  "description": "A finding that is true and unwelcome must be declined with an anchor, never refuted",
+  "include": [
+    "./inputs"
+  ]
+}

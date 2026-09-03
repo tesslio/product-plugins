@@ -1,0 +1,24 @@
+name: Tessl Code Review
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review, synchronize]
+  issue_comment:
+    types: [created]
+permissions:
+  contents: read
+  checks: write
+  issues: write
+  pull-requests: write
+jobs:
+  review:
+    if: github.event_name != 'issue_comment' || (github.event.issue.pull_request && startsWith(github.event.comment.body, '@tessl-code-review'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    concurrency:
+      group: tessl-code-review-${{ github.event.pull_request.number || github.event.issue.number }}
+      cancel-in-progress: false
+    steps:
+      - uses: tesslio/code-review-action@v1
+        with:
+          tessl-token: ${{ secrets.TESSL_TOKEN }}
+          pr-number: ${{ github.event.pull_request.number || github.event.issue.number }}

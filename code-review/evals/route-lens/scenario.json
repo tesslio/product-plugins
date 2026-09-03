@@ -1,0 +1,6 @@
+{
+  "description": "A complaint that reviews keep missing a class of bug must be recognised as a lens-authoring job, producing a lens draft and a validation plan, without touching the caller workflow",
+  "include": [
+    "./inputs"
+  ]
+}

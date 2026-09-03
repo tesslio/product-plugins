@@ -1,0 +1,6 @@
+{
+  "description": "An ad hoc request to review a diff, with the whole plugin available, must produce one coherent review rather than following the four lens skills as standalone instructions, and must point at the CLI command that runs a real Tessl Code Review",
+  "include": [
+    "./inputs"
+  ]
+}
