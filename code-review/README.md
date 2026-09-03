@@ -83,7 +83,7 @@ The default lenses are meant to be forked. Copy one into your repository, tune i
 
 ## Answer it
 
-`respond-to-code-review` works a review that has arrived on your pull request. It starts from what the pull request was opened to do, verifies each finding against the code, then gives each exactly one disposition: fix, refute, or decline with a reason. It replies on every thread, resolves the settled ones, and asks for the next round with `@tessl-code-review` when the code is pushed. When rounds stop converging it stops and puts the disagreement in front of a human instead of running another one.
+`respond-to-code-review` works a review that has arrived on your pull request. It starts from what the pull request was opened to do, verifies each finding against the code, then gives each one disposition: fix, refute, or decline with a reason. A finding it cannot check gets no disposition yet; it stays open with a note of what would settle it. It replies on every thread, resolves the settled ones, and asks for the next round with `@tessl-code-review` when the code is pushed. When rounds stop converging it stops and puts the disagreement in front of a human instead of running another one.
 
 ## Skills
 
