@@ -1,9 +1,0 @@
-{
-  "name": "tessl/code-review-lens-creator",
-  "version": "0.1.2",
-  "description": "Moved. The Code Review lens authoring skill now ships in tessl/code-review, alongside the default lenses, setup, and review responses. Install tessl/code-review instead. This version only points there.",
-  "private": false,
-  "skills": [
-    "skills/create-code-review-lens"
-  ]
-}
