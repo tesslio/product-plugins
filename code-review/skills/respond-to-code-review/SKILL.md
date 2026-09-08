@@ -140,7 +140,7 @@ skipped.
 When every finding has a reply and the code is pushed, ask for a fresh round by
 commenting `@tessl-code-review` on the pull request. The comment must begin with
 the mention; a mention inside a quote or a code span asks for nothing. Who may
-ask is decided by the repository's caller workflow.
+ask is decided by the repository's Code Review configuration.
 
 Some repositories let a comment beginning `@tessl-code-review approve` request
 approval without another review round. Use it only when the repository's

@@ -5,11 +5,12 @@
 We heard Tessl can review pull requests. This repository has one workflow,
 `.github/workflows/ci.yml`, which runs the tests. Nothing reviews the code.
 
-Make it so that Tessl reviews our pull requests. We do not have strong opinions:
-take whatever defaults you recommend, but tell us what you chose. The review
-should not block merging for now. The Tessl API token is stored as the
-repository secret `TESSL_TOKEN`. The team pins third-party actions to the
-reference the vendor recommends.
+We cannot install GitHub Apps in this organization, so set Tessl Code Review up
+as a GitHub Action. Past that we do not have strong opinions: take whatever
+defaults you recommend, but tell us what you chose. The review should not block
+merging for now. The Tessl API token is stored as the repository secret
+`TESSL_TOKEN`. The team pins third-party actions to the reference the vendor
+recommends.
 
 ## Output Specification
 

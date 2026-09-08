@@ -2,7 +2,7 @@
 
 Tessl Code Review in one plugin: set it up on a repository, run it, tune what it catches, and answer what it finds.
 
-Tessl Code Review reviews a change with several reviewers in parallel, one per lens, then merges and grades their findings into one review. It runs from the CLI as `tessl code review`, and on GitHub through the [Tessl Code Review Action](https://github.com/tesslio/code-review-action).
+Tessl Code Review reviews a change with several reviewers in parallel, one per lens, then merges and grades their findings into one review. It runs from the CLI as `tessl code review`, and on GitHub as the Tessl Review GitHub App.
 
 ## Install
 
@@ -18,21 +18,20 @@ Tell your agent what you want. The `code-review` skill works out which job it is
 
 | You want to | Skill | Say something like |
 | --- | --- | --- |
-| Add Code Review to a repository, change when it runs or whether it blocks, or remove it | `setup-code-review` | "Set up Tessl Code Review on this repo, advisory, on every PR" |
+| Add Code Review to a repository | the Tessl Review GitHub App, below | "Set up Tessl Code Review on this repo" |
 | Review a change right now | `tessl code review` | "Review this branch against main" |
 | Make reviews catch something they miss, or stop flagging something they should not | `create-code-review-lens` | "Our reviews keep missing N+1 queries" |
 | Deal with a review that has arrived on your pull request | `respond-to-code-review` | "Address the Tessl review on PR 42" |
 
 ## Set it up
 
-`setup-code-review` inspects the repository, asks two questions, and writes one thin caller workflow that invokes the Action. Nothing else is copied into the repository.
+Tessl Code Review runs on GitHub as the **Tessl Review GitHub App**. Installing the App is the supported way to install it:
 
-The two questions:
+https://docs.tessl.io/tutorials/setting-up-agentic-code-review
 
-- **When do reviews run.** Once when the pull request becomes ready plus requested rounds (the default); on every commit; or manual only, where a review runs on an explicit dispatch or an `@tessl-code-review` mention.
-- **Do findings block.** Advisory, where the review is a comment and no outcome fails the check; or gate, where changes approved passes the check and changes requested fails it.
+Installing the App is not enough on its own. The repository also has to be enabled in Tessl before any review runs.
 
-The workflow references the Action by its major tag, `@v1`, so fixes reach the repository without editing the file. A repository that wants the revision frozen gets the current release's full commit SHA instead. The skill then explains the `TESSL_TOKEN` secret, the four permissions it grants, the branch-protection step for gate mode, and how to update or remove the setup.
+The `setup-code-review` skill sets Code Review up as a GitHub Action instead. That path is unsupported and kept only for people who cannot install a GitHub App, so the `code-review` router follows it only when the user asks for the GitHub Action by name.
 
 ## Run it
 
@@ -66,18 +65,11 @@ tessl code review \
 tessl code review --skill ./review-lenses/review-scale-and-resilience   # a lens you keep locally
 ```
 
-The Action runs the same defaults unless its `lenses` input names a complete ordered set of its own:
-
-```yaml
-lenses: >-
-  ["tessl/code-review@0.2.0#review-security-and-privacy"]
-```
-
-A repository YAML profile can also route lenses to paths with globs. `setup-code-review` knows the profile format.
+An automated review runs the same defaults unless its lens selection names a complete ordered set of its own. A repository YAML profile can also route lenses to paths with globs; `setup-code-review` carries the profile format.
 
 ## Tune it
 
-`create-code-review-lens` turns a review concern into a lens that has been run, tuned, and pinned. It settles the review question and the bar a finding has to clear, drafts the lens, runs it against a change that should trip it and one that should not, backtests it against changes that already carry review feedback, and pins the reference a workflow can select.
+`create-code-review-lens` turns a review concern into a lens that has been run, tuned, and pinned. It settles the review question and the bar a finding has to clear, drafts the lens, runs it against a change that should trip it and one that should not, backtests it against changes that already carry review feedback, and pins the reference a review can select.
 
 The default lenses are meant to be forked. Copy one into your repository, tune it, and reference it by local path. A skill needs `name` and `description` frontmatter; past that, the shape most lenses use is Scope, Method, Threshold, Reporting. Keep a lens short and carry only what makes it distinct.
 
@@ -90,7 +82,7 @@ The default lenses are meant to be forked. Copy one into your repository, tune i
 | Skill | Description |
 | --- | --- |
 | `code-review` | Start here. Routes a request to the right job below, and runs a review from the CLI. |
-| `setup-code-review` | Detect, interview, propose, write, verify, and explain the Code Review caller workflow. |
+| `setup-code-review` | Unsupported. Detect, interview, propose, write, verify, and explain a GitHub Action caller workflow. |
 | `create-code-review-lens` | Settle the review question and threshold, draft the lens, run and backtest it, then pin it. |
 | `respond-to-code-review` | Adjudicate each finding on your pull request, reply, and keep the pull request on its goal. |
 | `review-correctness-and-data-integrity` | Default lens. Functional defects, data loss, duplicate writes, ordering, integration contracts. |
@@ -100,6 +92,7 @@ The default lenses are meant to be forked. Copy one into your repository, tune i
 
 ## Related
 
-- [Tessl Code Review Action](https://github.com/tesslio/code-review-action), which the caller workflow invokes.
+- [Setting up agentic code review](https://docs.tessl.io/tutorials/setting-up-agentic-code-review), the supported install path.
+- [Tessl Code Review Action](https://github.com/tesslio/code-review-action), which the unsupported caller workflow invokes.
 - `tessl/plugin-creator`, for packaging a lens of your own as a plugin to share across repositories.
 - `tessl/review-plugin-creator`, for `tessl review` rubrics, which score skill quality rather than code.

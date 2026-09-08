@@ -3,7 +3,7 @@
 ## Problem Description
 
 A platform team wants Tessl Code Review installed in this repository using the
-supported Action, `tesslio/code-review-action`. Their release process is deliberate and
+GitHub Action, `tesslio/code-review-action`. Their release process is deliberate and
 they do not want review runs firing on pull-request activity.
 
 Their decisions, already made:

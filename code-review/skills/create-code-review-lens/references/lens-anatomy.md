@@ -47,7 +47,7 @@ Do not report additive changes that leave existing readers working, or migration
 - State the safe form: the backfill, the two-step deploy, the nullable intermediate.
 ```
 
-**Frontmatter.** `name` matches the directory and is what a reference selects, so it is the lens's identity in a workflow file for as long as the lens exists. `description` is what an agent reads when deciding whether to use this skill: what the lens covers, then what kind of thing it is. Keeping that second sentence recognizable is what stops a lens being mistaken for a review rubric.
+**Frontmatter.** `name` matches the directory and is what a reference selects, so it is the lens's identity in a lens selection for as long as the lens exists. `description` is what an agent reads when deciding whether to use this skill: what the lens covers, then what kind of thing it is. Keeping that second sentence recognizable is what stops a lens being mistaken for a review rubric.
 
 **Title.** `# Review lens: <Subject>`.
 

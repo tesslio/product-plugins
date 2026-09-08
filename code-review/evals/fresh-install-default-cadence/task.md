@@ -4,7 +4,7 @@
 
 This repository has one existing GitHub Actions workflow, `.github/workflows/ci.yml`,
 which runs the test suite. The team wants automated pull-request review added
-alongside it, using the supported Tessl Code Review Action, `tesslio/code-review-action`.
+alongside it, using the Tessl Code Review Action, `tesslio/code-review-action`.
 
 The team has already decided how they want it to behave, so no questions need to
 be asked:
