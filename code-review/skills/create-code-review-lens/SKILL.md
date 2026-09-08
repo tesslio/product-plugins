@@ -1,13 +1,13 @@
 ---
 name: create-code-review-lens
-description: Author a review lens for Tessl Code Review, the reviewer skill that decides what a review looks for in a diff. Settles the review question and the bar a finding has to clear, drafts the lens, runs it against changes that should and should not trip it, backtests it against changes that already carry review feedback, and packages it as a pinned reference a workflow can select. Use when someone wants their code review to catch something it misses, to stop flagging something it should not, or to write, fork, tune, or debug a code review lens. Not for `tessl review` rubrics, which score skill quality rather than code.
+description: Author a review lens for Tessl Code Review, the reviewer skill that decides what a review looks for in a diff. Settles the review question and the bar a finding has to clear, drafts the lens, runs it against changes that should and should not trip it, backtests it against changes that already carry review feedback, and packages it as a pinned reference a review can select. Use when someone wants their code review to catch something it misses, to stop flagging something it should not, or to write, fork, tune, or debug a code review lens. Not for `tessl review` rubrics, which score skill quality rather than code.
 ---
 
 # Create a Tessl Code Review lens
 
 A lens is a reviewer skill. Which lenses run, and what each one says, is what decides what a code review looks for.
 
-`tessl/code-review` publishes the lenses a review runs by default. A repository adds to that set, or replaces it, through the CLI's `--skill` flag or the Action's `lenses` input.
+`tessl/code-review` publishes the lenses a review runs by default. A repository adds to that set, or replaces it, through the CLI's `--skill` flag or through the lens selection its automated review is configured with.
 
 This skill turns a review concern into a lens that has been run, tuned, and pinned.
 
@@ -18,7 +18,7 @@ It does not build `tessl review` rubrics, which score how good a skill is rather
 Six facts that change how a lens should be written:
 
 - **Each lens gets its own reviewer.** A lens runs as its own agent, with its `SKILL.md` and any bundled files as its only instructions. Lenses run in parallel and never see each other's findings.
-- **Every lens runs on every diff.** Nothing written in a lens makes it skip a change. Limiting a lens to certain paths is the caller workflow's job.
+- **Every lens runs on every diff.** Nothing written in a lens makes it skip a change. Limiting a lens to certain paths is the review profile's job.
 - **Severity is decided after the lens runs.** The review merges overlapping findings and grades each one, and the grade is what decides whether the review requires changes. State impact plainly enough to be graded: `critical` and `major` always require changes, `nit` never does, `minor` only on the first review of a pull request.
 - **A finding without a line lands in the summary.** Inline comments sit on a changed line. A finding about something missing has no line to sit on, so it arrives in the summary and has to stand on its own.
 - **`--skill` replaces the defaults rather than adding to them.** Naming one lens makes it the whole review.
@@ -79,17 +79,17 @@ tessl code review --skill ./review-lenses/review-test-reliability
 
 To share a lens across repositories, publish it as a plugin. Use `tessl/plugin-creator` for the packaging and publishing.
 
-Pin the version in any reference you keep. An unpinned registry ref resolves to whatever is published latest, so its meaning changes under the workflow that names it:
+Pin the version in any reference you keep. An unpinned registry ref resolves to whatever is published latest, so its meaning changes under the review that names it:
 
 ```bash
 tessl code review --skill your-workspace/your-plugin@1.0.0#review-test-reliability
 ```
 
-Adding the lens to a repository's automated review means editing the caller workflow's `lenses` input, which is also where any path scoping belongs.
+Adding the lens to a repository's automated review means changing that review's lens selection, which is also where any path scoping belongs.
 
-That input is the complete ordered set for the run, not an addition to it, exactly as `--skill` is. A caller naming only the new lens reviews for that concern alone and quietly stops running everything else. To add a lens, name every lens the review should run, each pinned, with the new one among them. Leaving `lenses` unset keeps the defaults.
+A lens selection is the complete ordered set for the run, not an addition to it, exactly as `--skill` is. A selection naming only the new lens reviews for that concern alone and quietly stops running everything else. To add a lens, name every lens the review should run, each pinned, with the new one among them. Leaving the selection unset keeps the defaults.
 
-Use the `setup-code-review` skill in this plugin for the caller workflow.
+Tessl Code Review runs on GitHub as the Tessl Review GitHub App. How a repository is set up and configured is documented at https://docs.tessl.io/tutorials/setting-up-agentic-code-review
 
 ## Tuning a lens already in the set
 

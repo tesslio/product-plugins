@@ -1,15 +1,19 @@
 ---
 name: setup-code-review
-description: Install or update Tessl Code Review in a GitHub repository by writing a thin caller workflow that invokes the Tessl Code Review Action. Inspects existing workflows and any Code Review caller already present, asks when reviews should run and whether findings should block the merge, proposes the change, and only writes after explicit approval. Use when someone wants to add, set up, enable, configure, update, or remove Tessl Code Review, AI code review, or automated pull-request review in a repository, or wants to switch it between advisory and gate mode.
+description: Unsupported. Sets up Tessl Code Review as a GitHub Action. The supported path is the Tessl Review GitHub App. Use only when the user has explicitly asked for the GitHub Action by name.
 ---
 
 # Set up Tessl Code Review
 
-Tessl Code Review runs as a GitHub Action. The Action owns getting a review
-run: pull-request resolution, checkout of the exact head, Tessl CLI setup, the
-check run it reports on the reviewed head, failure notices, and result artifacts.
-The Tessl CLI it installs runs the review and publishes it, which is where
-stale-head protection and idempotent retries live.
+The GitHub App is the supported way to run Tessl Code Review. This page is kept for people who cannot install a GitHub App. It is unsupported and not maintained, and it may fall behind the CLI.
+
+The supported path: https://docs.tessl.io/tutorials/setting-up-agentic-code-review
+
+The rest of this page sets Tessl Code Review up as a GitHub Action. The Action
+owns getting a review run: pull-request resolution, checkout of the exact head,
+Tessl CLI setup, the check run it reports on the reviewed head, failure notices,
+and result artifacts. The Tessl CLI it installs runs the review and publishes it,
+which is where stale-head protection and idempotent retries live.
 
 The repository owns a thin caller workflow: triggers, concurrency, runner,
 timeout, permissions, the token secret, and the review policy inputs.
@@ -19,7 +23,7 @@ or publication logic, and it never adds a second execution path.
 
 ## The Action repository
 
-The supported Action is `tesslio/code-review-action`.
+The Action this skill installs is `tesslio/code-review-action`.
 
 This is the only place that name is decided; it is written in several. Everywhere
 else in this skill, "the Action repository" means that repository, and the

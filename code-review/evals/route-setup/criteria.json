@@ -1,11 +1,11 @@
 {
-  "context": "The plugin bundles a router skill, a setup skill, a lens-authoring skill, a respond skill, and four review lenses. This scenario checks that a vague request for automated review lands in the setup skill and that the setup skill's contract is honoured.",
+  "context": "The plugin bundles a router skill, an unsupported GitHub Action setup skill, a lens-authoring skill, a respond skill, and four review lenses. The supported install path is the Tessl Review GitHub App, and the router follows the setup skill only when the user names the GitHub Action. This scenario checks that a request naming the Action lands in the setup skill and that the setup skill's contract is honoured.",
   "type": "weighted_checklist",
   "checklist": [
     {
       "name": "Recognises the setup job",
       "max_score": 20,
-      "description": "plan.md states that this is a Code Review setup (installation) job handled by the setup-code-review skill, and gives a reason grounded in the repository having no existing Code Review caller"
+      "description": "plan.md states that this is a Code Review setup (installation) job handled by the setup-code-review skill, and gives a reason grounded in the user having asked for the GitHub Action by name"
     },
     {
       "name": "Does not route elsewhere",
