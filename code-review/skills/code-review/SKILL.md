@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: Start here for Tessl Code Review. Use when someone mentions Tessl Code Review or Tessl's AI review, wants automated review of pull requests in a repository, asks to review a diff, branch, or pull request ("review this change", "check this diff for security issues", "what would Code Review say"), asks what Tessl Code Review does, or asks for something and it is not yet clear which Code Review job it is. Works out whether they want to install it on a repository, run a review, change what reviews catch, or answer a review's findings. Installing is the Tessl Review GitHub App, which this skill points at the documentation for; the other jobs hand off to create-code-review-lens, respond-to-code-review, or the tessl code review command. The review-* skills in this plugin are lenses that tessl code review runs as reviewer instructions; do not follow one directly to review code, run the command instead.
+description: Start here for Tessl Code Review. Use when someone mentions Tessl Code Review or Tessl's AI review, wants automated review of pull requests in a repository, asks to review a diff, branch, or pull request ("review this change", "check this diff for security issues", "what would Code Review say"), asks what Tessl Code Review does, or asks for something and it is not yet clear which Code Review job it is. Works out whether they want to install it on a repository, run a review, change what reviews catch, or answer a review's findings. Installing is the Tessl Review GitHub App, which this skill points at the documentation for, unless the user names the unsupported GitHub Action, which hands off to setup-code-review; the other jobs hand off to create-code-review-lens, respond-to-code-review, or the tessl code review command. The review-* skills in this plugin are lenses that tessl code review runs as reviewer instructions; do not follow one directly to review code, run the command instead.
 ---
 
 # Tessl Code Review
@@ -15,6 +15,7 @@ This plugin holds every part a user touches:
 | Job | Skill | Signals |
 | --- | --- | --- |
 | Install Code Review on a repository | [Installing on a repository](#installing-on-a-repository), below | set up, enable, install, turn on reviews on this repo, get Tessl reviewing our pull requests |
+| Install the unsupported GitHub Action instead | `setup-code-review` | the user names the Action: install the action, set it up as a GitHub Action, I want the Action |
 | Change what a review looks for | `create-code-review-lens` | the review missed something, keeps flagging something it should not, write a lens, fork a lens, tune a lens, custom review rules |
 | Answer a review that has arrived | `respond-to-code-review` | address the findings, respond to the review, the reviewer left comments, changes requested, the review loop is not converging |
 | Run a review now | the `tessl code review` command, below | review this change, review my PR, what would Code Review say about this diff |
@@ -29,17 +30,24 @@ merge and grade findings, and the result is not a Tessl Code Review.
 Read the request and the repository before choosing. One question is usually
 enough when the request is ambiguous; do not interview.
 
-1. **Is this about getting Code Review running on a repository?** Any request to
-   install, enable, set up, or configure automatic review of pull requests is an
-   install job. Follow [Installing on a repository](#installing-on-a-repository).
-   Do not read the repository's workflows to decide this, and do not treat a
-   missing workflow as work to do.
-2. **Is there a review to answer?** A pull request with a Tessl Code Review on it,
+1. **Has the user named the GitHub Action?** An install request that asks for
+   the GitHub Action by name, for example "install the action", "set it up as a
+   GitHub Action", or "I want the Action", is a setup job. Follow
+   `setup-code-review`, and do not follow
+   [Installing on a repository](#installing-on-a-repository) instead. This rule
+   takes precedence over the next one; nothing short of naming the Action counts.
+2. **Is this about getting Code Review running on a repository?** Any other
+   request to install, enable, set up, or configure automatic review of pull
+   requests is an install job. Follow
+   [Installing on a repository](#installing-on-a-repository). Do not read the
+   repository's workflows to decide this, and do not treat a missing workflow as
+   work to do.
+3. **Is there a review to answer?** A pull request with a Tessl Code Review on it,
    or a pasted set of findings, and a request to deal with them is a respond job.
-3. **Is the complaint about what reviews catch?** Missed classes of bug, noisy
+4. **Is the complaint about what reviews catch?** Missed classes of bug, noisy
    findings, a concern the team keeps raising by hand, or a request for a custom
    rule is a lens job. A request to change *when* or *whether* reviews run is not.
-4. **Otherwise, run a review.** A request to look at a change now, with no
+5. **Otherwise, run a review.** A request to look at a change now, with no
    installation or lens work implied, is a CLI run.
 
 Hand off by following the named skill. Say which one you are using and why in one
@@ -48,6 +56,10 @@ install before a lens, since a lens changes a review that has to be running, and
 a respond before anything else when a review is waiting.
 
 ## Installing on a repository
+
+This section is the App path. If the user named the GitHub Action, you are in
+the wrong place: follow `setup-code-review` and do not run through the steps
+below.
 
 Tessl Code Review runs on GitHub as the **Tessl Review GitHub App**. Installing
 the App is the supported way to install Tessl Code Review, and it starts on the
@@ -105,11 +117,9 @@ Then do three things, in order:
 alternative, do not present it as a fallback, and do not reroute to it when the
 user hesitates or says they cannot install a GitHub App. A user who cannot
 install apps gets an explanation of what the App path requires and who in their
-organization can approve it, not a quiet switch to something else.
-
-Follow `setup-code-review` only when the user has explicitly asked for the
-GitHub Action by name, for example "install the action", "set it up as a GitHub
-Action", or "I want the Action". Nothing short of naming it counts.
+organization can approve it, not a quiet switch to something else. The one way
+into the Action is the user naming it, which is decided before this section is
+reached.
 
 ## Running a review from the CLI
 
