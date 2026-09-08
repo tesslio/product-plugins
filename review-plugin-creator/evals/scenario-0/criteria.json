@@ -49,7 +49,7 @@
     },
     {
       "name": "Dimension weights sum",
-      "description": "The 'weight' values of all dimensions in security.json sum to exactly 1.0",
+      "description": "List each dimension's 'weight' value in security.json, then add them together. Pass only if the sum is within 0.001 of 1.0.",
       "max_score": 10
     },
     {
@@ -64,7 +64,7 @@
     },
     {
       "name": "config.json weight invariant",
-      "description": "In config.json, validation_weight + security judge weight equals exactly 1.0",
+      "description": "List validation_weight and the security judge weight from config.json, then add them together. Pass only if the sum is within 0.001 of 1.0.",
       "max_score": 10
     },
     {

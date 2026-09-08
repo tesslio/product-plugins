@@ -4,7 +4,7 @@
   "checklist": [
     {
       "name": "Config weights sum to 1.0",
-      "description": "In the corrected config.json, validation_weight + sum of all judge weights equals exactly 1.0",
+      "description": "In the corrected config.json, list validation_weight and every judge weight, then add them together. Pass only if the sum is within 0.001 of 1.0.",
       "max_score": 20
     },
     {
@@ -14,7 +14,7 @@
     },
     {
       "name": "Rubric dimension weights sum to 1.0",
-      "description": "In the corrected content.json rubric, the sum of all dimensions[].weight values equals exactly 1.0",
+      "description": "In the corrected content.json rubric, list the weight of every entry in dimensions[], then add them together. Pass only if the sum is within 0.001 of 1.0.",
       "max_score": 20
     },
     {
