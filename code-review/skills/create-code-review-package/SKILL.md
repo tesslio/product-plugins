@@ -31,12 +31,13 @@ Create the first complete local lens package and its active profile together.
    cases and report unavailable backtesting. Keep loose local lenses and other
    manual customizations intact.
 5. Create or edit `.tessl-code-review.yml` as a complete selection. Replace
-   registry entries for copied defaults with local refs while preserving their
-   existing settings. Activate every copied default exactly once by local ref:
-   add a ref without globs for each default the existing profile omitted,
-   giving it broad coverage. Retain unrelated entries, existing profile
-   settings, and the existing scopes and effort of defaults that were already
-   selected. Activate the bespoke lens on justified paths.
+   every selected registry-default entry with its local ref while preserving
+   its scope and effort. Activate each copied default: add one local ref without
+   globs only when that default was absent, giving it broad coverage without
+   duplicating it. Retain unrelated entries and existing profile settings. If
+   multiple selected entries would collapse to a duplicate local ref, report
+   that their distinct settings cannot form a valid local profile; do not merge
+   or discard them. Activate the bespoke lens on justified paths.
 6. Run the package, glob, positive, negative, and full-profile checks in the
    convention. Fix failures that invalidate the package and report unavailable
    or failed behavioral checks.

@@ -55,14 +55,15 @@ layout.
   comments, and unknown-but-valid settings.
 - Preserve unrelated lens entries, local custom lenses, their order, and their
   effort and glob settings.
-- When replacing one of the four registry defaults with its local copy, carry
-  that entry's existing `globs` and `effort` to the local ref.
-- Creation selects exactly one local ref for each copied default. In an existing
-  profile, replace selected registry defaults with their local copies in place,
-  then add a local ref without globs for each omitted default so it receives
-  broad coverage. Preserve unrelated entries and their order. Activate the
-  bespoke lens with the narrowest justified positive globs. Omit globs only when
-  the concern applies across the repository.
+- Replace every selected registry-default entry with its local copy in place,
+  carrying that entry's `globs` and `effort` to the local ref.
+- Creation activates each copied default. Add one local ref without globs only
+  for an omitted default so it receives broad coverage without duplicate
+  coverage. Preserve unrelated entries and their order. Duplicate refs and
+  aliases resolving to the same local lens are invalid; if replacement would
+  create one, report the conflicting entries rather than combining or dropping
+  their settings. Activate the bespoke lens with the narrowest justified
+  positive globs. Omit globs only when the concern applies across the repository.
 - Keep no more than eight lenses applicable to one changed path. Do not drop
   coverage merely to fit the limit; report a conflict that needs a maintainer
   decision.
