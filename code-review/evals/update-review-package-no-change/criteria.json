@@ -1,0 +1,11 @@
+{
+  "context":"The only useful comment was raised by the active lens and fixed by applying its existing rule. There is no missing guidance or repeatable noise, so the honest result is no change. Updating must not consult upstream defaults.",
+  "type":"weighted_checklist",
+  "checklist":[
+    {"name":"No package edits","description":"The existing manifest, lens, and profile remain unchanged and no new lens is created","max_score":30},
+    {"name":"Application distinguished from guidance","description":"result-notes.md explains that the active rule already covered the issue and the evidence shows it was applied, not that guidance is missing","max_score":20},
+    {"name":"Honest no-change","description":"The notes explicitly report a completed no-change outcome rather than inventing an edit","max_score":20},
+    {"name":"Coverage recorded","description":"The notes state the one-round cutoff/window and that inline replies and older history were unavailable","max_score":15},
+    {"name":"No upstream comparison","description":"There is no registry fetch, upstream version reference, synchronization plan, or replacement from defaults","max_score":15}
+  ]
+}

@@ -1,0 +1,7 @@
+schemaVersion: 1
+requestChangesAt: major
+lenses:
+  - ref: ./review-lenses/skills/review-correctness-and-data-integrity/SKILL.md
+  - ref: ./review-lenses/skills/review-security-and-privacy/SKILL.md
+    globs:
+      - src/**

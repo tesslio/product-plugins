@@ -1,0 +1,11 @@
+{
+  "context":"The repository has a loose local lens but no active profile and no package manifest. Evidence collection also failed. The update must make no edits, report blocked rather than no-change, and direct first setup to creation without trying upstream defaults.",
+  "type":"weighted_checklist",
+  "checklist":[
+    {"name":"Missing package recognized","description":"The loose local lens is not mistaken for an active package because no profile references a containing package","max_score":25},
+    {"name":"Blocked outcome","description":"result-notes.md reports that updating is blocked, not a successful no-change investigation","max_score":20},
+    {"name":"Creation direction","description":"The notes direct the user to create-code-review-package for first setup","max_score":20},
+    {"name":"Evidence failure retained","description":"The notes state that review bodies and thread replies were unavailable rather than implying complete coverage","max_score":15},
+    {"name":"No edits or upstream access","description":"No package/profile/lens edit is made and there is no attempt or instruction to fetch registry defaults","max_score":20}
+  ]
+}

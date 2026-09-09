@@ -69,6 +69,11 @@ Run the lens over changes that already carry review feedback on its concern, and
 
 Tune and re-run until the false positives and misses are ones you would ship. Report counts, not impressions.
 
+When `create-code-review-package` is creating a repository's first package and
+no suitable review history exists, do not require history. Use positive and
+negative changes derived from current code and written conventions, and report
+the unavailable historical backtest as a validation limitation.
+
 ### 6. Publish and pin
 
 A local path is enough while iterating, and for a lens only one repository uses:

@@ -1,0 +1,3 @@
+schemaVersion: 1
+lenses:
+  - ref: ./custom-review/skills/review-domain/SKILL.md
