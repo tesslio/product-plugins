@@ -1,11 +1,11 @@
 {
-  "context":"The evidence has a repeated missed tenant-context boundary, noisy generated-client findings, a valid-but-declined timeout concern, and a resolved thread whose fix is explicit. The update must preserve manual lens text, classify evidence correctly, and make small local-only changes.",
+  "context":"The evidence has a repeated missed tenant-context boundary, one refuted generated-client finding without path evidence for a durable exclusion, a valid-but-declined timeout concern, and a resolved thread whose fix is explicit. The update must preserve manual lens text, classify evidence correctly, make small local-only changes, and avoid encoding a one-off refutation as a broad rule.",
   "type":"weighted_checklist",
   "checklist":[
     {"name":"Current package is baseline","description":"The existing package is edited in place and no second package or registry-derived copy is created","max_score":12},
     {"name":"Manual wording preserved","description":"The maintainer note in review-security-and-privacy remains verbatim and unrelated lens content is not replaced wholesale","max_score":12},
     {"name":"Missed concern addressed","description":"The repeated tenant-context misses produce a focused consequence-based lens improvement or distinct lens with a practical exclusion","max_score":18},
-    {"name":"Noise addressed narrowly","description":"Generated API clients are excluded through justified routing or a specific exclusion without weakening security review elsewhere","max_score":14},
+    {"name":"Noise classified without overfitting","description":"The generated-client finding is recorded as refuted for that file. The package is not broadly weakened from this single example; a narrow exclusion is acceptable only when the supplied repository and path evidence independently justifies it","max_score":14},
     {"name":"Decline interpreted correctly","description":"The valid timeout concern is not called false or automatically encoded into this security-focused package change merely because it was declined as out of scope","max_score":12},
     {"name":"Resolved state reconciled","description":"The resolved thread is read with its reply and revision rather than treated as automatic acceptance","max_score":10},
     {"name":"Profile preserved","description":"Existing requestChangesAt and unrelated correctness routing remain intact","max_score":8},

@@ -1,0 +1,13 @@
+{
+  "context":"Two attributed review rounds show the security lens repeatedly reporting generated API clients under src/generated even though the repository marks those files generated and identifies tools/codegen/templates/client.ts as their source. The package should stop reviewing the generated copies for this concern while retaining review of the generator and all other security-sensitive source.",
+  "type":"weighted_checklist",
+  "checklist":[
+    {"name":"Repeated noise classified","description":"The notes classify both findings as repeatable noise, retaining their pull request, round, reviewed revision, actor, replies, and refuted dispositions","max_score":15},
+    {"name":"Specific generated-output exclusion","description":"The security lens gains a narrow exclusion for generated outputs under src/generated, without exempting generated files generally or weakening its consequence threshold elsewhere","max_score":25},
+    {"name":"Generator remains reviewed","description":"The profile or lens update makes clear that tools/codegen/templates/client.ts remains subject to the security concern, and the security lens routing includes tools/codegen/** if routing is used to reach it","max_score":20},
+    {"name":"Unrelated coverage preserved","description":"requestChangesAt, the correctness lens, existing security routing outside the generated-output exception, lens order, and maintainer wording remain intact","max_score":15},
+    {"name":"Package version incremented","description":"The existing package manifest patch version is incremented exactly once because a package skill changed","max_score":5},
+    {"name":"Positive and negative validation","description":"The notes check a positive generator-template case and a negative generated-output case, and state any unavailable live or full-profile checks honestly","max_score":12},
+    {"name":"Bounded evidence reported","description":"The notes name the cutoff, two-round window, reviewed revisions, available actor/reply coverage, and unavailable older history without consulting upstream defaults","max_score":8}
+  ]
+}
