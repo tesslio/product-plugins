@@ -11,9 +11,13 @@ Propose small, evidenced changes to the package the repository currently uses.
 
 1. Read [the package convention](../code-review/references/review-packages.md)
    and discover the active local package from `.tessl-code-review.yml`. If none
-   is active, make no edits and direct the user to
-   `create-code-review-package`. In a hosted request, emit the required report
-   and `blocked` result before stopping.
+   is active, make no edits. When an unreferenced package manifest already
+   occupies `review-lenses/`, do not redirect to creation: in an interactive
+   request, explain that the maintainer must either adopt it by reconnecting its
+   intended lens refs in the profile or remove or relocate it if obsolete. For
+   other missing-package cases, direct the user to `create-code-review-package`.
+   In a hosted request, emit the required report and `blocked` result before
+   stopping.
 2. Treat the current package and profile, including maintainer edits, as the
    source of truth. Do not fetch, inspect, compare, or synchronize registry
    defaults.
@@ -33,8 +37,9 @@ Propose small, evidenced changes to the package the repository currently uses.
    evidence. Scope generated-output exclusions to evidenced paths. Exclude a
    whole directory only when repository ownership evidence establishes that
    the directory is reserved for generated output; preserve paths that may
-   contain future hand-authored files. A completed investigation may produce
-   no change.
+   contain future hand-authored files. Apply the exclusion only to the lens
+   evidenced as noisy; preserve unrelated lens checks. A completed investigation
+   may produce no change.
 6. Run proportionate positive and negative checks for each candidate, then the
    complete active profile when available. Reconcile results with the original
    revisions, revise and recheck against the same bounded cases, and report

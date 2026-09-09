@@ -1,6 +1,6 @@
 {
   "name": "tessl/code-review",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Tessl Code Review in one plugin. Install it on a GitHub repository with the Tessl Review GitHub App, run the default review lenses from the CLI, create or update a repository-owned review package, tune an individual lens, and answer a review's findings. Start with the code-review skill, which routes to the right one.",
   "private": false,
   "skills": "./skills/"

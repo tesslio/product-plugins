@@ -16,8 +16,12 @@ Create the first complete local lens package and its active profile together.
    and discover local packages through active profile refs. If one is active,
    make no edits and direct the user to `update-code-review-package`. Treat a
    package manifest already at `review-lenses/` the same way even when the
-   active profile does not reference it. In a hosted request, remove exploratory
-   edits and emit the required report and `blocked` result before stopping.
+   active profile does not reference it. For that unreferenced package in an
+   interactive request, explain that the maintainer must either adopt it by
+   reconnecting its intended lens refs in the profile or remove or relocate it
+   if obsolete; do not redirect back to the update workflow or make edits. In a
+   hosted request, remove exploratory edits and emit the required report and
+   `blocked` result before stopping.
 3. Copy the four default `review-*` lens skill directories from the installed
    `tessl/code-review` plugin into `review-lenses/skills/`. Create the private
    local manifest from the convention. Do not record an upstream version.
