@@ -57,12 +57,12 @@ layout.
   effort and glob settings.
 - When replacing one of the four registry defaults with its local copy, carry
   that entry's existing `globs` and `effort` to the local ref.
-- In a new profile, select all four copied defaults without globs so their broad
-  coverage is retained. An existing profile is already an explicit complete
-  selection: copy all four defaults into the package, but activate only the
-  defaults already selected and keep any deliberate omission. Give a bespoke
-  lens the narrowest justified positive globs. Omit globs only when the concern
-  applies across the repository.
+- Creation selects exactly one local ref for each copied default. In an existing
+  profile, replace selected registry defaults with their local copies in place,
+  then add a local ref without globs for each omitted default so it receives
+  broad coverage. Preserve unrelated entries and their order. Activate the
+  bespoke lens with the narrowest justified positive globs. Omit globs only when
+  the concern applies across the repository.
 - Keep no more than eight lenses applicable to one changed path. Do not drop
   coverage merely to fit the limit; report a conflict that needs a maintainer
   decision.

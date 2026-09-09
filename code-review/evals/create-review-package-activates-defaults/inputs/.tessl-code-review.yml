@@ -1,0 +1,11 @@
+schemaVersion: 1
+effort: adaptive
+reviewMode: relaxed
+requestChangesAt: minor
+ignore:
+  - generated/**
+lenses:
+  - ref: ./review-lenses/review-compliance/SKILL.md
+    effort: high
+    globs:
+      - policies/**

@@ -73,10 +73,12 @@ An automated review runs the same defaults unless its lens selection names a com
 
 `create-code-review-package` creates a complete repository-owned package at
 `review-lenses/`. It copies the four current defaults into the package, authors
-a repository-specific lens, and wires the complete active lens set through
-`.tessl-code-review.yml`. Existing profile settings, local lenses, and unrelated
-coverage are preserved. If the active profile already uses a local package, the
-creation workflow leaves it untouched and points to the updating workflow.
+a repository-specific lens, and actively references all five through
+`.tessl-code-review.yml`. Existing default refs keep their scopes and effort;
+omitted defaults are added with broad coverage. Existing profile settings,
+local lenses, and unrelated coverage are preserved. If the active profile
+already uses a local package, the creation workflow leaves it untouched and
+points to the updating workflow.
 
 `update-code-review-package` treats the current local package as its only
 baseline. It uses bounded, attributed review feedback and repository changes to
