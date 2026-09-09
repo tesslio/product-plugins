@@ -1,12 +1,12 @@
 {
-  "context":"The existing profile deliberately selects only two defaults with path scopes and one local compliance lens. Creation copies all four defaults into the package, replaces only the two selected default refs, and adds a scoped bespoke lens without discarding settings or widening coverage.",
+  "context":"The existing profile deliberately selects only two defaults with path scopes, one loose local lens, and one lens inside a different local plugin. Creation copies all four defaults into the package, replaces only the two selected default refs, and adds a scoped bespoke lens without discarding settings or widening coverage. The other plugin must not be mistaken for an existing local/code-review package.",
   "type":"weighted_checklist",
   "checklist":[
     {"name":"Complete package copied","description":"The private review-lenses package contains all four default lenses plus a new bespoke lens","max_score":15},
     {"name":"Selected defaults localized","description":"The correctness and security registry refs are replaced by resolving local package refs","max_score":12},
     {"name":"Existing globs preserved","description":"Correctness remains scoped to src/** and security remains scoped to infra/**; neither scope is widened or discarded","max_score":15},
     {"name":"Intentional omissions preserved","description":"The profile does not activate maintainability or scale, although both are present in the package","max_score":12},
-    {"name":"Loose local lens preserved","description":"The existing ./review-lenses/review-compliance/SKILL.md and its policies/** glob remain unchanged and selected","max_score":12},
+    {"name":"Other local coverage preserved","description":"The loose ./review-lenses/review-compliance/SKILL.md and the lens inside acme/policy both remain unchanged and selected with their original globs; neither prevents package creation","max_score":12},
     {"name":"Profile settings preserved","description":"effort, reviewMode, requestChangesAt, and ignore remain semantically unchanged","max_score":12},
     {"name":"Bespoke scope justified","description":"The new repository lens is distinct from existing coverage and has focused positive globs","max_score":12},
     {"name":"Refs and limits checked","description":"result-notes.md confirms local refs resolve and checks the eight-applicable-lens limit and glob behavior","max_score":10}

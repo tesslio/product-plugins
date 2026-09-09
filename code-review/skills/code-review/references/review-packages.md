@@ -81,4 +81,6 @@ layout.
 
 Once created, the local package is the source of truth. Its manifest does not
 record an upstream version, and updating it does not compare with registry
-defaults.
+defaults. When an update changes files inside the package, increment the
+manifest's patch version once. A profile-only change and a no-change result do
+not change the package version.

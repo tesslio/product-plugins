@@ -15,3 +15,6 @@ lenses:
   - ref: ./review-lenses/review-compliance/SKILL.md
     globs:
       - policies/**
+  - ref: ./policy-plugin/skills/review-release/SKILL.md
+    globs:
+      - release/**
