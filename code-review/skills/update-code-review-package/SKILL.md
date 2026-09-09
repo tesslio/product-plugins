@@ -19,9 +19,12 @@ Propose small, evidenced changes to the package the repository currently uses.
    defaults.
 3. Read the supplied bounded evidence and repository changes using
    [the evidence rules](references/review-evidence.md). Missing or invalid
-   evidence blocks a hosted update: make no edits and emit `blocked` artifacts.
-   Useful partial evidence may support a bounded update when its omissions are
-   recorded. Record what was and was not covered before editing.
+   evidence, or evidence with no attributable review item, blocks an update.
+   Make no edits. In an interactive request, explain what evidence is needed
+   and gather it through supported access when available before editing. In a
+   hosted request, emit `blocked` artifacts. Useful partial evidence may support
+   a bounded update when its omissions are recorded. Record what was and was
+   not covered before editing.
 4. Separate a missed concern from failure to apply an existing lens. For a real
    gap, use `create-code-review-lens` to tune the relevant local lens or add a
    distinct lens. Change routing only when path evidence justifies it.
