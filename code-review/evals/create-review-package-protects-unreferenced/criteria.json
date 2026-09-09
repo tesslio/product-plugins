@@ -1,0 +1,12 @@
+{
+  "context":"The active profile uses registry defaults, but an unreferenced local/code-review package already occupies review-lenses. Creation must not overwrite or modify it. The result should be blocked and direct package maintenance to updating.",
+  "type":"weighted_checklist",
+  "checklist":[
+    {"name":"Destination package detected","description":"The result recognizes review-lenses/.tessl-plugin/plugin.json even though no active profile ref points into it","max_score":25},
+    {"name":"Existing package untouched","description":"The manifest and hand-written review-domain lens remain byte-for-byte unchanged","max_score":25},
+    {"name":"Profile untouched","description":"The registry-based active profile is not rewritten and no new lens is activated","max_score":15},
+    {"name":"Blocked outcome","description":"result-notes.md reports a blocked creation rather than success or no-change","max_score":15},
+    {"name":"Update direction","description":"The notes direct the user to update-code-review-package and do not route to installation","max_score":15},
+    {"name":"No partial package","description":"No copied defaults, bespoke lens, or other exploratory edit is left behind","max_score":5}
+  ]
+}

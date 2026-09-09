@@ -1,6 +1,6 @@
 # tessl/code-review
 
-Tessl Code Review in one plugin: set it up on a repository, run it, tune what it catches, and answer what it finds.
+Tessl Code Review in one plugin: set it up on a repository, run it, create or improve a repository-owned review package, tune one lens, and answer what it finds.
 
 Tessl Code Review reviews a change with several reviewers in parallel, one per lens, then merges and grades their findings into one review. It runs from the CLI as `tessl code review`, and on GitHub as the Tessl Review GitHub App.
 
@@ -20,7 +20,9 @@ Tell your agent what you want. The `code-review` skill works out which job it is
 | --- | --- | --- |
 | Add Code Review to a repository | the Tessl Review GitHub App, below | "Set up Tessl Code Review on this repo" |
 | Review a change right now | `tessl code review` | "Review this branch against main" |
-| Make reviews catch something they miss, or stop flagging something they should not | `create-code-review-lens` | "Our reviews keep missing N+1 queries" |
+| Create a complete local review package | `create-code-review-package` | "Create custom review lenses for this repository" |
+| Improve the current local review package | `update-code-review-package` | "Improve our review package from recent feedback" |
+| Write or tune one lens | `create-code-review-lens` | "Our reviews keep missing N+1 queries" |
 | Deal with a review that has arrived on your pull request | `respond-to-code-review` | "Address the Tessl review on PR 42" |
 
 ## Set it up
@@ -69,6 +71,20 @@ An automated review runs the same defaults unless its lens selection names a com
 
 ## Tune it
 
+`create-code-review-package` creates a complete repository-owned package at
+`review-lenses/`. It copies the four current defaults into the package, authors
+a repository-specific lens, and actively references all four defaults and the
+bespoke lens through `.tessl-code-review.yml`. Every existing default entry
+keeps its scope and effort; an absent default is added once with broad coverage.
+Existing profile settings, local lenses, and unrelated coverage are preserved.
+If the active profile already uses a local package, the creation workflow leaves
+it untouched and points to the updating workflow.
+
+`update-code-review-package` treats the current local package as its only
+baseline. It uses bounded, attributed review feedback and repository changes to
+make small lens or routing improvements, or reports that no change is justified.
+It does not compare with or synchronize registry defaults.
+
 `create-code-review-lens` turns a review concern into a lens that has been run, tuned, and pinned. It settles the review question and the bar a finding has to clear, drafts the lens, runs it against a change that should trip it and one that should not, backtests it against changes that already carry review feedback, and pins the reference a review can select.
 
 The default lenses are meant to be forked. Copy one into your repository, tune it, and reference it by local path. A skill needs `name` and `description` frontmatter; past that, the shape most lenses use is Scope, Method, Threshold, Reporting. Keep a lens short and carry only what makes it distinct.
@@ -83,6 +99,8 @@ The default lenses are meant to be forked. Copy one into your repository, tune i
 | --- | --- |
 | `code-review` | Start here. Routes a request to the right job below, and runs a review from the CLI. |
 | `setup-code-review` | Unsupported. Detect, interview, propose, write, verify, and explain a GitHub Action caller workflow. |
+| `create-code-review-package` | Create the first complete local package from the four defaults and one repository lens, then wire the active profile. |
+| `update-code-review-package` | Improve the active local package from bounded review evidence without upstream comparison. |
 | `create-code-review-lens` | Settle the review question and threshold, draft the lens, run and backtest it, then pin it. |
 | `respond-to-code-review` | Adjudicate each finding on your pull request, reply, and keep the pull request on its goal. |
 | `review-correctness-and-data-integrity` | Default lens. Functional defects, data loss, duplicate writes, ordering, integration contracts. |

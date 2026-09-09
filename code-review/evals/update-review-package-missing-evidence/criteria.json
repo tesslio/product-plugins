@@ -1,0 +1,11 @@
+{
+  "context":"The repository has a valid active local review package, but the supplied evidence contains no attributable review item and the interactive session has no supported way to gather one. The update must stop without editing while explaining the evidence prerequisite. It must not turn repository inspection or an incomplete collection into justification to tune the lens.",
+  "type":"weighted_checklist",
+  "checklist":[
+    {"name":"Evidence blocker recognized","description":"result-notes.md says the update is blocked because the collection has no review item attributed to a pull request, round, revision, and actor","max_score":30},
+    {"name":"Interactive prerequisite explained","description":"The notes explain that a supported evidence collection with attributable review items is required before editing and may be gathered when access is available","max_score":25},
+    {"name":"Useful partial evidence remains allowed","description":"The notes do not demand complete history or a minimum number of pull requests; they distinguish this empty unattributable collection from partial evidence whose useful items retain attribution","max_score":15},
+    {"name":"No package edits","description":"The active profile, manifest, and lens remain unchanged","max_score":20},
+    {"name":"No invented update","description":"Repository code or configuration is not treated as a substitute for review evidence and no package change is proposed from it","max_score":10}
+  ]
+}

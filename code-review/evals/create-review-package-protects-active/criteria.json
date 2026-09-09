@@ -1,0 +1,11 @@
+{
+  "context":"The active profile references a local/code-review package at a non-default path. Creation must discover it from the active ref and must not overwrite it or create a second review-lenses package.",
+  "type":"weighted_checklist",
+  "checklist":[
+    {"name":"Active package discovered","description":"The result recognizes custom-review as the active package because the profile references a skill under the local/code-review manifest's declared skills directory","max_score":25},
+    {"name":"Existing files untouched","description":"The profile, manifest, and existing lens remain unchanged","max_score":25},
+    {"name":"No second package","description":"No review-lenses/.tessl-plugin/plugin.json or copied default lenses are created","max_score":20},
+    {"name":"Update direction","description":"result-notes.md explicitly directs the user to update-code-review-package","max_score":20},
+    {"name":"No install detour","description":"The result does not route to GitHub App installation or an Action workflow","max_score":10}
+  ]
+}

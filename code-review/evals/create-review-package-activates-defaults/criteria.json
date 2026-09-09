@@ -1,0 +1,14 @@
+{
+  "context":"The existing explicit profile activates only a loose custom lens. A successful creation must copy and actively reference all four defaults, add a bespoke lens, and preserve the custom entry and profile settings.",
+  "type":"weighted_checklist",
+  "checklist":[
+    {"name":"Private package manifest","description":"review-lenses/.tessl-plugin/plugin.json exists, is valid JSON, names local/code-review, uses version 0.1.0, sets private true, and points skills at ./skills/","max_score":10},
+    {"name":"All defaults copied","description":"The four default lens SKILL.md files exist under review-lenses/skills with their original names and substantive instructions","max_score":15},
+    {"name":"All defaults activated","description":".tessl-code-review.yml actively references each of the four copied defaults by a resolving local path, with no registry default refs left behind","max_score":22},
+    {"name":"Defaults have broad coverage","description":"None of the four copied default entries has globs, so none remains dormant or restricted to a newly invented scope","max_score":12},
+    {"name":"Custom coverage preserved","description":"The existing review-compliance ref, globs, and effort remain semantically unchanged","max_score":12},
+    {"name":"Profile settings preserved","description":"schemaVersion, effort, reviewMode, requestChangesAt, and ignore remain semantically unchanged","max_score":10},
+    {"name":"Bespoke lens added","description":"A fifth package lens addresses the checkpoint compatibility rule from AGENTS.md and is activated with justified focused globs","max_score":12},
+    {"name":"Refs and behavior checked","description":"result-notes.md confirms local refs resolve, checks applicable-lens limits and glob behavior, and reports positive, negative, and unavailable behavioral checks honestly","max_score":7}
+  ]
+}

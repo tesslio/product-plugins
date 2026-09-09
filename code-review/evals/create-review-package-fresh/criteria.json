@@ -1,0 +1,14 @@
+{
+  "context": "This is a first creation with no review history. The complete local package must contain copied defaults plus one useful repository lens, and the new profile must activate all five without relying on registry refs.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {"name":"Private package manifest","description":"review-lenses/.tessl-plugin/plugin.json exists, is valid JSON, names local/code-review, uses version 0.1.0, sets private true, and points skills at ./skills/","max_score":10},
+    {"name":"All defaults copied","description":"The four default lens SKILL.md files exist under review-lenses/skills with their original names and substantive instructions","max_score":18},
+    {"name":"Bespoke lens added","description":"A fifth lens addresses the repository-specific boundary rule in AGENTS.md, has valid matching frontmatter, a consequence threshold, an exclusion, and justified scope","max_score":18},
+    {"name":"Complete active profile","description":".tessl-code-review.yml is valid block YAML and references all four copied defaults and the bespoke lens by resolving local paths","max_score":16},
+    {"name":"Defaults remain broad","description":"The four copied defaults have no globs in this fresh profile; the bespoke lens has focused globs for the relevant source area","max_score":12},
+    {"name":"No history invented","description":"The package, profile, and notes do not claim to have inspected pull requests or review feedback","max_score":8},
+    {"name":"Honest validation","description":"result-notes.md distinguishes static/profile checks from behavioral checks, includes a positive and negative lens case, and names the unavailable historical backtest","max_score":14},
+    {"name":"No publication","description":"The result does not add a workflow, commit instructions, registry publication, or pull-request automation","max_score":4}
+  ]
+}

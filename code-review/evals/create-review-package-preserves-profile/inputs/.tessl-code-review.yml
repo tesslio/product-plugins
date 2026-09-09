@@ -1,0 +1,20 @@
+schemaVersion: 1
+effort: adaptive
+reviewMode: relaxed
+requestChangesAt: minor
+ignore:
+  - generated/**
+lenses:
+  - ref: tessl/code-review@0.3.0#review-correctness-and-data-integrity
+    globs:
+      - src/**
+  - ref: tessl/code-review@0.3.0#review-security-and-privacy
+    effort: high
+    globs:
+      - infra/**
+  - ref: ./review-lenses/review-compliance/SKILL.md
+    globs:
+      - policies/**
+  - ref: ./policy-plugin/skills/review-release/SKILL.md
+    globs:
+      - release/**

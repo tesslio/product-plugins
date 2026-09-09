@@ -1,0 +1,5 @@
+schemaVersion: 1
+lenses:
+  - ref: ./review-lenses/skills/review-job-idempotency/SKILL.md
+    globs:
+      - jobs/**
