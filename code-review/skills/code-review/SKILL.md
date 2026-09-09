@@ -44,11 +44,14 @@ enough when the request is ambiguous; do not interview.
    `setup-code-review`, and do not follow
    [Installing on a repository](#installing-on-a-repository) instead. This rule
    takes precedence over the next one; nothing short of naming the Action counts.
-2. **Is this a complete bespoke package request?** For first creation, follow
-   `create-code-review-package`. If the active profile already references a
-   local package, follow `update-code-review-package`. A repository that already
-   has Code Review enabled still takes this route; package customization is not
-   installation. Loose local lenses do not establish a package by themselves.
+2. **Is this a complete bespoke package request?** "Create custom review
+   lenses" follows `create-code-review-package`. "Update my lenses", "improve
+   our review package", and "tune noisy reviews" follow
+   `update-code-review-package` when the active profile references the package
+   defined by [the package convention](references/review-packages.md). A
+   repository that already has Code Review enabled still takes this route;
+   package customization is not installation. Loose local lenses do not
+   establish a package by themselves.
 3. **Is this about getting Code Review running on a repository?** Any other
    request to install, enable, set up, or configure automatic review of pull
    requests is an install job. Follow

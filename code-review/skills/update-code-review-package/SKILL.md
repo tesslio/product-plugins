@@ -27,7 +27,8 @@ Propose small, evidenced changes to the package the repository currently uses.
    evidence. A completed investigation may produce no change.
 6. Run proportionate positive and negative checks for each candidate, then the
    complete active profile when available. Reconcile results with the original
-   revisions and report remaining misses, noise, and coverage limits.
+   revisions, revise and recheck against the same bounded cases, and report
+   remaining misses, noise, and coverage limits.
 7. In an interactive request, summarize the evidence and result. In a hosted
    request, follow
    [the hosted result contract](../code-review/references/hosted-authoring.md),
