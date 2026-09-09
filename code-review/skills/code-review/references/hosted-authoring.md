@@ -23,10 +23,6 @@ uncommitted and write both paths outside the repository:
       }
     ],
     "limitations": []
-  },
-  "evidence": {
-    "sources": [],
-    "limitations": []
   }
 }
 ```

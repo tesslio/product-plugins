@@ -14,8 +14,10 @@ Create the first complete local lens package and its active profile together.
    reviewer instructions.
 2. Read [the package convention](../code-review/references/review-packages.md)
    and discover local packages through active profile refs. If one is active,
-   make no edits and direct the user to `update-code-review-package`. Also stop
-   rather than overwrite a package manifest already at `review-lenses/`.
+   make no edits and direct the user to `update-code-review-package`. Treat a
+   package manifest already at `review-lenses/` the same way even when the
+   active profile does not reference it. In a hosted request, remove exploratory
+   edits and emit the required report and `blocked` result before stopping.
 3. Copy the four default `review-*` lens skill directories from the installed
    `tessl/code-review` plugin into `review-lenses/skills/`. Create the private
    local manifest from the convention. Do not record an upstream version.

@@ -12,13 +12,16 @@ Propose small, evidenced changes to the package the repository currently uses.
 1. Read [the package convention](../code-review/references/review-packages.md)
    and discover the active local package from `.tessl-code-review.yml`. If none
    is active, make no edits and direct the user to
-   `create-code-review-package`.
+   `create-code-review-package`. In a hosted request, emit the required report
+   and `blocked` result before stopping.
 2. Treat the current package and profile, including maintainer edits, as the
    source of truth. Do not fetch, inspect, compare, or synchronize registry
    defaults.
 3. Read the supplied bounded evidence and repository changes using
-   [the evidence rules](references/review-evidence.md). Record what was and was
-   not covered before editing.
+   [the evidence rules](references/review-evidence.md). Missing or invalid
+   evidence blocks a hosted update: make no edits and emit `blocked` artifacts.
+   Useful partial evidence may support a bounded update when its omissions are
+   recorded. Record what was and was not covered before editing.
 4. Separate a missed concern from failure to apply an existing lens. For a real
    gap, use `create-code-review-lens` to tune the relevant local lens or add a
    distinct lens. Change routing only when path evidence justifies it.

@@ -4,6 +4,12 @@ Use the evidence manifest supplied by the caller. Respect its cutoff, history
 window, byte limits, and named unavailable sources. Do not expand the search
 silently.
 
+Missing evidence, an unreadable manifest, or a set with no attributable review
+item blocks updating. A partial set can be useful when its available items keep
+actor, round, and revision attribution; proceed within that set and report every
+missing source and window. Do not turn an incomplete investigation into
+`no_change`.
+
 ## Preserve attribution
 
 For each useful item, retain:
