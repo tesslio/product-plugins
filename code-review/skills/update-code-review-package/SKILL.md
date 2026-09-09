@@ -30,7 +30,11 @@ Propose small, evidenced changes to the package the repository currently uses.
    distinct lens. Change routing only when path evidence justifies it.
 5. Preserve unrelated lenses, globs, profile settings, and manual wording.
    Prefer the smallest change that accounts for repeated or consequential
-   evidence. A completed investigation may produce no change.
+   evidence. Scope generated-output exclusions to evidenced paths. Exclude a
+   whole directory only when repository ownership evidence establishes that
+   the directory is reserved for generated output; preserve paths that may
+   contain future hand-authored files. A completed investigation may produce
+   no change.
 6. Run proportionate positive and negative checks for each candidate, then the
    complete active profile when available. Reconcile results with the original
    revisions, revise and recheck against the same bounded cases, and report
