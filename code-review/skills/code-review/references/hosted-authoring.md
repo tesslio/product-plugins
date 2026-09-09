@@ -37,10 +37,12 @@ uncommitted and write both paths outside the repository:
 - `no_change` when a completed investigation found no justified edit.
 - `blocked` when required state or evidence was missing or invalid.
 
-Use the actual package and profile paths. Each check status is `passed`,
-`failed`, or `not_run`. Omit `evidence` for creation. For updating, describe the
-provided evidence sources and every coverage gap without copying private
-content into the result.
+Use the discovered package path. When updating is blocked because no package
+exists, use the default expected path `review-lenses`. `profilePath` remains
+`.tessl-code-review.yml` even when that profile is missing. Each check status is
+`passed`, `failed`, or `not_run`. Omit `evidence` for creation. For updating,
+describe the provided evidence sources and every coverage gap without copying
+private content into the result.
 
 `proposal` requires repository edits. Before reporting `no_change` or `blocked`,
 restore any exploratory edits made during the run so the repository has no
