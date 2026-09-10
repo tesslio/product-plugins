@@ -63,7 +63,9 @@ below.
 
 Tessl Code Review runs on GitHub as the **Tessl Review GitHub App**. Installing
 the App is the supported way to install Tessl Code Review, and it starts on the
-organization's Tessl Reviewer settings page in the Tessl web app.
+organization's Code reviews page in the Tessl web app. That page carries the
+whole setup in order: connect GitHub, choose a repository, and answer the two
+questions that decide when reviews run and whether they block a merge.
 
 **Build the link to that page.** It is per-organization, so find the
 organization first:
@@ -75,20 +77,27 @@ tessl org list --json
 Take the organization's `id` from the output and put it in:
 
 ```
-https://tessl.io/orgs/<id>/settings/integrations/tessl-reviewer
+https://tessl.io/orgs/<id>/code-reviews
 ```
 
 An organization UUID in that position redirects to the organization's slug, so
 the link resolves without you having to know the slug. When `tessl org list
 --json` returns more than one organization, ask which one to set up rather than
-guessing: the link points at a single organization's settings, and installing
-against the wrong one is invisible until no reviews arrive.
+guessing: the link points at a single organization, and installing against the
+wrong one is invisible until no reviews arrive.
+
+Some organizations have no Code reviews page. If it is not there, the same
+organization's Tessl Reviewer settings page reaches the same App:
+
+```
+https://tessl.io/orgs/<id>/settings/integrations/tessl-reviewer
+```
 
 Give the finished link on its own line. Never construct or emit a
 `github.com/apps/...` install link: those carry signed per-user state that
 expires in ten minutes, so a link you produce is broken by the time anyone
-follows it. The settings page mints that link itself, in the browser, which is
-why the install has to start there.
+follows it. The page mints that link itself, in the browser, which is why the
+install has to start there.
 
 The documentation covers the full setup, and is worth naming next to the link
 for a user who wants to read before clicking:
@@ -97,8 +106,8 @@ https://docs.tessl.io/tutorials/setting-up-agentic-code-review
 
 Then do three things, in order:
 
-1. **Offer to open the page.** Ask whether to open the settings link, and only
-   open it once the user agrees. Use the platform's opener: `open` on macOS,
+1. **Offer to open the page.** Ask whether to open the link, and only open it
+   once the user agrees. Use the platform's opener: `open` on macOS,
    `xdg-open` on Linux, `start` on Windows. If the command fails, say the page
    could not be opened and leave the URL on screen for the user to follow
    themselves. A failed opener is a failed `open`, not a failed install; do not
@@ -107,6 +116,10 @@ Then do three things, in order:
    repository also has to be enabled in Tessl before any review runs. State this
    explicitly every time. It is the most common misunderstanding, and a user who
    stops at the App install sees no reviews and concludes the product is broken.
+   The Code reviews page carries on into choosing and enabling a repository once
+   GitHub hands the user back, so tell them to finish there. The settings page
+   does not: it returns them to a table of repositories, and enabling one from
+   it is a step they have to start themselves.
 3. **Stop.** You cannot see whether the App was installed or whether the
    repository was enabled: neither is visible from this machine. Do not poll, do
    not check for a webhook, a workflow, or a check run, do not claim the install
