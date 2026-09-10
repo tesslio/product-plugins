@@ -116,8 +116,10 @@ Then do three things, in order:
    repository also has to be enabled in Tessl before any review runs. State this
    explicitly every time. It is the most common misunderstanding, and a user who
    stops at the App install sees no reviews and concludes the product is broken.
-   The page continues into choosing and enabling a repository once GitHub hands
-   the user back, so tell them to finish there rather than looking elsewhere.
+   The Code reviews page carries on into choosing and enabling a repository once
+   GitHub hands the user back, so tell them to finish there. The settings page
+   does not: it returns them to a table of repositories, and enabling one from
+   it is a step they have to start themselves.
 3. **Stop.** You cannot see whether the App was installed or whether the
    repository was enabled: neither is visible from this machine. Do not poll, do
    not check for a webhook, a workflow, or a check run, do not claim the install
