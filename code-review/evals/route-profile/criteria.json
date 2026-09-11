@@ -40,7 +40,7 @@
     {
       "name": "Checked before being handed over",
       "max_score": 10,
-      "description": "plan.md says to run tessl code review --check-profile against the profile, spelled exactly that way, and treats a lens that selects no files as something to fix"
+      "description": "plan.md says to run tessl code review check-profile against the profile, spelled exactly that way, and treats a lens that selects no files as something to fix"
     }
   ]
 }

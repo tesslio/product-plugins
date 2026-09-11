@@ -30,7 +30,7 @@
     {
       "name": "Checked before being handed over",
       "max_score": 15,
-      "description": "plan.md tells the team to run tessl code review --check-profile, spelled exactly that way, before merging, and says that a lens selecting zero files is a defect to fix rather than a warning to note"
+      "description": "plan.md tells the team to run tessl code review check-profile, spelled exactly that way, before merging, and says that a lens selecting zero files is a defect to fix rather than a warning to note"
     }
   ]
 }
