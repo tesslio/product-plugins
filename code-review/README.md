@@ -21,6 +21,7 @@ Tell your agent what you want. The `code-review` skill works out which job it is
 | Add Code Review to a repository | the Tessl Review GitHub App, below | "Set up Tessl Code Review on this repo" |
 | Review a change right now | `tessl code review` | "Review this branch against main" |
 | Make reviews catch something they miss, or stop flagging something they should not | `create-code-review-lens` | "Our reviews keep missing N+1 queries" |
+| Choose which lenses run, over which paths, and what is excluded | `configure-code-review-profile` | "Keep generated code out of our reviews" |
 | Deal with a review that has arrived on your pull request | `respond-to-code-review` | "Address the Tessl review on PR 42" |
 
 ## Set it up
@@ -65,7 +66,11 @@ tessl code review \
 tessl code review --skill ./review-lenses/review-scale-and-resilience   # a lens you keep locally
 ```
 
-An automated review runs the same defaults unless its lens selection names a complete ordered set of its own. A repository YAML profile can also route lenses to paths with globs; `setup-code-review` carries the profile format.
+An automated review runs the same defaults unless its lens selection names a complete ordered set of its own. A repository states that selection in a `.tessl-code-review.yml` profile at its root, which also routes lenses to paths with globs and excludes paths from every lens. The Tessl Review GitHub App reads that file from the repository root on its own; the CLI selects it with `--profile`. `configure-code-review-profile` writes it.
+
+## Configure it
+
+`configure-code-review-profile` decides what a repository's reviews actually review, and writes it down in `.tessl-code-review.yml` at the repository root. The profile names the lens set, routes each lens at the paths it is good for, excludes generated output, lockfiles, snapshots, and vendored code from every lens, and sets the severity at which findings request changes. The lens list is the complete set for the run, so a profile that names one lens stops running the others.
 
 ## Tune it
 
@@ -84,6 +89,7 @@ The default lenses are meant to be forked. Copy one into your repository, tune i
 | `code-review` | Start here. Routes a request to the right job below, and runs a review from the CLI. |
 | `setup-code-review` | Unsupported. Detect, interview, propose, write, verify, and explain a GitHub Action caller workflow. |
 | `create-code-review-lens` | Settle the review question and threshold, draft the lens, run and backtest it, then pin it. |
+| `configure-code-review-profile` | Write the repository's `.tessl-code-review.yml`: the lens set, per-lens path routing, exclusions, effort, and the blocking threshold. |
 | `respond-to-code-review` | Adjudicate each finding on your pull request, reply, and keep the pull request on its goal. |
 | `review-correctness-and-data-integrity` | Default lens. Functional defects, data loss, duplicate writes, ordering, integration contracts. |
 | `review-maintainability-and-code-quality` | Default lens. Naming, weak contracts, local precedent, misleading comments, unenforced surfaces. |

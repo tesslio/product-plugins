@@ -95,8 +95,8 @@ input. Name it in one line when the user picks gate: a repository that sets no
 threshold gates at `major` on every round, so a Minor is published as a
 suggestion and does not hold the pull request. Do not ask for a value. The
 default suits almost every repository, and
-[references/file-profiles.md](references/file-profiles.md) carries the values for
-one that wants a different bar.
+[references/file-profiles.md](references/file-profiles.md) routes to the values
+for one that wants a different bar.
 
 Do not add a third question about who may approve either. A comment can ask
 Tessl to approve a pull request rather than review it, and `approver-logins`
@@ -117,7 +117,7 @@ version, the CLI channel, or telemetry. The Action installs the current Tessl CL
 release, and a repository that leaves it alone picks up CLI improvements without
 editing its workflow. Do not ask about the reasoning effort either: the
 templates never set it, and a repository that wants to tune it sets `effort` in
-its profile, which the file-profiles reference explains.
+its profile, which the file-profiles reference points to.
 
 ### 3. Propose
 

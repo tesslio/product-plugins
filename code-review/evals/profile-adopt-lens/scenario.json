@@ -1,0 +1,6 @@
+{
+  "description": "Adopting one locally authored lens must produce a profile naming the complete lens set, so the default lenses keep running rather than being silently replaced by the new one",
+  "include": [
+    "./inputs"
+  ]
+}

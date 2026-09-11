@@ -1,0 +1,36 @@
+{
+  "context": "A profile's lenses list is the complete ordered set for a run and replaces the default lens set rather than adding to it. This scenario checks that adopting one lens keeps the four defaults running, that the refs are pinned, and that the profile is checked rather than assumed.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Profile written at the discovered path",
+      "max_score": 15,
+      "description": "A block-style YAML profile exists at the repository root as .tessl-code-review.yml with schemaVersion: 1 and a non-empty lenses list"
+    },
+    {
+      "name": "Defaults kept",
+      "max_score": 30,
+      "description": "The lenses list names all four default lenses (review-correctness-and-data-integrity, review-maintainability-and-code-quality, review-scale-and-resilience, review-security-and-privacy) as well as the local lens ./review-lenses/review-per-row-calls/SKILL.md"
+    },
+    {
+      "name": "States why the defaults had to be listed",
+      "max_score": 20,
+      "description": "plan.md says that a profile's lens list is the complete set for the run and replaces the defaults rather than adding to them, so a profile naming only the new lens would silently stop running the others"
+    },
+    {
+      "name": "Registry refs are pinned",
+      "max_score": 10,
+      "description": "Every registry ref in the profile carries an explicit version, such as tessl/code-review@0.4.0#review-security-and-privacy, and none is left unpinned"
+    },
+    {
+      "name": "No unrequested policy change",
+      "max_score": 10,
+      "description": "The profile does not set model, supervisorModel, or supervisorEffort, and plan.md does not propose changing when reviews run or whether they block"
+    },
+    {
+      "name": "Checked before being handed over",
+      "max_score": 15,
+      "description": "plan.md tells the team to run tessl code review --check-profile, spelled exactly that way, before merging, and says that a lens selecting zero files is a defect to fix rather than a warning to note"
+    }
+  ]
+}
