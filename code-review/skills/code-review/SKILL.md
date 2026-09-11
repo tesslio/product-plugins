@@ -63,9 +63,10 @@ below.
 
 Tessl Code Review runs on GitHub as the **Tessl Review GitHub App**. Installing
 the App is the supported way to install Tessl Code Review, and it starts on the
-organization's Code reviews page in the Tessl web app. That page carries the
-whole setup in order: connect GitHub, choose a repository, and answer the two
-questions that decide when reviews run and whether they block a merge.
+organization's Code reviews page in the Tessl web app. Until an installation
+exists, that page offers **Connect GitHub**. Once one does, it lists the
+repositories the App can reach, and a repository's row is where it is enabled
+and where its trigger policy and review behavior are set.
 
 **Build the link to that page.** It is per-organization, so find the
 organization first:
@@ -86,12 +87,11 @@ the link resolves without you having to know the slug. When `tessl org list
 guessing: the link points at a single organization, and installing against the
 wrong one is invisible until no reviews arrive.
 
-Some organizations have no Code reviews page. If it is not there, the same
-organization's Tessl Reviewer settings page reaches the same App:
-
-```
-https://tessl.io/orgs/<id>/settings/integrations/tessl-reviewer
-```
+Not every organization has this page. If the user reports it is not there, their
+organization is not enabled for Tessl Code Review. Say that, and that enabling
+it is a change Tessl makes rather than one they can make. No other address
+reaches the App, and the CLI cannot install it, so there is nothing further to
+offer.
 
 Give the finished link on its own line. Never construct or emit a
 `github.com/apps/...` install link: those carry signed per-user state that
@@ -116,10 +116,9 @@ Then do three things, in order:
    repository also has to be enabled in Tessl before any review runs. State this
    explicitly every time. It is the most common misunderstanding, and a user who
    stops at the App install sees no reviews and concludes the product is broken.
-   The Code reviews page carries on into choosing and enabling a repository once
-   GitHub hands the user back, so tell them to finish there. The settings page
-   does not: it returns them to a table of repositories, and enabling one from
-   it is a step they have to start themselves.
+   The Code reviews page is where enabling happens. GitHub hands the user back
+   to it, and it lists the repositories the App can reach; enabling one means
+   opening its row and turning it on. Tell them to finish there.
 3. **Stop.** You cannot see whether the App was installed or whether the
    repository was enabled: neither is visible from this machine. Do not poll, do
    not check for a webhook, a workflow, or a check run, do not claim the install
