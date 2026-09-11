@@ -1,0 +1,6 @@
+{
+  "description": "A request to exclude generated paths and route a local lens at one directory must be recognised as a profile-configuration job, producing a repository profile at the root rather than a lens or a workflow",
+  "include": [
+    "./inputs"
+  ]
+}

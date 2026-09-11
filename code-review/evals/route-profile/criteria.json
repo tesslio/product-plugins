@@ -1,0 +1,46 @@
+{
+  "context": "The plugin bundles a router, an unsupported GitHub Action setup skill, a lens-authoring skill, a profile-configuration skill, a respond skill, and four review lenses. This scenario checks that a request about which lenses run and over which paths lands in configure-code-review-profile, and that the profile it writes is routed, bounded, and checked.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Recognises the profile job",
+      "max_score": 15,
+      "description": "plan.md states that this is a profile-configuration job handled by the configure-code-review-profile skill, because the request is about which lenses run and which paths they review rather than about installing Code Review or authoring a lens"
+    },
+    {
+      "name": "Profile written at the discovered path",
+      "max_score": 15,
+      "description": "A profile exists at the repository root as .tessl-code-review.yml, is a block-style YAML mapping, and sets schemaVersion: 1"
+    },
+    {
+      "name": "Does not route elsewhere",
+      "max_score": 10,
+      "description": "No workflow under .github/workflows/ is created, no new review lens SKILL.md is authored, and review-lenses/review-migrations/SKILL.md is byte-identical to the input"
+    },
+    {
+      "name": "Defaults are still named",
+      "max_score": 15,
+      "description": "The lenses list names all four default lenses (review-correctness-and-data-integrity, review-maintainability-and-code-quality, review-scale-and-resilience, review-security-and-privacy) with version-pinned registry refs, alongside the local migrations lens, and plan.md says the list replaces the defaults rather than adding to them"
+    },
+    {
+      "name": "Local lens routed to migrations only",
+      "max_score": 15,
+      "description": "The entry whose ref is the local path ./review-lenses/review-migrations/SKILL.md carries globs selecting the db/migrations directory and nothing wider"
+    },
+    {
+      "name": "Ignore list derived from this repository",
+      "max_score": 15,
+      "description": "ignore holds positive patterns that match the committed generated client under src/api/generated and the pnpm lockfile, no pattern starts with ! and none is a bare **, and the patterns correspond to paths that exist in this repository rather than a generic list"
+    },
+    {
+      "name": "Ignore is not over-broad",
+      "max_score": 5,
+      "description": "No ignore pattern excludes src/app, db/migrations, or the repository's Markdown, so hand-written source is still reviewed"
+    },
+    {
+      "name": "Checked before being handed over",
+      "max_score": 10,
+      "description": "plan.md says to run tessl code review --check-profile against the profile, spelled exactly that way, and treats a lens that selects no files as something to fix"
+    }
+  ]
+}
