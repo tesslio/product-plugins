@@ -72,6 +72,8 @@ An automated review runs the same defaults unless its lens selection names a com
 
 `configure-code-review-profile` decides what a repository's reviews actually review, and writes it down in `.tessl-code-review.yml` at the repository root. The profile names the lens set, routes each lens at the paths it is good for, excludes generated output, lockfiles, snapshots, and vendored code from every lens, and sets the severity at which findings request changes. The lens list is the complete set for the run, so a profile that names one lens stops running the others.
 
+`tessl code review check-profile` checks a profile without running a review: schema errors, how many files each lens selects, patterns that match nothing, and whether a run would end skipped for want of a matching lens.
+
 ## Tune it
 
 `create-code-review-lens` turns a review concern into a lens that has been run, tuned, and pinned. It settles the review question and the bar a finding has to clear, drafts the lens, runs it against a change that should trip it and one that should not, backtests it against changes that already carry review feedback, and pins the reference a review can select.

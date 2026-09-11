@@ -141,7 +141,7 @@ what it matches, so a leading `!` is rejected; a bare `**` is rejected; at most
 Run the checker against the file you wrote:
 
 ```bash
-tessl code review --check-profile
+tessl code review check-profile
 ```
 
 It costs no credits and runs no model. It reports schema errors, how many files
@@ -154,9 +154,15 @@ Act on what it reports rather than noting it:
   are wrong, or `ignore` is subtracting the paths it was pointed at, or the lens
   does not belong in this profile. Fix the cause; do not leave a lens in the
   file that reviews nothing.
-- **A glob or an ignore pattern matching nothing is a typo until proven
-  otherwise.** Check the spelling, the leading directory, and the case: patterns
-  are case-sensitive.
+- **A pattern matching nothing asks two different questions, and only one of
+  them is a defect.** A pattern that matches nothing in the repository's tracked
+  files is dead config: it protects nothing, and it is a typo until proven
+  otherwise, so check the spelling, the leading directory, and the case, which
+  patterns are sensitive to. A pattern that merely matches nothing in the change
+  being checked is ordinary and means nothing on its own, because a sound
+  `node_modules/**` matches nothing whenever the change leaves `node_modules`
+  alone. Read which of the two the report is telling you before changing a
+  pattern, and change nothing on the second.
 - **A run that would be skipped for no matching lenses** means this profile
   reviews nothing for that change. That is fine when the change is entirely
   generated output, and a mistake otherwise.
