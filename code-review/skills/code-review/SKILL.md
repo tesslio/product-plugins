@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: Start here for Tessl Code Review. Use when someone mentions Tessl Code Review or Tessl's AI review, wants automated review of pull requests in a repository, asks to review a diff, branch, or pull request ("review this change", "check this diff for security issues", "what would Code Review say"), asks what Tessl Code Review does, or asks for something and it is not yet clear which Code Review job it is. Works out whether they want to install it on a repository, run a review, change what reviews catch, or answer a review's findings. Installing is the Tessl Review GitHub App, which this skill points at the documentation for, unless the user names the unsupported GitHub Action, which hands off to setup-code-review; the other jobs hand off to create-code-review-lens, respond-to-code-review, or the tessl code review command. The review-* skills in this plugin are lenses that tessl code review runs as reviewer instructions; do not follow one directly to review code, run the command instead.
+description: Start here for Tessl Code Review. Use when someone mentions Tessl Code Review or Tessl's AI review, wants automated review of pull requests, asks to review a diff, branch, or pull request ("review this change", "check this diff for security issues"), asks what Tessl Code Review does, or asks for something and it is not yet clear which Code Review job it is. Works out whether they want to install it on a repository, run a review, change what reviews catch, configure which lenses run and over which paths, or answer findings. Installing is the Tessl Review GitHub App, which this skill points at the documentation for, unless the user names the unsupported GitHub Action, which hands off to setup-code-review; the other jobs hand off to create-code-review-lens, configure-code-review-profile, respond-to-code-review, or the tessl code review command. The review-* skills in this plugin are lenses that tessl code review runs as reviewer instructions; do not follow one directly to review code, run the command.
 ---
 
 # Tessl Code Review
@@ -17,6 +17,7 @@ This plugin holds every part a user touches:
 | Install Code Review on a repository | [Installing on a repository](#installing-on-a-repository), below | set up, enable, install, turn on reviews on this repo, get Tessl reviewing our pull requests |
 | Install the unsupported GitHub Action instead | `setup-code-review` | the user names the Action: install the action, set it up as a GitHub Action, I want the Action |
 | Change what a review looks for | `create-code-review-lens` | the review missed something, keeps flagging something it should not, write a lens, fork a lens, tune a lens, custom review rules |
+| Change which lenses run, which paths they review, or what is excluded | `configure-code-review-profile` | route a lens at a directory, exclude generated code or lockfiles from reviews, add a lens to what this repo runs, stop blocking on minor findings, what goes in `.tessl-code-review.yml` |
 | Answer a review that has arrived | `respond-to-code-review` | address the findings, respond to the review, the reviewer left comments, changes requested, the review loop is not converging |
 | Run a review now | the `tessl code review` command, below | review this change, review my PR, what would Code Review say about this diff |
 
@@ -37,8 +38,10 @@ enough when the request is ambiguous; do not interview.
    [Installing on a repository](#installing-on-a-repository) instead. This rule
    takes precedence over the next one; nothing short of naming the Action counts.
 2. **Is this about getting Code Review running on a repository?** Any other
-   request to install, enable, set up, or configure automatic review of pull
-   requests is an install job. Follow
+   request to install, enable, set up, or turn on automatic review of pull
+   requests is an install job, including one that says "configure" and means
+   getting reviews happening at all. A request about which lenses run or which
+   paths they cover assumes reviews already run, and belongs to rule 5. Follow
    [Installing on a repository](#installing-on-a-repository). Do not read the
    repository's workflows to decide this, and do not treat a missing workflow as
    work to do.
@@ -47,7 +50,15 @@ enough when the request is ambiguous; do not interview.
 4. **Is the complaint about what reviews catch?** Missed classes of bug, noisy
    findings, a concern the team keeps raising by hand, or a request for a custom
    rule is a lens job. A request to change *when* or *whether* reviews run is not.
-5. **Otherwise, run a review.** A request to look at a change now, with no
+5. **Is this about which lenses run, or over which paths?** Selecting the lens
+   set a repository runs, routing a lens at part of the repository, excluding
+   paths from every lens, or setting the severity at which findings block is a
+   profile job. Follow `configure-code-review-profile`. Reaching this rule means
+   the earlier ones did not match, so a request to install Code Review is
+   already an install job and a request to write a lens is already a lens job:
+   this rule takes the request that names the file, the routing, the exclusions,
+   or the selection, including adopting a lens that has already been written.
+6. **Otherwise, run a review.** A request to look at a change now, with no
    installation or lens work implied, is a CLI run.
 
 Hand off by following the named skill. Say which one you are using and why in one
@@ -156,6 +167,11 @@ tessl code review --skill ./review-lenses/review-test-reliability
 tessl code review --skill tessl/code-review@0.2.0#review-security-and-privacy
 ```
 
+A repository that keeps its own lens set and routing holds it in a
+`.tessl-code-review.yml` profile. The App reads that file from the repository
+root on its own; a CLI run selects it with `--profile ./.tessl-code-review.yml`.
+Writing or changing one is `configure-code-review-profile`.
+
 `--json` writes one document to stdout on success and failure alike. Read
 `status` before counting findings: a failed run carries none and otherwise looks
 like a clean review.
@@ -165,8 +181,10 @@ pull request. A local run is a preview.
 
 ## What not to do here
 
-- Do not hand-write a lens or a profile. Each has a skill, and each skill knows
-  the contract the CLI enforces.
+- Do not hand-write a lens or a profile. Each has a skill:
+  `create-code-review-lens` for a lens and `configure-code-review-profile` for
+  the repository's `.tessl-code-review.yml`, and each skill knows the contract
+  the CLI enforces.
 - Do not write a GitHub Actions workflow to install Code Review, and do not
   offer to. The App is the install path.
 - Do not answer findings for the user without reading `respond-to-code-review`.

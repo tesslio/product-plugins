@@ -1,0 +1,4 @@
+gopkg.in/yaml.v3 v3.0.1 h1:fxVm/GzAzEWqLHuvctI91KS9hhNmmWOoWu0XTYJS7CA=
+gopkg.in/yaml.v3 v3.0.1/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=
+sigs.k8s.io/kustomize/kyaml v0.16.0 h1:tCiUrHMsdcq7L8bX/uq3dSUEqWcjs5fGCv1A5F2g0oI=
+sigs.k8s.io/kustomize/kyaml v0.16.0/go.mod h1:TGLhFRUMHWZJDJjJ7gqQ5CqZRZLZ5xgSEbLgLiWbRnI=
