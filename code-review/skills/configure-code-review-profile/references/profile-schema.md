@@ -10,10 +10,18 @@ The three consumers of a profile do not agree on how it is found:
 - **The Tessl Review GitHub App**, the supported install path, looks for
   `./.tessl-code-review.yml` at the repository root and uses it when it is
   there. Nothing has to point at it. A profile at any other path is not read.
-- **The CLI** selects a profile explicitly and reads none by default:
+- **The CLI** differs by subcommand. A review selects a profile explicitly and
+  reads none by default:
 
   ```sh
   tessl code review --profile ./.tessl-code-review.yml
+  ```
+
+  The checker instead defaults to the same root file the App discovers, so a
+  bare invocation checks the profile this skill writes:
+
+  ```sh
+  tessl code review check-profile
   ```
 
 - **The unsupported GitHub Action** selects one explicitly too, through its
@@ -26,8 +34,13 @@ The three consumers of a profile do not agree on how it is found:
     mode: advisory
   ```
 
-Whichever consumer reads it, the path must end in `.yml` or `.yaml` and must
-resolve inside the repository.
+  That input also accepts the name of a built-in profile, such as `standard`,
+  which selects a set of lenses Tessl ships rather than a file in the
+  repository. The rest of this page describes the file, so it applies only when
+  the input names one.
+
+Wherever a consumer reads a profile file, its path must end in `.yml` or
+`.yaml` and must resolve inside the repository.
 
 ## Document shape
 
