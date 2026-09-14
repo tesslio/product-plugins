@@ -165,10 +165,15 @@ and whether the run would end skipped because no lens matched.
 
 Act on what it reports rather than noting it:
 
-- **A lens selecting zero files is a defect, not a warning.** Either its globs
-  are wrong, or `ignore` is subtracting the paths it was pointed at, or the lens
-  does not belong in this profile. Fix the cause; do not leave a lens in the
-  file that reviews nothing.
+- **A lens selecting zero files asks the same two questions a pattern does.**
+  A lens whose globs match no file the repository tracks routes nothing in any
+  change, and that is a defect: its globs are wrong, or `ignore` is subtracting
+  the paths it was pointed at, or the lens does not belong in this profile. A
+  lens whose globs match tracked files but none in the change being checked is
+  working correctly, because a migrations lens is supposed to select nothing
+  from a change that touches no migrations. Read which of the two the report is
+  telling you. Never widen a lens's globs, and never drop the lens, to make a
+  number move on a change that was never its subject.
 - **A pattern matching nothing asks two different questions, and only one of
   them is a defect.** A pattern that matches nothing in the repository's tracked
   files is dead config: it protects nothing, and it is a typo until proven

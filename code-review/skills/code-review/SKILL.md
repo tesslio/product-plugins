@@ -50,6 +50,12 @@ enough when the request is ambiguous; do not interview.
 4. **Is the complaint about what reviews catch?** Missed classes of bug, noisy
    findings, a concern the team keeps raising by hand, or a request for a custom
    rule is a lens job. A request to change *when* or *whether* reviews run is not.
+   Neither is a request that names the paths itself: "stop reviewing the
+   generated client", "the lockfile findings are noise", and anything else that
+   asks for a directory or a class of file to go unreviewed is an exclusion, and
+   exclusions apply to every lens at once, so it belongs to rule 5 however the
+   request explains its motivation. What stays here is a request to change a
+   lens's judgment, such as what it reports and how hard it pushes back.
 5. **Is this about which lenses run, or over which paths?** Selecting the lens
    set a repository runs, routing a lens at part of the repository, excluding
    paths from every lens, or setting the severity at which findings block is a
