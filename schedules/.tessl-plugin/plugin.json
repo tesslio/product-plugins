@@ -1,0 +1,5 @@
+{
+  "name": "tessl/schedule-setup",
+  "version": "1.0.0",
+  "description": "Set up a repo-defined schedule from a plain-language description. Describe the task, cadence, and environment, and the skill writes a validated schedules entry to your tessl.json."
+}
