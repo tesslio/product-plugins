@@ -48,7 +48,7 @@ A plugin that is still a draft does not belong on `main`. Keep it on a branch un
 ## CI
 
 - `version-check` fails a pull request that changes a plugin without bumping that plugin's version.
-- `publish` reconciles current plugins and reviewed historical versions in the US and EU registries when a commit lands on `main`. Merging is publishing. Manual dispatch can select a package and region; see [regional publishing](.github/actions/publish-plugin/README.md).
+- `publish` publishes every changed plugin when a commit lands on `main`. Merging is publishing. There is no separate release step.
 - `tessl-code-review` reviews a pull request when it is opened, reopened, or marked ready for review, and again when an owner, member, or collaborator comments `@tessl-code-review` on it as a whole word. An opened draft is not reviewed until it is marked ready, though a mention on a draft is. Pushing commits does not start a review. Changes requested fails the `Tessl Code Review` check, so a blocked pull request needs a fresh review against the new head before it can merge.
 
 The lenses in `review-lenses/` and the profile that routes them are instructions that later run with a reviewer's authority. Review a change to either with the same care as a change to a published skill.

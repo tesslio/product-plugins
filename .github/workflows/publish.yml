@@ -1,87 +1,50 @@
 name: publish
 
-# Reconcile the whole inventory so failed or superseded pushes are recovered.
+# Publish every plugin whose files changed when a commit lands on main.
 on:
   push:
     branches: [main]
-  workflow_dispatch:
-    inputs:
-      target:
-        description: Registry to reconcile
-        type: choice
-        default: both
-        options: [both, production, app-eu]
-      package:
-        description: Top-level package directory (empty means all)
-        type: string
-        default: ''
 
-permissions:
-  contents: read
-
+# Serialize publishes so overlapping merges don't race the registry.
 concurrency:
   group: publish-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
-  plan:
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    outputs:
-      packages: ${{ steps.plan.outputs.packages }}
-      targets: ${{ steps.plan.outputs.targets }}
-    steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-      - name: Plan required package versions
-        id: plan
-        env:
-          SELECTED_PACKAGE: ${{ inputs.package }}
-          SELECTED_TARGET: ${{ inputs.target || 'both' }}
-        run: |
-          set -euo pipefail
-          packages=$(python3 .github/actions/publish-plugin/inventory.py \
-            --root . --package "$SELECTED_PACKAGE" --backfills .github/publish-backfills.json)
-          echo "packages=$packages" >> "$GITHUB_OUTPUT"
-          case "$SELECTED_TARGET" in
-            both) targets='["production","app-eu"]' ;;
-            production) targets='["production"]' ;;
-            app-eu) targets='["app-eu"]' ;;
-            *) echo "Unknown target" >&2; exit 1 ;;
-          esac
-          echo "targets=$targets" >> "$GITHUB_OUTPUT"
-          printf 'Required versions: %s\n\nTargets: %s\n' "$packages" "$targets" >> "$GITHUB_STEP_SUMMARY"
-
   publish:
-    needs: plan
-    if: needs.plan.outputs.packages != '[]'
-    name: ${{ matrix.package.name }}@${{ matrix.package.version }} (${{ matrix.target }})
-    runs-on: ubuntu-latest
-    timeout-minutes: 35
-    environment: registry-${{ matrix.target }}
+    name: Publish plugins (${{ matrix.target.environment }})
     strategy:
       fail-fast: false
-      max-parallel: 8
       matrix:
-        package: ${{ fromJSON(needs.plan.outputs.packages) }}
-        target: ${{ fromJSON(needs.plan.outputs.targets) }}
+        target:
+          - environment: production
+            token: TESSL_TOKEN
+          - environment: app-eu
+            token: TESSL_TOKEN_EU
+    env:
+      TESSL_ENV: ${{ matrix.target.environment }}
+      TESSL_TOKEN: ${{ secrets[matrix.target.token] }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
-      # Helpers always come from the triggering main commit, even for backfills.
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
+          # Need the previous commit (github.event.before) to diff against.
+          fetch-depth: 0
+          # Publishing authenticates with TESSL_TOKEN, not the git credential.
           persist-credentials: false
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - name: Check publishing token
+        run: test -n "$TESSL_TOKEN"
+
+      - name: Install Tessl CLI
+        uses: tesslio/setup-tessl@25ec223fc0da33b41b8044ff5ab2b85235f4f91e # v2
         with:
-          ref: ${{ matrix.package.ref }}
-          path: _source
-          persist-credentials: false
-      - uses: ./.github/actions/publish-plugin
-        with:
-          path: _source/${{ matrix.package.path }}
-          name: ${{ matrix.package.name }}
-          version: ${{ matrix.package.version }}
-          target: ${{ matrix.target }}
-          api-url: ${{ matrix.target == 'app-eu' && 'https://api.eu.tessl.io' || 'https://api.tessl.io' }}
-          token: ${{ secrets.TESSL_PUBLISH_TOKEN }}
+          token: ${{ env.TESSL_TOKEN }}
+
+      - name: Publish changed plugins
+        env:
+          BEFORE_SHA: ${{ github.event.before }}
+          AFTER_SHA: ${{ github.sha }}
+        run: .github/scripts/publish-changed.sh "$BEFORE_SHA" "$AFTER_SHA"
