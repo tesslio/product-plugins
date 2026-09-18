@@ -52,7 +52,7 @@ jobs:
             *) echo "Unknown target" >&2; exit 1 ;;
           esac
           echo "targets=$targets" >> "$GITHUB_OUTPUT"
-          printf 'Required versions: `%s`\n\nTargets: `%s`\n' "$packages" "$targets" >> "$GITHUB_STEP_SUMMARY"
+          printf 'Required versions: %s\n\nTargets: %s\n' "$packages" "$targets" >> "$GITHUB_STEP_SUMMARY"
 
   publish:
     needs: plan
