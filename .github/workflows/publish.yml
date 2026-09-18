@@ -4,6 +4,21 @@ name: publish
 on:
   push:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      region:
+        description: Registry to backfill
+        type: choice
+        options: [app-eu, production]
+        default: app-eu
+      package:
+        description: Plugin directory (empty means all eligible plugins)
+        type: string
+        default: ''
+      publish:
+        description: Publish packages (false only lists the selected versions)
+        type: boolean
+        default: false
 
 # Serialize publishes so overlapping merges don't race the registry.
 concurrency:
@@ -11,27 +26,77 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  select-plugins:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      packages: ${{ steps.select.outputs.packages }}
+      regions: ${{ steps.select.outputs.regions }}
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Select plugin versions
+        id: select
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BEFORE_SHA: ${{ github.event.before }}
+          AFTER_SHA: ${{ github.sha }}
+          SELECTED_PACKAGE: ${{ inputs.package }}
+          SELECTED_REGION: ${{ inputs.region }}
+        run: |
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            case "$SELECTED_REGION" in
+              production|app-eu) ;;
+              *) echo "Unknown registry: $SELECTED_REGION" >&2; exit 1 ;;
+            esac
+            echo "regions=[\"$SELECTED_REGION\"]" >> "$GITHUB_OUTPUT"
+            candidates=$(find . -mindepth 1 -maxdepth 1 -type d | sed 's|^./||' | sort)
+          else
+            echo 'regions=["production","app-eu"]' >> "$GITHUB_OUTPUT"
+            if [ -z "$BEFORE_SHA" ] || [ "$BEFORE_SHA" = "0000000000000000000000000000000000000000" ]; then
+              BEFORE_SHA="${AFTER_SHA}^"
+            fi
+            candidates=$(.github/scripts/changed-plugins.sh "$BEFORE_SHA" "$AFTER_SHA")
+          fi
+          kept=''
+          while IFS= read -r dir; do
+            [ -z "$dir" ] && continue
+            if [ "$EVENT_NAME" = "workflow_dispatch" ] && [ -n "$SELECTED_PACKAGE" ] && [ "$dir" != "$SELECTED_PACKAGE" ]; then
+              continue
+            fi
+            [ -f "$dir/.tessl-plugin/plugin.json" ] || continue
+            [ ! -f "$dir/.local-only" ] || continue
+            jq -r '"\(.name)@\(.version)"' "$dir/.tessl-plugin/plugin.json" >> "$GITHUB_STEP_SUMMARY"
+            kept="$kept$dir"$'\n'
+          done <<< "$candidates"
+          packages=$(printf '%s' "$kept" | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          if [ "$EVENT_NAME" = "workflow_dispatch" ] && [ -n "$SELECTED_PACKAGE" ] && [ "$packages" = '[]' ]; then
+            echo "Selected directory is not an eligible plugin: $SELECTED_PACKAGE" >&2
+            exit 1
+          fi
+          echo "packages=$packages" >> "$GITHUB_OUTPUT"
+
   publish:
-    name: Publish plugins (${{ matrix.target.environment }})
+    name: Publish ${{ matrix.package }} (${{ matrix.region }})
+    needs: select-plugins
+    if: needs.select-plugins.outputs.packages != '[]' && (github.event_name == 'push' || inputs.publish)
     strategy:
       fail-fast: false
       matrix:
-        target:
-          - environment: production
-            token: TESSL_TOKEN
-          - environment: app-eu
-            token: TESSL_TOKEN_EU
+        package: ${{ fromJson(needs.select-plugins.outputs.packages) }}
+        region: ${{ fromJson(needs.select-plugins.outputs.regions) }}
     env:
-      TESSL_ENV: ${{ matrix.target.environment }}
-      TESSL_TOKEN: ${{ secrets[matrix.target.token] }}
+      TESSL_ENV: ${{ matrix.region }}
+      TESSL_TOKEN: ${{ secrets[matrix.region == 'app-eu' && 'TESSL_TOKEN_EU' || 'TESSL_TOKEN'] }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
     steps:
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
-          # Need the previous commit (github.event.before) to diff against.
-          fetch-depth: 0
           # Publishing authenticates with TESSL_TOKEN, not the git credential.
           persist-credentials: false
 
@@ -43,8 +108,7 @@ jobs:
         with:
           token: ${{ env.TESSL_TOKEN }}
 
-      - name: Publish changed plugins
+      - name: Publish plugin
         env:
-          BEFORE_SHA: ${{ github.event.before }}
-          AFTER_SHA: ${{ github.sha }}
-        run: .github/scripts/publish-changed.sh "$BEFORE_SHA" "$AFTER_SHA"
+          PLUGIN_DIR: ${{ matrix.package }}
+        run: tessl plugin publish "$PLUGIN_DIR"
