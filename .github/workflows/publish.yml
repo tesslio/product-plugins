@@ -12,6 +12,18 @@ concurrency:
 
 jobs:
   publish:
+    name: Publish plugins (${{ matrix.target.environment }})
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - environment: production
+            token: TESSL_TOKEN
+          - environment: app-eu
+            token: TESSL_TOKEN_EU
+    env:
+      TESSL_ENV: ${{ matrix.target.environment }}
+      TESSL_TOKEN: ${{ secrets[matrix.target.token] }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -23,14 +35,16 @@ jobs:
           # Publishing authenticates with TESSL_TOKEN, not the git credential.
           persist-credentials: false
 
+      - name: Check publishing token
+        run: test -n "$TESSL_TOKEN"
+
       - name: Install Tessl CLI
         uses: tesslio/setup-tessl@25ec223fc0da33b41b8044ff5ab2b85235f4f91e # v2
         with:
-          token: ${{ secrets.TESSL_TOKEN }}
+          token: ${{ env.TESSL_TOKEN }}
 
       - name: Publish changed plugins
         env:
-          TESSL_TOKEN: ${{ secrets.TESSL_TOKEN }}
           BEFORE_SHA: ${{ github.event.before }}
           AFTER_SHA: ${{ github.sha }}
         run: .github/scripts/publish-changed.sh "$BEFORE_SHA" "$AFTER_SHA"
