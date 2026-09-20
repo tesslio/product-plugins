@@ -18,7 +18,7 @@ It does not build `tessl review` rubrics, which score how good a skill is rather
 Six facts that change how a lens should be written:
 
 - **Each lens gets its own reviewer.** A lens runs as its own agent, with its `SKILL.md` and any bundled files as its only instructions. Lenses run in parallel and never see each other's findings.
-- **Every lens runs on every diff.** Nothing written in a lens makes it skip a change. Limiting a lens to certain paths is the review profile's job.
+- **Every lens runs on every diff.** Nothing written in a lens makes it skip a change. Limiting a lens to certain paths is the review profile's job, which `configure-code-review-profile` handles.
 - **Severity is decided after the lens runs.** The review merges overlapping findings and grades each one, and the grade is what decides whether the review requires changes. State impact plainly enough to be graded: `critical` and `major` always require changes, `nit` never does, `minor` only on the first review of a pull request.
 - **A finding without a line lands in the summary.** Inline comments sit on a changed line. A finding about something missing has no line to sit on, so it arrives in the summary and has to stand on its own.
 - **`--skill` replaces the defaults rather than adding to them.** Naming one lens makes it the whole review.
@@ -85,7 +85,7 @@ Pin the version in any reference you keep. An unpinned registry ref resolves to 
 tessl code review --skill your-workspace/your-plugin@1.0.0#review-test-reliability
 ```
 
-Adding the lens to a repository's automated review means changing that review's lens selection, which is also where any path scoping belongs.
+Adding the lens to a repository's automated review means changing that review's lens selection. For a repository reviewed by the Tessl Review GitHub App, that selection is the profile `.tessl-code-review.yml` at the repository root, and it is also where any path scoping for this lens belongs: a lens is pointed at part of a repository by the `globs` on its entry there, never by anything written inside the lens. Use `configure-code-review-profile` to write or change that file; it carries the format, the routing rules, and the check to run afterwards.
 
 A lens selection is the complete ordered set for the run, not an addition to it, exactly as `--skill` is. A selection naming only the new lens reviews for that concern alone and quietly stops running everything else. To add a lens, name every lens the review should run, each pinned, with the new one among them. Leaving the selection unset keeps the defaults.
 

@@ -1,0 +1,5 @@
+namespace: default
+namePrefix: dev-
+resources:
+  - deployment.yaml
+  - service.yaml

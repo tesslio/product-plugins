@@ -1,16 +1,20 @@
-# YAML file profiles
+# YAML file profiles and the Action
 
-Use a repository-owned YAML profile when the user wants a CLI or Action review
-to route different lenses to different parts of a change. The profile must be
-selected explicitly.
+A repository-owned YAML profile decides which lenses a review runs, which paths
+each lens reviews, and which paths no lens reviews. Use one when the Action
+should route different lenses to different parts of a change, or when the
+repository wants a different severity threshold for requesting changes.
 
-For the CLI:
+The format, the keys, the limits, and the routing rules are documented once, in
+[the profile skill's reference](../../configure-code-review-profile/references/profile-schema.md).
+Read that before writing or editing a profile. `configure-code-review-profile`
+is the skill that writes one, including the check to run against it afterwards.
+This page carries only what is specific to the Action.
 
-```sh
-$ tessl code review --profile ./.tessl-code-review.yml
-```
+## Selecting the profile
 
-For the Action:
+The Action does not discover a profile. It reads the one its `profile` input
+names, and reviews with the default lens set when the input is absent:
 
 ```yaml
 with:
@@ -19,98 +23,36 @@ with:
   mode: advisory
 ```
 
-Tessl does not discover profile files or make one the default. The file path
-must end in `.yml` or `.yaml`.
+The CLI behaves the same way, selecting a profile only through
+`--profile ./.tessl-code-review.yml`.
 
-## Schema
+The supported install path differs here, and a user moving between them will
+notice: the Tessl Review GitHub App looks for `./.tessl-code-review.yml` at the
+repository root and uses it when it is there, with nothing to configure. So a
+repository that keeps its profile at that path gets it read automatically on the
+App, and has to name it on the Action and on the CLI.
 
-The file must be a block-style YAML mapping. JSON, JSON-shaped flow YAML,
-unknown fields, and multiple YAML documents are rejected.
+Keep the file at the repository root under that name even when the Action is the
+only consumer. It costs nothing, it is where a reader looks for it, and it is
+what the App would read if the repository ever moves to the supported path.
 
-```yaml
-schemaVersion: 1
-requestChangesAt: major
-effort: low
-ignore:
-  - '**/*.generated.ts'
-  - vendor/**
-lenses:
-  - ref: ./review-lenses/backend/SKILL.md
-    globs:
-      - apps/backend/**
-  - ref: tessl/code-review@0.1.0#review-security-and-privacy
-    effort: high
-    globs:
-      - infra/**
-  - ref: ./review-lenses/general/SKILL.md
-```
+## The `lenses` input against a profile
 
-`schemaVersion` is required and must be `1`. `lenses` is an ordered, non-empty
-list. Every lens needs a `ref`, which can be a registry reference or an explicit
-local path. Local refs are relative to the profile, must use path syntax such as
-`./review-lenses/backend/SKILL.md`, and must resolve inside the repository.
-Duplicate refs and aliases that resolve to the same local lens are rejected.
+Both the Action's `lenses` input and a profile's `lenses` list state a complete
+ordered lens set, replacing the defaults rather than adding to them. They are
+not equivalent, though: the input is a flat list of refs and carries no glob
+routing and no `ignore` patterns, where the profile carries both. A repository
+that routes by path states its selection in the profile and leaves the input
+unset, so the routing cannot be lost to a second selection stated elsewhere.
 
-`globs` is optional. A lens without it applies to the whole change. When present,
-it must be a non-empty list with at least one positive pattern. Each profile may
-declare up to 100 lenses, each lens may declare up to 32 globs, and the profile
-may be up to 1 MB.
+## Gate mode and the threshold
 
-`ignore` is optional and bounds which paths any lens reviews, so generated code,
-lockfiles, snapshots, and vendored directories are named once instead of negated
-inside every lens. Each pattern is positive and excludes what it matches, so a
-leading `!` is rejected, as is a bare `**` that would leave every lens with
-nothing to review. It applies to every lens, including one that declares no
-`globs`, a lens's own `globs` still narrow it further, and `ignore` overrides
-anything a lens selected. At most 64 patterns are allowed. Because a file is
-selected when either rename endpoint matches, a file renamed into an ignored path
-is still reviewed and that path appears in the rename patch, and `ignore` bounds
-which paths a lens reviews rather than keeping their contents out of a model's
-context.
+`mode` decides whether the Action's check fails. It does not decide which
+findings make it fail: that is `requestChangesAt`, which exists only in a
+profile. A repository that sets no profile threshold gates at `major`, so a
+Minor finding is published as a suggestion and does not hold the pull request.
 
-`effort` is optional and sets how hard a lens thinks: `low`, `medium`, or
-`high`. The profile may set it for every lens, and any lens may set its own to
-think harder or less hard than the rest. A lens without one uses the profile's
-`effort`; with neither, the model applies its own default. The `--effort` flag
-applies to every lens and takes precedence over both. Higher settings take
-longer.
+## Treat a profile as executable review policy
 
-`requestChangesAt` is optional and sets the severity at which a finding starts
-requesting changes: `critical`, `major`, `minor`, or `nit`. A finding at or above
-it requests changes, and the review requests changes overall when any finding
-does. A finding below it is published as an optional suggestion, and an approving
-review carrying suggestions states how many it approved over. Omit the key and
-every round runs at `major`. There is no Action input and no CLI flag for the
-threshold, so this profile is the only way a repository sets it.
-
-The threshold also bounds what a later round raises. A first review publishes
-every finding whatever its severity. On a later round a finding below the
-threshold appears only if an earlier round already raised it, in which case it
-continues on its existing comment thread. A fresh finding below the threshold is
-not published on that round and is not held over: a later round either finds it
-in the code again or it is gone. At `requestChangesAt: nit` nothing is below the
-threshold, so every finding requests changes and every round raises everything.
-
-## Routing behavior
-
-Globs are case-sensitive, repository-relative POSIX patterns and include
-dotfiles. Absolute paths, `./`, `..`, backslashes, and drive letters are not
-valid patterns. Patterns are evaluated in order:
-
-- A matching positive pattern includes a path.
-- A matching pattern prefixed with `!` excludes it.
-- A later positive pattern can include it again.
-
-A renamed file selects a lens when either its old or new path matches. Each
-lens receives only its selected files in its prompt and diff tools. It cannot
-inspect files routed only to another lens through those tools.
-
-Only lenses with matching work count toward the limit of eight lenses.
-If no lens matches, the command exits successfully with a `skipped` result and
-`reason: no-matching-lenses`. No model runs and no approval is implied.
-
-Passing `--skill` replaces the profile's complete lens list, including its glob
-routing and its `ignore` patterns. It does not add to the file profile.
-
-Treat the profile and its local lenses as executable review policy. Review their
-changes with the same care as source code.
+A profile and the local lenses it references become reviewer instructions.
+Review changes to them with the same care as changes to source code.
