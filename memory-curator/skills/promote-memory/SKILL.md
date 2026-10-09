@@ -59,8 +59,8 @@ and stop.
    wins over the line it contradicts, and that line is deleted; a fact's
    `supersedes` names it. Between batch facts, the later `statedOn` wins.
 6. A `retracts` entry deletes what it names, from the note and from the batch,
-   and adds nothing, not even a note that something was forgotten. If no line
-   says what it names, change nothing.
+   and adds nothing, not even a note that something was forgotten. If neither
+   the note nor the batch says what it names, change nothing.
 7. Never keep secrets, credentials, or personal details beyond names and
    handles.
 8. The saved note stays under 48 KB. When it is over, delete whole lines in
@@ -92,6 +92,14 @@ and stop.
   `supersedes`, and either `fact` or `retracts`. It also writes `promotion.json`,
   checksums of the two, which you can ignore. It prints the note's version.
   Only the run the promotion job started for this topic may call it.
+- Every `pending` call in this run hands you the same batch: the job picked it
+  when it started the run, and facts proposed since then wait for the next
+  promotion.
+- `supersedes` and `retracts` are text, not ids: a note line as the proposing
+  run read it, without its leading `- ` and its `(<who>, <date>)` ending. A
+  promotion since then may have reworded the line, so match by what it says.
+  When no note line or batch fact says it, a `retracts` changes nothing
+  (invariant 6), and a fact with `supersedes` is handled as if it had none.
 - `pending` only creates new files. It refuses a folder that already holds any
   of the three, and a path through a symbolic link, with "Could not write the
   promotion input". Give every call a new, empty folder, such as one from
@@ -130,7 +138,8 @@ and stop.
   passes on its own.
 - **Merge** restatements into one line. Never say the same thing twice, even
   reworded.
-- **No change:** if the batch adds, corrects, or removes nothing, save the note
-  unchanged so the batch clears.
+- **No change:** if the batch has facts but none adds, corrects, or removes
+  anything, save the note so the batch clears, unchanged unless a line breaks an
+  invariant.
 - **Group** lines under short bold headings once the note passes about fifteen
   lines. Write no preamble and no commentary about what you changed.
