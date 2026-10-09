@@ -1,0 +1,5 @@
+{
+  "name": "tessl/memory-curator",
+  "mode": "vendored",
+  "dependencies": {}
+}

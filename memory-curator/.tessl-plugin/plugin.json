@@ -1,0 +1,7 @@
+{
+  "name": "tessl/memory-curator",
+  "version": "0.1.0",
+  "description": "Promote the pending facts of a project memory topic into the topic's note.",
+  "private": false,
+  "skills": ["skills/promote-memory"]
+}
