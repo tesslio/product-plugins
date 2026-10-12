@@ -30,7 +30,7 @@
     {
       "name": "Complete pinned lens set",
       "max_score": 20,
-      "description": "usage.md's lenses input names all four lenses that should run: the three remaining defaults as pinned tessl/code-review@<version>#... refs plus the fork, and says the input replaces the defaults rather than adding to them"
+      "description": "usage.md's .tessl-code-review.yml sets schemaVersion: 1 and a lenses list naming all four lenses that should run: the three remaining defaults as pinned tessl/code-review@<version>#... refs plus the fork as a local ref starting with ./ that points at the fork in the repository, and says the list replaces the defaults rather than adding to them"
     },
     {
       "name": "Fork is not a registry ref",

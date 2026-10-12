@@ -1,36 +1,31 @@
 {
-  "context": "The plugin bundles a router skill, an unsupported GitHub Action setup skill, a lens-authoring skill, a respond skill, and four review lenses. The supported install path is the Tessl Review GitHub App, and the router follows the setup skill only when the user names the GitHub Action. This scenario checks that a request naming the Action lands in the setup skill and that the setup skill's contract is honoured.",
+  "context": "The plugin bundles a router skill, a lens-authoring skill, a respond skill, and four review lenses. The only install path is the Tessl Review GitHub App, which starts on the organization's Code reviews page in the Tessl web app. This scenario checks that a request asking for a GitHub Action is still treated as an App install, and that no workflow is written in its place.",
   "type": "weighted_checklist",
   "checklist": [
     {
-      "name": "Recognises the setup job",
+      "name": "Recognises the install job",
       "max_score": 20,
-      "description": "plan.md states that this is a Code Review setup (installation) job handled by the setup-code-review skill, and gives a reason grounded in the user having asked for the GitHub Action by name"
+      "description": "plan.md states that this is a Code Review install job handled by the code-review skill's install path, and says the Tessl Review GitHub App is how Code Review is installed"
+    },
+    {
+      "name": "No workflow written",
+      "max_score": 25,
+      "description": "No file is added under .github/workflows/, and no workflow or other YAML file in the solution references tesslio/code-review-action or runs tessl code review"
+    },
+    {
+      "name": "Points at the Code reviews page",
+      "max_score": 20,
+      "description": "plan.md directs the user to the organization's Code reviews page, https://tessl.io/orgs/<id>/code-reviews with the organization id from tessl org list --json, and gives no github.com/apps/... install link"
+    },
+    {
+      "name": "States the enable step",
+      "max_score": 20,
+      "description": "plan.md says that installing the App is not enough on its own and that the repository also has to be enabled in Tessl, on the Code reviews page, before any review runs"
     },
     {
       "name": "Does not route elsewhere",
-      "max_score": 15,
+      "max_score": 5,
       "description": "No review lens is authored, no code review of the repository's code is produced, and the four review-* lens skills are not presented as having been followed"
-    },
-    {
-      "name": "Caller workflow written",
-      "max_score": 20,
-      "description": "A workflow under .github/workflows/ contains exactly one step using tesslio/code-review-action, with tessl-token from secrets.TESSL_TOKEN, and no checkout, CLI install, or review-posting steps of its own"
-    },
-    {
-      "name": "Recommended defaults stated",
-      "max_score": 15,
-      "description": "plan.md says reviews run once when a pull request becomes ready plus requested rounds, that findings are advisory, and that the standard profile with no custom lenses is used"
-    },
-    {
-      "name": "Action reference follows the recommended form",
-      "max_score": 10,
-      "description": "The uses: line references tesslio/code-review-action at the major tag v1, or at a full 40-character commit SHA with the release named in plan.md; never main, canary, or a placeholder"
-    },
-    {
-      "name": "Permissions and concurrency",
-      "max_score": 10,
-      "description": "permissions is exactly contents: read, checks: write, issues: write, pull-requests: write, and the review job has a per-pull-request concurrency group with cancel-in-progress false"
     },
     {
       "name": "Existing CI untouched",

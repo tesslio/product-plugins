@@ -31,8 +31,6 @@ https://docs.tessl.io/tutorials/setting-up-agentic-code-review
 
 Installing the App is not enough on its own. The repository also has to be enabled in Tessl before any review runs.
 
-The `setup-code-review` skill sets Code Review up as a GitHub Action instead. That path is unsupported and kept only for people who cannot install a GitHub App, so the `code-review` router follows it only when the user asks for the GitHub Action by name.
-
 ## Run it
 
 ```bash
@@ -65,7 +63,7 @@ tessl code review \
 tessl code review --skill ./review-lenses/review-scale-and-resilience   # a lens you keep locally
 ```
 
-An automated review runs the same defaults unless its lens selection names a complete ordered set of its own. A repository YAML profile can also route lenses to paths with globs; `setup-code-review` carries the profile format.
+An automated review runs the same defaults unless the repository has a profile. The profile is `.tessl-code-review.yml` at the repository root. It names the complete ordered lens set, can route each lens to paths with globs, and can keep paths out of review entirely. The App reads it once it exists on the default branch. The CLI reads it when you pass `--profile ./.tessl-code-review.yml`. The format is in [`skills/code-review/references/repository-profile.md`](skills/code-review/references/repository-profile.md).
 
 ## Tune it
 
@@ -82,7 +80,6 @@ The default lenses are meant to be forked. Copy one into your repository, tune i
 | Skill | Description |
 | --- | --- |
 | `code-review` | Start here. Routes a request to the right job below, and runs a review from the CLI. |
-| `setup-code-review` | Unsupported. Detect, interview, propose, write, verify, and explain a GitHub Action caller workflow. |
 | `create-code-review-lens` | Settle the review question and threshold, draft the lens, run and backtest it, then pin it. |
 | `respond-to-code-review` | Adjudicate each finding on your pull request, reply, and keep the pull request on its goal. |
 | `review-correctness-and-data-integrity` | Default lens. Functional defects, data loss, duplicate writes, ordering, integration contracts. |
@@ -93,6 +90,5 @@ The default lenses are meant to be forked. Copy one into your repository, tune i
 ## Related
 
 - [Setting up agentic code review](https://docs.tessl.io/tutorials/setting-up-agentic-code-review), the supported install path.
-- [Tessl Code Review Action](https://github.com/tesslio/code-review-action), which the unsupported caller workflow invokes.
 - `tessl/plugin-creator`, for packaging a lens of your own as a plugin to share across repositories.
 - `tessl/review-plugin-creator`, for `tessl review` rubrics, which score skill quality rather than code.
