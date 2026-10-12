@@ -85,9 +85,9 @@ Pin the version in any reference you keep. An unpinned registry ref resolves to 
 tessl code review --skill your-workspace/your-plugin@1.0.0#review-test-reliability
 ```
 
-Adding the lens to a repository's automated review means changing that review's lens selection, which is also where any path scoping belongs.
+Adding the lens to a repository's automated review means listing it under `lenses` in the repository profile, `.tessl-code-review.yml` at the repository root. Any path scoping for the lens goes there too, as `globs`. The format is in [../code-review/references/repository-profile.md](../code-review/references/repository-profile.md).
 
-A lens selection is the complete ordered set for the run, not an addition to it, exactly as `--skill` is. A selection naming only the new lens reviews for that concern alone and quietly stops running everything else. To add a lens, name every lens the review should run, each pinned, with the new one among them. Leaving the selection unset keeps the defaults.
+The profile's `lenses` list is the complete ordered set for the run, not an addition to it, exactly as `--skill` is. A profile naming only the new lens reviews for that concern alone and quietly stops running everything else. To add a lens, list every lens the review should run, each registry ref pinned, with the new one among them. A repository with no profile runs the defaults.
 
 Tessl Code Review runs on GitHub as the Tessl Review GitHub App. How a repository is set up and configured is documented at https://docs.tessl.io/tutorials/setting-up-agentic-code-review
 

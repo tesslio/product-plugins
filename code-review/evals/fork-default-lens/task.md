@@ -14,6 +14,6 @@ adds the payment-idempotency dimension. Keep the rest as it is.
 ## Output Specification
 
 - `review-lenses/review-scale-and-resilience-payments/SKILL.md`: the fork.
-- `usage.md`: how to run it locally while iterating, and the exact `lenses`
-  input for our caller workflow once adopted, so that the other three defaults
-  keep running alongside it. Our workflow currently sets no `lenses` input.
+- `usage.md`: how to run it locally while iterating, and the exact
+  `.tessl-code-review.yml` to add once adopted, so that the other three
+  defaults keep running alongside it. We have no `.tessl-code-review.yml` yet.

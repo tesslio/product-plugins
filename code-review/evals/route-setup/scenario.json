@@ -1,5 +1,5 @@
 {
-  "description": "A request that names the GitHub Action must be recognised as a setup job and handled by the setup procedure, not by writing a lens or reviewing code",
+  "description": "A request to install Code Review as a GitHub Action must be recognised as an install job and routed to the Tessl Review GitHub App, without writing a workflow",
   "include": [
     "./inputs"
   ]

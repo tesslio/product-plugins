@@ -1,5 +1,5 @@
 {
-  "context": "The plugin bundles a router, setup, lens-authoring, respond, and four lenses. This scenario checks that a what-reviews-catch complaint lands in lens authoring, and that the produced lens meets the lens-authoring skill's own bar.",
+  "context": "The plugin bundles a router, lens-authoring, respond, and four lenses. This scenario checks that a what-reviews-catch complaint lands in lens authoring, and that the produced lens meets the lens-authoring skill's own bar.",
   "type": "weighted_checklist",
   "checklist": [
     {
@@ -8,9 +8,9 @@
       "description": "plan.md states that this is a lens-authoring job handled by the create-code-review-lens skill, because the complaint is about what reviews catch rather than when they run"
     },
     {
-      "name": "Does not route to setup",
+      "name": "Does not route to install",
       "max_score": 15,
-      "description": ".github/workflows/tessl-code-review.yml is byte-identical to the input and plan.md does not propose changing cadence or mode"
+      "description": "No .tessl-code-review.yml and no file under .github/workflows/ is created, and plan.md does not propose changing when reviews run or whether they block"
     },
     {
       "name": "Lens has a review question and a bar",
@@ -35,7 +35,7 @@
     {
       "name": "Selection is stated correctly",
       "max_score": 10,
-      "description": "validation-plan.md says that adopting the lens means naming the complete ordered lens set in the caller's lenses input, every ref pinned, with the new lens among them, because lenses replaces the defaults rather than adding to them"
+      "description": "validation-plan.md says that adopting the lens means adding a .tessl-code-review.yml at the repository root whose lenses list names the complete ordered set, the four defaults as pinned tessl/code-review@<version>#... refs plus the new lens by its repository path, because the profile's lens list replaces the defaults rather than adding to them"
     }
   ]
 }

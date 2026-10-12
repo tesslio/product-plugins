@@ -2,8 +2,9 @@
 
 ## Problem Description
 
-Tessl Code Review runs on this repository already, with the four default
-lenses, through `.github/workflows/tessl-code-review.yml`. It is useful, but in
+Tessl Code Review runs on this repository already, through the Tessl Review
+GitHub App, with the four default lenses. The repository has no
+`.tessl-code-review.yml`. It is useful, but in
 the last quarter three incidents traced back to a loop that issued one database
 or service call per row, and the review said nothing each time. Human reviewers
 caught two of them late. `review-comments.md` has the comments they left.
@@ -19,4 +20,5 @@ Do not change when reviews run or whether they block; that is settled.
   reviewer skill.
 - `validation-plan.md`: how we should check the lens before adopting it, and
   how it gets selected once adopted.
-- Leave `.github/workflows/tessl-code-review.yml` unchanged.
+- Do not add the lens to the repository's reviews yet; we want to check it
+  first.

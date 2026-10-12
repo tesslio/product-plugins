@@ -1,26 +1,26 @@
-# YAML file profiles
+# The repository profile
 
-Use a repository-owned YAML profile when the user wants a CLI or Action review
-to route different lenses to different parts of a change. The profile must be
-selected explicitly.
+A repository profile is a YAML file that states which lenses a review runs,
+which paths each lens reviews, and which paths no lens reviews. Use one when the
+user wants to add a lens to a repository's reviews, route different lenses to
+different parts of a change, or keep generated and vendored files out of review.
 
-For the CLI:
+The Tessl Review GitHub App reads the profile from `.tessl-code-review.yml` at
+the repository root. The App uses a profile only once that file exists on the
+default branch. When the pull request's author has write access to the
+repository, the review uses the copy on the pull request's head, so a pull
+request can change the profile it is reviewed with. For any other author, the
+review uses the copy on the default branch. Without the file, the App runs the
+default lenses.
+
+The CLI uses a profile only when you pass it:
 
 ```sh
 $ tessl code review --profile ./.tessl-code-review.yml
 ```
 
-For the Action:
-
-```yaml
-with:
-  tessl-token: ${{ secrets.TESSL_TOKEN }}
-  profile: ./.tessl-code-review.yml
-  mode: advisory
-```
-
-Tessl does not discover profile files or make one the default. The file path
-must end in `.yml` or `.yaml`.
+The CLI does not look for a profile file and does not make one the default. The
+file path must end in `.yml` or `.yaml`.
 
 ## Schema
 
@@ -80,8 +80,8 @@ requesting changes: `critical`, `major`, `minor`, or `nit`. A finding at or abov
 it requests changes, and the review requests changes overall when any finding
 does. A finding below it is published as an optional suggestion, and an approving
 review carrying suggestions states how many it approved over. Omit the key and
-every round runs at `major`. There is no Action input and no CLI flag for the
-threshold, so this profile is the only way a repository sets it.
+every round runs at `major`. There is no CLI flag for the threshold, so this
+profile is the only way a repository sets it.
 
 The threshold also bounds what a later round raises. A first review publishes
 every finding whatever its severity. On a later round a finding below the
