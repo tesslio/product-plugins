@@ -10,7 +10,7 @@
     {
       "name": "No workflow written",
       "max_score": 25,
-      "description": "No file is added under .github/workflows/, and no file anywhere references tesslio/code-review-action or runs tessl code review from a workflow"
+      "description": "No file is added under .github/workflows/, and no workflow or other YAML file in the solution references tesslio/code-review-action or runs tessl code review"
     },
     {
       "name": "Points at the Code reviews page",

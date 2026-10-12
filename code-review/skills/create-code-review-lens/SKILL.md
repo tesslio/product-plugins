@@ -7,7 +7,7 @@ description: Author a review lens for Tessl Code Review, the reviewer skill that
 
 A lens is a reviewer skill. Which lenses run, and what each one says, is what decides what a code review looks for.
 
-`tessl/code-review` publishes the lenses a review runs by default. A repository adds to that set, or replaces it, through the CLI's `--skill` flag or through the lens selection its automated review is configured with.
+`tessl/code-review` publishes the lenses a review runs by default. A repository adds to that set, or replaces it, through the CLI's `--skill` flag or through its repository profile, `.tessl-code-review.yml`.
 
 This skill turns a review concern into a lens that has been run, tuned, and pinned.
 

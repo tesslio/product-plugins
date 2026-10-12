@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: Start here for Tessl Code Review. Use when someone mentions Tessl Code Review or Tessl's AI review, wants automated review of pull requests in a repository, asks to review a diff, branch, or pull request ("review this change", "check this diff for security issues", "what would Code Review say"), asks what Tessl Code Review does, or asks for something and it is not yet clear which Code Review job it is. Works out whether they want to install it on a repository, run a review, change what reviews catch, or answer a review's findings. Installing is the Tessl Review GitHub App, which this skill links the user to; the other jobs hand off to create-code-review-lens, respond-to-code-review, or the tessl code review command. The review-* skills in this plugin are lenses that tessl code review runs as reviewer instructions; do not follow one directly to review code, run the command instead.
+description: Start here for Tessl Code Review. Use when someone mentions Tessl Code Review or Tessl's AI review, wants automated review of pull requests in a repository, asks to review a diff, branch, or pull request ("review this change", "check this diff for security issues", "what would Code Review say"), asks what Tessl Code Review does, or asks for something and it is not yet clear which Code Review job it is. Works out whether they want to install it on a repository, run a review, change what reviews catch, change which lenses run on which paths, or answer a review's findings. Installing is the Tessl Review GitHub App, which this skill links the user to; the other jobs hand off to create-code-review-lens, respond-to-code-review, or the tessl code review command. The review-* skills in this plugin are lenses that tessl code review runs as reviewer instructions; do not follow one directly to review code, run the command instead.
 ---
 
 # Tessl Code Review
@@ -16,6 +16,7 @@ This plugin holds every part a user touches:
 | --- | --- | --- |
 | Install Code Review on a repository | [Installing on a repository](#installing-on-a-repository), below | set up, enable, install, turn on reviews on this repo, get Tessl reviewing our pull requests |
 | Change what a review looks for | `create-code-review-lens` | the review missed something, keeps flagging something it should not, write a lens, fork a lens, tune a lens, custom review rules |
+| Change which lenses run where | [references/repository-profile.md](references/repository-profile.md) | add our lens to the reviews, run a lens only on some paths, stop reviewing generated files |
 | Answer a review that has arrived | `respond-to-code-review` | address the findings, respond to the review, the reviewer left comments, changes requested, the review loop is not converging |
 | Run a review now | the `tessl code review` command, below | review this change, review my PR, what would Code Review say about this diff |
 

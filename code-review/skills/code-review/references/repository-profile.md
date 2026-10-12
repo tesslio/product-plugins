@@ -8,8 +8,8 @@ different parts of a change, or keep generated and vendored files out of review.
 The Tessl Review GitHub App reads the profile from `.tessl-code-review.yml` at
 the repository root. The App uses a profile only once that file exists on the
 default branch. When the pull request's author has write access to the
-repository, the review uses the copy on the pull request's head, so a pull
-request can change the profile it is reviewed with. For any other author, the
+repository, or is a GitHub App, the review uses the copy on the pull request's
+head, so a pull request can change the profile it is reviewed with. For any other author, the
 review uses the copy on the default branch. Without the file, the App runs the
 default lenses.
 
