@@ -1,6 +1,6 @@
 ---
 name: create-code-review-lens
-description: Author a review lens for Tessl Code Review, the reviewer skill that decides what a review looks for in a diff. Settles the review question and the bar a finding has to clear, drafts the lens, runs it against changes that should and should not trip it, backtests it against changes that already carry review feedback, and packages it as a pinned reference a review can select. Use when someone wants their code review to catch something it misses, to stop flagging something it should not, or to write, fork, tune, or debug a code review lens. Not for `tessl review` rubrics, which score skill quality rather than code.
+description: Author a review lens for Tessl Code Review, the reviewer skill that decides what a review looks for in a diff. Settles the review question and the bar a finding has to clear, drafts the lens, runs it against changes that should and should not trip it, backtests it against changes that already carry review feedback, and packages it as a reference a review can select, either pinned to the version that was backtested or following the newest published version. Use when someone wants their code review to catch something it misses, to stop flagging something it should not, or to write, fork, tune, or debug a code review lens. Not for `tessl review` rubrics, which score skill quality rather than code.
 ---
 
 # Create a Tessl Code Review lens
@@ -9,7 +9,7 @@ A lens is a reviewer skill. Which lenses run, and what each one says, is what de
 
 `tessl/code-review` publishes the lenses a review runs by default. A repository replaces that set with the complete list of lenses it wants, which can include the defaults, through the CLI's `--skill` flag or through its repository profile, `.tessl-code-review.yml`.
 
-This skill turns a review concern into a lens that has been run, tuned, and pinned.
+This skill turns a review concern into a lens that has been run and tuned, with a reference a review can select.
 
 It does not build `tessl review` rubrics, which score how good a skill is rather than reviewing code. For those, use `tessl/review-plugin-creator`.
 

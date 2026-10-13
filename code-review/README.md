@@ -67,7 +67,7 @@ An automated review runs the same defaults unless the repository has a profile. 
 
 ## Tune it
 
-`create-code-review-lens` turns a review concern into a lens that has been run, tuned, and pinned. It settles the review question and the bar a finding has to clear, drafts the lens, runs it against a change that should trip it and one that should not, backtests it against changes that already carry review feedback, and gives it a reference a review can select.
+`create-code-review-lens` turns a review concern into a lens that has been run and tuned, with a reference a review can select. It settles the review question and the bar a finding has to clear, drafts the lens, runs it against a change that should trip it and one that should not, backtests it against changes that already carry review feedback, and gives it a reference a review can select.
 
 The default lenses are meant to be forked. Copy one into your repository, tune it, and reference it by local path. A skill needs `name` and `description` frontmatter; past that, the shape most lenses use is Scope, Method, Threshold, Reporting. Keep a lens short and carry only what makes it distinct.
 
