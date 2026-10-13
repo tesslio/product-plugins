@@ -96,20 +96,22 @@ longer.
 `requestChangesAt` is optional and sets the severity at which a finding starts
 requesting changes: `critical`, `major`, `minor`, or `nit`. A finding whose
 assessed consequence is at or above it requests changes when the review also
-judges it likely enough, so a finding's published severity alone does not say
-whether it blocks. The review requests changes overall when any finding does.
+judges it likely enough and attributes it to the pull request's own change, so
+a finding's published severity alone does not say whether it blocks. The review requests changes overall when any finding does.
 Other findings are published as advisory, and an approving review carrying
 suggestions states how many it approved over. Omit the key and every round runs
 at `major`. There is no CLI flag for the threshold, so this profile is the only
 way a repository sets it.
 
 The threshold also bounds what a later round raises. A first review publishes
-every finding whatever its severity. On a later round a finding below the
-threshold appears only if an earlier round already raised it, in which case it
-continues on its existing comment thread. A fresh finding below the threshold is
-not published on that round and is not held over: a later round either finds it
-in the code again or it is gone. At `requestChangesAt: nit` nothing is below the
-threshold, so every finding requests changes and every round raises everything.
+every finding whatever its severity. On a later round a finding that does
+not request changes appears only if an earlier round already raised it, in which
+case it continues on its existing comment thread. A fresh finding that does not
+request changes is not published on that round and is not held over: a later
+round either finds it in the code again or it is gone. Lowering the threshold to
+`nit` makes every severity eligible to request changes, but the likelihood and
+attribution conditions above still apply, so some findings stay advisory even
+at `nit`.
 
 ## Routing behavior
 
