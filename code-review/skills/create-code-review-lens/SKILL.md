@@ -7,7 +7,7 @@ description: Author a review lens for Tessl Code Review, the reviewer skill that
 
 A lens is a reviewer skill. Which lenses run, and what each one says, is what decides what a code review looks for.
 
-`tessl/code-review` publishes the lenses a review runs by default. A repository adds to that set, or replaces it, through the CLI's `--skill` flag or through its repository profile, `.tessl-code-review.yml`.
+`tessl/code-review` publishes the lenses a review runs by default. A repository replaces that set with the complete list of lenses it wants, which can include the defaults, through the CLI's `--skill` flag or through its repository profile, `.tessl-code-review.yml`.
 
 This skill turns a review concern into a lens that has been run, tuned, and pinned.
 
@@ -18,8 +18,8 @@ It does not build `tessl review` rubrics, which score how good a skill is rather
 Six facts that change how a lens should be written:
 
 - **Each lens gets its own reviewer.** A lens runs as its own agent, with its `SKILL.md` and any bundled files as its only instructions. Lenses run in parallel and never see each other's findings.
-- **Every lens runs on every diff.** Nothing written in a lens makes it skip a change. Limiting a lens to certain paths is the review profile's job.
-- **Severity is decided after the lens runs.** The review merges overlapping findings and grades each one, and the grade is what decides whether the review requires changes. State impact plainly enough to be graded: `critical` and `major` always require changes, `nit` never does, `minor` only on the first review of a pull request.
+- **A lens runs on every change routed to it.** Nothing written in a lens makes it skip a change. Routing a lens to certain paths is the review profile's job.
+- **Severity is decided after the lens runs.** The review merges overlapping findings and assesses each one's consequence and likelihood. A finding requires changes when its consequence reaches the repository's threshold, `major` unless the profile sets `requestChangesAt`, and the review judges it likely enough, so the severity shown on a finding does not by itself say whether it blocks. State the impact, and the conditions under which it happens, plainly enough to be assessed.
 - **A finding without a line lands in the summary.** Inline comments sit on a changed line. A finding about something missing has no line to sit on, so it arrives in the summary and has to stand on its own.
 - **`--skill` replaces the defaults rather than adding to them.** Naming one lens makes it the whole review.
 - **`SKILL.md` is capped at 80,000 bytes.** Past that the run fails.
@@ -79,7 +79,7 @@ tessl code review --skill ./review-lenses/review-test-reliability
 
 To share a lens across repositories, publish it as a plugin. Use `tessl/plugin-creator` for the packaging and publishing.
 
-Pin the version in any reference you keep. An unpinned registry ref resolves to whatever is published latest, so its meaning changes under the review that names it:
+Choose whether a reference you keep carries a version. A registry ref without one follows the newest published version, so its meaning changes when the plugin is republished. A ref with one stays fixed until someone edits it, which keeps the review you backtested:
 
 ```bash
 tessl code review --skill your-workspace/your-plugin@1.0.0#review-test-reliability
@@ -87,7 +87,7 @@ tessl code review --skill your-workspace/your-plugin@1.0.0#review-test-reliabili
 
 Adding the lens to a repository's automated review means listing it under `lenses` in the repository profile, `.tessl-code-review.yml` at the repository root. Any path scoping for the lens goes there too, as `globs`. The format is in [../code-review/references/repository-profile.md](../code-review/references/repository-profile.md).
 
-The profile's `lenses` list is the complete ordered set for the run, not an addition to it, exactly as `--skill` is. A profile naming only the new lens reviews for that concern alone and quietly stops running everything else. To add a lens, list every lens the review should run, each registry ref pinned, with the new one among them. A repository with no profile runs the defaults.
+The profile's `lenses` list is the complete ordered set for the run, not an addition to it, exactly as `--skill` is. A profile naming only the new lens reviews for that concern alone and quietly stops running everything else. To add a lens, list every lens the review should run, with the new one among them. To keep the defaults, list the four `tessl/code-review` lenses too. With `@0.2.0` they match what a repository with no profile runs; without a version they follow the newest published lenses, which can differ from that.
 
 Tessl Code Review runs on GitHub as the Tessl Review GitHub App. How a repository is set up and configured is documented at https://docs.tessl.io/tutorials/setting-up-agentic-code-review
 

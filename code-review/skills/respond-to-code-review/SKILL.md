@@ -7,10 +7,12 @@ description: Answer a Tessl Code Review on a pull request the responder authored
 
 A Tessl Code Review arrives as one pull-request review: a summary with a
 verdict, either changes approved or changes requested, and inline comments on
-changed lines, each a finding with a severity. Findings graded `critical` or
-`major` are what made the verdict request changes. Findings marked advisory, or
-graded `minor` or `nit`, did not. A later round reconciles earlier findings:
-each is reported fixed, still open, or come back.
+changed lines, each a finding with a severity. Each finding is labelled
+`Requires changes` or `Advisory`. Findings labelled `Requires changes` are what
+made the verdict request changes; advisory ones did not. Read the label rather
+than inferring it from the severity, which does not decide it alone. A later
+round reconciles earlier findings: each is reported fixed, still open, or come
+back.
 
 ## Start from the goal, not the findings
 
@@ -115,7 +117,7 @@ consequence as it arrives.
 
 ## Advisory findings
 
-Findings marked advisory, or graded `minor` or `nit`, are not change requests.
+Findings labelled `Advisory` are not change requests.
 Act on one only when it is plainly right.
 
 ## Reply on the thread
