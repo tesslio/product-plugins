@@ -10,8 +10,16 @@ the repository root. The App uses a profile only once that file exists on the
 default branch. When the pull request's author has write access to the
 repository, or is a GitHub App, the review uses the copy on the pull request's
 head, so a pull request can change the profile it is reviewed with. For any other author, the
-review uses the copy on the default branch. Without the file, the App runs the
-default lenses.
+review uses the copy on the default branch. Without the file on the default
+branch, the App runs the default lenses.
+
+If an approval from the Tessl reviewer is required before merging, an author
+whose pull request is reviewed with the head copy can edit
+`.tessl-code-review.yml`, or a local lens it references, and have that pull
+request reviewed under the edited version. To stop that change merging unseen,
+add CODEOWNERS entries for `.tessl-code-review.yml` and for each local lens
+directory it references, and turn on "Require review from Code Owners" in the
+default branch's protection rules.
 
 The CLI uses a profile only when you pass it:
 
@@ -34,20 +42,30 @@ effort: low
 ignore:
   - '**/*.generated.ts'
   - vendor/**
+  - .tessl/plugins/**
+  - '**/tessl__*'
+  - '**/tessl__*/**'
 lenses:
   - ref: ./review-lenses/backend/SKILL.md
     globs:
       - apps/backend/**
-  - ref: tessl/code-review@0.1.0#review-security-and-privacy
+  - ref: tessl/code-review@0.2.0#review-security-and-privacy
     effort: high
     globs:
       - infra/**
   - ref: ./review-lenses/general/SKILL.md
 ```
 
+The last three `ignore` patterns keep installed plugins out of review:
+`tessl install` copies a plugin under `.tessl/plugins/`, and links each skill
+into most agents' skill directories as `tessl__<skill>`. Git records each link as a single
+path, so `'**/tessl__*/**'` alone does not match it.
+
 `schemaVersion` is required and must be `1`. `lenses` is an ordered, non-empty
 list. Every lens needs a `ref`, which can be a registry reference or an explicit
-local path. Local refs are relative to the profile, must use path syntax such as
+local path. A registry ref with a version, like `@0.2.0` above, stays fixed
+until someone edits it; one without a version follows the newest published
+version. Local refs are relative to the profile, must use path syntax such as
 `./review-lenses/backend/SKILL.md`, and must resolve inside the repository.
 Duplicate refs and aliases that resolve to the same local lens are rejected.
 
@@ -76,20 +94,24 @@ applies to every lens and takes precedence over both. Higher settings take
 longer.
 
 `requestChangesAt` is optional and sets the severity at which a finding starts
-requesting changes: `critical`, `major`, `minor`, or `nit`. A finding at or above
-it requests changes, and the review requests changes overall when any finding
-does. A finding below it is published as an optional suggestion, and an approving
-review carrying suggestions states how many it approved over. Omit the key and
-every round runs at `major`. There is no CLI flag for the threshold, so this
-profile is the only way a repository sets it.
+requesting changes: `critical`, `major`, `minor`, or `nit`. A finding whose
+assessed consequence is at or above it requests changes when the review also
+judges it likely enough and attributes it to the pull request's own change, so
+a finding's published severity alone does not say whether it blocks. The review requests changes overall when any finding does.
+Other findings are published as advisory, and an approving review carrying
+suggestions states how many it approved over. Omit the key and every round runs
+at `major`. There is no CLI flag for the threshold, so this profile is the only
+way a repository sets it.
 
 The threshold also bounds what a later round raises. A first review publishes
-every finding whatever its severity. On a later round a finding below the
-threshold appears only if an earlier round already raised it, in which case it
-continues on its existing comment thread. A fresh finding below the threshold is
-not published on that round and is not held over: a later round either finds it
-in the code again or it is gone. At `requestChangesAt: nit` nothing is below the
-threshold, so every finding requests changes and every round raises everything.
+every finding whatever its severity. On a later round a finding that does
+not request changes appears only if an earlier round already raised it, in which
+case it continues on its existing comment thread. A fresh finding that does not
+request changes is not published on that round and is not held over: a later
+round either finds it in the code again or it is gone. Lowering the threshold to
+`nit` makes every severity eligible to request changes, but the likelihood and
+attribution conditions above still apply, so some findings stay advisory even
+at `nit`.
 
 ## Routing behavior
 
@@ -105,7 +127,8 @@ A renamed file selects a lens when either its old or new path matches. Each
 lens receives only its selected files in its prompt and diff tools. It cannot
 inspect files routed only to another lens through those tools.
 
-Only lenses with matching work count toward the limit of eight lenses.
+Only lenses with matching work count toward the limit of eight lenses. When
+more than eight match, the run fails with `too-many-lenses` before any lens runs.
 If no lens matches, the command exits successfully with a `skipped` result and
 `reason: no-matching-lenses`. No model runs and no approval is implied.
 

@@ -31,7 +31,7 @@ tessl code review --skill ./review-lenses/review-test-reliability \
 
 Keep one file per run so counts stay comparable. Each finding carries a title, body, evidence, the lenses that contributed it, a severity, and a location. A location with no line means the finding did not sit on a particular changed line, so it arrived in the summary rather than as an inline comment.
 
-**Check `status` before counting anything.** A failed run writes the same shaped document and carries no findings, so an exhausted credit balance, a missing token, or an unresolvable lens reference is indistinguishable from a clean review unless the status is read. Counted blind, a broken run is a negative case that passes and a backtest entry that found nothing. Confirm every run reports `"status": "ok"`, and rerun the ones that did not.
+**Check `status` before counting anything.** A failed run writes the same shaped document and carries no findings, so an exhausted credit balance, a missing token, or an unresolvable lens reference is indistinguishable from a clean review unless the status is read. Counted blind, a broken run is a negative case that passes and a backtest entry that found nothing. Count only runs that report `"status": "ok"`. For a `failed` run, read why it failed, fix what it names, and rerun it. A `skipped` run with `no-matching-lenses` means no lens was routed to the change, so check the routing rather than rerunning it unchanged.
 
 ## Two directed checks first
 

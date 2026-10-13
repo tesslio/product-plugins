@@ -70,7 +70,7 @@ If `tessl/code-review` is installed, its lenses are worth reading as further exa
 - **An output format.** How findings are rendered, tagged, or numbered is the review's business.
 - **A condition the reviewer cannot resolve.** "If this path has a latency budget in the SLA" is not checkable from the repository.
 - **A verdict on the change as a whole.** "The instrumentation here is weak overall" leaves the author nothing to do.
-- **The incident the lens came from.** Naming precedent in your own codebase is fine. A customer identifier or an account number carried across from the evidence is not, and it leaves the repository the moment the lens is published.
+- **The incident the lens came from.** Naming precedent in your own codebase is fine. A customer identifier, an account number, a credential, or any other detail of the incident you would not publish is not, and it leaves the repository the moment the lens is published.
 
 ## Length
 

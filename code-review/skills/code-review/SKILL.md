@@ -141,16 +141,19 @@ The default lens set is the four `review-*` skills in this plugin, pinned to a
 version of this plugin, so a plain run needs no lens selection. `--skill`
 replaces that set with the complete ordered set you name; it does not add to it.
 A reference is a local path, an installed skill name, or a registry ref
-`workspace/plugin@version#skill`. Pin the version in any ref you keep.
+`workspace/plugin[@version]#skill`. A registry ref without a version follows the
+newest published version; a ref with one stays fixed until someone edits it.
+Choose per ref. A plain run uses `tessl/code-review@0.2.0`, so an unversioned
+`tessl/code-review#...` ref can review differently from a plain run.
 
 ```bash
 tessl code review --skill ./review-lenses/review-test-reliability
 tessl code review --skill tessl/code-review@0.2.0#review-security-and-privacy
 ```
 
-`--json` writes one document to stdout on success and failure alike. Read
-`status` before counting findings: a failed run carries none and otherwise looks
-like a clean review.
+`--json` writes one document to stdout on success and failure alike. Count
+findings only when `status` is `ok`: a `failed` or `skipped` run with no
+findings otherwise looks like a clean review.
 
 Never pass `--publish` unless the user asked for the review to be posted to the
 pull request. A local run is a preview.

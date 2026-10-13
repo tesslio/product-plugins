@@ -40,7 +40,7 @@ tessl code review --pr 42
 tessl code review --json > review.json             # one document, on success and on failure
 ```
 
-Check `status` in the JSON before counting anything: a failed run carries no findings and otherwise looks like a clean review.
+Check `status` in the JSON before counting anything: only an `ok` run is a completed review. A `failed` or `skipped` run with no findings otherwise looks like a clean review.
 
 ### The default lenses
 
@@ -53,7 +53,7 @@ These four skills are the set a review runs by default. Between them they cover 
 
 ### Selecting lenses
 
-`--skill` states the complete lens set, in the order supplied. It **replaces** the defaults rather than adding to them, so naming one lens makes it the whole review. A reference can be a local path, an installed skill name, or a registry ref `workspace/plugin@version#skill`. Pin the version in any reference you keep; an unpinned ref changes meaning when the plugin is republished.
+`--skill` states the complete lens set, in the order supplied. It **replaces** the defaults rather than adding to them, so naming one lens makes it the whole review. A reference can be a local path, an installed skill name, or a registry ref `workspace/plugin[@version]#skill`. A registry ref without a version follows the newest published version of the plugin, so what it reviews for changes when the plugin is republished. A ref with a version stays fixed until someone edits it. A review with no profile and no `--skill` runs these lenses at `tessl/code-review@0.2.0`. The CLI sets that version, so installing or upgrading this plugin does not change it. To run this release's lenses instead, name them with this plugin's version, or with no version to follow the newest.
 
 ```bash
 tessl code review --skill tessl/code-review@0.2.0#review-security-and-privacy
@@ -63,11 +63,11 @@ tessl code review \
 tessl code review --skill ./review-lenses/review-scale-and-resilience   # a lens you keep locally
 ```
 
-An automated review runs the same defaults unless the repository has a profile. The profile is `.tessl-code-review.yml` at the repository root. It names the complete ordered lens set, can route each lens to paths with globs, and can keep paths out of review entirely. The App reads it once it exists on the default branch. The CLI reads it when you pass `--profile ./.tessl-code-review.yml`. The format is in [`skills/code-review/references/repository-profile.md`](skills/code-review/references/repository-profile.md).
+An automated review runs the same defaults unless the repository has a profile. The profile is `.tessl-code-review.yml` at the repository root. It names the complete ordered lens set, can route each lens to paths with globs, and can list paths, under `ignore`, that no lens selects. A file renamed into an ignored path is still reviewed. The App reads it once it exists on the default branch. The CLI reads it when you pass `--profile ./.tessl-code-review.yml`. The format is in [`skills/code-review/references/repository-profile.md`](skills/code-review/references/repository-profile.md).
 
 ## Tune it
 
-`create-code-review-lens` turns a review concern into a lens that has been run, tuned, and pinned. It settles the review question and the bar a finding has to clear, drafts the lens, runs it against a change that should trip it and one that should not, backtests it against changes that already carry review feedback, and pins the reference a review can select.
+`create-code-review-lens` turns a review concern into a lens that has been run and tuned, with a reference a review can select. It settles the review question and the bar a finding has to clear, drafts the lens, runs it against a change that should trip it and one that should not, backtests it against changes that already carry review feedback, and gives it a reference a review can select.
 
 The default lenses are meant to be forked. Copy one into your repository, tune it, and reference it by local path. A skill needs `name` and `description` frontmatter; past that, the shape most lenses use is Scope, Method, Threshold, Reporting. Keep a lens short and carry only what makes it distinct.
 
