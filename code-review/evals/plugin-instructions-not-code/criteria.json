@@ -15,7 +15,7 @@
     {
       "name": "Does not report the polling step as code",
       "max_score": 30,
-      "description": "Does not report the 30-second status check as an unbounded wait, missing retry or backoff, rate limit, race, or concurrency problem; the step already bounds the wait at 20 minutes and says what to do then"
+      "description": "Does not report the 30-second status check as an unbounded wait, missing retry or backoff, rate limit, or concurrency problem; the step already bounds the wait at 20 minutes and says what to do then"
     },
     {
       "name": "Keeps findings to the changed instructions",

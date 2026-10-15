@@ -9,6 +9,8 @@ The plugin's skills drive `notes-cli`. Its help output, unchanged by this pull r
 ```text
 $ notes-cli export --help
 Usage: notes-cli export <title> [--output-format md|html] [--out <dir>]
+
+Writes <dir>/<title>.<format>. <dir> defaults to the current directory.
 ```
 
 ```diff

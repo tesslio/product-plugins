@@ -163,7 +163,9 @@ lenses:
       - '!plugins/deploy/**'
 ```
 
-List the other three code lenses the same way, with the same `globs`.
+List the other three code lenses the same way, with the same `globs`. If the
+repository keeps Markdown under other extensions, such as `.mdx`, add them to
+`review-markdown` and exclude them from the code lenses the same way.
 
 Treat the profile and its local lenses as executable review policy. Review their
 changes with the same care as source code.
