@@ -48,10 +48,9 @@ it passes.
 
 Report an instruction an agent would act on wrongly, a fork where a reasonable
 reading leads to a wrong outcome and nothing in the plugin or repository settles
-it, a skill
-that will not ship or will not be picked, a requirement the repository's rules
-set that the plugin does not meet, or a script that misbehaves on its real
-inputs or is unsafe to run.
+it, a skill that will not ship or will not be picked, a requirement the
+repository's rules set that the plugin does not meet, or a script that
+misbehaves on its real inputs or is unsafe to run.
 
 An agent is not a program. It reads the whole skill, uses judgment, and can stop
 and report. Do not report an instruction for what a program would do if it
