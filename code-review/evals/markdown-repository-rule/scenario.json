@@ -1,0 +1,1 @@
+{ "description": "A new guide breaks a documentation rule the repository AGENTS.md sets and names a flag the deploy script does not take; the review must report both without treating a waiting step as program code" }

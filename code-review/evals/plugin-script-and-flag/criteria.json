@@ -1,0 +1,31 @@
+{
+  "context": "The eval checks whether the plugin content lens reviews a plugin's skill as instructions an agent follows and its bundled script for what it does on real inputs and whether it is safe to run, without holding the script to application standards of scale or style.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Finds the flag that does not exist",
+      "max_score": 25,
+      "description": "States that the skill tells the agent to pass --format md, which notes-cli export does not accept, and that the help output names the flag --output-format"
+    },
+    {
+      "name": "Finds the shell injection through the title",
+      "max_score": 25,
+      "description": "States that stamp.sh passes the user-typed title through eval, so a title containing shell syntax such as quotes, $(...) or a semicolon runs as a command on the user's machine"
+    },
+    {
+      "name": "Names the input the skill passes",
+      "max_score": 15,
+      "description": "Connects the script defect to step 1 and step 3 of the skill, which pass the title exactly as the user typed it, rather than describing the risk in general terms"
+    },
+    {
+      "name": "Gives concrete fixes",
+      "max_score": 15,
+      "description": "Gives the corrected command with --output-format md, and a script fix that appends without eval, such as quoting the path in a plain redirect"
+    },
+    {
+      "name": "Does not hold the script to application standards",
+      "max_score": 20,
+      "description": "Does not report the script for performance or scale (for example the loop over shared/*.md or many notes), maintainability, naming, or style, and does not ask for unit tests of the script"
+    }
+  ]
+}
