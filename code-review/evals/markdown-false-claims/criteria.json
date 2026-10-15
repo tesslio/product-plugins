@@ -1,0 +1,26 @@
+{
+  "context": "The eval checks whether the Markdown lens checks a document's claims against the repository and reports what is false, without reviewing wording or tone.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Finds the wrong default port",
+      "max_score": 30,
+      "description": "States that the README says the service listens on 8080 by default, while config.go defaults PORT to 3000"
+    },
+    {
+      "name": "Finds the target that does not exist",
+      "max_score": 30,
+      "description": "States that make test-unit is not a Makefile target, and that the unit tests run with make test"
+    },
+    {
+      "name": "Gives the corrected text",
+      "max_score": 20,
+      "description": "Gives the corrected statements: port 3000 by default, and make test for the unit tests"
+    },
+    {
+      "name": "Does not review wording or tone",
+      "max_score": 20,
+      "description": "Does not report the 'Pretty simple!' line, the section's tone, or other style preferences as findings, and does not raise code concerns about config.go or the Makefile"
+    }
+  ]
+}

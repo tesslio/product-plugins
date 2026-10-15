@@ -135,5 +135,35 @@ If no lens matches, the command exits successfully with a `skipped` result and
 Passing `--skill` replaces the profile's complete lens list, including its glob
 routing and its `ignore` patterns. It does not add to the file profile.
 
+## Plugins and Markdown
+
+`review-plugin-content` reviews everything inside an agent plugin, the directory
+holding a `.tessl-plugin/` manifest directory, and `review-markdown` reviews any
+other Markdown. A glob cannot recognise a plugin by its manifest, so name each
+plugin directory. Give every file one owner: exclude what those two lenses
+review from the code lenses, which read files as program code.
+
+```yaml
+schemaVersion: 1
+lenses:
+  - ref: tessl/code-review@0.5.0#review-plugin-content
+    globs:
+      - plugins/notes/**
+      - plugins/deploy/**
+  - ref: tessl/code-review@0.5.0#review-markdown
+    globs:
+      - '**/*.md'
+      - '!plugins/notes/**'
+      - '!plugins/deploy/**'
+  - ref: tessl/code-review@0.2.0#review-correctness-and-data-integrity
+    globs:
+      - '**'
+      - '!**/*.md'
+      - '!plugins/notes/**'
+      - '!plugins/deploy/**'
+```
+
+List the other three code lenses the same way, with the same `globs`.
+
 Treat the profile and its local lenses as executable review policy. Review their
 changes with the same care as source code.

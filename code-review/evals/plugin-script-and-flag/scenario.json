@@ -1,0 +1,1 @@
+{ "description": "A plugin skill names a CLI flag that does not exist and bundles a script that evaluates a user-typed title as shell; the review must report both as instruction and safety defects without applying application-code standards of scale or style to the script" }

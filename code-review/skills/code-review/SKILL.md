@@ -20,7 +20,9 @@ This plugin holds every part a user touches:
 | Answer a review that has arrived | `respond-to-code-review` | address the findings, respond to the review, the reviewer left comments, changes requested, the review loop is not converging |
 | Run a review now | the `tessl code review` command, below | review this change, review my PR, what would Code Review say about this diff |
 
-The four `review-*` skills are the default lenses. They are reviewer
+The `review-*` skills are lenses. Four of them, for program code, are the
+default lenses; `review-plugin-content` and `review-markdown` review agent
+plugins and other Markdown when a profile routes them. They are reviewer
 instructions that `tessl code review` loads into its own reviewer agents. Do not
 activate one to review code yourself: a lens on its own has no supervisor to
 merge and grade findings, and the result is not a Tessl Code Review.
@@ -137,7 +139,7 @@ tessl code review --base origin/main --head HEAD
 tessl code review --pr 42
 ```
 
-The default lens set is the four `review-*` skills in this plugin, pinned to a
+The default lens set is the four code lenses in this plugin, pinned to a
 version of this plugin, so a plain run needs no lens selection. `--skill`
 replaces that set with the complete ordered set you name; it does not add to it.
 A reference is a local path, an installed skill name, or a registry ref

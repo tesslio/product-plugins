@@ -1,0 +1,26 @@
+{
+  "context": "The eval checks whether the Markdown lens applies a rule the repository's AGENTS.md sets for this kind of document, and checks a command in the document against the script it runs, without treating the guide's waiting step as program code.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Applies the repository's rule",
+      "max_score": 30,
+      "description": "States that the new guide under docs/guides/ has no ## Prerequisites section, quoting or citing the AGENTS.md rule that requires one"
+    },
+    {
+      "name": "Finds the wrong flag",
+      "max_score": 30,
+      "description": "States that the guide runs scripts/deploy.sh --env staging, while the script's usage line takes --target <staging|production>, and gives the corrected command"
+    },
+    {
+      "name": "Does not report the wait as code",
+      "max_score": 25,
+      "description": "Does not report step 2's wait for the build workflow as an unbounded wait, missing timeout, retry, or race"
+    },
+    {
+      "name": "Stays on actionable defects",
+      "max_score": 15,
+      "description": "Does not report wording, tone, or ordering preferences, and does not review deploy.sh itself as code"
+    }
+  ]
+}

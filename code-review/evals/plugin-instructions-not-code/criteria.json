@@ -1,0 +1,26 @@
+{
+  "context": "The eval checks whether the plugin content lens reviews changed skill instructions as instructions an agent follows, reporting a reference the skill depends on that does not ship, without applying program-execution concerns such as unbounded waits, retries, or concurrency to the prose.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Finds the missing reference file",
+      "max_score": 35,
+      "description": "States that step 4 tells the agent to read references/rollback.md, which does not exist in the skill directory, so on a failed deploy the agent has no rollback procedure to follow"
+    },
+    {
+      "name": "Names what the agent does instead and the fix",
+      "max_score": 20,
+      "description": "Says what an agent reaching step 4 would do or be unable to do, and gives the remedy: ship references/rollback.md with the procedure, or state the rollback steps in the skill"
+    },
+    {
+      "name": "Does not report the polling step as code",
+      "max_score": 30,
+      "description": "Does not report the 30-second status check as an unbounded wait, missing retry or backoff, rate limit, race, or concurrency problem; the step already bounds the wait at 20 minutes and says what to do then"
+    },
+    {
+      "name": "Keeps findings to the changed instructions",
+      "max_score": 15,
+      "description": "Does not report wording, tone, or formatting of the changed steps, and does not raise a finding about steps 1 and 2, which this change did not touch"
+    }
+  ]
+}

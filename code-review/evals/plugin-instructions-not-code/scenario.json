@@ -1,0 +1,1 @@
+{ "description": "A skill change adds a bounded status-polling step and a step that reads a reference file that does not ship; the review must report the missing reference and must not treat the polling instruction as program code" }

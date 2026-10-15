@@ -51,6 +51,15 @@ These four skills are the set a review runs by default. Between them they cover 
 - **review-scale-and-resilience**: what the change costs as load, data volume, and concurrency grow, and what it does when something it depends on fails.
 - **review-security-and-privacy**: what an adversary could do with the change, and what it exposes about people.
 
+### Lenses for plugins and Markdown
+
+The default lenses read program code. Skills, rules, and documentation are instructions and prose, and reviewing them as code produces findings that do not apply, such as a step that "can wait indefinitely". Two more lenses review that content. A review runs them only when a profile routes paths to them.
+
+- **review-plugin-content**: everything inside an agent plugin, the directory holding a `.tessl-plugin/` manifest directory. Whether the plugin ships and the right skill gets picked, whether the commands, paths, and files its instructions name exist, whether an agent following them acts correctly, and whether its bundled scripts and hooks do what the calling instruction says and are safe to run on a user's machine.
+- **review-markdown**: any other Markdown, such as standalone skills, `AGENTS.md` and `CLAUDE.md`, READMEs, and documentation. Whether the text is true of the repository, and whether an agent or reader following it acts correctly.
+
+Give each file one owner. Route each plugin directory to `review-plugin-content`, the rest of `**/*.md` to `review-markdown`, and exclude both from the code lenses, as in [`skills/code-review/references/repository-profile.md`](skills/code-review/references/repository-profile.md).
+
 ### Selecting lenses
 
 `--skill` states the complete lens set, in the order supplied. It **replaces** the defaults rather than adding to them, so naming one lens makes it the whole review. A reference can be a local path, an installed skill name, or a registry ref `workspace/plugin[@version]#skill`. A registry ref without a version follows the newest published version of the plugin, so what it reviews for changes when the plugin is republished. A ref with a version stays fixed until someone edits it. A review with no profile and no `--skill` runs these lenses at `tessl/code-review@0.2.0`. The CLI sets that version, so installing or upgrading this plugin does not change it. To run this release's lenses instead, name them with this plugin's version, or with no version to follow the newest.
@@ -86,6 +95,8 @@ The default lenses are meant to be forked. Copy one into your repository, tune i
 | `review-maintainability-and-code-quality` | Default lens. Naming, weak contracts, local precedent, misleading comments, unenforced surfaces. |
 | `review-scale-and-resilience` | Default lens. Load, volume, concurrency, retries, rollout, dependency failure. |
 | `review-security-and-privacy` | Default lens. Trust boundaries, authorization, injection, secrets, disclosure. |
+| `review-plugin-content` | Lens for agent plugins. Shipping, skill selection, instruction correctness, bundled scripts and hooks. |
+| `review-markdown` | Lens for other Markdown. Whether the text is true of the repository and leads a reader to the right action. |
 
 ## Related
 
