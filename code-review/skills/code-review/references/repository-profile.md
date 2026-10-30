@@ -127,8 +127,9 @@ A renamed file selects a lens when either its old or new path matches. Each
 lens receives only its selected files in its prompt and diff tools. It cannot
 inspect files routed only to another lens through those tools.
 
-Only lenses with matching work count toward the limit of eight lenses. When
-more than eight match, the run fails with `too-many-lenses` before any lens runs.
+Only lenses with matching work count toward the lens limit, which is 12 unless
+your organization has a different one. When more lenses match than the limit
+allows, the run fails with `too-many-lenses` before any lens runs.
 If no lens matches, the command exits successfully with a `skipped` result and
 `reason: no-matching-lenses`. No model runs and no approval is implied.
 
