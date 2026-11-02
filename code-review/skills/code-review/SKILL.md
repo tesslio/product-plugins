@@ -152,7 +152,7 @@ Choose per ref. A plain run uses `tessl/code-review@0.5.0`, so an unversioned
 
 ```bash
 tessl code review --skill ./review-lenses/review-test-reliability
-tessl code review --skill tessl/code-review@0.5.0#review-security-and-privacy
+tessl code review --skill tessl/code-review#review-security-and-privacy
 ```
 
 `--json` writes one document to stdout on success and failure alike. Count

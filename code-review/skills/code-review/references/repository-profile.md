@@ -50,7 +50,7 @@ lenses:
   - ref: ./review-lenses/backend/SKILL.md
     globs:
       - apps/backend/**
-  - ref: tessl/code-review@0.5.0#review-security-and-privacy
+  - ref: tessl/code-review#review-security-and-privacy
     effort: high
     globs:
       - infra/**
@@ -64,9 +64,11 @@ path, so `'**/tessl__*/**'` alone does not match it.
 
 `schemaVersion` is required and must be `1`. `lenses` is an ordered, non-empty
 list. Every lens needs a `ref`, which can be a registry reference or an explicit
-local path. A registry ref with a version, like `@0.5.0` above, stays fixed
-until someone edits it; one without a version follows the newest published
-version. Local refs are relative to the profile, must use path syntax such as
+local path. A registry ref without a version, like the one above, follows the
+newest published version, so a repository picks up improvements to the default
+lenses as they are published. One with a version, such as
+`tessl/code-review@0.5.0#review-security-and-privacy`, stays fixed until someone
+edits it. Local refs are relative to the profile, must use path syntax such as
 `./review-lenses/backend/SKILL.md`, and must resolve inside the repository.
 Duplicate refs and aliases that resolve to the same local lens are rejected.
 
@@ -166,16 +168,16 @@ below.
 ```yaml
 schemaVersion: 1
 lenses:
-  - ref: tessl/code-review@0.5.0#review-plugin-content
+  - ref: tessl/code-review#review-plugin-content
     globs:
       - plugins/notes/**
       - plugins/deploy/**
-  - ref: tessl/code-review@0.5.0#review-markdown
+  - ref: tessl/code-review#review-markdown
     globs:
       - '**/*.md'
       - '!plugins/notes/**'
       - '!plugins/deploy/**'
-  - ref: tessl/code-review@0.5.0#review-correctness-and-data-integrity
+  - ref: tessl/code-review#review-correctness-and-data-integrity
     globs:
       - '**'
       - '!**/*.md'

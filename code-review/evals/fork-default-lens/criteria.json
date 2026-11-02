@@ -28,9 +28,9 @@
       "description": "usage.md gives tessl code review --skill ./review-lenses/review-scale-and-resilience-payments (a local path) for iterating"
     },
     {
-      "name": "Complete pinned lens set",
+      "name": "Complete lens set",
       "max_score": 20,
-      "description": "usage.md's .tessl-code-review.yml sets schemaVersion: 1 and a lenses list naming all four lenses that should run: the three remaining defaults as pinned tessl/code-review@<version>#... refs plus the fork as a local ref starting with ./ that points at the fork in the repository, and says the list replaces the defaults rather than adding to them"
+      "description": "usage.md's .tessl-code-review.yml sets schemaVersion: 1 and a lenses list naming every lens that should run: the other default lenses, review-plugin-content and review-markdown among them, as tessl/code-review#... registry refs (a version is optional), plus the fork as a local ref starting with ./ that points at the fork in the repository, and says the list replaces the defaults rather than adding to them"
     },
     {
       "name": "Fork is not a registry ref",
