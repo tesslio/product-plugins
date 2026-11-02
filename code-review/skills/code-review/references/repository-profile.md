@@ -65,10 +65,10 @@ path, so `'**/tessl__*/**'` alone does not match it.
 `schemaVersion` is required and must be `1`. `lenses` is an ordered, non-empty
 list. Every lens needs a `ref`, which can be a registry reference or an explicit
 local path. A registry ref without a version, like the one above, follows the
-newest published version, so a repository picks up improvements to the default
-lenses as they are published. One with a version, such as
-`tessl/code-review@0.5.0#review-security-and-privacy`, stays fixed until someone
-edits it. Local refs are relative to the profile, must use path syntax such as
+newest published version. One with a version,
+`tessl/code-review@<version>#review-security-and-privacy`, stays fixed until
+someone edits it. To pin, use a version you looked up, such as the one in the
+installed plugin's `.tessl-plugin/plugin.json`. Local refs are relative to the profile, must use path syntax such as
 `./review-lenses/backend/SKILL.md`, and must resolve inside the repository.
 Duplicate refs and aliases that resolve to the same local lens are rejected.
 

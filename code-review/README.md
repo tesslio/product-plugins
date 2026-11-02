@@ -62,7 +62,7 @@ In a profile, give each file one owner. Route each plugin directory to `review-p
 
 ### Selecting lenses
 
-`--skill` states the complete lens set, in the order supplied. It **replaces** the defaults rather than adding to them, so naming one lens makes it the whole review. A reference can be a local path, an installed skill name, or a registry ref `workspace/plugin[@version]#skill`. A registry ref without a version follows the newest published version of the plugin, so what it reviews for changes when the plugin is republished. A ref with a version stays fixed until someone edits it. A review with no profile and no `--skill` runs these lenses at `tessl/code-review@0.5.0`. The CLI sets that version, so installing or upgrading this plugin does not change it. Name them with no version to follow the newest published lenses, or with a version to fix them.
+`--skill` states the complete lens set, in the order supplied. It **replaces** the defaults rather than adding to them, so naming one lens makes it the whole review. A reference can be a local path, an installed skill name, or a registry ref `workspace/plugin[@version]#skill`. A registry ref without a version follows the newest published version of the plugin, so what it reviews for changes when the plugin is republished. A ref with a version stays fixed until someone edits it. A review with no profile and no `--skill` runs these lenses at a version the CLI pins, so installing or upgrading this plugin does not change it. Name them with no version to follow the newest published lenses, or with a version to fix them.
 
 ```bash
 tessl code review --skill tessl/code-review#review-security-and-privacy

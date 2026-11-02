@@ -147,8 +147,9 @@ replaces that set with the complete ordered set you name; it does not add to it.
 A reference is a local path, an installed skill name, or a registry ref
 `workspace/plugin[@version]#skill`. A registry ref without a version follows the
 newest published version; a ref with one stays fixed until someone edits it.
-Choose per ref. A plain run uses `tessl/code-review@0.5.0`, so an unversioned
-`tessl/code-review#...` ref can review differently from a plain run.
+Choose per ref. A plain run uses the lens version the CLI pins, which can be
+older than the newest published one, so an unversioned `tessl/code-review#...`
+ref can review differently from a plain run.
 
 ```bash
 tessl code review --skill ./review-lenses/review-test-reliability
