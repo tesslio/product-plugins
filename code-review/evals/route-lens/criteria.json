@@ -35,7 +35,7 @@
     {
       "name": "Selection is stated correctly",
       "max_score": 10,
-      "description": "validation-plan.md says that adopting the lens means adding a .tessl-code-review.yml at the repository root whose lenses list names the complete ordered set, the four defaults as pinned tessl/code-review@<version>#... refs plus the new lens by its repository path, because the profile's lens list replaces the defaults rather than adding to them"
+      "description": "validation-plan.md says that adopting the lens means adding a .tessl-code-review.yml at the repository root whose lenses list names the complete ordered set, all six default lenses as tessl/code-review#... registry refs (a version is optional) plus the new lens by its repository path, because the profile's lens list replaces the defaults rather than adding to them"
     }
   ]
 }

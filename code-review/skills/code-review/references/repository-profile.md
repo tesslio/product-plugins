@@ -37,8 +37,9 @@ unknown fields, and multiple YAML documents are rejected.
 
 ```yaml
 schemaVersion: 1
+reviewMode: standard
 requestChangesAt: major
-effort: low
+effort: adaptive
 ignore:
   - '**/*.generated.ts'
   - vendor/**
@@ -49,7 +50,7 @@ lenses:
   - ref: ./review-lenses/backend/SKILL.md
     globs:
       - apps/backend/**
-  - ref: tessl/code-review@0.2.0#review-security-and-privacy
+  - ref: tessl/code-review#review-security-and-privacy
     effort: high
     globs:
       - infra/**
@@ -63,9 +64,11 @@ path, so `'**/tessl__*/**'` alone does not match it.
 
 `schemaVersion` is required and must be `1`. `lenses` is an ordered, non-empty
 list. Every lens needs a `ref`, which can be a registry reference or an explicit
-local path. A registry ref with a version, like `@0.2.0` above, stays fixed
-until someone edits it; one without a version follows the newest published
-version. Local refs are relative to the profile, must use path syntax such as
+local path. A registry ref without a version, like the one above, follows the
+newest published version. One with a version,
+`tessl/code-review@<version>#review-security-and-privacy`, stays fixed until
+someone edits it. To pin, use a version you looked up, such as the one in the
+installed plugin's `.tessl-plugin/plugin.json`. Local refs are relative to the profile, must use path syntax such as
 `./review-lenses/backend/SKILL.md`, and must resolve inside the repository.
 Duplicate refs and aliases that resolve to the same local lens are rejected.
 
@@ -88,10 +91,22 @@ context.
 
 `effort` is optional and sets how hard a lens thinks: `low`, `medium`, or
 `high`. The profile may set it for every lens, and any lens may set its own to
-think harder or less hard than the rest. A lens without one uses the profile's
-`effort`; with neither, the model applies its own default. The `--effort` flag
-applies to every lens and takes precedence over both. Higher settings take
-longer.
+think harder or less hard than the rest. At the profile level it may also be
+`adaptive`, which uses `medium` on a full review and `low` on a re-review; a
+lens's own `effort` must be a fixed level. A lens without one uses the
+profile's `effort`; with neither, the review's own default applies. The
+`--effort` flag applies to every lens and takes precedence over both. Higher
+settings take longer.
+
+`reviewMode` is optional and sets how strong a finding's case has to be before
+it blocks: `strict`, `standard`, or `relaxed`. Omit it for `standard`. `strict`
+blocks every eligible finding, `standard` needs medium likelihood, and
+`relaxed` needs high likelihood. It works alongside `requestChangesAt` below,
+which sets which severities are eligible at all.
+
+The profile accepts a few more keys than this page describes. Every key in an
+existing profile passed validation when it was written, so when editing one,
+leave any key you do not recognise as it is.
 
 `requestChangesAt` is optional and sets the severity at which a finding starts
 requesting changes: `critical`, `major`, `minor`, or `nit`. A finding whose
@@ -144,19 +159,25 @@ other Markdown. A glob cannot recognise a plugin by its manifest, so name each
 plugin directory. Give every file one owner: exclude what those two lenses
 review from the code lenses, which read files as program code.
 
+A repository with no profile gets this routing automatically: plugin content
+goes to `review-plugin-content`, other Markdown to `review-markdown`, and
+everything else to the four code lenses. A profile has only `globs` to route
+with, so a profile that keeps the defaults has to spell the routing out as
+below.
+
 ```yaml
 schemaVersion: 1
 lenses:
-  - ref: tessl/code-review@0.5.0#review-plugin-content
+  - ref: tessl/code-review#review-plugin-content
     globs:
       - plugins/notes/**
       - plugins/deploy/**
-  - ref: tessl/code-review@0.5.0#review-markdown
+  - ref: tessl/code-review#review-markdown
     globs:
       - '**/*.md'
       - '!plugins/notes/**'
       - '!plugins/deploy/**'
-  - ref: tessl/code-review@0.2.0#review-correctness-and-data-integrity
+  - ref: tessl/code-review#review-correctness-and-data-integrity
     globs:
       - '**'
       - '!**/*.md'

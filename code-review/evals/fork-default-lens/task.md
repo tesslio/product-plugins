@@ -2,7 +2,7 @@
 
 ## Problem Description
 
-We run the four default Tessl Code Review lenses. The scale-and-resilience lens
+We run the default Tessl Code Review lenses. The scale-and-resilience lens
 is useful but two things are off for this service. We deploy atomically, so its
 rollout and mixed-version concerns never apply and only add noise. And the
 concern that actually bites us is idempotency of payment writes under retry:

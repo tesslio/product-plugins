@@ -3,7 +3,7 @@
 ## Problem Description
 
 Tessl Code Review runs on this repository already, through the Tessl Review
-GitHub App, with the four default lenses. The repository has no
+GitHub App, with the default lenses. The repository has no
 `.tessl-code-review.yml`. It is useful, but in
 the last quarter three incidents traced back to a loop that issued one database
 or service call per row, and the review said nothing each time. Human reviewers

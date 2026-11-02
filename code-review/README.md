@@ -44,7 +44,7 @@ Check `status` in the JSON before counting anything: only an `ok` run is a compl
 
 ### The default lenses
 
-These four skills are the set a review runs by default. Between them they cover the dimensions a review is expected to catch, and they were tuned to run together. They are reviewer instructions, loaded into the reviewer agents by `tessl code review`. They are not skills to follow directly.
+A review runs six lenses by default, and each changed file goes to exactly one group: plugin content to `review-plugin-content`, any other Markdown to `review-markdown`, and everything else to these four code lenses. The four code lenses cover the dimensions a review is expected to catch, and they were tuned to run together. All six are reviewer instructions, loaded into the reviewer agents by `tessl code review`. They are not skills to follow directly.
 
 - **review-correctness-and-data-integrity**: whether the change does what it is meant to do, and whether the data it touches survives it intact.
 - **review-maintainability-and-code-quality**: whether the next person can understand the change and modify it safely.
@@ -53,22 +53,22 @@ These four skills are the set a review runs by default. Between them they cover 
 
 ### Lenses for plugins and Markdown
 
-The default lenses read program code. Skills, rules, and documentation are instructions and prose, and reviewing them as code produces findings that do not apply, such as a step that "can wait indefinitely". Two more lenses review that content. A review runs them only when a profile routes paths to them.
+The code lenses read program code. Skills, rules, and documentation are instructions and prose, and reviewing them as code produces findings that do not apply, such as a step that "can wait indefinitely". Two lenses review that content instead. A review with no profile routes files to them automatically; a profile routes only by `globs`, so it has to name those paths.
 
 - **review-plugin-content**: everything inside an agent plugin, the directory holding a `.tessl-plugin/` manifest directory. Whether the plugin ships and the right skill gets picked, whether the commands, paths, and files its instructions name exist, whether an agent following them acts correctly, and whether its bundled scripts and hooks do what the calling instruction says and are safe to run on a user's machine.
 - **review-markdown**: any other Markdown, such as standalone skills, `AGENTS.md` and `CLAUDE.md`, READMEs, and documentation. Whether the text is true of the repository, and whether an agent or reader following it acts correctly.
 
-Give each file one owner. Route each plugin directory to `review-plugin-content`, the rest of `**/*.md` to `review-markdown`, and exclude both from the code lenses, as in [`skills/code-review/references/repository-profile.md`](skills/code-review/references/repository-profile.md).
+In a profile, give each file one owner. Route each plugin directory to `review-plugin-content`, the rest of `**/*.md` to `review-markdown`, and exclude both from the code lenses, as in [`skills/code-review/references/repository-profile.md`](skills/code-review/references/repository-profile.md).
 
 ### Selecting lenses
 
-`--skill` states the complete lens set, in the order supplied. It **replaces** the defaults rather than adding to them, so naming one lens makes it the whole review. A reference can be a local path, an installed skill name, or a registry ref `workspace/plugin[@version]#skill`. A registry ref without a version follows the newest published version of the plugin, so what it reviews for changes when the plugin is republished. A ref with a version stays fixed until someone edits it. A review with no profile and no `--skill` runs these lenses at `tessl/code-review@0.2.0`. The CLI sets that version, so installing or upgrading this plugin does not change it. To run this release's lenses instead, name them with this plugin's version, or with no version to follow the newest.
+`--skill` states the complete lens set, in the order supplied. It **replaces** the defaults rather than adding to them, so naming one lens makes it the whole review. A reference can be a local path, an installed skill name, or a registry ref `workspace/plugin[@version]#skill`. A registry ref without a version follows the newest published version of the plugin, so what it reviews for changes when the plugin is republished. A ref with a version stays fixed until someone edits it. A review with no profile and no `--skill` runs these lenses at a version the CLI pins, so installing or upgrading this plugin does not change it. Name them with no version to follow the newest published lenses, or with a version to fix them.
 
 ```bash
-tessl code review --skill tessl/code-review@0.2.0#review-security-and-privacy
+tessl code review --skill tessl/code-review#review-security-and-privacy
 tessl code review \
-  --skill tessl/code-review@0.2.0#review-security-and-privacy \
-  --skill tessl/code-review@0.2.0#review-correctness-and-data-integrity
+  --skill tessl/code-review#review-security-and-privacy \
+  --skill tessl/code-review#review-correctness-and-data-integrity
 tessl code review --skill ./review-lenses/review-scale-and-resilience   # a lens you keep locally
 ```
 

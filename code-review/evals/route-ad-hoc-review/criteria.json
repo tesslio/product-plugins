@@ -25,7 +25,7 @@
     {
       "name": "Names the CLI command correctly",
       "max_score": 15,
-      "description": "review.md gives a tessl code review command that would review this change, and if it narrows to security it uses --skill with a pinned tessl/code-review@<version>#review-security-and-privacy ref and says that --skill replaces the default lens set"
+      "description": "review.md gives a tessl code review command that would review this change, and if it narrows to security it uses --skill with a tessl/code-review#review-security-and-privacy registry ref (a version is optional) and says that --skill replaces the default lens set"
     },
     {
       "name": "Does not overclaim",

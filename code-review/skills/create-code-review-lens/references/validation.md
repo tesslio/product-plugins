@@ -66,6 +66,8 @@ tessl code review --skill ./review-lenses/review-test-reliability \
 
 A lens run against a later head is being judged on a diff the original reviewer never saw.
 
+The original head is often not in a local clone, especially once its branch is deleted. Take the commit the original feedback was written against from the pull request's history, then fetch that commit by its SHA, for example `git fetch origin <original-head>`. Fetching `pull/4471/head` gets only the pull request's latest head, which is a different commit when the branch was rebased or force-pushed after the review. If the commit cannot be fetched, it is gone; leave that pull request out of the set rather than reviewing a different head.
+
 **Do not backtest with `--pr`.** It brings the pull request's review conversation into the run, which is the material being compared against. Worse, a pull request that already carries a Tessl review is treated as a re-review: the lens sees only the change since that review, and the results come back as reconciliation of the earlier findings. The counts would describe a different diff from the one the original feedback was written about. That applies most to the pull requests that look most attractive for a backtest, so use explicit base and head every time.
 
 ## Comparing
