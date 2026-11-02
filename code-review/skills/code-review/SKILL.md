@@ -139,18 +139,20 @@ tessl code review --base origin/main --head HEAD
 tessl code review --pr 42
 ```
 
-The default lens set is the four code lenses in this plugin, pinned to a
-version of this plugin, so a plain run needs no lens selection. `--skill`
+The default lens set is six lenses in this plugin, pinned to a version of this
+plugin: four code lenses, plus `review-plugin-content` and `review-markdown`,
+each change file going to exactly one group by its kind. A plain run needs no
+lens selection. `--skill`
 replaces that set with the complete ordered set you name; it does not add to it.
 A reference is a local path, an installed skill name, or a registry ref
 `workspace/plugin[@version]#skill`. A registry ref without a version follows the
 newest published version; a ref with one stays fixed until someone edits it.
-Choose per ref. A plain run uses `tessl/code-review@0.2.0`, so an unversioned
+Choose per ref. A plain run uses `tessl/code-review@0.5.0`, so an unversioned
 `tessl/code-review#...` ref can review differently from a plain run.
 
 ```bash
 tessl code review --skill ./review-lenses/review-test-reliability
-tessl code review --skill tessl/code-review@0.2.0#review-security-and-privacy
+tessl code review --skill tessl/code-review@0.5.0#review-security-and-privacy
 ```
 
 `--json` writes one document to stdout on success and failure alike. Count

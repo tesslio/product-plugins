@@ -62,13 +62,13 @@ Give each file one owner. Route each plugin directory to `review-plugin-content`
 
 ### Selecting lenses
 
-`--skill` states the complete lens set, in the order supplied. It **replaces** the defaults rather than adding to them, so naming one lens makes it the whole review. A reference can be a local path, an installed skill name, or a registry ref `workspace/plugin[@version]#skill`. A registry ref without a version follows the newest published version of the plugin, so what it reviews for changes when the plugin is republished. A ref with a version stays fixed until someone edits it. A review with no profile and no `--skill` runs these lenses at `tessl/code-review@0.2.0`. The CLI sets that version, so installing or upgrading this plugin does not change it. To run this release's lenses instead, name them with this plugin's version, or with no version to follow the newest.
+`--skill` states the complete lens set, in the order supplied. It **replaces** the defaults rather than adding to them, so naming one lens makes it the whole review. A reference can be a local path, an installed skill name, or a registry ref `workspace/plugin[@version]#skill`. A registry ref without a version follows the newest published version of the plugin, so what it reviews for changes when the plugin is republished. A ref with a version stays fixed until someone edits it. A review with no profile and no `--skill` runs these lenses at `tessl/code-review@0.5.0`. The CLI sets that version, so installing or upgrading this plugin does not change it. To run this release's lenses instead, name them with this plugin's version, or with no version to follow the newest.
 
 ```bash
-tessl code review --skill tessl/code-review@0.2.0#review-security-and-privacy
+tessl code review --skill tessl/code-review@0.5.0#review-security-and-privacy
 tessl code review \
-  --skill tessl/code-review@0.2.0#review-security-and-privacy \
-  --skill tessl/code-review@0.2.0#review-correctness-and-data-integrity
+  --skill tessl/code-review@0.5.0#review-security-and-privacy \
+  --skill tessl/code-review@0.5.0#review-correctness-and-data-integrity
 tessl code review --skill ./review-lenses/review-scale-and-resilience   # a lens you keep locally
 ```
 
