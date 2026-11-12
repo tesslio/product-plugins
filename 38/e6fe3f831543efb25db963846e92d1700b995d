@@ -1,0 +1,42 @@
+skill-optimizer/evals/skill-without-plugin-in-app-repo/criteria.json
+  s_af5a7c6d0c1422::t_458d7c18581a3e 1-41
+skill-optimizer/skills/setup-skill-performance/references/phase3-download-scenarios.md
+  s_af5a7c6d0c1422::t_dd601dc6da7909 7,12
+skill-optimizer/skills/setup-skill-performance/SKILL.md
+  s_af5a7c6d0c1422::t_85ca4651892ab9 3
+  s_af5a7c6d0c1422::t_a253a12d598313 14-15,17
+  s_6d431e2c72bdff::t_f6c2a1d562907f 71
+skill-optimizer/skills/setup-skill-performance/references/phase2-generate-scenarios.md
+  s_af5a7c6d0c1422::t_a253a12d598313 7,13,18,21,23,31
+skill-optimizer/evals/skill-without-plugin-in-app-repo/task.md
+  s_af5a7c6d0c1422::t_458d7c18581a3e 1-36
+skill-optimizer/skills/setup-skill-performance/references/phase1-gather-context.md
+  s_af5a7c6d0c1422::t_b0a822cd0bdc67 3,16,18,22
+  s_af5a7c6d0c1422::t_176d710b897ca0 5-14,20
+skill-optimizer/.tessl-plugin/plugin.json
+  s_af5a7c6d0c1422::t_b8e2f19f7fd1b7 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "38e6fe3f831543efb25db963846e92d1700b995d",
+  "prompts": {},
+  "sessions": {
+    "s_6d431e2c72bdff": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "56cb5e40-f7bc-4637-b393-0923500ea534",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Doogal <doogal@tessl.io>"
+    },
+    "s_af5a7c6d0c1422": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "54d06b5b-8f48-4c15-8ff8-c314e56f3f66",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Doogal <doogal@tessl.io>"
+    }
+  }
+}
