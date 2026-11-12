@@ -4,12 +4,12 @@
 
 Download the generated scenarios using the run ID from Phase 2:
 ```bash
-tessl scenario download --last -o <plugin-dir>/evals/
+tessl scenario download <run-id> -o <plugin-dir>/evals/
 ```
 
 Use `--strategy merge` to add new scenarios alongside existing ones — safe to use even on a first download when `evals/` is empty (merge is the default):
 ```bash
-tessl scenario download --last -o <plugin-dir>/evals/ --strategy merge
+tessl scenario download <run-id> -o <plugin-dir>/evals/ --strategy merge
 ```
 
 Use `--strategy replace` only if the user explicitly asked to replace existing scenarios.
