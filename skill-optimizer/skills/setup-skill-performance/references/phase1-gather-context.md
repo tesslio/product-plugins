@@ -1,15 +1,25 @@
 # Phase 1: Find the Plugin
 
-## 1.1 Find the plugin
+## 1.1 Find what to evaluate
 
-Look for a plugin manifest (`.tessl-plugin/plugin.json`) in the current directory or a parent/sibling directory. Exclude `.tessl/` cache directories:
+Exclude `.tessl/` (installed plugin copies) and `node_modules/` everywhere below.
+
+1. **Inside a plugin?** Look for `.tessl-plugin/plugin.json` or `tile.json` in the current directory and its parents, up to the repository root. If you find one, that directory is the plugin. Use it.
+2. **At a repository root, or not in a plugin?** Look below the current directory for `SKILL.md` files and plugin manifests. Use your judgement about what is a real candidate. Skip test fixtures, examples and copies that agent tools install (for example `.claude/skills/`).
+   - **One clear candidate:** use it. Tell the user its path.
+   - **A few:** ask which one to evaluate. Describe each by path and what the skill does. Do not ask the user whether it is a plugin or a skill.
+   - **Many, or no clear choice:** do not list them all. Ask the user which skill they want to evaluate, by name or path, and find it from their answer.
+   - **None:** tell the user that evals need a `SKILL.md`, and suggest `tessl skill new` to write one.
+
+If the chosen candidate is a skill with no plugin manifest in its directory or a parent, import it before you continue:
 ```bash
-find . -path "*/.tessl-plugin/plugin.json" -not -path "*/node_modules/*" -not -path "*/.tessl/*" 2>/dev/null | head -10
+tessl skill import <skill-dir>
 ```
+Tell the user that this adds only `<skill-dir>/.tessl-plugin/plugin.json`. From here on, `<skill-dir>` is the plugin path.
+
+If you cannot ask the user (a non-interactive run), continue only with one clear candidate, importing it first if needed. Otherwise stop, and tell the user to run again from the skill's directory or to name the skill.
 
 If the user provides a path inside a `.tessl/plugins/` directory (an installed plugin cache), stop and warn them: that path is Tessl's local install cache — running evals from there won't work and changes would be overwritten on the next `tessl install`. Offer two options: point to the original plugin source, or copy the plugin out of `.tessl/plugins/` to a new location (`cp -r .tessl/plugins/<workspace>/<plugin> ./<plugin>`).
-
-If multiple plugins are found outside `.tessl/`, ask the user which one to evaluate. If none are found, explain that this skill evaluates a packaged plugin and suggest `tessl plugin new` to get started.
 
 ## 1.2 Verify login
 

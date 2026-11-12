@@ -1,6 +1,6 @@
 ---
 name: setup-skill-performance
-description: Generate eval scenarios from a Tessl plugin (a packaged skill bundle), run baseline + with-context evals, and present results. Use when setting up an evaluation pipeline, running benchmarks, generating test scenarios, measuring skill performance or accuracy, scoring how well a skill helps agents solve tasks, or evaluating skill effectiveness before publishing.
+description: Generate eval scenarios for a Tessl plugin or a SKILL.md in the repository, run baseline + with-context evals, and present results. Use when setting up an evaluation pipeline, running benchmarks, generating test scenarios, measuring skill performance or accuracy, scoring how well a skill helps agents solve tasks, or evaluating skill effectiveness before publishing.
 ---
 
 # Eval Setup
@@ -11,8 +11,10 @@ The user triggers this skill when they have a plugin but no eval scenarios yet, 
 
 **Companion skill:** After setup is complete, suggest the user run the `optimize-skill-performance` skill to analyze results, diagnose failures, fix plugin content, and re-verify improvements.
 
+**Non-interactive runs:** if you cannot ask the user, do not stop at a question. Take the first option the step offers, unless the step gives its own non-interactive rule.
+
 **Time expectations:** Set these upfront so the user isn't surprised:
-- Scenario generation: ~1–2 minutes per scenario
+- Scenario generation: ~2–5 minutes per scenario
 - Eval run: ~10–15 minutes per scenario per agent (each scenario runs twice: baseline + with-context)
 - For a first run, aim for 3–5 scenarios with 1 agent to keep total time under 2 hours
 
@@ -66,7 +68,7 @@ For partial runs, skip phases not in scope — don't load their reference files.
 
 ## Phase 1: Find the Plugin
 
-Locate the plugin and check for existing scenarios.
+Find the plugin, or the skill the user means when they are at a repository root, import a skill that has no plugin, and check for existing scenarios.
 
 Read [references/phase1-gather-context.md](references/phase1-gather-context.md) for the full procedure.
 

@@ -1,0 +1,41 @@
+{
+  "context": "Tests whether the agent finds a skill that is not in a plugin when the user is at the root of an application repository, imports only that skill's directory, and points every later command at that directory instead of the repository root.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Chooses the repository skill",
+      "max_score": 15,
+      "description": "The plan chooses `skills/pane-reader` as the thing to evaluate"
+    },
+    {
+      "name": "Ignores the installed plugin copy",
+      "max_score": 10,
+      "description": "The plan does not offer or evaluate anything under `.tessl/` (the installed `tessl/factory` copy)"
+    },
+    {
+      "name": "Imports the skill directory",
+      "max_score": 20,
+      "description": "The plan runs `tessl skill import` with the skill's directory (`skills/pane-reader` or `./skills/pane-reader`) as the path, before generating scenarios"
+    },
+    {
+      "name": "Import changes only the manifest",
+      "max_score": 10,
+      "description": "The plan says the import adds `skills/pane-reader/.tessl-plugin/plugin.json` and changes nothing else in the repository"
+    },
+    {
+      "name": "No plugin at the repository root",
+      "max_score": 15,
+      "description": "The plan does not run `tessl plugin new`, does not run `tessl skill import` on the repository root, and does not create a manifest at the root"
+    },
+    {
+      "name": "Generates scenarios from the skill directory",
+      "max_score": 15,
+      "description": "The plan runs `tessl scenario generate` with `skills/pane-reader` as the source, not the repository root or no source"
+    },
+    {
+      "name": "Runs the eval on the skill directory",
+      "max_score": 15,
+      "description": "The plan runs `tessl eval run` with `skills/pane-reader` as the plugin path and a `--label`, and scenarios are downloaded into `skills/pane-reader/evals/` before it"
+    }
+  ]
+}
