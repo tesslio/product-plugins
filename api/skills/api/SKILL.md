@@ -68,7 +68,7 @@ exists, the script uses it and warns on stderr.
 
    ```sh
    python3 scripts/tessl_api_discover.py show post /v1/install/policy/evaluate --expand
-   python3 scripts/tessl_api_discover.py show get /v1/tiles/{workspaceName}/{tileName} --status 200
+   python3 scripts/tessl_api_discover.py show get /v1/plugins/{workspaceName}/{tileName} --status 200
    ```
 
 5. **Call it.** Copy the `tessl api …` invocation line printed at the end of
